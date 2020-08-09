@@ -1,0 +1,30 @@
+version: '1'
+
+
+libraries:
+    libzip-1-7:
+        name: 'libzip-1.7.3'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/nih-at/libzip/releases/download/v1.7.3/libzip-1.7.3.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '0e2276c550c5a310d4ebf3a2c3dfc43fb3b4602a072ff625842ad4f3238cb9cc'
+        compiler:
+            type: 'common'
+            options:
+                # openSUSE Tumbleweed: ln -s /usr/include/locale.h /usr/include/xlocale.h
+                exec: |
+                    cd ..
+                    
+                    cmake \
+                        -DCMAKE_INSTALL_PREFIX="${prefix}" \
+                        -S"${libraryName}" \
+                        -B"${libraryName}-build" \
+                    && \
+                    cd "${libraryName}-build" \
+                    && \
+                    make -j \
+                    && \
+                    make install

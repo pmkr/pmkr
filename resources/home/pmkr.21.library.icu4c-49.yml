@@ -1,0 +1,26 @@
+version: '1'
+
+
+libraries:
+    icu4c-49:
+        name: 'icu4c-49-1-2'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/unicode-org/icu/archive/refs/tags/icu-release-49-1-2.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '3c6738989389bd7ae393f26d85fd1bba1c3fa0288cb5b0a157a17d2cfc60cfdd'
+        compiler:
+            type: 'common'
+            options:
+                # @todo Prepare system.
+                # openSUSE Tumbleweed: ln -s /usr/include/locale.h /usr/include/xlocale.h
+                exec: |
+                    cd source
+                    
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install

@@ -1,0 +1,98 @@
+version: '1'
+
+
+libraries:
+    readline-02:
+        name: 'readline-2.2'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://ftp.gnu.org/gnu/readline/readline-2.2.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '784aed1937caac746aa4b886a0ca2ba2ef2d3119420afde24baa56bc70c06d94'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install
+
+    readline-04:
+        name: 'readline-4.3'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://ftp.gnu.org/gnu/readline/readline-4.3.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: 'eeaf6f050b9f515b0636e5b4f2c153f9ef78e9061ee5dd74f612fab54c77bf88'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install
+
+    readline-05:
+        name: 'readline-5.2'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '12e88d96aee2cd1192500356f0535540db499282ca7f76339fb4228c31249f45'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install
+
+    readline-06:
+        name: 'readline-6.3'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://ftp.gnu.org/gnu/readline/readline-6.3.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '56ba6071b9462f980c5a72ab0023893b65ba6debb4eeb475d7a563dc65cafd43'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install
+
+    readline-07:
+        name: 'readline-7.0'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install

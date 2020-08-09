@@ -1,0 +1,896 @@
+$id: 'https://github.com/pmkr/pmkr/1/config.yml'
+$schema: 'https://json-schema.org/draft/2020-12/schema'
+title: 'pmkr.yml'
+description: 'Schema definition for pmkr configuration YAML files.'
+
+definitions:
+    stash:
+        type: 'object'
+        description: |
+            This isn't used. This is a place where configuration fragments can be stored,
+            and re-used with YAML language features & and *.
+        additionalProperties: true
+
+    app:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            name:
+                type: 'string'
+                default: 'pmkr'
+            label:
+                type: 'string'
+                default: 'PHP Version Manager'
+            version:
+                type: 'string'
+            update:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    repository:
+                        type: 'string'
+
+    dir:
+        description: 'A set of directory paths'
+        type: 'object'
+        additionalProperties: false
+        properties:
+            slash:
+                type: 'string'
+            bin:
+                type: 'string'
+            sbin:
+                type: 'string'
+            share:
+                type: 'string'
+            src:
+                type: 'string'
+            usr:
+                type: 'string'
+            run:
+                type: 'string'
+            log:
+                type: 'string'
+            cache:
+                type: 'string'
+            tmp:
+                type: 'string'
+                description: 'Defaults to sys_get_temp_dir()'
+            patch:
+                type: 'string'
+            templates:
+                type: 'string'
+
+    checksum:
+        type: 'object'
+        required:
+            - 'hashChecksum'
+            - 'hashAlgorithm'
+        properties:
+            hashChecksum:
+                type: 'string'
+                #pattern: '/^([0-9a-z]{32})|([0-9a-z]{40})|([0-9a-z]{64})|([0-9a-z]{128})$/'
+                #examples:
+                #    - 'ddce269a1e3d054cae349621c198dd52'
+                #    - '7893883873a705aec69e2942901f20d7b1e28dec'
+                #    - '13550350a8681c84c861aac2e5b440161c2b33a3e4f302ac680ca5b686de48de'
+                #    - '952de772210118f043a4e2225da5f5943609c653a6736940e0fad4e9c7cd3cfdd348abebbf28af7b4438c55515e5a351b87cc60c808673f4d23cf12237debf41'
+            hashAlgorithm:
+                type: 'string'
+                enum:
+                    - 'md5'
+                    - 'sha1'
+                    - 'sha256'
+                    - 'sha512'
+            hashFlags:
+                type: 'integer'
+            hashKey:
+                type: 'string'
+
+    checksums:
+        type: 'object'
+        default: { }
+        # @todo Dor is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/checksum'
+
+    downloaderArchive:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'type'
+        properties:
+            type:
+                type: 'string'
+                enum:
+                    - 'archive'
+            options:
+                type: 'object'
+                additionalProperties: true
+                properties:
+                    url:
+                        type: 'string'
+                    checksum:
+                        '$ref': '#/definitions/checksum'
+
+    downloaderPecl:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'type'
+        properties:
+            type:
+                type: 'string'
+                enum:
+                    - 'pecl'
+            options:
+                type: 'object'
+                additionalProperties: true
+                #properties:
+                #    baseUrl:
+
+    downloaderGit:
+            type: 'object'
+            additionalProperties: false
+            required:
+                - 'type'
+            properties:
+                type:
+                    type: 'string'
+                    enum:
+                        - 'git'
+                options:
+                    type: 'object'
+                    additionalProperties: false
+                    required:
+                        - 'url'
+                        - 'branch'
+                        - 'refType'
+                        - 'refValue'
+                    # @todo refType and refValue could be in one property using the logng format
+                    # refs/heads/my-branch-01
+                    # refs/tags/my-tag-01
+                    properties:
+                        url:
+                            type: 'string'
+                        refType:
+                            type: 'string'
+                            enum:
+                                - 'commit'
+                                - 'tag'
+                                - 'branch'
+                        refValue:
+                            type: 'string'
+                        branch:
+                            type: 'string'
+
+    # @todo Rename this to extensionDownloader.
+    downloader:
+        oneOf:
+            -
+                '$ref': '#/definitions/downloaderArchive'
+            -
+                '$ref': '#/definitions/downloaderPecl'
+            -
+                '$ref': '#/definitions/downloaderGit'
+
+    dependenciesPackages:
+        # @todo Dot is not allowed in property names.
+        examples:
+            -
+                opensuse-tumbleweed:
+                    libxml2-devel: true
+        type: 'object'
+        additionalProperties:
+            type: 'object'
+            additionalProperties:
+                description: |
+                    Keys are package names.
+                    The boolen value indicates that the package has to be installed ot not.
+                    Sometimes a package name contains a dot character (`.`),
+                    which is not supported by `dflydev/dot-access-data`,
+                    In that case the key has to be something else,
+                    (replace . with -)
+                    and the value is the exact package name as string.
+                oneOf:
+                    -
+                        type: 'boolean'
+                    -
+                        type: 'string'
+                        # @todo Non-zero.
+                        # @todo Not whitespace only.
+                        minLength: 1
+                examples:
+                    -
+                        foo: true
+                        bar: false
+                        openssl1-1: 'openssl1.1'
+
+    libraryDownloader:
+        anyOf:
+            -
+                '$ref': '#/definitions/downloaderArchive'
+            -
+                '$ref': '#/definitions/downloaderGit'
+
+    libraryCompilerCommon:
+        type: 'object'
+        required:
+            - 'type'
+        properties:
+            type:
+                type: 'string'
+                enum:
+                    - 'common'
+            options:
+                type: 'object'
+
+    libraryCompiler:
+        anyOf:
+            -
+                '$ref': '#/definitions/libraryCompilerCommon'
+
+    library:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'name'
+            - 'downloader'
+            - 'compiler'
+        properties:
+            name:
+                type: 'string'
+            description:
+                type: 'string'
+            downloader:
+                '$ref': '#/definitions/libraryDownloader'
+            patchList:
+                '$ref': '#/definitions/patchList'
+            compiler:
+                '$ref': '#/definitions/libraryCompiler'
+        examples:
+            -
+                name: 'icu4c-59_1'
+                downloader:
+                    type: 'archive'
+                compiler:
+                    type: 'common'
+
+    libraries:
+        type: object
+        additionalProperties:
+            '$ref': '#/definitions/library'
+        examples:
+            -
+                icu-5901:
+                    name: 'icu4c-59_1'
+                    downloader:
+                        type: 'archive'
+                    compiler:
+                        type: 'common'
+
+    dependencies:
+        type: 'object'
+        properties:
+            packages:
+                '$ref': '#/definitions/dependenciesPackages'
+            libraries:
+                type: 'object'
+                description: |
+                    Keys are OpSys identifiers.
+                additionalProperties:
+                    type: 'object'
+                    description: |
+                        Keys are library identifiers from #/libraries array.
+                    additionalProperties:
+                        type: 'boolean'
+            extensions:
+                type: 'object'
+                description: |
+                    Some extension depends on other extensions.
+                    For example "phalcon" depends on the "psr" extension.
+                    Or "pdo_sqlite" depends on the "pdo" and "sqlite3" extensions.
+                    This is the place where these kind of dependencies can be defined.
+                    However this information isn't used yet.
+                additionalProperties:
+                    type: 'boolean'
+                examples:
+                    -
+                        pdo: true
+                        sqlite3: true
+
+    patch:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            versionConstraint:
+                type: 'string'
+            issue:
+                type: 'string'
+                format: 'uri'
+            description:
+                type: 'string'
+            uri:
+                type: 'string'
+                format: 'uri'
+            checksum:
+                '$ref': '#/definitions/checksum'
+
+    patches:
+        type: 'object'
+        default: {}
+        description: 'Keys are totally custom'
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/patch'
+
+    patchList:
+        type: 'object'
+        description: |
+            null: ignore this patch.
+            integer: weight.
+        examples:
+            -
+                core-0801-ext-socket-gnu-source:
+                    default: 42
+                    opensuse-tumbleweed: null
+                    ubuntu-21-10: 21
+        additionalProperties:
+            type: 'object'
+            required:
+                - 'default'
+            properties:
+                default:
+                    oneOf:
+                        -
+                            type: 'null'
+                        -
+                            type: 'integer'
+            additionalProperties:
+                oneOf:
+                    -
+                        type: 'null'
+                    -
+                        type: 'integer'
+
+    core:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            dependencies:
+                # @todo If teh core and the extension use the same structure then the name is misleading.
+                '$ref': '#/definitions/dependencies'
+            patchList:
+                '$ref': '#/definitions/patchList'
+            configure:
+                '$ref': '#/definitions/configure'
+            etc:
+                '$ref': '#/definitions/etc'
+
+    cores:
+        type: 'object'
+        description: |
+            Keys are in format:
+            * %{major.02d}
+            * %{major.02d}-nts
+            * %{major.02d}-zts
+            * %{major.02d}%{minor.02d}
+            * %{major.02d}%{minor.02d}-nts
+            * %{major.02d}%{minor.02d}-zts
+            * %{major.02d}%{minor.02d}%{patch.02d}
+            * %{major.02d}%{minor.02d}%{patch.02d}-nts
+            * %{major.02d}%{minor.02d}%{patch.02d}-zts
+            * %{major.02d}-custom
+            * %{major.02d}-nts-custom
+            * %{major.02d}-zts-custom
+            * %{major.02d}%{minor.02d}-custom
+            * %{major.02d}%{minor.02d}-nts-custom
+            * %{major.02d}%{minor.02d}-zts-custom
+            * %{major.02d}%{minor.02d}%{patch.02d}-custom
+            * %{major.02d}%{minor.02d}%{patch.02d}-nts-custom
+            * %{major.02d}%{minor.02d}%{patch.02d}-zts-custom
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/core'
+
+    compilerPecl:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'type'
+        properties:
+            type:
+                type: 'string'
+                enum:
+                    - 'pecl'
+            options:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    before:
+                        type: 'string'
+                        description: 'Custom shell script'
+
+    compiler:
+        oneOf:
+            -
+                '$ref': '#/definitions/compilerPecl'
+
+    etc:
+        type: 'object'
+        properties:
+            vars:
+                type: 'object'
+                additionalProperties: true
+            files:
+                type: 'object'
+                additionalProperties:
+                    type: 'object'
+                    required:
+                        - 'src'
+                        - 'dst'
+                    properties:
+                        enabled:
+                            type: 'boolean'
+                            default: true
+                        src:
+                            type: 'string'
+                            description: 'Path to the Twig template file'
+                        dst:
+                            type: 'string'
+                        vars:
+                            type: 'object'
+                            additionalProperties: true
+
+    configureEnvVar:
+        examples:
+            -
+                opensuse-tumbleweed:
+                    FOO: false
+                    BAR: 'my-value'
+        type: 'object'
+        additionalProperties:
+            type: 'object'
+            additionalProperties:
+                oneOf:
+                    -
+                        type: 'boolean'
+                        enum:
+                            - false
+                    -
+                        type: 'string'
+
+    configure:
+        # @todo Dot is not allowed in property names.
+        examples:
+            -
+                opensuse-tumbleweed:
+                    --ignore-me: false
+                    --no-value: null
+                    --with-value: 'my-value'
+        type: 'object'
+        additionalProperties:
+            type: 'object'
+            additionalProperties:
+                oneOf:
+                    -
+                        type: 'boolean'
+                        enum:
+                            - false
+                    -
+                        type: 'null'
+                    -
+                        type: 'string'
+
+    extension:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            weight:
+                type: 'number'
+            key:
+                type: 'string'
+                description: |
+                    Same as the array key.
+            name:
+                type: 'string'
+                description: |
+                    The unique name of the extension, as it is available on pecl.php.net.
+                    Calculated automatically based on the array key.
+            version:
+                oneOf:
+                    -
+                        type: 'null'
+                    -
+                        type: 'string'
+            checksums:
+                '$ref': '#/definitions/checksums'
+            ignore:
+                type: 'string'
+                enum:
+                    - 'never'
+                    - 'nts'
+                    - 'zts'
+                default: 'never'
+                description: |
+                    This extension will be ignored when:
+                    - never: Will be always used.
+                    - nts: Will be used when the core is NTS
+                    - zts: Will be used when the core is ZTS
+                    
+                    There are some extensions that can not be used with both NTS and ZTS.
+                    For example pthreads extension can be used only with ZTS.
+            compiler:
+                '$ref': '#/definitions/compiler'
+            downloader:
+                '$ref': '#/definitions/downloader'
+            dependencies:
+                '$ref': '#/definitions/dependencies'
+            patchList:
+                '$ref': '#/definitions/patchList'
+            configureEnvVar:
+                '$ref': '#/definitions/configureEnvVar'
+            configure:
+                '$ref': '#/definitions/configure'
+            etc:
+                '$ref': '#/definitions/etc'
+
+    extensions:
+        type: 'object'
+        description: |
+            Some extension depends on another extension,
+            for example: memcache depends on the session.
+            Therefore session has to precede the memcache in this list.
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/extension'
+        default: {}
+
+    extensionSetItem:
+        type: 'object'
+        required:
+            - 'status'
+        properties:
+            key:
+                type: 'string'
+                description: |
+                    Internal use only.
+            status:
+                type: 'string'
+                enum:
+                    - 'enabled'
+                    - 'optional'
+                    - 'skip'
+            isEnabled:
+                type: 'boolean'
+                description: |
+                    Only used when ../status is "optional".
+                    If true then the extension=foo will be active in the foo.ini file.
+
+
+    extensionSet:
+        type: 'object'
+        additionalProperties:
+            '$ref': '#/definitions/extensionSetItem'
+
+    extensionSets:
+        type: 'object'
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/extensionSet'
+
+    instance:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'coreVersion'
+        properties:
+            hidden:
+                type: 'boolean'
+                default: false
+            description:
+                type: 'string'
+            isZts:
+                type: 'boolean'
+                default: false
+            coreVersion:
+                type: 'string'
+                description: 'Exact version number.'
+                examples:
+                    - '8.1.0'
+            coreChecksum:
+                '$ref': '#/definitions/checksum'
+            coreNameSuffix:
+                type: 'string'
+                pattern: '/^(?![nz]ts$)/'
+                description: |
+                    A key suffix from #/cores.
+                    Prefix variants will be automatically generated based on the ./coreVersion.
+                    Disallowed values: nts, zts.
+                default: ''
+                examples:
+                    - 'foo'
+            extensionSetNameSuffix:
+                type: 'string'
+                description: |
+                    A key suffix from #/extensionSets
+                    Prefix variants will be automatically generated based on the ./coreVersion.
+                default: ''
+                examples:
+                    - 'foo'
+
+    instances:
+        type: 'object'
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/instance'
+
+    alias:
+        type: 'string'
+        description: |
+            A key from #/instances
+
+
+    aliases:
+        type: 'object'
+        # @todo Dot is not allowed in property names.
+        additionalProperties:
+            '$ref': '#/definitions/alias'
+
+    variation:
+        type: 'object'
+        required:
+            - 'instanceKey'
+        properties:
+            instanceKey:
+                description: |
+                    A key from /instances or /aliases.
+                oneOf:
+                    -
+                        type: 'null'
+                    -
+                        type: 'string'
+                default: ~
+            phpRc:
+                description: |
+                    Absolute path to an alternative php.ini file.
+                    Will be used as a value for the PHPRC environment variable.
+                oneOf:
+                    -
+                        type: 'null'
+                    -
+                        type: 'string'
+            phpIniScanDir:
+                description: |
+                    Will be used as a value for the PHP_INI_SCAN_DIR environment variable.
+                oneOf:
+                    -
+                        type: 'null'
+                    -
+                        type: 'array'
+                        items:
+                            type: 'string'
+
+    syntaxHighlighterBackendBat:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'backend'
+        properties:
+            backend:
+                type: 'string'
+                enum:
+                    - 'bat'
+            options:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    envVars:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    executable:
+                        type: 'array'
+                        items:
+                            type: 'string'
+                    defaultTheme:
+                        type: 'string'
+                    themeMapping:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    languageMapping:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+
+    syntaxHighlighterBackendKate:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'backend'
+        properties:
+            backend:
+                type: 'string'
+                enum:
+                    - 'kate'
+            options:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    envVars:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    executable:
+                        type: 'array'
+                        items:
+                            type: 'string'
+                    defaultTheme:
+                            type: 'string'
+                    themeMapping:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    languageMapping:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+
+    syntaxHighlighterBackends:
+        oneOf:
+            -
+                '$ref': '#/definitions/syntaxHighlighterBackendBat'
+            -
+                '$ref': '#/definitions/syntaxHighlighterBackendKate'
+        examples:
+            -
+                my_kate_01:
+                    handler: 'kate'
+                    config: {}
+                my_bat_01:
+                    handler: 'bat'
+                    config: {}
+
+    syntaxHighlighter:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            handler:
+                type: 'object'
+                # @todo Dot is not allowed in property names.
+                description: |
+                    Keys are totaly custom.
+                additionalProperties:
+                    '$ref': '#/definitions/syntaxHighlighterBackends'
+            theme:
+                type: 'string'
+                enum:
+                    - 'dark'
+                    - 'light'
+                    - 'auto'
+                default: 'auto'
+            themeAutoMapping:
+                type: 'object'
+                # @todo Dot is not allowed in property names.
+                additionalProperties:
+                    type: 'string'
+#                properties:
+#                    _default:
+#                        type: 'string'
+            defaultBackend:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    ansi:
+                        type: 'string'
+            languageMapping:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    ansi:
+                        type: 'object'
+                        description: |
+                            Key is an external language identifier.
+                            Value is a key from the ./handler array.
+                            The special "_default" key will be used when the language identifier doesn't exists.
+                            
+                            More than one SyntaxHighlighterBackend can be suiteable for a certain language,
+                            all of them can be defined here.
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'object'
+                            # @todo Dot is not allowed in property names.
+                            additionalProperties:
+                                type: 'object'
+                                properties:
+                                    handlerName:
+                                        type: 'string'
+                                        description: 'Automatically populated from the array key.'
+                                    enabled:
+                                        type: 'boolean'
+                                    weight:
+                                        type: 'number'
+
+    packageManagerZypper:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            executable:
+                type: 'string'
+                default: 'zypper'
+
+    packageManager:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            zypper:
+                '$ref': '#/definitions/packageManagerZypper'
+
+type: 'object'
+additionalProperties: false
+required:
+    - 'version'
+properties:
+    version:
+        type: 'string'
+        description: 'Schema version'
+    stash:
+        '$ref': '#/definitions/stash'
+    app:
+        '$ref': '#/definitions/app'
+    dir:
+        '$ref': '#/definitions/dir'
+    patches:
+        '$ref': '#/definitions/patches'
+    libraries:
+        '$ref': '#/definitions/libraries'
+    cores:
+        '$ref': '#/definitions/cores'
+    extensions:
+        '$ref': '#/definitions/extensions'
+    extensionSets:
+        '$ref': '#/definitions/extensionSets'
+    instances:
+        '$ref': '#/definitions/instances'
+    aliases:
+        '$ref': '#/definitions/aliases'
+    variations:
+        type: 'object'
+        additionalProperties:
+            '$ref': '#/definitions/variation'
+        examples:
+            -
+                my-variation-01:
+                    instanceKey: '0704-nts'
+                    phpRc: ~
+                    phpIniScanDir: []
+    defaultVariationKey:
+        description: |
+            The `instance:pick:default` command uses this variation to activate.
+            The value has to be a key from the /variations array.
+        oneOf:
+            -
+                type: 'null'
+            -
+                type: 'string'
+        examples:
+            - 'my-variation-01'
+    syntaxHighlighter:
+        '$ref': '#/definitions/syntaxHighlighter'
+    packageManager:
+        '$ref': '#/definitions/packageManager'
+    env:
+        type: 'object'
+        additionalProperties:
+            type: 'string'
+    options:
+        type: 'object'
+        additionalProperties: true
+

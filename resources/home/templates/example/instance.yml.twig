@@ -1,0 +1,14 @@
+instances:
+    '{{ coreVersion.formatMA2MI2P2 }}-nts': &instance_{{ coreVersion.formatMA2MI2P2 }}
+        isZts: false
+        coreVersion: '{{ coreVersion.formatMA0DMI0DP0 }}'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '@todo'
+    '{{ coreVersion.formatMA2MI2P2 }}-zts':
+        isZts: true
+        <<: *instance_{{ coreVersion.formatMA2MI2P2 }}
+    '{{ coreVersion.formatMA2MI2P2 }}-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_{{ coreVersion.formatMA2MI2P2 }}

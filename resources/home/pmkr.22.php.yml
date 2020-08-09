@@ -1,0 +1,1056 @@
+
+version: '1'
+
+
+stash:
+    configure:
+        with-pdo-pgsql: '/usr'
+        with-libmemcached-dir: '/usr'
+
+
+extensions:
+    apcu:
+        configure:
+            default:
+                --enable-apcu: ~
+                #--disable-apcu-rwlocks: ~
+                #--enable-apcu-debug: ~
+                #--enable-apcu-clear-signal: ~
+                #--disable-apcu-mmap: ~
+                #--enable-apcu-spinlocks: ~
+                #--disable-valgrind-checks: ~
+                #--enable-coverage: ~
+        etc:
+            files:
+                conf/default/apcu-ini:
+                    src: 'etc/ext/apcu.ini.twig'
+                    dst: 'conf/default/apcu.ini'
+    bcmath:
+        configure:
+            default:
+                --enable-bcmath: ~
+        etc:
+            files:
+                conf/default/bcmath-ini:
+                    src: 'etc/ext/bcmath.ini.twig'
+                    dst: 'conf/default/bcmath.ini'
+    bz2:
+        dependencies:
+            packages:
+                fedora:
+                    bzip2-devel: true
+                opensuse-tumbleweed:
+                    libbz2-1: true
+                    libbz2-devel: true
+                ubuntu-21-10:
+                    libbz2-dev: true
+        configure:
+            default:
+                --with-bz2: ~
+    calendar:
+        configure:
+            default:
+                --enable-calendar: ~
+    com_dotnet:
+        configure:
+            default:
+                --enable-com-dotnet: ~
+    ctype:
+        configure:
+            default:
+                --enable-ctype: ~
+    openssl:
+        dependencies:
+            packages:
+                fedora-36:
+                    openssl1-1: 'openssl1.1'
+                    openssl1-1-devel: 'openssl1.1-devel'
+                opensuse-tumbleweed:
+                    libopenssl1_1: true
+                    libopenssl-devel: true
+                ubuntu-21-10:
+                    openssl: true
+                    libssl-dev: true
+        configure:
+            default:
+                --with-openssl: ~
+        etc:
+            files:
+                conf/default/oopenssl-ini:
+                    src: 'etc/ext/openssl.ini.twig'
+                    dst: 'conf/default/openssl.ini'
+    curl:
+        dependencies:
+            packages:
+                fedora-36:
+                    libcurl-devel: true
+                opensuse-tumbleweed:
+                    libcurl4: true
+                    libcurl-devel: true
+                ubuntu-21-10:
+                    libcurl4: true
+                    libcurl4-openssl-dev: true
+        configure:
+            default:
+                --with-curl: ~
+                #--with-curlwrappers: ~
+        etc:
+            files:
+                conf/default/curl-ini:
+                    src: 'etc/ext/curl.ini.twig'
+                    dst: 'conf/default/curl.ini'
+    dba:
+        configure:
+            default:
+                --enable-dba: ~
+                #--with-qdbm: 'DIR'
+                #--with-gdbm: 'DIR'
+                #--with-ndbm: 'DIR'
+                #--with-db4: 'DIR'
+                #--with-db3: 'DIR'
+                #--with-db2: 'DIR'
+                #--with-db1: 'DIR'
+                #--with-dbm: 'DIR'
+                #--with-tcadb: 'DIR'
+                #--with-lmdb: 'DIR'
+                #--without-cdb: 'DIR'
+                #--disable-inifile: ~
+                #--disable-flatfile: ~
+        etc:
+            files:
+                conf/default/dba-ini:
+                    src: 'etc/ext/dba.ini.twig'
+                    dst: 'conf/default/dba.ini'
+    embed:
+        configure:
+            default:
+                --enable-embed: ~
+    enchant:
+        dependencies:
+            packages:
+                fedora-36:
+                    enchant-devel: true
+                opensuse-tumbleweed:
+                    libenchant1: true
+                    enchant-1-devel: true
+                ubuntu-21-10:
+                    enchant-2: true
+                    libenchant-2-2: true
+                    libenchant-2-dev: true
+        configure:
+            default:
+                --with-enchant: ~
+            arch:
+                # @todo Make it work.
+                --without-enchant: ~
+            ubuntu-21-10:
+                # @todo Make it work.
+                --without-enchant: ~
+    exif:
+        configure:
+            default:
+                --enable-exif: ~
+        etc:
+            files:
+                conf/default/exif-ini:
+                    src: 'etc/ext/exif.ini.twig'
+                    dst: 'conf/default/exif.ini'
+    fileinfo:
+        configure:
+            default:
+                --enable-fileinfo: ~
+    filter:
+        configure:
+            default:
+                --enable-filter: ~
+                #--with-pcre-dir: 'DIR'
+        etc:
+            files:
+                conf/default/filter-ini:
+                    src: 'etc/ext/filter.ini.twig'
+                    dst: 'conf/default/filter.ini'
+    ftp:
+        configure:
+            default:
+                --enable-ftp: ~
+                #--with-openssl-dir: 'DIR'
+    gettext:
+        configure:
+            default:
+                --with-gettext: ~
+    gmp:
+        dependencies:
+            packages:
+                fedora-36:
+                    gmp-devel: true
+                opensuse-tumbleweed:
+                    libgmp10: true
+                    gmp-devel: true
+                ubuntu-21-10:
+                    libgmp-dev: true
+        configure:
+            default:
+                --with-gmp: ~
+    gnupg:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    gpgme: true
+                    libgpgme-devel: true
+        configure:
+            default:
+                --with-gnupg: ~
+    hash:
+        configure:
+            default:
+                --with-mhash: ~
+    iconv:
+        configure:
+            default:
+                --with-iconv: ~
+        etc:
+            files:
+                conf/default/iconv-ini:
+                    src: 'etc/ext/iconv.ini.twig'
+                    dst: 'conf/default/iconv.ini'
+    igbinary:
+        configure:
+            default:
+                --enable-igbinary: ~
+        etc:
+            files:
+                conf/default/igbinary-ini:
+                    src: 'etc/ext/igbinary.ini.twig'
+                    dst: 'conf/default/igbinary.ini'
+    imagick:
+        dependencies:
+            packages:
+                arch:
+                    imagemagick: true
+                fedora-36:
+                    ImageMagick: true
+                    ImageMagick-devel: true
+                opensuse-tumbleweed:
+                    ImageMagick: true
+                    ImageMagick-devel: true
+                ubuntu-21-10:
+                    imagemagick: true
+                    libmagickcore-dev: true
+                    libmagickwand-dev: true
+        configure:
+            default:
+                --with-imagick: ~
+        etc:
+            files:
+                conf/default/imagick-ini:
+                    src: 'etc/ext/imagick.ini.twig'
+                    dst: 'conf/default/imagick.ini'
+    imap:
+        configure:
+            default:
+                --with-imap: ~
+                --with-imap-ssl: ~
+                #--with-kerberos: ~
+        etc:
+            files:
+                conf/default/imap-ini:
+                    src: 'etc/ext/imap.ini.twig'
+                    dst: 'conf/default/imap.ini'
+    inotify:
+        configure:
+            default:
+                --enable-inotify: ~
+        etc:
+            files:
+                conf/default/inotify-ini:
+                    src: 'etc/ext/inotify.ini.twig'
+                    dst: 'conf/default/inotify.ini'
+    interbase:
+        configure:
+            default:
+                --enable-interbase: ~
+    intl:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    icu: true
+                    libicu-devel: true
+                    gcc-c++: true
+                ubuntu-21-10:
+                    libicu-dev: true
+        configure:
+            default:
+                --enable-intl: ~
+                #--with-icu-dir: 'DIR'
+        etc:
+            files:
+                conf/default/intl-ini:
+                    src: 'etc/ext/intl.ini.twig'
+                    dst: 'conf/default/intl.ini'
+    json:
+        configure:
+            default:
+                --enable-json: ~
+    ldap:
+        configure:
+            default:
+                --with-ldap: ~
+                --with-ldap-sasl: ~
+        etc:
+            files:
+                conf/default/ldap-ini:
+                    src: 'etc/ext/ldap.ini.twig'
+                    dst: 'conf/default/ldap.ini'
+    libxml:
+        dependencies:
+            packages:
+                fedora-36:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-devel: true
+        configure:
+            default:
+                --enable-libxml: ~
+
+    mcrypt:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    libmcrypt-2-5: true
+        configure:
+            default:
+                --with-mcrypt: '${dir.share}/${libraries.libmcrypt-2-5.name}'
+
+    mssql:
+        configure:
+            default:
+                --with-mssql: ~
+
+    maxminddb:
+        dependencies:
+            packages:
+                arch:
+                    libmaxminddb: true
+                fedora-36:
+                    libmaxminddb-devel: true
+                opensuse-tumbleweed:
+                    libmaxminddb0: true
+                    libmaxminddb-devel: true
+                ubuntu-21-10:
+                    libmaxminddb-dev: true
+        configure:
+            default:
+                --with-maxminddb: ~
+        etc:
+            files:
+                conf/default/maxminddb-ini:
+                    src: 'etc/ext/maxminddb.ini.twig'
+                    dst: 'conf/default/maxminddb.ini'
+    mbstring:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    libonig5: true
+                    oniguruma-devel: true
+        configure:
+            defautl:
+                --enable-mbstring: ~
+                #--with-onig: 'DIR'
+        etc:
+            files:
+                conf/default/mbstring-ini:
+                    src: 'etc/ext/mbstring.ini.twig'
+                    dst: 'conf/default/mbstring.ini'
+    msgpack:
+        configure:
+            default:
+                --with-msgpack: ~
+        etc:
+            files:
+                conf/default/msgpack-ini:
+                    src: 'etc/ext/msgpack.ini.twig'
+                    dst: 'conf/default/msgpack.ini'
+    mongodb:
+        configure:
+            default:
+                --enable-mongodb: ~
+                #--with-mongodb-client-side-encryption: ~
+                #--with-mongodb-sasl: ~
+                #--with-mongodb-ssl: ~
+                #--with-openssl-dir: ~
+                #--enable-mongodb-crypto-system-profile: ~
+                #--enable-system-ciphers: ~
+                #--with-mongodb-icu: ~
+        etc:
+            files:
+                conf/default/mongodb-ini:
+                    src: 'etc/ext/mongodb.ini.twig'
+                    dst: 'conf/default/mongodb.ini'
+    oci8:
+        configure:
+            default:
+                --enable-oci8: ~
+        etc:
+            files:
+                conf/default/oci8-ini:
+                    src: 'etc/ext/oci8.ini.twig'
+                    dst: 'conf/default/oci8.ini'
+    odbc:
+        configure:
+            default:
+                --enable-odbc: ~
+                #--with-odbcver: 'HEX'
+                #--with-adabas: 'DIR'
+                #--with-sapdb: 'DIR'
+                #--with-solid: 'DIR'
+                #--with-ibm-db2: 'DIR'
+                #--with-empress: 'DIR'
+                #--with-empress-bcs: 'DIR'
+                #--with-custom-odbc: 'DIR'
+                #--with-iodbc: 'DIR'
+                #--with-esoob: 'DIR'
+                #--with-unixODBC: 'DIR'
+                #--with-dbmaker: 'DIR'
+        etc:
+            files:
+                conf/default/odbc-ini:
+                    src: 'etc/ext/odbc.ini.twig'
+                    dst: 'conf/default/odbc.ini'
+    opcache:
+        configure:
+            default:
+                --enable-opcache: ~
+                #--disable-opcache-file: ~
+                #--disable-huge-code-pages: ~
+        etc:
+            files:
+                conf/default/opcache-ini:
+                    src: 'etc/ext/opcache.ini.twig'
+                    dst: 'conf/default/opcache.ini'
+    mysqlnd:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    zlib-devel: true
+        configure:
+            default:
+                --enable-mysqlnd: ~
+        etc:
+            files:
+                conf/default/mysqlnd-ini:
+                    src: 'etc/ext/mysqlnd.ini.twig'
+                    dst: 'conf/default/mysqlnd.ini'
+
+    mysql:
+        configure:
+            default:
+                --with-mysql: ~
+
+    mysqli:
+        configure:
+            default:
+                ac_cv_decimal_fp_supported: 'no'
+                --with-mysqli: ~
+                #--enable-embedded-mysqli: ~
+                #--with-mysql-sock: 'SOCKPATH'
+        etc:
+            files:
+                conf/default/mysqli-ini:
+                    src: 'etc/ext/mysqli.ini.twig'
+                    dst: 'conf/default/mysqli.ini'
+    pcntl:
+        configure:
+            default:
+                --enable-pcntl: ~
+        etc:
+            files:
+                conf/default/pcntl-ini:
+                    src: 'etc/ext/pcntl.ini.twig'
+                    dst: 'conf/default/pcntl.ini'
+    pcov:
+        configure:
+            default:
+                --enable-pcov: ~
+        etc:
+            files:
+                conf/default/pcov-ini:
+                    src: 'etc/ext/pcov.ini.twig'
+                    dst: 'conf/default/pcov.ini'
+    pdo:
+        configure:
+            default:
+                --enable-pdo: ~
+        etc:
+            files:
+                conf/default/pdo-ini:
+                    src: 'etc/ext/pdo.ini.twig'
+                    dst: 'conf/default/pdo.ini'
+    pdo_dblib:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    freetds-config: true
+                    freetds-devel: true
+        configure:
+            default:
+                --enable-pdo-dblib: ~
+                #--with-pdo-dblib: 'DIR'
+    pdo_firebird:
+        configure:
+            default:
+                --with-pdo-firebird: ~
+    pdo_mysql:
+        configure:
+            default:
+                --with-pdo-mysql: ~
+                #--with-zlib-dir: 'DIR'
+        etc:
+            files:
+                conf/default/pdo_mysql-ini:
+                    src: 'etc/ext/pdo_mysql.ini.twig'
+                    dst: 'conf/default/pdo_mysql.ini'
+    pdo_oci:
+        configure:
+            default:
+                --enable-pdo_oci: ~
+                #--with-pdo-oci: 'DIR'
+    pdo_odbc:
+        configure:
+            default:
+                --enable-pdo_odbc: ~
+                #--with-pdo-odbc: 'flavour|DIR'
+    sqlite3:
+        dependencies:
+            packages:
+                fedora-36:
+                    libsqlite3x-devel: true
+                opensuse-tumbleweed:
+                    sqlite3: true
+                    sqlite3-devel: true
+                ubuntu-21-10:
+                    sqlite3: true
+                    libsqlite3-dev: true
+        configure:
+            default:
+                --with-sqlite3: ~
+        etc:
+            files:
+                conf/default/sqlite3-ini:
+                    src: 'etc/ext/sqlite3.ini.twig'
+                    dst: 'conf/default/sqlite3.ini'
+    pdo_sqlite:
+        configure:
+            default:
+                --with-pdo-sqlite: ~
+    pgsql:
+        dependencies:
+            packages:
+                arch:
+                    libpqxx: true
+                fedora-36:
+                    libpq-devel: true
+                opensuse-tumbleweed:
+                    libpqxx-devel: true
+                    postgresql13-devel: true
+                    postgresql13-server: true
+                    postgresql13-server-devel: true
+                ubuntu-21-10:
+                    libpqxx-dev: true
+        configure:
+            default:
+                --with-pgsql: '${stash.configure.with-pdo-pgsql}'
+            ubuntu-21-10:
+                --with-pgsql: ~
+        etc:
+            files:
+                conf/default/pgsql-ini:
+                    src: 'etc/ext/pgsql.ini.twig'
+                    dst: 'conf/default/pgsql.ini'
+    pdo_pgsql:
+        configure:
+            default:
+                --with-pdo-pgsql: '${stash.configure.with-pdo-pgsql}'
+    phar:
+        configure:
+            default:
+                --enable-phar: ~
+        etc:
+            files:
+                conf/default/phar-ini:
+                    src: 'etc/ext/phar.ini.twig'
+                    dst: 'conf/default/phar.ini'
+    phpdbg:
+        configure:
+            default:
+                --enable-phpdbg: ~
+                #--enable-phpdbg-webhelper: ~
+                #--enable-phpdbg-readline: ~
+    posix:
+        configure:
+            default:
+                --enable-posix: ~
+        etc:
+            files:
+                conf/default/posix-ini:
+                    src: 'etc/ext/posix.ini.twig'
+                    dst: 'conf/default/posix.ini'
+    protobuf:
+        configure:
+            default:
+                --enable-protobuf: ~
+        etc:
+            files:
+                conf/default/protobuf-ini:
+                    src: 'etc/ext/protobuf.ini.twig'
+                    dst: 'conf/default/protobuf.ini'
+    pspell:
+        dependencies:
+            packages:
+                arch:
+                    aspell: true
+                fedora-36:
+                    aspell-devel: true
+                opensuse-tumbleweed:
+                    aspell: true
+                    aspell-devel: true
+                ubuntu-21-10:
+                    libpspell-dev: true
+        etc:
+            files:
+                conf/default/pspell-ini:
+                    src: 'etc/ext/pspell.ini.twig'
+                    dst: 'conf/default/pspell.ini'
+        configure:
+            default:
+                --with-pspell: ~
+    psr:
+        configure:
+            default:
+                --enable-psr: ~
+    phalcon:
+        dependencies:
+            extensions:
+                pdo: true
+                psr: true
+        downloader:
+            type: 'git'
+            options:
+                url: 'https://github.com/phalcon/cphalcon.git'
+                branch: 'master'
+                refType: 'branch'
+                refValue: 'master'
+        configure:
+            default:
+                --enable-phalcon: ~
+        etc:
+            files:
+                conf/default/phalcon-ini:
+                    src: 'etc/ext/phalcon.ini.twig'
+                    dst: 'conf/default/phalcon.ini'
+    readline:
+        dependencies:
+            packages:
+                arch:
+                    libedit: true
+                fedora-36:
+                    libedit-devel: true
+                opensuse-tumbleweed:
+                    libedit-devel: true
+                ubuntu-21-10:
+                    libedit-dev: true
+        configure:
+            default:
+                --with-readline: ~
+                #--with-libedit: 'DIR'
+        etc:
+            files:
+                conf/default/readline-ini:
+                    src: 'etc/ext/readline.ini.twig'
+                    dst: 'conf/default/readline.ini'
+    recode:
+        configure:
+            default:
+                --enable-recode: ~
+    redis:
+        dependencies:
+            packages:
+                fedora-36:
+                    lz4-devel: true
+                opensuse-tumbleweed:
+                    liblz4-devel: true
+                ubuntu-21-10:
+                    liblz4-dev: true
+        configure:
+            default:
+                --enable-redis: ~
+                --enable-redis-session: ~
+                --enable-redis-json: ~
+                --enable-redis-igbinary: ~
+                --enable-redis-msgpack: ~
+                --enable-redis-lzf: ~
+                #--with-liblzf: DIR
+                --enable-redis-zstd: ~
+                #--with-libzstd: DIR
+                --enable-redis-lz4: ~
+                --with-liblz4: '/usr'
+        etc:
+            files:
+                conf/default/redis-ini:
+                    src: 'etc/ext/redis.ini.twig'
+                    dst: 'conf/default/redis.ini'
+    session:
+        configure:
+            default:
+                --enable-session: ~
+                #--with-mm: 'DIR'
+        etc:
+            files:
+                conf/default/session-ini:
+                    src: 'etc/ext/session.ini.twig'
+                    dst: 'conf/default/session.ini'
+
+    sybase_ct:
+        configure:
+            default:
+                --with-sybase-ct: ~
+
+    memcache:
+        # Extension dependencies: msgpack
+        configure:
+            default:
+                --enable-memcache: ~
+                --enable-memcache-session: ~
+                #--with-zlib-dir: 'DIR'
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/memcache-ini:
+                    src: 'etc/ext/memcache.ini.twig'
+                    dst: 'conf/default/memcache.ini'
+    memcached:
+        dependencies:
+            packages:
+                arch:
+                    libmemcached: true
+                fedora-36:
+                    libmemcached-awesome-devel: true
+                opensuse-tumbleweed:
+                    libevent-devel: true
+                    libmemcached-devel: true
+                ubuntu:21-01:
+                    libmemcached-dev: true
+        configure:
+            default:
+                --enable-memcached: ~
+                --with-libmemcached-dir: '${stash.configure.with-libmemcached-dir}'
+                --enable-memcached-session: ~
+                --enable-memcached-igbinary: ~
+                --enable-memcached-json: ~
+                --enable-memcached-msgpack: ~
+                --enable-memcached-sasl: ~
+                #--enable-memcached-protocol: ~
+                #--with-system-fastlz
+                #--with-zlib-dir=DIR
+                #--enable-debug
+
+        etc:
+            files:
+                conf/default/memcached-ini:
+                    src: 'etc/ext/memcached.ini.twig'
+                    dst: 'conf/default/memcached.ini'
+    sass:
+        downloader:
+            type: 'git'
+            options:
+                url: 'https://github.com/sensational/sassphp.git'
+                branch: 'master'
+                refType: 'branch'
+                refValue: 'master'
+        compiler:
+            type: 'pecl'
+            options:
+                before: |
+                    cd './lib/libsass'
+                    make clean
+                    make -j
+        configure:
+            default:
+                --enable-sass: ~
+        etc:
+            files:
+                conf/default/sass-ini:
+                    src: 'etc/ext/sass.ini.twig'
+                    dst: 'conf/default/sass.ini'
+    shmop:
+        configure:
+            default:
+                --enable-shmop: ~
+    simplexml:
+        configure:
+            default:
+                --enable-simplexml: ~
+                #--with-libxml-dir: 'DIR'
+    skeleton:
+        configure:
+            default:
+                --enable-skeleton: ~
+    snmp:
+        configure:
+            default:
+                --enable-snmp: ~
+                #--with-snmp: 'DIR'
+                #--with-openssl-dir: 'DIR'
+    soap:
+        configure:
+            default:
+                --enable-soap: ~
+                #--with-libxml-dir: 'DIR'
+    sockets:
+        configure:
+            default:
+                --enable-sockets: ~
+    sodium:
+        dependencies:
+            packages:
+                arch:
+                    libsodium: true
+                fedora-36:
+                    libsodium-devel: true
+                opensuse-tumbleweed:
+                    libsodium-devel: true
+                ubuntu-21-10:
+                    libsodium-dev: true
+        configure:
+            default:
+                --with-sodium: ~
+    ssh2:
+        version: '1.3.1'
+        dependencies:
+            packages:
+                fedora-36:
+                    libssh2-devel: true
+                opensuse-tumbleweed:
+                    libssh2-devel: true
+                ubuntu-21-10:
+                    libssh2-1-dev: true
+        configure:
+            default:
+                --with-ssh2: ~
+        etc:
+            files:
+                conf/default/ssh2-ini:
+                    src: 'etc/ext/ssh2.ini.twig'
+                    dst: 'conf/default/ssh2.ini'
+    standard:
+        configure:
+            default:
+                --enable-standard: ~
+                #--with-password-argon2: 'DIR'
+    sysvmsg:
+        configure:
+            default:
+                --enable-sysvmsg: ~
+    sysvsem:
+        configure:
+            default:
+                --enable-sysvsem: ~
+    sysvshm:
+        configure:
+            default:
+                --enable-sysvshm: ~
+        etc:
+            files:
+                conf/default/sysvshm-ini:
+                    src: 'etc/ext/sysvshm.ini.twig'
+                    dst: 'conf/default/sysvshm.ini'
+    swoole:
+        dependencies:
+            extensions:
+                sockets: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/swoole-ini:
+                    src: 'etc/ext/swoole.ini.twig'
+                    dst: 'conf/default/swoole.ini'
+    tidy:
+        dependencies:
+            packages:
+                arch:
+                    tidy: true
+                fedora-36:
+                    libtidy-devel: true
+                opensuse-tumbleweed:
+                    libtidy-devel: true
+                ubuntu-21-10:
+                    libtidy-dev: true
+        configure:
+            default:
+                --with-tidy: ~
+        etc:
+            files:
+                conf/default/tidy-ini:
+                    src: 'etc/ext/tidy.ini.twig'
+                    dst: 'conf/default/tidy.ini'
+    tokenizer:
+        configure:
+            default:
+                --enable-tokenizer: ~
+    wddx:
+        configure:
+            default:
+                --enable-wddx: ~
+                #--with-libxml-dir: 'DIR'
+                #--with-libexpat-dir: 'DIR'
+    xdebug:
+        configure:
+            default:
+                --enable-xdebug: ~
+                #--enable-xdebug-dev: ~
+                #--without-xdebug-compression: ~
+        etc:
+            files:
+                conf/default/xdebug-ini:
+                    src: 'etc/ext/xdebug.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+    xml:
+        configure:
+            default:
+                --enable-xml: ~
+                #--with-libxml-dir: 'DIR'
+                #--with-libexpat-dir: 'DIR'
+    xmlreader:
+        configure:
+            default:
+                --enable-xmlreader: ~
+                #--with-libxml-dir: 'DIR'
+    xmlrpc:
+        configure:
+            default:
+                --with-xmlrpc: ~
+                #--with-libxml-dir: 'DIR'
+                #--with-libexpat-dir: 'DIR'
+                #--with-iconv-dir: 'DIR'
+    xmlwriter:
+        configure:
+            default:
+                --enable-xmlwriter: ~
+                #--with-libxml-dir: 'DIR'
+    xsl:
+        dependencies:
+            packages:
+                arch:
+                    libxslt: true
+                fedora-36:
+                    libxslt-devel: true
+                ubuntu-21-10:
+                    libxslt1-dev: true
+        configure:
+            default:
+                --with-xsl: ~
+    yaml:
+        dependencies:
+            packages:
+                arch:
+                    libyaml: true
+                fedora-36:
+                    libyaml-devel: true
+                opensuse-tumbleweed:
+                    libyaml-devel: true
+                ubuntu-21-10:
+                    libyaml-dev: true
+        configure:
+            default:
+                --with-yaml: ~
+        etc:
+            files:
+                conf/default/yaml-ini:
+                    src: 'etc/ext/yaml.ini.twig'
+                    dst: 'conf/default/yaml.ini'
+    uuid:
+        dependencies:
+            packages:
+                fedora-36:
+                    libuuid-devel: true
+                opensuse-tumbleweed:
+                    libuuid-devel: true
+        configure:
+            default:
+                --with-uuid: ~
+        etc:
+            files:
+                conf/default/uuid-ini:
+                    src: 'etc/ext/uuid.ini.twig'
+                    dst: 'conf/default/uuid.ini'
+    zend_test:
+        configure:
+            default:
+                --enable-zend-test: ~
+    zip:
+        dependencies:
+            packages:
+                fedora-36:
+                    libzip-devel: true
+                opensuse-tumbleweed:
+                    libzip-devel: true
+                ubuntu-21-10:
+                    libzip-dev: true
+        configure:
+            default:
+                --with-zip: ~
+    zlib:
+        dependencies:
+            packages:
+                ubuntu-21-10:
+                    zlib1g-dev: true
+        configure:
+            default:
+                --with-zlib: ~
+    zstd:
+        dependencies:
+            packages:
+                fedora-36:
+                    libzstd-devel: true
+                opensuse-tumbleweed:
+                    libzstd1: true
+                    libzstd-devel: true
+                ubuntu-21-10:
+                    libzstd-dev: true
+        configure:
+            default:
+                --enable-zstd: ~
+                --with-libzstd: ~
+                #--enable-coverage: ~
+        etc:
+            files:
+                conf/default/zstd-ini:
+                    src: 'etc/ext/zstd.ini.twig'
+                    dst: 'conf/default/zstd.ini'
+
+
+extensionSets:
+    none:
+        json:
+            status: 'skip'
+
+
+defaultVariationKey: '0704-nts'

@@ -1,0 +1,25 @@
+{% if extensionSetItem.status == 'enabled' or not extensionSetItem.isEnabled %};{% endif %}extension={{ extension.name }}{{ extFileSuffix }}
+
+[exif]
+; Exif UNICODE user comments are handled as UCS-2BE/UCS-2LE and JIS as JIS.
+; With mbstring support this will automatically be converted into the encoding
+; given by corresponding encode setting. When empty mbstring.internal_encoding
+; is used. For the decode settings you can distinguish between motorola and
+; intel byte order. A decode setting cannot be empty.
+; http://php.net/exif.encode-unicode
+;exif.encode_unicode=ISO-8859-15
+
+; http://php.net/exif.decode-unicode-motorola
+;exif.decode_unicode_motorola=UCS-2BE
+
+; http://php.net/exif.decode-unicode-intel
+;exif.decode_unicode_intel   =UCS-2LE
+
+; http://php.net/exif.encode-jis
+;exif.encode_jis =
+
+; http://php.net/exif.decode-jis-motorola
+;exif.decode_jis_motorola=JIS
+
+; http://php.net/exif.decode-jis-intel
+;exif.decode_jis_intel   =JIS

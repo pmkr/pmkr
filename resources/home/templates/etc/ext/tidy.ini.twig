@@ -1,0 +1,12 @@
+{% if extensionSetItem.status == 'enabled' or not extensionSetItem.isEnabled %};{% endif %}extension={{ extension.name }}{{ extFileSuffix }}
+
+[Tidy]
+; The path to a default tidy configuration file to use when using tidy
+; http://php.net/tidy.default-config
+;tidy.default_config=/usr/local/lib/php/default.tcfg
+
+; Should tidy clean and repair output automatically?
+; WARNING: Do not use this option if you are generating non-html content
+; such as dynamic images
+; http://php.net/tidy.clean-output
+tidy.clean_output=Off

@@ -1,0 +1,447 @@
+version: '1'
+
+stash:
+    cores:
+        '0801':
+            dependencies:
+                packages:
+                    arch: &cores_0801_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
+                    fedora-36: &cores_0801_dependencies_packages_fedora-36
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                    opensuse-tumbleweed: &cores_0801_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                    ubuntu-21-10: &cores_0801_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+            etc:
+                files:
+                    ini: &cores_0801_etc_files_ini
+                        php-pcov-ini:
+                            src: 'etc/php.pcov.ini.twig'
+                            dst: 'php.pcov.ini'
+                        php-prod-ini:
+                            src: 'etc/php.prod.ini.twig'
+                            dst: 'php.prod.ini'
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug.ini.twig'
+                            dst: 'php.xdebug.ini'
+                    ext: &cores_0801_etc_files_ext
+                        conf/default/00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf/default/assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf/default/cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf/default/date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                    fpm: &cores_0801_etc_files_fpm
+                        php-fpm-d/includes/00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d/includes/10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d/pool-d/dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d/pool-d/xdebug-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+
+                        php-fpm-d/php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                        php-fpm-d/php-xdebug-ini:
+                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php.xdebug.ini'
+
+                        php-fpm-d/php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d/php-fpm-xdebug-ini:
+                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+
+                        supervisor/program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor/program-php-fpm-xdebug-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            vars:
+                                iniVariant: 'xdebug'
+
+patches:
+    core-0801-ext-socket-gnu-source:
+        versionConstraint: '8.1.2'
+        issue: 'https://github.com/php/php-src/issues/7978'
+        description: 'sockets extension compilation errors'
+        uri: 'https://patch-diff.githubusercontent.com/raw/php/php-src/pull/7981.patch'
+        checksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '11d0360a8b124c7417b90f0798d60859483cdf229e80f23b4cf177843e2bc89b'
+
+
+extensions:
+    dom-0801:
+        dependencies:
+            packages:
+                fedora-36:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-2: true
+                    libxml2-devel: true
+                ubuntu-21-10:
+                    libxml2: true
+                    libxml2-dev: true
+        configure:
+            default:
+                --enable-dom: ~
+                --with-libxml: ~
+    gd-0801:
+        dependencies:
+            packages:
+                arch:
+                    libpng: true
+                    libwebp: true
+                    libxpm: true
+                    freetype2: true
+                fedora-36:
+                    libpng-devel: true
+                    libwebp-devel: true
+                    libjpeg-turbo-devel: true
+                    libXpm-devel: true
+                    freetype-devel: true
+                opensuse-tumbleweed:
+                    libfreetype6: true
+                    freetype2-devel: true
+                    libjpeg62: true
+                    libjpeg62-devel: true
+                    libpng16-16: true
+                    libpng16-compat-devel: true
+                    libpng16-devel: true
+                    libwebp7: true
+                    libwebp-devel: true
+                    libXpm4: true
+                    libXpm-devel: true
+                    zlib-devel: true
+                ubuntu-21-10:
+                    libpng-dev: true
+                    libwebp-dev: true
+                    libjpeg-dev: true
+                    libxpm-dev: true
+                    libfreetype6-dev: true
+        configure:
+            default:
+                --enable-gd: ~
+                --with-webp: '/usr'
+                --with-jpeg: '/usr'
+                --with-libdir: 'lib/x86_64-linux-gnu'
+                --with-freetype: '/usr'
+                --with-xpm: '/usr'
+                --with-avif: ~
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+
+
+extensionSets:
+    '0801':
+        # region Enabled - core.
+        bcmath:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        ctype:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        dom-0801:
+            status: 'enabled'
+        embed:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        fileinfo:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        ftp:
+            status: 'optional'
+        gd-0801:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        gmp:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        mysqlnd:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            isEnabled: true
+        openssl:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        pdo:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        phar:
+            status: 'enabled'
+        sodium:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        sqlite3:
+            status: 'enabled'
+        tokenizer:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        zip:
+            status: 'enabled'
+        zlib:
+            status: 'enabled'
+        session:
+            status: 'enabled'
+        phpdbg:
+            status: 'enabled'
+        # endregion
+
+        # region Enabled - 3th-party.
+        igbinary:
+            status: 'enabled'
+        msgpack:
+            status: 'enabled'
+        zstd:
+            status: 'enabled'
+        # endregion
+
+        # region Optional - core.
+        maxminddb:
+            status: 'optional'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline:
+            status: 'optional'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'optional'
+        imagick:
+            status: 'optional'
+        inotify:
+            status: 'optional'
+        memcache:
+            status: 'optional'
+        memcached:
+            status: 'optional'
+        pcov:
+            status: 'optional'
+        protobuf:
+            status: 'optional'
+        psr:
+            status: 'optional'
+        redis:
+            status: 'optional'
+        sass:
+            status: 'optional'
+        ssh2:
+            status: 'optional'
+        swoole:
+            status: 'optional'
+        xdebug:
+            status: 'optional'
+        yaml:
+            status: 'optional'
+        uuid:
+            status: 'optional'
+        # endregion
+
+        # region Skip - core.
+        imap:
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        mongodb:
+            status: 'skip'
+        # endregion
+
+
+cores:
+    '0801-nts':
+        dependencies:
+            packages:
+                arch:
+                    <<: *cores_0801_dependencies_packages_arch
+                fedora-36:
+                    <<: *cores_0801_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0801_dependencies_packages_ubuntu-21-10
+        patchList:
+            core-0801-ext-socket-gnu-source:
+                default: 0
+        configure:
+            default:
+                --enable-fpm: ~
+        etc:
+            files:
+                <<: *cores_0801_etc_files_ini
+                <<: *cores_0801_etc_files_ext
+                <<: *cores_0801_etc_files_fpm
+    '0801-zts':
+        dependencies:
+            packages:
+                arch:
+                    <<: *cores_0801_dependencies_packages_arch
+                fedora-36:
+                    <<: *cores_0801_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0801_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-zts: ~
+        etc:
+            files:
+                <<: *cores_0801_etc_files_ini
+                <<: *cores_0801_etc_files_ext
+
+
+instances:
+    '080101-nts': &instance_080101
+        isZts: false
+        coreVersion: '8.1.1'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '8f8bc9cad6cd124edc111f7db0a109745e2f638770a101b3c22a2953f7a9b40e'
+    '080101-zts':
+        isZts: true
+        <<: *instance_080101
+    '080101-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080101
+
+    # https://github.com/php/php-src/issues/7978
+    # https://github.com/php/php-src/issues/7986
+    '080102-nts': &instance_080102
+        isZts: false
+        coreVersion: '8.1.2'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '913dc7dd4388427fa33ea4ac89834e856ff5394f4218eace260a3a279f5b53a9'
+    '080102-zts':
+        isZts: true
+        <<: *instance_080102
+    '080102-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080102
+
+
+aliases:
+    '0801-nts': '080102-nts'
+    '0801-zts': '080102-zts'
+
+
+variations:
+    '0801-nts-pcov':
+        instanceKey: '0801-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
+    '0801-nts-prod':
+        instanceKey: '0801-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'
+    '0801-nts-xdebug':
+        instanceKey: '0801-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'

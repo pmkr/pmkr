@@ -1,0 +1,8 @@
+{% if extensionSetItem.status == 'enabled' or not extensionSetItem.isEnabled %};{% endif %}extension={{ extension.name }}{{ extFileSuffix }}
+
+[filter]
+; http://php.net/filter.default
+;filter.default=unsafe_raw
+
+; http://php.net/filter.default-flags
+;filter.default_flags =

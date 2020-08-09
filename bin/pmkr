@@ -1,0 +1,100 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types = 1);
+
+use Consolidation\Config\Config;
+use Consolidation\Config\Util\EnvConfig;
+use League\Container\Container;
+use Robo\Robo;
+use Robo\Runner as RoboRunner;
+use Pmkr\Pmkr\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+
+$isPhar = extension_loaded('Phar') && \Phar::running();
+$projectRoot = $isPhar ? \Phar::running() : dirname(__DIR__);
+
+$envVars = getenv();
+ksort($envVars);
+
+// region autoloader
+$vendorDir = 'vendor';
+
+$autoloadPaths = [
+    "$projectRoot/$vendorDir/autoload.php",
+];
+
+if (!is_dir("$projectRoot/$vendorDir")) {
+    $composerFileName = 'composer.json';
+    if (!$isPhar && isset($envVars['COMPOSER'])) {
+        $composerFileName = $envVars['COMPOSER'];
+    }
+
+    $composer = json_decode(file_get_contents("$projectRoot/$composerFileName"), true);
+    if (isset($composer['config']['vendor-dir'])) {
+        $vendorDir = $composer['config']['vendor-dir'];
+    }
+}
+
+$autoloadPaths[] = "$projectRoot/$vendorDir/autoload.php";
+$autoloadPaths[] = __DIR__ . "/../../../autoload.php";
+
+$classLoader = null;
+foreach ($autoloadPaths as $autoloadPath) {
+    if (!file_exists($autoloadPath)) {
+        continue;
+    }
+
+    $classLoader = require_once $autoloadPath;
+    break;
+}
+// endregion
+
+$argv = $_SERVER['argv'];
+
+//region init application
+$appName = Application::NAME;
+$appVersion = '1.x-dev';
+$app = new Application($appName, $appVersion);
+$app->setAutoExit(false);
+//endregion
+
+$selfUpdateRepository = "$appName/$appName";
+$envVarNamePrefix = mb_strtoupper($appName);
+
+$input = new ArgvInput($argv);
+$output = new ConsoleOutput(
+    // @todo These settings should be based on the input -v and --ansi.
+    OutputInterface::VERBOSITY_NORMAL,
+    true,
+);
+
+// region init config
+$configFiles = $app->getConfigFiles($projectRoot, $envVars);
+$config = Robo::createConfiguration($configFiles);
+$config->addContext('env', new EnvConfig($app->getName()));
+$config->addContext('envVars', new Config(['env' => $envVars]));
+// endregion
+
+$container = new Container();
+Robo::configureContainer($container, $app, $config, $input, $output, $classLoader);
+$app->setConfig($config);
+$app->setContainer($container);
+$app->configureContainer();
+
+$runner = new RoboRunner($app->getCommandClasses($projectRoot));
+$runner
+    ->setOutput($output)
+    ->setContainer($container)
+    ->setSelfUpdateRepository($selfUpdateRepository)
+    ->setEnvConfigPrefix($envVarNamePrefix)
+    ->setClassLoader($classLoader);
+
+Robo::finalizeContainer($container);
+$runner->installRoboHandlers();
+
+$statusCode = $runner->execute($argv, $appName, $appVersion, $output);
+
+exit($statusCode);

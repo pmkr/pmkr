@@ -1,0 +1,467 @@
+version: '1'
+
+stash:
+    cores:
+        '0700':
+            dependencies:
+                packages:
+                    fedora-36: &cores_0700_dependencies_packages_fedora-36
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                    opensuse-tumbleweed: &cores_0700_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                        argon2-devel: true
+                    ubuntu-21-10: &cores_0700_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+
+            configure:
+                common: &cores_0700_configure_common
+                    --enable-hash: ~
+                    --enable-libxml: ~
+                    --enable-mysqlnd: ~
+                    --with-openssl: ~
+                    --with-sqlite3: ~
+                    --with-zlib: ~
+
+            etc:
+                files:
+                    ini: &cores_0700_etc_files_ini
+                        php-prod-ini:
+                            src: 'etc/php.prod-0700.ini.twig'
+                            dst: 'php.prod.ini'
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug-0700.ini.twig'
+                            dst: 'php.xdebug.ini'
+                    ext: &cores_0700_etc_files_ext
+                        conf/default/00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf/default/assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf/default/cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf/default/date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                    fpm: &cores_0700_etc_files_fpm
+                        php-fpm-d/includes/00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d/includes/10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d/pool-d/dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d/pool-d/xdebug-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+
+                        php-fpm-d/php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                        php-fpm-d/php-xdebug-ini:
+                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php.xdebug.ini'
+
+                        php-fpm-d/php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d/php-fpm-xdebug-ini:
+                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+
+                        supervisor/program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor/program-php-fpm-xdebug-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            vars:
+                                iniVariant: 'xdebug'
+
+
+extensions:
+    dom-0700:
+        configure:
+            default:
+                --enable-dom: ~
+                --enable-libxml: ~
+                #--with-libxml-dir: 'DIR'
+    gd-0700:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    libfreetype6: true
+                    freetype2-devel: true
+                    libjpeg62: true
+                    libjpeg62-devel: true
+                    libpng16-16: true
+                    libpng16-compat-devel: true
+                    libpng16-devel: true
+                    libwebp7: true
+                    libwebp-devel: true
+                    libXpm4: true
+                    libXpm-devel: true
+                    zlib-devel: true
+        configure:
+            default:
+                --with-gd: ~
+                --with-webp-dir: '/usr'
+                --with-jpeg-dir: '/usr'
+                --with-png-dir: '/usr'
+                --with-zlib-dir: '/usr'
+                --with-xpm-dir: '/usr'
+                --with-freetype-dir: '/usr'
+                #--enable-gd-jis-conv: ~
+                --with-libdir: 'lib/x86_64-linux-gnu'
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+
+    intl-0700:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    icu4c-59_1: true
+            packages:
+                opensuse-tumbleweed:
+                    icu: true
+                    libicu-devel: true
+                    gcc-c++: true
+                ubuntu-21-10:
+                    libicu-dev: true
+        configure:
+            default:
+                --enable-intl: ~
+                --with-icu-dir: '${dir.share}/${stash.libraries.icu-0700}'
+        etc:
+            files:
+                conf/default/intl-ini:
+                    src: 'etc/ext/intl.ini.twig'
+                    dst: 'conf/default/intl.ini'
+
+    json-0700:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    icu4c-58_2: true
+                    icu4c-59_1: true
+        configure:
+            default:
+                --enable-json: ~
+                --with-icu-dir: '${dir.share}/${stash.libraries.icu-0700}'
+
+    readline-0700:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    readline-0700: true
+        configure:
+            default:
+                --with-readline: '${dir.share}/${libraries.readline-0700.name}'
+        etc:
+            files:
+                conf/default/readline-ini:
+                    src: 'etc/ext/readline.ini.twig'
+                    dst: 'conf/default/readline.ini'
+
+    memcache-0700:
+        version: '4.0.5.2'
+        dependencies:
+            extensions:
+                msgpack: true
+        configure:
+            default:
+                --enable-memcache: ~
+                --enable-memcache-session: ~
+                #--with-zlib-dir: 'DIR'
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/memcache-ini:
+                    src: 'etc/ext/memcache.ini.twig'
+                    dst: 'conf/default/memcache.ini'
+
+    psr-0700:
+        version: '1.1.0'
+        configure:
+            default:
+                --enable-psr: ~
+
+    xdebug-0700:
+        version: '2.7.2'
+        configure:
+            default:
+                --enable-xdebug: ~
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/xdebug-0700.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
+    zip-0700:
+        weight: 200
+        configure:
+            default:
+                --with-pcre-dir: '/usr'
+                --enable-zip: ~
+                #--with-zlib-dir: 'DIR'
+                #--with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
+
+
+extensionSets:
+    '0700':
+        # region Enabled - core.
+        bcmath:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        ctype:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        dom-0700:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        gd-0700:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        gmp:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl-0700:
+            # @todo
+            status: 'skip'
+        json-0700:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            # @todo Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
+            isEnabled: false
+        pdo:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        phar:
+            # @todo
+            status: 'skip'
+        phpdbg:
+            status: 'enabled'
+        session:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        tokenizer:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        zip-0700:
+            status: 'enabled'
+        # endregion
+
+        # region Enabled - 3th-party.
+        igbinary:
+            status: 'enabled'
+        msgpack:
+            status: 'enabled'
+        zstd:
+            status: 'enabled'
+        # endregion
+
+        # region Optional - core.
+        ftp:
+            status: 'optional'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline:
+            # @todo Maybe lower library version.
+            status: 'skip'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        xmlrpc:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'optional'
+        imagick:
+            status: 'optional'
+        inotify:
+            status: 'optional'
+        maxminddb:
+            status: 'skip'
+        memcache:
+            status: 'optional'
+        memcached:
+            status: 'optional'
+        protobuf:
+            status: 'optional'
+        psr-0700:
+            status: 'optional'
+        redis:
+            status: 'optional'
+        sass:
+            status: 'optional'
+        ssh2:
+            status: 'optional'
+        xdebug-0700:
+            status: 'optional'
+        uuid:
+            status: 'optional'
+        # endregion
+
+        # region Skip - core
+        imap:
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        mongodb:
+            status: 'skip'
+        # endregion
+
+
+cores:
+    '0700-nts':
+        dependencies:
+            packages:
+                fedora-36:
+                    <<: *cores_0700_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0700_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0700_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                <<: *cores_0700_configure_common
+                --enable-fpm: ~
+        etc:
+            files:
+                <<: *cores_0700_etc_files_ini
+                <<: *cores_0700_etc_files_ext
+                <<: *cores_0700_etc_files_fpm
+
+    '0700-zts':
+        dependencies:
+            packages:
+                fedora-36:
+                    <<: *cores_0700_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0700_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0700_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                <<: *cores_0700_configure_common
+                --enable-maintainer-zts: ~
+                #--with-tsrm-pth: 'pth-config'
+                #--with-tsrm-st: ~
+                --with-tsrm-pthreads: ~
+        etc:
+            files:
+                <<: *cores_0700_etc_files_ini
+                <<: *cores_0700_etc_files_ext
+
+
+instances:
+    '070033-nts': &instance_070033
+        isZts: false
+        coreVersion: '7.0.33'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '4933ea74298a1ba046b0246fe3771415c84dfb878396201b56cb5333abe86f07'
+    '070033-zts':
+        isZts: true
+        <<: *instance_070033
+    '070033-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070033
+
+
+aliases:
+    '0700-nts': '070033-nts'
+    '0700-zts': '070033-zts'
+
+
+variations:
+    '0700-nts':
+        instanceKey: '0700-nts'
+    '0700-zts':
+        instanceKey: '0700-zts'

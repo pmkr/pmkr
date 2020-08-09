@@ -1,0 +1,7 @@
+; 32767=E_ALL
+; 24575=E_ALL & ~E_DEPRECATED
+; 32759=E_ALL & ~E_NOTICE
+; 30719=E_ALL & ~E_STRICT
+php_admin_value[error_reporting]=32767
+php_admin_value[error_log]={{ dir.log }}/pmkr-php.{{ instance.key }}.fpm.$pool.error.log
+php_admin_value[session.save_path]={{ instance.sessionsDir }}.$pool

@@ -1,0 +1,10 @@
+/tests/_log/
+/tests/_support/_generated/
+/tests/*.suite.yml
+/codeception.yml
+
+/tmp*/
+/vendor/
+
+/.git-hooks-local
+/robo.yml

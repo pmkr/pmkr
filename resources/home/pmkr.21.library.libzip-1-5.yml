@@ -1,0 +1,30 @@
+version: '1'
+
+
+libraries:
+    libzip-1-5:
+        name: 'libzip-1.5.2'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/nih-at/libzip/archive/refs/tags/rel-1-5-2.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '905ae156f7590f4f3ab251cb79a0a48023848a7ae176143ec9467a9421bdb699'
+        compiler:
+            type: 'common'
+            options:
+                # openSUSE Tumbleweed: ln -s /usr/include/locale.h /usr/include/xlocale.h
+                exec: |
+                    cd ..
+                    
+                    cmake \
+                        -DCMAKE_INSTALL_PREFIX="${prefix}" \
+                        -S"${libraryName}" \
+                        -B"${libraryName}-build" \
+                    && \
+                    cd "${libraryName}-build" \
+                    && \
+                    make -j \
+                    && \
+                    make install

@@ -1,0 +1,441 @@
+version: '1'
+
+
+stash:
+    cores:
+        '0704':
+            dependencies:
+                packages:
+                    arch: &cores_0704_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
+                    fedora-36: &cores_0704_dependencies_packages_fedora-36
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                    opensuse-tumbleweed: &cores_0704_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                    ubuntu-21-10: &cores_0704_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+            etc:
+                files:
+                    ini: &cores_0704_etc_files_ini
+                        php-pcov-ini:
+                            src: 'etc/php.pcov.ini.twig'
+                            dst: 'php.pcov.ini'
+                        php-prod-ini:
+                            src: 'etc/php.prod.ini.twig'
+                            dst: 'php.prod.ini'
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug.ini.twig'
+                            dst: 'php.xdebug.ini'
+                    ext: &cores_0704_etc_files_ext
+                        conf/default/00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf/default/assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf/default/cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf/default/date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                    fpm: &cores_0704_etc_files_fpm
+                        php-fpm-d/includes/00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d/includes/10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d/pool-d/dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d/pool-d/xdebug-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+
+                        php-fpm-d/php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                        php-fpm-d/php-xdebug-ini:
+                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php.xdebug.ini'
+
+                        php-fpm-d/php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d/php-fpm-xdebug-ini:
+                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+
+                        supervisor/program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor/program-php-fpm-xdebug-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            vars:
+                                iniVariant: 'xdebug'
+
+
+extensions:
+    dom-0704:
+        dependencies:
+            packages:
+                fedora-36:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-2: true
+                    libxml2-devel: true
+                ubuntu-21-10:
+                    libxml2: true
+                    libxml2-dev: true
+        configure:
+            default:
+                --enable-dom: ~
+                --with-libxml: ~
+            ubuntu-21-10:
+                LIBXML_CFLAGS: '-I/usr/include'
+                LIBXML_LIBS: '-L/usr/lib/x86_64-linux-gnu/'
+
+    gd-0704:
+        dependencies:
+            packages:
+                arch:
+                    libpng: true
+                    libwebp: true
+                    libxpm: true
+                    freetype2: true
+                fedora-36:
+                    libpng-devel: true
+                    libwebp-devel: true
+                    libjpeg-turbo-devel: true
+                    libXpm-devel: true
+                    freetype-devel: true
+                opensuse-tumbleweed:
+                    libfreetype6: true
+                    freetype2-devel: true
+                    libjpeg62: true
+                    libjpeg62-devel: true
+                    libpng16-16: true
+                    libpng16-compat-devel: true
+                    libpng16-devel: true
+                    libwebp7: true
+                    libwebp-devel: true
+                    libXpm4: true
+                    libXpm-devel: true
+                    zlib-devel: true
+                ubuntu-21-10:
+                    libpng-dev: true
+                    libwebp-dev: true
+                    libjpeg-dev: true
+                    libxpm-dev: true
+                    libfreetype6-dev: true
+        configure:
+            default:
+                --enable-gd: ~
+                --with-webp: ~
+                --with-jpeg: ~
+                --with-libdir: 'lib/x86_64-linux-gnu'
+                --with-freetype: ~
+                --with-xpm: ~
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+
+
+extensionSets:
+    '0704':
+        # region Enabled - core.
+        bcmath:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        ctype:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        dom-0704:
+            status: 'enabled'
+        embed:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        fileinfo:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        gd-0704:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        gmp:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl:
+            status: 'enabled'
+        json:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        mysqlnd:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            isEnabled: true
+        openssl:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        pdo:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        phar:
+            status: 'enabled'
+        phpdbg:
+            status: 'enabled'
+        session:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        sodium:
+            status: 'enabled'
+        sqlite3:
+            status: 'enabled'
+        tokenizer:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        zip:
+            status: 'enabled'
+        zlib:
+            status: 'enabled'
+        # endregion
+
+        # region Enabled - 3th-party.
+        igbinary:
+            status: 'enabled'
+        msgpack:
+            status: 'enabled'
+        zstd:
+            status: 'enabled'
+        # endregion
+
+        # region Optional - core.
+        ftp:
+            status: 'optional'
+        maxminddb:
+            status: 'optional'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline:
+            status: 'optional'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        xmlrpc:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'optional'
+        imagick:
+            status: 'optional'
+        inotify:
+            status: 'optional'
+        memcache:
+            status: 'optional'
+        memcached:
+            status: 'optional'
+        pcov:
+            status: 'optional'
+        protobuf:
+            status: 'optional'
+        psr:
+            status: 'optional'
+        redis:
+            status: 'optional'
+        sass:
+            status: 'optional'
+        ssh2:
+            status: 'optional'
+        swoole:
+            status: 'optional'
+        xdebug:
+            status: 'optional'
+        yaml:
+            status: 'optional'
+        uuid:
+            status: 'optional'
+        # endregion
+
+        # region Skip - core
+        #
+        # Fedora 36:
+        # openSUSE Tumbleweed:
+        #   configure: error: utf8_mime2text() has new signature, but U8T_CANONICAL is missing.
+        #   This should not happen.
+        #   Check config.log for additional information.
+        imap:
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        #
+        # Fedora 36:
+        # openSUSE Tumbleweed:
+        #   Success.
+        mongodb:
+            status: 'skip'
+        # endregion
+
+
+cores:
+    '0704-nts':
+        dependencies:
+            packages:
+                arch:
+                    <<: *cores_0704_dependencies_packages_arch
+                fedora-36:
+                    <<: *cores_0704_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0704_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0704_dependencies_packages_ubuntu-21-10
+
+        configure:
+            default:
+                --enable-fpm: ~
+        etc:
+            files:
+                <<: *cores_0704_etc_files_ini
+                <<: *cores_0704_etc_files_ext
+                <<: *cores_0704_etc_files_fpm
+
+    '0704-zts':
+        dependencies:
+            packages:
+                arch:
+                    <<: *cores_0704_dependencies_packages_arch
+                fedora-36:
+                    <<: *cores_0704_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0704_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0704_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-maintainer-zts: ~
+                #--with-tsrm-pth: 'pth-config'
+                #--with-tsrm-st: ~
+                --with-tsrm-pthreads: ~
+        etc:
+            files:
+                <<: *cores_0704_etc_files_ini
+                <<: *cores_0704_etc_files_ext
+
+
+instances:
+    '070427-nts': &instance_070427
+        isZts: false
+        coreVersion: '7.4.27'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '184aaef313fbf28c9987f6aa07b655cd1b0eae9e7e17061775a3e7d880185563'
+    '070427-zts':
+        isZts: true
+        <<: *instance_070427
+    '070427-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070427
+
+
+aliases:
+    '0704-nts': '070427-nts'
+    '0704-zts': '070427-zts'
+
+
+variations:
+    '0704-nts-pcov':
+        instanceKey: '0704-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
+    '0704-nts-prod':
+        instanceKey: '0704-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'
+    '0704-nts-xdebug':
+        instanceKey: '0704-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'

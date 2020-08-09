@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/symfony/dependency-injection/5.4/Loader/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service
+            shared="true"
+            id="config"
+            class="Consolidation\Config\ConfigInterface" />
+
+        <service
+            shared="true"
+            id="formatterManager"
+            class="Consolidation\OutputFormatters\FormatterManager" />
+
+        <service
+            shared="true"
+            id="eventDispatcher"
+            class="Symfony\Component\EventDispatcher\EventDispatcherInterface" />
+
+        <service
+            shared="true"
+            id="application"
+            class="Pmkr\Pmkr\Application" />
+
+        <service
+            shared="true"
+            id="syntax_highlighter"
+            class="Pmkr\Pmkr\SyntaxHighlighter\SyntaxHighlighter" />
+
+        <!-- region Twig  -->
+        <service
+            shared="true"
+            id="twig.loader.filesystem"
+            class="Twig\Loader\FilesystemLoader" />
+        <service
+            shared="true"
+            id="twig.cache"
+            class="Twig\Cache\CacheInterface" />
+        <service
+            shared="true"
+            id="twig.environment"
+            class="Twig\Environment">
+
+            <argument>twig.loader.filesystem</argument>
+
+            <call method="setCache">
+                <argument>twig.cache</argument>
+            </call>
+        </service>
+        <!-- endregion   -->
+    </services>
+</container>

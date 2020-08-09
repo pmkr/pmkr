@@ -1,0 +1,5 @@
+{% if extensionSetItem.status == 'enabled' or not extensionSetItem.isEnabled %};{% endif %}extension={{ extension.name }}{{ extFileSuffix }}
+
+[ldap]
+; Sets the maximum number of open links or -1 for unlimited.
+ldap.max_links=-1

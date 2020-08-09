@@ -1,0 +1,658 @@
+version: '1'
+
+stash:
+    cores:
+        '0506':
+            dependencies:
+                libraries:
+                    opensuse-tumbleweed: &cores_0506_dependencies_libraries_opensuse-tumbleweed
+                        OpenSSL_1_0: true
+
+                packages:
+                    fedora-36: &cores_0506_dependencies_packages_fedora-36
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                        libxml2: true
+                        libxml2-devel: true
+                        libsqlite3x-devel: true
+                    opensuse-tumbleweed: &cores_0506_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                        argon2-devel: true
+                        libxml2-devel: true
+                        sqlite3-devel: true
+                    ubuntu-21-10: &cores_0506_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+                        libsqlite3-dev: true
+
+            configure:
+                common: &cores_0506_configure_common
+                    --enable-hash: ~
+                    --enable-libxml: ~
+                    --enable-mysqlnd: ~
+                    --enable-xml: ~
+                    --with-openssl: '${dir.share}/${libraries.OpenSSL_1_0.name}'
+                    --with-sqlite3: ~
+                    --with-zlib: ~
+#                    --with-pear: ~
+
+            etc:
+                files:
+                    ini: &cores_0506_etc_files_ini
+                        php-prod-ini:
+                            src: 'etc/php.prod-0506.ini.twig'
+                            dst: 'php.prod.ini'
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug-0506.ini.twig'
+                            dst: 'php.xdebug.ini'
+                    ext: &cores_0506_etc_files_ext
+                        conf/default/00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf/default/assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf/default/cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf/default/date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                    fpm: &cores_0506_etc_files_fpm
+                        php-fpm-d/includes/00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d/includes/10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d/pool-d/dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d/pool-d/xdebug-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+
+                        php-fpm-d/php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                        php-fpm-d/php-xdebug-ini:
+                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php.xdebug.ini'
+
+                        php-fpm-d/php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d/php-fpm-xdebug-ini:
+                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+
+                        supervisor/program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor/program-php-fpm-xdebug-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            vars:
+                                iniVariant: 'xdebug'
+
+
+extensions:
+    apcu-0506:
+        version: '4.0.11'
+        configure:
+            default:
+                --enable-apcu: ~
+                #--disable-apcu-rwlocks: ~
+                #--enable-apcu-debug: ~
+                #--enable-apcu-clear-signal: ~
+                #--disable-apcu-mmap: ~
+                #--enable-apcu-spinlocks: ~
+                #--disable-valgrind-checks: ~
+                #--enable-coverage: ~
+        etc:
+            files:
+                conf/default/apcu-ini:
+                    src: 'etc/ext/apcu.ini.twig'
+                    dst: 'conf/default/apcu.ini'
+
+    dom-0506:
+        configure:
+            default:
+                --enable-dom: ~
+                --enable-libxml: ~
+                #--with-libxml-dir: 'DIR'
+
+    gd-0506:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    libfreetype6: true
+                    freetype2-devel: true
+                    libjpeg62: true
+                    libjpeg62-devel: true
+                    libpng16-16: true
+                    libpng16-compat-devel: true
+                    libpng16-devel: true
+                    libwebp7: true
+                    libwebp-devel: true
+                    libXpm4: true
+                    libXpm-devel: true
+                    zlib-devel: true
+        configure:
+            default:
+                --with-gd: ~
+                --with-jpeg-dir: '/usr'
+                --with-png-dir: '/usr'
+                --with-zlib-dir: '/usr'
+                --with-xpm-dir: '/usr'
+                --with-freetype-dir: '/usr'
+                #--enable-gd-jis-conv: ~
+                #--with-libdir: 'lib/x86_64-linux-gnu'
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+
+    igbinary-0506:
+        version: '2.0.8'
+        configure:
+            default:
+                --enable-igbinary: ~
+        etc:
+            files:
+                conf/default/igbinary-ini:
+                    src: 'etc/ext/igbinary.ini.twig'
+                    dst: 'conf/default/igbinary.ini'
+
+    inotify-0506:
+        version: '0.1.6'
+        configure:
+            default:
+                --enable-inotify: ~
+        etc:
+            files:
+                conf/default/inotify-ini:
+                    src: 'etc/ext/inotify.ini.twig'
+                    dst: 'conf/default/inotify.ini'
+
+    intl-0506:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    icu4c-59: true
+            packages:
+                opensuse-tumbleweed:
+                    icu: true
+                    libicu-devel: true
+                    gcc-c++: true
+                ubuntu-21-10:
+                    libicu-dev: true
+        configure:
+            default:
+                --enable-intl: ~
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
+        etc:
+            files:
+                conf/default/intl-ini:
+                    src: 'etc/ext/intl.ini.twig'
+                    dst: 'conf/default/intl.ini'
+
+    json-0506:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    icu4c-59: true
+                    libzip-1-2: true
+        configure:
+            default:
+                --enable-json: ~
+                --with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
+
+    readline-0506:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    readline-07: true
+        configure:
+            default:
+                --with-readline: '${dir.share}/${libraries.readline-07.name}'
+        etc:
+            files:
+                conf/default/readline-ini:
+                    src: 'etc/ext/readline.ini.twig'
+                    dst: 'conf/default/readline.ini'
+
+    memcache-0506:
+        version: '3.0.8'
+        dependencies:
+            extensions:
+                session: true
+                msgpack: true
+        configure:
+            default:
+                --enable-memcache: ~
+                --enable-memcache-session: ~
+                #--with-zlib-dir: 'DIR'
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/memcache-ini:
+                    src: 'etc/ext/memcache.ini.twig'
+                    dst: 'conf/default/memcache.ini'
+
+    memcached-0506:
+        version: '2.2.0'
+        dependencies:
+            extensions:
+                session: true
+                igbinary: true
+                json: true
+                msgpack: true
+            packages:
+                arch:
+                    libmemcached: true
+                fedora-36:
+                    libmemcached-awesome-devel: true
+                opensuse-tumbleweed:
+                    libevent-devel: true
+                    libmemcached-devel: true
+                ubuntu:21-01:
+                    libmemcached-dev: true
+        configure:
+            default:
+                --enable-memcached: ~
+                --with-libmemcached-dir: '${stash.configure.with-libmemcached-dir}'
+                --enable-memcached-session: ~
+                --enable-memcached-igbinary: ~
+                --enable-memcached-json: ~
+                --enable-memcached-msgpack: ~
+                --enable-memcached-sasl: ~
+                #--enable-memcached-protocol: ~
+                #--with-system-fastlz
+                #--with-zlib-dir=DIR
+                #--enable-debug
+
+        etc:
+            files:
+                conf/default/memcached-ini:
+                    src: 'etc/ext/memcached.ini.twig'
+                    dst: 'conf/default/memcached.ini'
+
+    msgpack-0506:
+        version: '0.5.7'
+        configure:
+            default:
+                --with-msgpack: ~
+        etc:
+            files:
+                conf/default/msgpack-ini:
+                    src: 'etc/ext/msgpack.ini.twig'
+                    dst: 'conf/default/msgpack.ini'
+
+    opcache-0506:
+        configure:
+            default:
+                --enable-opcache: 'no'
+                #--disable-opcache-file: ~
+                #--disable-huge-code-pages: ~
+        etc:
+            files:
+                conf/default/opcache-ini:
+                    src: 'etc/ext/opcache.ini.twig'
+                    dst: 'conf/default/opcache.ini'
+
+    protobuf-0506:
+        version: '3.12.4'
+        configure:
+            default:
+                --enable-protobuf: ~
+        etc:
+            files:
+                conf/default/protobuf-ini:
+                    src: 'etc/ext/protobuf.ini.twig'
+                    dst: 'conf/default/protobuf.ini'
+
+    psr-0506:
+        version: '0.6.1'
+        configure:
+            default:
+                --enable-psr: ~
+
+    redis-0506:
+        version: '4.3.0'
+        dependencies:
+            packages:
+                fedora-36:
+                    lz4-devel: true
+                opensuse-tumbleweed:
+                    liblz4-devel: true
+                ubuntu-21-10:
+                    liblz4-dev: true
+        configure:
+            default:
+                --enable-redis: ~
+                --enable-redis-session: ~
+                --enable-redis-json: ~
+                --enable-redis-igbinary: ~
+                --enable-redis-msgpack: ~
+                --enable-redis-lzf: ~
+                #--with-liblzf: DIR
+                --enable-redis-zstd: ~
+                #--with-libzstd: DIR
+                --enable-redis-lz4: ~
+                --with-liblz4: '/usr'
+        etc:
+            files:
+                conf/default/redis-ini:
+                    src: 'etc/ext/redis.ini.twig'
+                    dst: 'conf/default/redis.ini'
+
+    ssh2-0506:
+        version: '0.13'
+        dependencies:
+            packages:
+                fedora-36:
+                    libssh2-devel: true
+                opensuse-tumbleweed:
+                    libssh2-devel: true
+                ubuntu-21-10:
+                    libssh2-1-dev: true
+        configure:
+            default:
+                --with-ssh2: ~
+        etc:
+            files:
+                conf/default/ssh2-ini:
+                    src: 'etc/ext/ssh2.ini.twig'
+                    dst: 'conf/default/ssh2.ini'
+
+    xdebug-0506:
+        version: '2.0.5'
+        configure:
+            default:
+                --enable-xdebug: ~
+        etc:
+            files:
+                conf/default/xdebug-ini:
+                    src: 'etc/ext/xdebug-0506.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
+    uuid-0506:
+        version: '1.0.5'
+        dependencies:
+            packages:
+                fedora-36:
+                    libuuid-devel: true
+                opensuse-tumbleweed:
+                    libuuid-devel: true
+        configure:
+            default:
+                --with-uuid: ~
+        etc:
+            files:
+                conf/default/uuid-ini:
+                    src: 'etc/ext/uuid.ini.twig'
+                    dst: 'conf/default/uuid.ini'
+
+    zip-0506:
+        weight: 200
+        configure:
+            default:
+                --with-pcre-dir: '/usr'
+                --enable-zip: ~
+
+
+extensionSets:
+    '0506':
+        # region Enabled - core.
+        bcmath:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        ctype:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        dom-0506:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        gd-0506:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        gmp:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl-0506:
+            status: 'enabled'
+        json-0506:
+            status: 'enabled'
+        mcrypt:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        opcache-0506:
+            status: 'enabled'
+            isEnabled: false
+        pdo:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        phar:
+            # @todo
+            status: 'skip'
+        session:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        tokenizer:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        zip-0506:
+            # @todo
+            status: 'skip'
+        # endregion
+
+        # region Enabled - 3th-party.
+        # @todo It did not work.
+        # endregion
+
+        # region Optional - core.
+        ftp:
+            status: 'optional'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline-0506:
+            # @todo Maybe lower library version.
+            status: 'skip'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        xmlrpc:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'optional'
+        igbinary-0506:
+            status: 'optional'
+        imagick:
+            status: 'optional'
+        inotify-0506:
+            status: 'optional'
+        memcache-0506:
+            status: 'optional'
+        memcached-0506:
+            status: 'optional'
+        msgpack-0506:
+            status: 'optional'
+        protobuf-0506:
+            status: 'optional'
+        psr-0506:
+            status: 'optional'
+        redis-0506:
+            status: 'optional'
+        ssh2-0506:
+            status: 'optional'
+        xdebug-0506:
+            status: 'optional'
+        uuid-0506:
+            status: 'optional'
+        zstd:
+            status: 'optional'
+        # endregion
+
+        # region Skip - core
+        imap:
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        mongodb:
+            status: 'skip'
+        # endregion
+
+
+cores:
+    '0506-nts':
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
+            packages:
+                fedora-36:
+                    <<: *cores_0506_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0506_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0506_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                <<: *cores_0506_configure_common
+                --enable-fpm: ~
+        etc:
+            files:
+                <<: *cores_0506_etc_files_ini
+                <<: *cores_0506_etc_files_ext
+                <<: *cores_0506_etc_files_fpm
+
+    '0506-zts':
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
+            packages:
+                fedora-36:
+                    <<: *cores_0506_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0506_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0506_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                <<: *cores_0506_configure_common
+                --enable-maintainer-zts: ~
+                #--with-tsrm-pth: 'pth-config'
+                #--with-tsrm-st: ~
+                --with-tsrm-pthreads: ~
+        etc:
+            files:
+                <<: *cores_0506_etc_files_ini
+                <<: *cores_0506_etc_files_ext
+
+
+instances:
+    '050640-nts': &instance_050640
+        isZts: false
+        coreVersion: '5.6.40'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'ffd025d34623553ab2f7fd8fb21d0c9e6f9fa30dc565ca03a1d7b763023fba00'
+    '050640-zts':
+        isZts: true
+        <<: *instance_050640
+    '050640-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_050640
+
+
+aliases:
+    '0506-nts': '050640-nts'
+    '0506-zts': '050640-zts'
+
+
+variations:
+    '0506-nts':
+        instanceKey: '0506-nts'
+    '0506-zts':
+        instanceKey: '0506-zts'

@@ -1,0 +1,22 @@
+{% if extensionSetItem.status == 'enabled' or not extensionSetItem.isEnabled %};{% endif %}extension={{ extension.name }}{{ extFileSuffix }}
+
+;memcache.allow_failover=1
+;memcache.chunk_size=32768
+;memcache.compress_threshold=20000
+memcache.default_port=11220
+;memcache.hash_function=crc32
+;memcache.hash_strategy=consistent
+;memcache.lock_timeout=15
+;memcache.max_failover_attempts=20
+;memcache.prefix_host_key=0
+;memcache.prefix_host_key_remove_subdomain=0
+;memcache.prefix_host_key_remove_www=1
+;memcache.prefix_static_key=
+;memcache.protocol=ascii
+;memcache.redundancy=1
+;memcache.session_prefix_host_key=0
+;memcache.session_prefix_host_key_remove_subdomain=0
+;memcache.session_prefix_host_key_remove_www=1
+;memcache.session_prefix_static_key=
+;memcache.session_redundancy=2
+;memcache.session_save_path=

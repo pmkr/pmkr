@@ -1,0 +1,23 @@
+
+{% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=opcache
+{% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=xdebug
+
+
+
+extension=mbstring.so
+{% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify
+{% if not extensions.maxminddb.isEnabled %};{% endif %}extension=maxminddb
+{% if not extensions.pcntl.isEnabled %};{% endif %}extension=pcntl
+{% if not extensions.posix.isEnabled %};{% endif %}extension=posix
+{% if not extensions.readline.isEnabled %};{% endif %}extension=readline
+{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
+
+{% if not extension.imagick.isEnabled %};{% endif %}extension=imagick
+;extension=gmagick
+
+opcache.validate_timestamps=1
+zend.assertions=1
+assert.active=On
+
+html_errors=Off
+error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.xdebug.cli.error.log

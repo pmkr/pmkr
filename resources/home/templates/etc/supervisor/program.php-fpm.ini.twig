@@ -1,0 +1,8 @@
+
+[program:php-fpm.{{ instance.key }}.{{ iniVariant }}]
+autostart=false
+startsecs=10
+command={{ instance.shareDir }}/sbin/php-fpm
+    -F
+    --fpm-config {{ instance.shareDir }}/etc/php-fpm.d/php-fpm.{{ iniVariant }}.ini
+    -c {{ instance.shareDir }}/etc/php-fpm.d/php.{{ iniVariant }}.ini

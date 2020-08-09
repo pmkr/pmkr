@@ -1,0 +1,390 @@
+version: '1'
+
+stash:
+    cores:
+        '0703':
+            dependencies:
+                packages:
+                    fedora-36: &cores_0703_dependencies_packages_fedora-36
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                    opensuse-tumbleweed: &cores_0703_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                    ubuntu-21-10: &cores_0703_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+            etc:
+                files:
+                    ini: &cores_0703_etc_files_ini
+                        php-pcov-ini:
+                            src: 'etc/php.pcov.ini.twig'
+                            dst: 'php.pcov.ini'
+                        php-prod-ini:
+                            src: 'etc/php.prod.ini.twig'
+                            dst: 'php.prod.ini'
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug.ini.twig'
+                            dst: 'php.xdebug.ini'
+                    ext: &cores_0703_etc_files_ext
+                        conf/default/00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf/default/assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf/default/cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf/default/date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                    fpm: &cores_0703_etc_files_fpm
+                        php-fpm-d/includes/00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d/includes/10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d/pool-d/dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d/pool-d/xdebug-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+
+                        php-fpm-d/php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                        php-fpm-d/php-xdebug-ini:
+                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php.xdebug.ini'
+
+                        php-fpm-d/php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d/php-fpm-xdebug-ini:
+                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+
+                        supervisor/program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor/program-php-fpm-xdebug-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            vars:
+                                iniVariant: 'xdebug'
+
+
+extensions:
+    dom-0703:
+        configure:
+            default:
+                --enable-dom: ~
+                --enable-libxml: ~
+                #--with-libxml-dir: 'DIR'
+    gd-0703:
+        configure:
+            default:
+                --with-gd: ~
+                --with-webp-dir: '/usr'
+                --with-jpeg-dir: '/usr'
+                --with-png-dir: '/usr'
+                --with-zlib-dir: '/usr'
+                --with-xpm-dir: '/usr'
+                --with-freetype-dir: '/usr'
+                #--enable-gd-jis-conv: ~
+                --with-libdir: 'lib/x86_64-linux-gnu'
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+    json-0703:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    icu4c-59_1: true
+                    #libzip-1-2-0: true
+        configure:
+            default:
+                --enable-json: ~
+                --with-icu-dir: '${dir.share}/icu4c-59_1'
+    zip-0703:
+        weight: 200
+        configure:
+            default:
+                --with-pcre-dir: '/usr'
+                --enable-zip: ~
+                #--with-zlib-dir: 'DIR'
+                #--with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
+
+
+extensionSets:
+    '0703':
+        # region Enabled - core.
+        bcmath:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        ctype:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        dom-0703:
+            status: 'enabled'
+        embed:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        fileinfo:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        gd-0703:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        gmp:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl:
+            status: 'enabled'
+        json-0703:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        mysqlnd:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            # @todo Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
+            isEnabled: false
+        openssl:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        sqlite3:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        pdo:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        phar:
+            status: 'enabled'
+        phpdbg:
+            status: 'enabled'
+        session:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        sodium:
+            status: 'enabled'
+        tokenizer:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        zip-0703:
+            # @todo configure: error: off_t undefined
+            status: 'skip'
+        zlib:
+            status: 'enabled'
+        # endregion
+
+        # region Enabled - 3th-party.
+        igbinary:
+            status: 'enabled'
+        msgpack:
+            status: 'enabled'
+        zstd:
+            status: 'enabled'
+        # endregion
+
+        # region Optional - core.
+        ftp:
+            status: 'optional'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline:
+            status: 'optional'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        xmlrpc:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'optional'
+        imagick:
+            status: 'optional'
+        inotify:
+            status: 'optional'
+        maxminddb:
+            status: 'optional'
+        memcache:
+            status: 'optional'
+        memcached:
+            status: 'optional'
+        pcov:
+            status: 'optional'
+        protobuf:
+            status: 'optional'
+        psr:
+            status: 'optional'
+        redis:
+            status: 'optional'
+        sass:
+            status: 'optional'
+        ssh2:
+            status: 'optional'
+        swoole:
+            status: 'optional'
+        xdebug:
+            status: 'optional'
+        yaml:
+            status: 'optional'
+        uuid:
+            status: 'optional'
+        # endregion
+
+        # region Skip - core
+        imap:
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        mongodb:
+            status: 'skip'
+        # endregion
+
+
+cores:
+    '0703-nts':
+        dependencies:
+            packages:
+                fedora-36:
+                    <<: *cores_0703_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0703_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0703_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-fpm: ~
+                --enable-hash: ~
+        etc:
+            files:
+                <<: *cores_0703_etc_files_ini
+                <<: *cores_0703_etc_files_ext
+                <<: *cores_0703_etc_files_fpm
+
+    '0703-zts':
+        dependencies:
+            packages:
+                fedora-36:
+                    <<: *cores_0703_dependencies_packages_fedora-36
+                opensuse-tumbleweed:
+                    <<: *cores_0703_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0703_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-maintainer-zts: ~
+                #--with-tsrm-pth: 'pth-config'
+                #--with-tsrm-st: ~
+                --with-tsrm-pthreads: ~
+                --enable-hash: ~
+        etc:
+            files:
+                <<: *cores_0703_etc_files_ini
+                <<: *cores_0703_etc_files_ext
+
+
+instances:
+    '070333-nts': &instance_070333
+        isZts: false
+        coreVersion: '7.3.33'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'f412487d7d953437e7978a0d7b6ec99bf4a85cf3378014438a8577b89535451a'
+    '070333-zts':
+        isZts: true
+        <<: *instance_070333
+    '070333-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070333
+
+
+aliases:
+    '0703-nts': '070333-nts'
+    '0703-zts': '070333-zts'
+
+
+variations:
+    '0703-nts':
+        instanceKey: '0703-nts'
+    '0703-zts':
+        instanceKey: '0703-zts'

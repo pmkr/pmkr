@@ -1,0 +1,36 @@
+[Assertion]
+; Switch whether to compile assertions at all (to have no overhead at run-time)
+; -1: Do not compile at all
+;  0: Jump over assertion at run-time
+;  1: Execute assertions
+; Changing from or to a negative value is only possible in php.ini! (For turning assertions on and off at run-time, see assert.active, when zend.assertions=1)
+; Default Value: 1
+; Development Value: 1
+; Production Value: -1
+; http://php.net/zend.assertions
+;zend.assertions=1
+
+; Assert(expr); active by default.
+; http://php.net/assert.active
+;assert.active=On
+
+; Throw an AssertionError on failed assertions
+; http://php.net/assert.exception
+;assert.exception=On
+
+; Issue a PHP warning for each failed assertion. (Overridden by assert.exception if active)
+; http://php.net/assert.warning
+;assert.warning=On
+
+; Don't bail out by default.
+; http://php.net/assert.bail
+;assert.bail=Off
+
+; User-function to be called if an assertion fails.
+; http://php.net/assert.callback
+;assert.callback=0
+
+; Eval the expression with current error_reporting().  Set to true if you want
+; error_reporting(0) around the eval().
+; http://php.net/assert.quiet-eval
+;assert.quiet_eval=0

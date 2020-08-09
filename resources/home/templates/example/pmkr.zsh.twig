@@ -1,0 +1,8 @@
+#!/usr/bin/env {{ shell }}
+
+{% for envVar in envVars %}
+{{ envVar|raw }} \
+{% endfor -%}
+'{{ phpBinary }}' \
+    '{{ pmkrRoot }}/bin/pmkr' \
+    $@

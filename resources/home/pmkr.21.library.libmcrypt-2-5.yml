@@ -1,0 +1,22 @@
+version: '1'
+
+
+libraries:
+    libmcrypt-2-5:
+        name: 'libmcrypt-2.5.7'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '186f091a3b5f6bba4301480d6a07d9ea830a813b03d79fec3cde383ac96bd3a1'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install

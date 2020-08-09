@@ -1,0 +1,63 @@
+
+version: '1'
+
+app:
+    name: 'pmkr'
+    label: 'pmkr'
+    version: '1.0.0-dev'
+    update:
+        repository: 'pmkr/pmkr'
+
+dir:
+    slash: '${env.HOME}/slash'
+    bin: '${dir.usr}/bin'
+    sbin: '${dir.usr}/sbin'
+    share: '${dir.usr}/share'
+    src: '${dir.usr}/src'
+    usr: '${dir.slash}/usr'
+    cache: '${env.HOME}/.cache/${app.name}'
+    log: '${dir.slash}/log'
+    run: '${dir.slash}/var/run'
+    templates: '${env.HOME}/.${app.name}/templates'
+
+packageManager:
+    zypper:
+        executable: 'zypper'
+
+syntaxHighlighter:
+    theme: 'auto'
+    themeAutoMapping:
+        dark: 'dark'
+        light: 'light'
+    handler:
+        kate:
+            backend: 'kate'
+            options:
+                executable:
+                    - 'kate-syntax-highlighter'
+                themeMapping:
+                    dark: 'Breeze Dark'
+                    light: 'Breeze Light'
+                languageMapping:
+                    bash: 'Bash'
+                    json: 'JSON'
+                    yaml: 'YAML'
+                    zsh: 'Zsh'
+    languageMapping:
+        ansi:
+            bash:
+                kate:
+                    enabled: true
+                    weight: 10
+            json:
+                kate:
+                    enabled: true
+                    weight: 10
+            yaml:
+                kate:
+                    enabled: true
+                    weight: 10
+            zsh:
+                kate:
+                    enabled: true
+                    weight: 10

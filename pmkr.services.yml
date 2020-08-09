@@ -1,0 +1,196 @@
+parameters:
+    syntax_highlighter.options: {}
+
+services:
+    semver.version_parser:
+        class: 'Composer\Semver\VersionParser'
+
+    filesystem:
+        class: 'Symfony\Component\Filesystem\Filesystem'
+
+    finder:
+        shared: false
+        class: 'Symfony\Component\Finder\Finder'
+
+    array_value.comparer:
+        shared: false
+        class: 'Sweetchuck\Utils\Comparer\ArrayValueComparer'
+
+    json_schema.validator:
+        shared: false
+        class: 'Opis\JsonSchema\Validator'
+
+    json_schema.error_formatter:
+      class: 'Opis\JsonSchema\Errors\ErrorFormatter'
+
+    env_var_storage:
+        class: 'Sweetchuck\EnvVarStorage\EnvVarStorage'
+
+    pmkr.utils:
+        class: 'Pmkr\Pmkr\Utils'
+        arguments:
+            - '@config'
+
+    pmkr.process_factory:
+        class: 'Pmkr\Pmkr\Util\ProcessFactory'
+
+    pmkr.shell_helper:
+        class: 'Pmkr\Pmkr\Util\ShellHelper'
+        arguments:
+            - '@pmkr.process_factory'
+
+    pmkr.config_file.collector:
+        class: 'Pmkr\Pmkr\Util\ConfigFileCollector'
+        arguments:
+            - '@pmkr.utils'
+            - '@finder'
+
+    pmkr.env_path.handler:
+        class: 'Pmkr\Pmkr\Util\EnvPathHandler'
+        arguments:
+            - '@config'
+
+    pmkr.op_sys_info_collector:
+        class: 'Pmkr\Pmkr\OpSys\OpSysInfoCollector'
+
+    pmkr.op_sys:
+        class: 'Pmkr\Pmkr\OpSys\OpSys'
+        arguments:
+            - '@pmkr.op_sys_info_collector'
+
+    pmkr.php_extension.version_detector:
+        class: 'Pmkr\Pmkr\Util\PhpExtensionVersionDetector'
+        arguments:
+            - '@filesystem'
+
+    pmkr.php_core.compile_configure_command.builder:
+        class: 'Pmkr\Pmkr\Util\PhpCoreCompileConfigureCommandBuilder'
+        arguments:
+            - '@pmkr.utils'
+            - '@pmkr.op_sys'
+
+    pmkr.php_extension.compile_configure_command.builder:
+        class: 'Pmkr\Pmkr\Util\PhpExtensionCompileConfigureCommandBuilder'
+        arguments:
+            - '@pmkr.utils'
+            - '@pmkr.op_sys'
+
+    pmkr.process_result_parser.terminal_color:
+        class: 'Pmkr\Pmkr\ProcessResultParser\TerminalColorParser'
+
+    pmkr.process_result_parser.bat_list_languages:
+        class: 'Pmkr\Pmkr\ProcessResultParser\BatListLanguagesParser'
+        arguments:
+            - '@pmkr.utils'
+
+    pmkr.terminal_color_schema.detector:
+        class: 'Pmkr\Pmkr\Util\TerminalColorSchemeDetector'
+        arguments:
+            - '@config'
+            - '@pmkr.process_factory'
+            - '@pmkr.process_result_parser.terminal_color'
+
+    pmkr.output_formatter.shell_var_setter:
+        class: 'Pmkr\Pmkr\OutputFormatter\ShellVarSetterFormatter'
+        arguments:
+            - '@pmkr.instance_pick_result.converter'
+            - '@syntax_highlighter'
+
+    pmkr.output_formatter.shell_executable:
+        class: 'Pmkr\Pmkr\OutputFormatter\ShellExecutableFormatter'
+        arguments:
+            - '@pmkr.instance_pick_result.converter'
+            - '@syntax_highlighter'
+
+    pmkr.output_formatter.json:
+        class: 'Pmkr\Pmkr\OutputFormatter\JsonFormatter'
+        arguments:
+            - '@syntax_highlighter'
+
+    pmkr.output_formatter.yaml:
+        class: 'Pmkr\Pmkr\OutputFormatter\YamlFormatter'
+        arguments:
+            - '@syntax_highlighter'
+
+    pmkr.output_formatter.code:
+        class: 'Pmkr\Pmkr\OutputFormatter\CodeFormatter'
+        arguments:
+            - '@syntax_highlighter'
+
+    pmkr.library.command_result_converter:
+        class: 'Pmkr\Pmkr\OutputConverter\LibraryConverter'
+
+    pmkr.instance.command_result_converter:
+        class: 'Pmkr\Pmkr\OutputConverter\InstanceConverter'
+        arguments:
+            - '@pmkr.utils'
+            - '@filesystem'
+
+    pmkr.instance.collector:
+        class: 'Pmkr\Pmkr\Util\InstanceCollector'
+
+    pmkr.instance.filter:
+        shared: false
+        class: 'Pmkr\Pmkr\Util\Filter\InstanceFilter'
+        arguments:
+            - '@filesystem'
+            - '@semver.version_parser'
+
+    pmkr.instance_pick_result.converter:
+        class: 'Pmkr\Pmkr\VariationPickResult\VariationPickResultConverter'
+        arguments:
+            - '@pmkr.env_path.handler'
+            - '@env_var_storage'
+
+    pmkr.os_detector.factory:
+        class: 'Pmkr\Pmkr\OpSys\Factory'
+
+    pmkr.package_manager.factory:
+        class: 'Pmkr\Pmkr\PackageManager\Factory'
+
+    pmkr.package_manager.apt:
+        class: 'Pmkr\Pmkr\PackageManager\Apt'
+        arguments:
+            - '@pmkr.package_manager.apt.list_parser'
+    pmkr.package_manager.apt.list_parser:
+        class: 'Pmkr\Pmkr\PackageManager\Apt\ListParser'
+        arguments:
+            - '@pmkr.utils'
+
+    pmkr.package_manager.pacman:
+        class: 'Pmkr\Pmkr\PackageManager\Pacman'
+        arguments:
+            - '@pmkr.package_manager.pacman.query_parser'
+    pmkr.package_manager.pacman.query_parser:
+        class: 'Pmkr\Pmkr\PackageManager\Pacman\QueryParser'
+        arguments:
+            - '@pmkr.utils'
+
+    pmkr.package_manager.dnf:
+        class: 'Pmkr\Pmkr\PackageManager\Dnf'
+        arguments:
+            - '@pmkr.package_manager.dnf.list_parser'
+    pmkr.package_manager.dnf.list_parser:
+        class: 'Pmkr\Pmkr\PackageManager\Dnf\ListParser'
+        arguments:
+            - '@pmkr.utils'
+
+    pmkr.package_manager.zypper:
+        class: 'Pmkr\Pmkr\PackageManager\Zypper'
+        arguments:
+            - '@pmkr.package_manager.zypper.search_parser'
+    pmkr.package_manager.zypper.search_parser:
+        class: 'Pmkr\Pmkr\PackageManager\Zypper\SearchParser'
+
+    pmkr.config.normalizer:
+        class: 'Pmkr\Pmkr\Util\ConfigNormalizer'
+
+    pmkr.config.validator:
+        class: 'Pmkr\Pmkr\Util\PmkrConfigValidator'
+
+    pmkr.template_helper:
+        class: 'Pmkr\Pmkr\Util\TemplateHelper'
+        arguments:
+            - '@config'
+            - '@pmkr.utils'
+            - '@twig.environment'

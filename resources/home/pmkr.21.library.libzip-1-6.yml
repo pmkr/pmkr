@@ -1,0 +1,30 @@
+version: '1'
+
+
+libraries:
+    libzip-1-6:
+        name: 'libzip-1.6.1'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/nih-at/libzip/archive/refs/tags/rel-1-6-1.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '4f4e1991bf6b592e3d602d6b7b753c53ddadb2d76fca27d58120b8fadef7f1bf'
+        compiler:
+            type: 'common'
+            options:
+                # openSUSE Tumbleweed: ln -s /usr/include/locale.h /usr/include/xlocale.h
+                exec: |
+                    cd ..
+                    
+                    cmake \
+                        -DCMAKE_INSTALL_PREFIX="${prefix}" \
+                        -S"${libraryName}" \
+                        -B"${libraryName}-build" \
+                    && \
+                    cd "${libraryName}-build" \
+                    && \
+                    make -j \
+                    && \
+                    make install
