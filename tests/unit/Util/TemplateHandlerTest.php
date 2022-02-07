@@ -24,17 +24,16 @@ class TemplateHandlerTest extends Unit
 
         return [
             'basic' => [
-                implode(
-                    "\n",
-                    [
-                        '#!/usr/bin/env my_shell',
-                        '',
-                        "'$phpBinary' \\",
-                        "    '$selfRoot/bin/pmkr' \\",
-                        '    $@',
-                        '',
-                    ],
-                ),
+                implode("\n", [
+                    '#!/usr/bin/env my_shell',
+                    '',
+                    'PMKR_WRAPPER_PHPRC="${PHPRC}" \\',
+                    'PMKR_WRAPPER_PHP_INI_SCAN_DIR="${PHP_INI_SCAN_DIR}" \\',
+                    "'$phpBinary' \\",
+                    "    '$selfRoot/bin/pmkr' \\",
+                    '    $@',
+                    '',
+                ]),
                 [
                     'shell' => 'my_shell',
                 ],
@@ -43,6 +42,8 @@ class TemplateHandlerTest extends Unit
                 implode("\n", [
                     '#!/usr/bin/env my_shell',
                     '',
+                    'PMKR_WRAPPER_PHPRC="${PHPRC}" \\',
+                    'PMKR_WRAPPER_PHP_INI_SCAN_DIR="${PHP_INI_SCAN_DIR}" \\',
                     "PHPRC='/my/php.ini' \\",
                     "PHP_INI_SCAN_DIR='/my/php/etc/conf.d:/foo' \\",
                     "'my_php' \\",

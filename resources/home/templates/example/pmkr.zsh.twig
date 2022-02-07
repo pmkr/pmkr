@@ -1,5 +1,7 @@
 #!/usr/bin/env {{ shell }}
 
+PMKR_WRAPPER_PHPRC="${PHPRC}" \
+PMKR_WRAPPER_PHP_INI_SCAN_DIR="${PHP_INI_SCAN_DIR}" \
 {% for envVar in envVars %}
 {{ envVar|raw }} \
 {% endfor -%}
