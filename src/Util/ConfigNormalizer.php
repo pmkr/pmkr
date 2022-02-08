@@ -12,6 +12,7 @@ class ConfigNormalizer
     {
         $this
             ->normalizeConfigDirs($config)
+            ->normalizeConfigPatches($config)
             ->normalizeConfigLibraries($config)
             ->normalizeConfigExtensions($config)
             ->normalizeConfigExtensionSets($config)
@@ -31,6 +32,16 @@ class ConfigNormalizer
         $tmpDir = $config->get('dir.tmp');
         if ($tmpDir === null) {
             $config->setDefault('dir.tmp', sys_get_temp_dir());
+        }
+
+        return $this;
+    }
+
+    protected function normalizeConfigPatches(ConfigInterface $config)
+    {
+        $patches = (array) $config->get('patches');
+        foreach ($patches as $patchKey => $patch) {
+            $config->setDefault("patches.$patchKey.key", $patchKey);
         }
 
         return $this;

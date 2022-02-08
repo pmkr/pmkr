@@ -302,9 +302,32 @@ definitions:
     patch:
         type: 'object'
         additionalProperties: false
+        required:
+            - 'uri'
         properties:
-            versionConstraint:
-                type: 'string'
+            when:
+                type: 'object'
+                additionalProperties: false
+                minProperties: 1
+                properties:
+                    versionConstraint:
+                        oneOf:
+                            -
+                                type: 'null'
+                            -
+                                type: 'string'
+                    opSys:
+                        type: 'object'
+                        required:
+                            - 'default'
+                        additionalProperties:
+                            type: 'boolean'
+                examples:
+                    -
+                        versionConstraint: '8.1.2'
+                        opSys:
+                            default: true
+                            opensuse-tumbleweed: false
             issue:
                 type: 'string'
                 format: 'uri'
@@ -329,29 +352,11 @@ definitions:
         description: |
             null: ignore this patch.
             integer: weight.
+        additionalProperties:
+            type: 'boolean'
         examples:
             -
-                core-0801-ext-socket-gnu-source:
-                    default: 42
-                    opensuse-tumbleweed: null
-                    ubuntu-21-10: 21
-        additionalProperties:
-            type: 'object'
-            required:
-                - 'default'
-            properties:
-                default:
-                    oneOf:
-                        -
-                            type: 'null'
-                        -
-                            type: 'integer'
-            additionalProperties:
-                oneOf:
-                    -
-                        type: 'null'
-                    -
-                        type: 'integer'
+                core-0801-ext-socket-gnu-source: true
 
     core:
         type: 'object'

@@ -19,11 +19,28 @@ class PmkrConfigValidator
         $this->errors = [];
 
         return $this
+            ->validateCores()
             ->validateExtensionSets()
-            ->validateInstance()
-            ->validateAlias()
+            ->validateInstances()
+            ->validateAliases()
             ->validateVariations()
             ->errors;
+    }
+
+    protected function validateCores()
+    {
+        foreach ($this->pmkr->cores as $coreKey => $core) {
+            foreach ($core->patchList as $patchId => $patchState) {
+                if (!$this->pmkr->patches->offsetExists($patchId)) {
+                    $this->errors[] = [
+                        'type' => 'invalid_reference',
+                        'path' => "/cores/$coreKey/patchList/$patchId",
+                    ];
+                }
+            }
+        }
+
+        return $this;
     }
 
     protected function validateExtensionSets()
@@ -42,7 +59,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    protected function validateInstance()
+    protected function validateInstances()
     {
         foreach ($this->pmkr->instances as $instanceKey => $instance) {
             if ($instance->coreName === null) {
@@ -63,7 +80,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    protected function validateAlias()
+    protected function validateAliases()
     {
         foreach ($this->pmkr->aliases as $alias => $instanceKey) {
             if (!$this->pmkr->instances->offsetExists($instanceKey)) {
@@ -92,7 +109,9 @@ class PmkrConfigValidator
         );
 
         $defaultVariationKey = $this->pmkr->defaultVariationKey;
-        if (!$this->pmkr->variations->offsetExists($defaultVariationKey)) {
+        if ($defaultVariationKey !== null
+            && !$this->pmkr->variations->offsetExists($defaultVariationKey)
+        ) {
             $this->errors[] = [
                 'type' => 'invalid_reference',
                 'path' => "/defaultVariationKey",

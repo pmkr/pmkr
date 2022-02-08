@@ -120,6 +120,12 @@ services:
     pmkr.library.command_result_converter:
         class: 'Pmkr\Pmkr\OutputConverter\LibraryConverter'
 
+    pmkr.patch.filter:
+        shared: false
+        class: 'Pmkr\Pmkr\Util\Filter\PatchFilter'
+        arguments:
+            - '@semver.version_parser'
+
     pmkr.instance.command_result_converter:
         class: 'Pmkr\Pmkr\OutputConverter\InstanceConverter'
         arguments:

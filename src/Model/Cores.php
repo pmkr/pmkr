@@ -12,6 +12,8 @@ namespace Pmkr\Pmkr\Model;
 class Cores extends IterableBase
 {
     protected array $propertyMapping = [
-        '' => Core::class,
+        '' => [
+            'type' => Core::class,
+        ],
     ];
 }

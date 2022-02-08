@@ -160,7 +160,8 @@ class Instance extends Base
 
     protected function extensionSetName(): ?string
     {
-        $extensionSets = $this->getConfig()->get('extensionSets');
+        // @todo Use relative configPath.
+        $extensionSets = $this->getConfig()->get('extensionSets') ?? [];
         $extensionSetNameCandidates = $this->utils->nameCandidates(
             '',
             $this->coreVersionNumber,

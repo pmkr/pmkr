@@ -8,6 +8,7 @@ use Pmkr\Pmkr\Model\Patch;
 use Pmkr\Pmkr\Task\BaseTask;
 use Pmkr\Pmkr\Utils;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Task\Base\Tasks as BaseTaskLoader;
 use Robo\TaskAccessor;
 use Sweetchuck\Robo\DownloadCurl\DownloadCurlTaskLoader;
 use Symfony\Component\Filesystem\Filesystem;
@@ -16,6 +17,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
 {
     use TaskAccessor;
     use DownloadCurlTaskLoader;
+    use BaseTaskLoader;
 
     protected string $taskName = 'PMKR - Apply patch';
 
@@ -50,11 +52,34 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
     }
     // endregion
 
+    // region srcDir
+    protected string $srcDir = '';
+
+    public function getSrcDir(): string
+    {
+        return $this->srcDir;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSrcDir(string $srcDir)
+    {
+        $this->srcDir = $srcDir;
+
+        return $this;
+    }
+    // endregion
+
     public function setOptions(array $options)
     {
         parent::setOptions($options);
         if (array_key_exists('patch', $options)) {
             $this->setPatch($options['patch']);
+        }
+
+        if (array_key_exists('srcDir', $options)) {
+            $this->setSrcDir($options['srcDir']);
         }
 
         return $this;
@@ -69,11 +94,12 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
         $patch = $this->getPatch();
         if ($patch) {
             $context['patch.key'] = $patch->key;
-            $context['patch.versionConstraint'] = $patch->versionConstraint;
+            $context['patch.when.versionConstraint'] = $patch->when['versionConstraint'] ?? '';
             $context['patch.issue'] = $patch->issue;
             $context['patch.description'] = $patch->description;
             $context['patch.uri'] = $patch->uri;
         }
+        $context['srcDir'] = $this->getSrcDir();
 
         return $context;
     }
@@ -84,7 +110,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
     protected function runHeader()
     {
         $this->printTaskInfo(
-            'PMKR - Apply patch: {patch.uri}',
+            'PMKR - Apply patch: {patch.key} {patch.uri} to {srcDir}',
             $this->getTaskContext(),
         );
 
@@ -96,40 +122,45 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
      */
     protected function runDoIt()
     {
-        // - IF it is remote THEN
-        //   - download to cache.
-        // - END
-        // - IF it is remote THEN
-        //   - copy from cache to destination.
-        // - ELSE
-        //   - copy from local to destination
-        // - END
-        // -
-        // @todo Implement runDoIt() method.
+        $srcDir = $this->getSrcDir();
         $patch = $this->getPatch();
-
-        $srcUri = $patch->uri;
-        $srcScheme = parse_url($srcUri, \PHP_URL_SCHEME) ?: 'file';
-        $isRemote = $this->isRemote($srcScheme);
-
+        $patchSrcFileName = $patch->uri;
         $config = $this->getConfig();
-        $cacheDir = $config->get('dir.cache') . '/file/patch';
-        $cacheDst = "$cacheDir/" . implode('/', $patch->getConfigPath()) . '.patch';
-        $srcDst = "$srcDir/{$library->name}";
 
-        if ($isRemote) {
+        if (!stream_is_local($patchSrcFileName)) {
+            $patchCacheFileName = $config->get('dir.cache') . "/file/patch/{$patch->key}.patch";
             $result = $this
                 ->taskDownloadCurl()
                 ->setOptions(['hashOptions' => $patch->checksum->jsonSerialize()])
                 ->setUri($patch->uri)
+                ->setDestination($patchCacheFileName)
                 ->run();
+
+            if (!$result->wasSuccessful()) {
+                $this->taskResultCode = max($result->getExitCode(), 1);
+                $this->taskResultMessage = $result->getMessage();
+
+                return $this;
+            }
+
+            $patchSrcFileName = $patchCacheFileName;
+        }
+
+        $command = sprintf(
+            'patch -p1 < %s',
+            escapeshellarg($patchSrcFileName),
+        );
+
+        $result = $this
+            ->taskExec($command)
+            ->dir($srcDir)
+            ->run();
+
+        if (!$result->wasSuccessful()) {
+            $this->taskResultCode = $result->getExitCode();
+            $this->taskResultMessage = $result->getMessage();
         }
 
         return $this;
-    }
-
-    protected function isRemote(string $scheme): bool
-    {
-        return in_array($scheme, ['ftp', 'http', 'https']);
     }
 }

@@ -8,6 +8,7 @@ use Pmkr\Pmkr\Model\PmkrConfig;
 use Pmkr\Pmkr\Task\EtcDeploy\PhpCoreEtcDeployTaskLoader;
 use Pmkr\Pmkr\Task\PhpExtensionCompile\TaskLoader as PhpExtensionCompileTaskLoader;
 use Pmkr\Pmkr\Task\PhpExtensionDownload\TaskLoader as PhpExtensionDownloadTaskLoader;
+use Pmkr\Pmkr\Task\Patch\TaskLoader as PatchTaskLoader;
 use Pmkr\Pmkr\TaskOverride\Archive\ExtractTaskLoader;
 use Pmkr\Pmkr\Util\Filter\PhpExtensionFilter;
 use Pmkr\Pmkr\Util\PhpCoreCompileConfigureCommandBuilder;
@@ -24,6 +25,7 @@ class InstanceInstallCommand extends CommandBase
     use PhpExtensionDownloadTaskLoader;
     use PhpExtensionCompileTaskLoader;
     use PhpCoreEtcDeployTaskLoader;
+    use PatchTaskLoader;
     use ExecTaskLoader;
     use ExtractTaskLoader;
     use FilesystemTaskLoader;
@@ -309,6 +311,11 @@ class InstanceInstallCommand extends CommandBase
                 'phpCoreDownload.destination.cache',
                 'phpCoreDownload.destination.src',
             ))
+            ->addCode($this->getTaskPhpCoreApplyPatchesPrepare('opSys'))
+            ->addTask($this->getTaskApplyPatches(
+                'instanceSrcDir',
+                'corePatches',
+            ))
             ->addTask($this->getTaskPmkrPhpExtensionsDownload(
                 'instance',
                 'enabledExtensions',
@@ -351,6 +358,63 @@ class InstanceInstallCommand extends CommandBase
         $cb->addTask($taskForEach);
 
         return $this;
+    }
+
+    protected function getTaskPhpCoreApplyPatchesPrepare(
+        string $opSysStateKey
+    ): \Closure {
+        return function (RoboState $state) use ($opSysStateKey): int {
+            $this->logger->notice('PMKR - PHP core - apply patches - prepare');
+
+            $pmkr = $this->getPmkr();
+            /** @var \Pmkr\Pmkr\Model\Instance $instance */
+            $instance = $state['instance'];
+            /** @var \Pmkr\Pmkr\OpSys\OpSys $opSys */
+            $opSys = $state[$opSysStateKey];
+
+            $corePatchFilter = $this->getContainer()->get('pmkr.patch.filter');
+            $corePatchFilter->setVersion($instance->coreVersion);
+            $corePatchFilter->setOpSys($opSys);
+
+            $patches = array_intersect_key(
+                iterator_to_array($pmkr->patches->getIterator()),
+                array_filter($instance->core->patchList),
+            );
+
+            $state['corePatches'] = array_filter($patches, $corePatchFilter);
+
+            return 0;
+        };
+    }
+
+    protected function getTaskApplyPatches(string $srcDirStateKey, $patchesStateKey)
+    {
+        $taskForEach = $this->taskForEach();
+        $taskForEach
+            ->iterationMessage('Apply patch: {key}')
+            ->deferTaskConfiguration('setIterable', $patchesStateKey)
+            ->withBuilder(function (
+                CollectionBuilder $builder,
+                string $key,
+                $patch
+            ) use (
+                $taskForEach,
+                $srcDirStateKey
+            ) {
+                /** @var \Pmkr\Pmkr\Model\Patch $patch */
+                $state = $taskForEach->getState();
+                $srcDir = $state[$srcDirStateKey];
+
+                $builder
+                    ->addTask(
+                        $this
+                            ->taskPmkrPatchApply()
+                            ->setSrcDir($srcDir)
+                            ->setPatch($patch)
+                    );
+            });
+
+        return $taskForEach;
     }
 
     /**

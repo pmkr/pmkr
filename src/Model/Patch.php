@@ -7,7 +7,7 @@ namespace Pmkr\Pmkr\Model;
 /**
  * @property-read null|string $key
  * @property-read bool $enabled
- * @property-read null|string $versionConstraint
+ * @property-read array $when
  * @property-read int|float $weight
  * @property-read null|string $issue
  * @property-read null|string $description
@@ -20,7 +20,9 @@ class Patch extends Base
         'key' => [],
         'enabled' => [],
         'weight' => [],
-        'versionConstraint' => [],
+        'when' => [
+            'default' => [],
+        ],
         'issue' => [],
         'description' => [],
         'uri' => [],

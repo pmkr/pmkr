@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Tests\Unit\Model;
 
 use Codeception\Test\Unit;
-use Consolidation\Config\Config;
 use Pmkr\Pmkr\Model\Instance;
 use Pmkr\Pmkr\Tests\UnitTester;
 

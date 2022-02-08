@@ -42,4 +42,19 @@ class ProcessFactory
 
         return new $class($command, $cwd, $env, $input, $timeout);
     }
+
+    /**
+     * @see \Symfony\Component\Process\Process::fromShellCommandline()
+     */
+    public function fromShellCommandline(
+        string $command,
+        string $cwd = null,
+        array $env = null,
+        $input = null,
+        ?float $timeout = 60
+    ): Process {
+        $callable = $this->getClassFqn() . '::fromShellCommandline';
+
+        return $callable($command, $cwd, $env, $input, $timeout);
+    }
 }

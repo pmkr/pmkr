@@ -15,7 +15,7 @@ trait TaskLoader
     /**
      * @return \Pmkr\Pmkr\Task\Patch\ApplyPatchTask|\Robo\Collection\CollectionBuilder
      */
-    protected function taskBar(array $options = []): CollectionBuilder
+    protected function taskPmkrPatchApply(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
         $task = $this->task(

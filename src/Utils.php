@@ -8,6 +8,7 @@ use Consolidation\Config\ConfigAwareInterface;
 use Consolidation\Config\ConfigAwareTrait;
 use Consolidation\Config\ConfigInterface;
 use Pmkr\Pmkr\Model\Instance;
+use Pmkr\Pmkr\Model\Patch;
 use Pmkr\Pmkr\OpSys\OpSys;
 use Sweetchuck\PearClient\DataType\Release as PearRelease;
 use Pmkr\Pmkr\Model\Extension;
@@ -105,6 +106,11 @@ class Utils implements ConfigAwareInterface
             $coreVersionNumber->format(VersionNumber::FORMAT_MA0DMI0DP0),
             'tar.bz2',
         );
+    }
+
+    public function patchCacheDestination(Patch $patch): string
+    {
+        return $this->getConfig()->get('dir.cache') . "/file/patch/{$patch->key}.patch";
     }
 
     /**

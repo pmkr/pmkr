@@ -1053,4 +1053,4 @@ extensionSets:
             status: 'skip'
 
 
-defaultVariationKey: '0704-nts'
+defaultVariationKey: '0704-nts-xdebug'
