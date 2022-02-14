@@ -5,14 +5,16 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\SyntaxHighlighter\Backend;
 
 use Pmkr\Pmkr\ProcessResultParser\BatListLanguagesParser;
+use Pmkr\Pmkr\Util\ProcessFactory;
 use Pmkr\Pmkr\Utils;
-use Symfony\Component\Process\Process;
 
 class Bat extends Base
 {
     protected array $executable = [
         'bat',
     ];
+
+    protected ProcessFactory $processFactory;
 
     /**
      * {@inheritdoc}
@@ -26,9 +28,13 @@ class Bat extends Base
 
     protected BatListLanguagesParser $listLanguagesParser;
 
-    public function __construct(Utils $utils, BatListLanguagesParser $listLanguagesParser)
-    {
+    public function __construct(
+        Utils $utils,
+        ProcessFactory $processFactory,
+        BatListLanguagesParser $listLanguagesParser
+    ) {
         parent::__construct($utils);
+        $this->processFactory = $processFactory;
         $this->listLanguagesParser = $listLanguagesParser;
     }
 
@@ -54,8 +60,7 @@ class Bat extends Base
             '--language="${internalLanguage}"',
         ]);
 
-        // @todo Get it from helperSet().
-        $process = Process::fromShellCommandline($command);
+        $process = $this->processFactory->fromShellCommandline($command);
         $exitCode = $process->run(
             null,
             [
@@ -82,7 +87,7 @@ class Bat extends Base
                 ],
             );
 
-            $process = Process::fromShellCommandline(implode(' ', $command));
+            $process = $this->processFactory->fromShellCommandline(implode(' ', $command));
             $exitCode = $process->run(null, $this->envVars);
             $result = $this->listLanguagesParser->parse(
                 $exitCode,

@@ -59,6 +59,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-phar": "*",
+        "cebe/php-openapi": "dev-master#41db38d16ba157d4a1002b3087f43be3dabf9a2e",
         "composer/semver": "^3.2",
         "consolidation/annotated-command": "4.x-dev",
         "consolidation/config": "2.x-dev",
@@ -87,6 +88,7 @@
         "sweetchuck/robo-git": "2.x-dev",
         "sweetchuck/robo-phpcs": "2.x-dev",
         "sweetchuck/robo-phpmd": "2.x-dev",
+        "sweetchuck/robo-phpstan": "1.x-dev",
         "symfony/var-dumper": "^5.4"
     },
     "bin": [
@@ -114,10 +116,6 @@
     "extra": {
         "enable-patching": true,
         "composer-exit-on-patch-failure": true,
-        "patches": {
-            "consolidation/robo": {
-                "https://github.com/consolidation/robo/issues/1088 - Use TaskAccessor trait in Task\\Archive\\Extract": "https://patch-diff.githubusercontent.com/raw/consolidation/robo/pull/1089.patch"
-            }
-        }
+        "patches": {}
     }
 }

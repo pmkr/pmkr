@@ -712,6 +712,30 @@ definitions:
                         additionalProperties:
                             type: 'string'
 
+    syntaxHighlighterBackendJq:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'backend'
+        properties:
+            backend:
+                type: 'string'
+                enum:
+                    - 'jq'
+            options:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    envVars:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    executable:
+                        type: 'array'
+                        items:
+                            type: 'string'
+
     syntaxHighlighterBackendKate:
         type: 'object'
         additionalProperties: false
@@ -748,12 +772,40 @@ definitions:
                         additionalProperties:
                             type: 'string'
 
+    syntaxHighlighterBackendYq:
+        type: 'object'
+        additionalProperties: false
+        required:
+            - 'backend'
+        properties:
+            backend:
+                type: 'string'
+                enum:
+                    - 'yq'
+            options:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    envVars:
+                        type: 'object'
+                        # @todo Dot is not allowed in property names.
+                        additionalProperties:
+                            type: 'string'
+                    executable:
+                        type: 'array'
+                        items:
+                            type: 'string'
+
     syntaxHighlighterBackends:
         oneOf:
             -
                 '$ref': '#/definitions/syntaxHighlighterBackendBat'
             -
+                '$ref': '#/definitions/syntaxHighlighterBackendJq'
+            -
                 '$ref': '#/definitions/syntaxHighlighterBackendKate'
+            -
+                '$ref': '#/definitions/syntaxHighlighterBackendYq'
         examples:
             -
                 my_kate_01:
@@ -801,12 +853,21 @@ definitions:
                 properties:
                     ansi:
                         type: 'object'
+                        x-intellij-html-description: |
+                            <dl>
+                                <dt>Key</dt>
+                                <dd>Key is an external language identifier.</dd>
+                                <dt>Value</dt>
+                                <dd>Value is a key from the ./handler array.</dd>
+                            </dl>
+                            The special "_default" key will be used when the language identifier doesn't exists.
+
                         description: |
                             Key is an external language identifier.
                             Value is a key from the ./handler array.
                             The special "_default" key will be used when the language identifier doesn't exists.
                             
-                            More than one SyntaxHighlighterBackend can be suiteable for a certain language,
+                            More than one SyntaxHighlighterBackend can be suitable for a certain language,
                             all of them can be defined here.
                         # @todo Dot is not allowed in property names.
                         additionalProperties:

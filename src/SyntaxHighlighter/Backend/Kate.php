@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\SyntaxHighlighter\Backend;
 
+use Pmkr\Pmkr\Util\ProcessFactory;
+use Pmkr\Pmkr\Utils;
 use Symfony\Component\Process\Process;
 
 class Kate extends Base
@@ -19,6 +21,16 @@ class Kate extends Base
         'html' => 'html',
         'ansi' => 'ansi256Colors',
     ];
+
+    protected ProcessFactory $processFactory;
+
+    public function __construct(
+        Utils $utils,
+        ProcessFactory $processFactory
+    ) {
+        parent::__construct($utils);
+        $this->processFactory = $processFactory;
+    }
 
     public function highlight(
         string $code,
@@ -41,8 +53,7 @@ class Kate extends Base
             '--syntax="${internalLanguage}"',
         ]);
 
-        // @todo Get it from helperSet().
-        $process = Process::fromShellCommandline($command);
+        $process = $this->processFactory->fromShellCommandline($command);
         $exitCode = $process->run(
             null,
             [

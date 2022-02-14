@@ -8,9 +8,8 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\AnnotatedCommand\CommandResult;
 use Pmkr\Pmkr\CodeResult\CodeCommandResult;
 use Pmkr\Pmkr\CodeResult\CodeResult;
-use Robo\Robo;
-use Robo\Symfony\ConsoleIO;
-use Symfony\Component\Console\Output\NullOutput;
+use Robo\Collection\CallableTask;
+use Robo\Contract\TaskInterface;
 
 class InstanceDependencyCommand extends CommandBase
 {
@@ -44,34 +43,13 @@ class InstanceDependencyCommand extends CommandBase
             'format-code' => 'install-command'
         ]
     ): CommandResult {
-        $io = new ConsoleIO(Robo::input(), new NullOutput());
-
-        $result = $this
-            ->collectionBuilder($io)
-            ->addCode($this->getTaskPhpCoreInstallInit($instanceName))
-            ->addCode($this->getTaskOsDetector())
-            ->addTask($this->getTaskCollectPackageDependenciesFromInstance(
-                'instance',
-                'opSys',
-            ))
-            ->addCode($this->getTaskPackageManagerFactory(
-                'opSys',
-                'packageManager',
-            ))
-            ->addTask($this->getTaskCollectPackageDependenciesFromInstance(
-                'instance',
-                'opSys',
-            ))
-            ->addCode($this->getTaskCollectMissingPackageDependencies(
-                'packageManager',
-                'packageManager.packages',
-                'packageManager.checkResult',
-            ))
+        $cb = $this->collectionBuilder();
+        $reference = $cb->getCollection();
+        $result = $cb
+            ->addTaskList($this->getTasksCollectPackageDependencies($reference, $instanceName))
             ->run();
 
-        $assets = $result->getData();
-        $packageNames = $assets["packageManager.checkResult.not-installed"] ?? [];
-
+        $packageNames = $result["packageManager.checkResult.not-installed"] ?? [];
         if (!$packageNames) {
             $this->logger->info('There is no missing package');
         }
@@ -123,5 +101,37 @@ class InstanceDependencyCommand extends CommandBase
         }
 
         return $result;
+    }
+
+    /**
+     * @return \Robo\Contract\TaskInterface[]
+     */
+    protected function getTasksCollectPackageDependencies(
+        TaskInterface $reference,
+        string $instanceName
+    ): array {
+        return [
+            'init' => new CallableTask($this->getTaskPhpCoreInstallInit($instanceName), $reference),
+            'osDetector' => new CallableTask($this->getTaskOsDetector(), $reference),
+            'collectPackageDependenciesFromInstance' => $this->getTaskCollectPackageDependenciesFromInstance(
+                'instance',
+                'opSys',
+            ),
+            'packageManagerFactory' => new CallableTask(
+                $this->getTaskPackageManagerFactory(
+                    'opSys',
+                    'packageManager',
+                ),
+                $reference,
+            ),
+            'collectMissingPackageDependencies' => new CallableTask(
+                $this->getTaskCollectMissingPackageDependencies(
+                    'packageManager',
+                    'packageManager.packages',
+                    'packageManager.checkResult',
+                ),
+                $reference,
+            ),
+        ];
     }
 }

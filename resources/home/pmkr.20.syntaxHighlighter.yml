@@ -1,0 +1,64 @@
+
+version: '1'
+
+syntaxHighlighter:
+    theme: 'auto'
+    themeAutoMapping:
+        dark: 'dark'
+        light: 'light'
+    handler:
+        bat:
+            backend: 'bat'
+        jq:
+            backend: 'jq'
+        kate:
+            backend: 'kate'
+            options:
+                executable:
+                    - 'kate-syntax-highlighter'
+                themeMapping:
+                    dark: 'Breeze Dark'
+                    light: 'Breeze Light'
+                languageMapping:
+                    bash: 'Bash'
+                    json: 'JSON'
+                    yaml: 'YAML'
+                    zsh: 'Zsh'
+        yq:
+            backend: 'yq'
+    languageMapping:
+        ansi:
+            bash:
+                kate:
+                    enabled: true
+                    weight: 10
+                bat:
+                    enabled: true
+                    weight: 11
+            json:
+                kate:
+                    enabled: true
+                    weight: 10
+                bat:
+                    enabled: true
+                    weight: 11
+                jq:
+                    enabled: true
+                    weight: 12
+            yaml:
+                kate:
+                    enabled: true
+                    weight: 10
+                bat:
+                    enabled: true
+                    weight: 11
+                yq:
+                    enabled: true
+                    weight: 12
+            zsh:
+                kate:
+                    enabled: true
+                    weight: 10
+                bat:
+                    enabled: true
+                    weight: 11

@@ -96,6 +96,9 @@ services:
             - '@pmkr.instance_pick_result.converter'
             - '@syntax_highlighter'
 
+    pmkr.output_formatter.shell_arguments:
+        class: 'Pmkr\Pmkr\OutputFormatter\ShellArgumentsFormatter'
+
     pmkr.output_formatter.shell_executable:
         class: 'Pmkr\Pmkr\OutputFormatter\ShellExecutableFormatter'
         arguments:

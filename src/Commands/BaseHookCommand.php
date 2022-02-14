@@ -161,8 +161,17 @@ class BaseHookCommand extends CommandBase
                 continue;
             }
 
-            $instanceName = $aliases[$instanceAlias];
-            $this->utils->setInputValue($input, $inputLocator, $instanceName);
+            $instanceKey = $aliases[$instanceAlias];
+            $this->logger->notice(
+                'Instance alias {alias} was resolved as {instance.key} for input {locator}',
+                [
+                    'alias' => $instanceAlias,
+                    'instance.key' => $instanceKey,
+                    'locator' => $inputLocator,
+                ],
+            );
+
+            $this->utils->setInputValue($input, $inputLocator, $instanceKey);
         }
     }
 

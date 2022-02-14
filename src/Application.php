@@ -110,6 +110,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         $formatterManager
             ->addFormatter('shell-var-setter', $container->get('pmkr.output_formatter.shell_var_setter'))
             ->addFormatter('shell-executable', $container->get('pmkr.output_formatter.shell_executable'))
+            ->addFormatter('shell-arguments', $container->get('pmkr.output_formatter.shell_arguments'))
             ->addFormatter('json', $container->get('pmkr.output_formatter.json'))
             ->addFormatter('yaml', $container->get('pmkr.output_formatter.yaml'))
             ->addFormatter('code', $container->get('pmkr.output_formatter.code'));
@@ -202,13 +203,17 @@ class Application extends ApplicationBase implements ContainerAwareInterface
             $backendOptions = $handlerDefinition['options'] ?? [];
             $backendArgs = [];
             switch ($handlerDefinition['backend']) {
-                case 'kate':
-                    $backendArgs[] = 'pmkr.utils';
-                    break;
-
                 case 'bat':
                     $backendArgs[] = 'pmkr.utils';
+                    $backendArgs[] = 'pmkr.process_factory';
                     $backendArgs[] = 'pmkr.process_result_parser.bat_list_languages';
+                    break;
+
+                case 'jq':
+                case 'kate':
+                case 'yq':
+                    $backendArgs[] = 'pmkr.utils';
+                    $backendArgs[] = 'pmkr.process_factory';
                     break;
             }
             $container

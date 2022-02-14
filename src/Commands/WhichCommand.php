@@ -25,6 +25,8 @@ class WhichCommand extends CommandBase
     }
 
     /**
+     * Shows the currently used PHP instance with the environment variables.
+     *
      * @command which
      *
      * @pmkrInitNormalizeConfig
