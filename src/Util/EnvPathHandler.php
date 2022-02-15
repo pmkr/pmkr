@@ -17,11 +17,17 @@ class EnvPathHandler implements ConfigAwareInterface
 
     protected ?string $pathSeparator = null;
 
+    /**
+     * @phpstan-return non-empty-string
+     */
     public function getPathSeparator(): string
     {
-        return $this->pathSeparator ?? \PATH_SEPARATOR;
+        return $this->pathSeparator ?: \PATH_SEPARATOR;
     }
 
+    /**
+     * @return $this
+     */
     public function setPathSeparator(?string $value)
     {
         $this->pathSeparator = $value;
@@ -34,6 +40,9 @@ class EnvPathHandler implements ConfigAwareInterface
         $this->setConfig($config);
     }
 
+    /**
+     * @return array<string>
+     */
     public function explode(string $envPath): array
     {
         return array_filter(
@@ -42,6 +51,9 @@ class EnvPathHandler implements ConfigAwareInterface
         );
     }
 
+    /**
+     * @param array<string> $paths
+     */
     public function implode(array $paths): string
     {
         return implode($this->getPathSeparator(), array_unique($paths));

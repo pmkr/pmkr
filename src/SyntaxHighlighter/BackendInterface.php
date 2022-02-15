@@ -7,9 +7,11 @@ namespace Pmkr\Pmkr\SyntaxHighlighter;
 interface BackendInterface
 {
 
-    public function isAvailable(string $outputFormat, string $externalLanguage);
+    public function isAvailable(string $outputFormat, string $externalLanguage): bool;
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return $this
      */
     public function setOptions(array $options);

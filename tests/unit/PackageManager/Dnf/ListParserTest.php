@@ -17,14 +17,18 @@ class ListParserTest extends Unit
 
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesParseMissing(): array
     {
         return [
             'empty' => [
                 [
-                    'messages' => [],
                     'installed' => [],
                     'not-installed' => [],
+                    'unknown' => [],
+                    'messages' => [],
                     'missing' => [],
                 ],
                 [],
@@ -50,6 +54,7 @@ class ListParserTest extends Unit
                             'status' => 'not-installed',
                         ],
                     ],
+                    'unknown' => [],
                     'messages' => [],
                     'missing' => [
                         2 => 'not-exists',
@@ -75,6 +80,9 @@ class ListParserTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $expected
+     * @param array<string> $packageNames
+     *
      * @dataProvider casesParseMissing
      */
     public function testParseMissing(

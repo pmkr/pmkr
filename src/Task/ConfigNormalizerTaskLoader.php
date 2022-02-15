@@ -13,6 +13,8 @@ use Robo\Collection\CollectionBuilder;
 trait ConfigNormalizerTaskLoader
 {
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\ConfigNormalizerTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrConfigNormalizer(array $options = []): CollectionBuilder

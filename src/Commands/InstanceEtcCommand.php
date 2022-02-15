@@ -8,6 +8,7 @@ use Pmkr\Pmkr\Task\EtcDeploy\PhpCoreEtcDeployTaskLoader;
 use Pmkr\Pmkr\Task\EtcDeploy\PhpExtensionEtcDeployTaskLoader;
 use Pmkr\Pmkr\Util\PhpExtensionVersionDetector;
 use Robo\Collection\CollectionBuilder;
+use Robo\Contract\TaskInterface;
 
 class InstanceEtcCommand extends CommandBase
 {
@@ -16,6 +17,9 @@ class InstanceEtcCommand extends CommandBase
 
     protected PhpExtensionVersionDetector $extensionVersionDetector;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -42,7 +46,7 @@ class InstanceEtcCommand extends CommandBase
      *   arg.instanceName:
      *      hasShareDir: true
      */
-    public function cmdInstanceEtcDeployExecute(string $instanceName)
+    public function cmdInstanceEtcDeployExecute(string $instanceName): TaskInterface
     {
         $pmkr = $this->getPmkr();
         $instance = $pmkr->instances[$instanceName];

@@ -15,7 +15,7 @@ class InstanceTest extends Unit
 {
     protected UnitTester $tester;
     
-    public function testSomeFeature()
+    public function testSomeFeature(): void
     {
         $data = [
             'instances' => [

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Commands;
 
 use Consolidation\AnnotatedCommand\CommandResult;
+use Robo\Contract\TaskInterface;
 use Robo\State\Data as RoboState;
 use Pmkr\Pmkr\TaskOverride\Filesystem\DeleteDirTaskLoader;
 use Pmkr\Pmkr\Util\InstanceCollector;
@@ -16,6 +17,9 @@ class InstanceOrphanCommand extends CommandBase
 
     protected InstanceCollector $instanceCollector;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -50,7 +54,7 @@ class InstanceOrphanCommand extends CommandBase
      *
      * @command instance:orphan:delete
      */
-    public function cmdInstanceOrphanDeleteExecute()
+    public function cmdInstanceOrphanDeleteExecute(): TaskInterface
     {
         return $this
             ->collectionBuilder()

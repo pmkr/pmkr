@@ -19,6 +19,9 @@ class VariationPickResultConverterTest extends Unit
 {
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesToShellVarSetter(): array
     {
         $my01Path = implode(':', [
@@ -82,6 +85,10 @@ class VariationPickResultConverterTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $resultState
+     * @param array<string, mixed> $configLayer
+     * @param array<string, string> $envVars
+     *
      * @dataProvider casesToShellVarSetter
      */
     public function testToShellVarSetter(

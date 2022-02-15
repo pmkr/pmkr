@@ -15,7 +15,9 @@ class DeleteTask extends BaseTask
     protected string $taskName = 'PMKR - delete instance';
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -65,6 +67,11 @@ class DeleteTask extends BaseTask
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

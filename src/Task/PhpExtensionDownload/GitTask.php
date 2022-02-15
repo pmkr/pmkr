@@ -73,6 +73,11 @@ class GitTask extends BaseTask implements BuilderAwareInterface
 
     protected string $extDst = '';
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -169,7 +174,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
             ));
     }
 
-    protected function getTaskCloneCacheToDst()
+    protected function getTaskCloneCacheToDst(): TaskInterface
     {
         $extension = $this->getExtension();
         $options = $extension->downloader->options;

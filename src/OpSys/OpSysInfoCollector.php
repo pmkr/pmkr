@@ -7,9 +7,14 @@ namespace Pmkr\Pmkr\OpSys;
 class OpSysInfoCollector
 {
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $state = [];
 
     /**
+     * @return array<string, mixed>
+     *
      * @see \PHP_OS
      * @see \PHP_OS_FAMILY
      */
@@ -20,6 +25,9 @@ class OpSysInfoCollector
         return $this->state;
     }
 
+    /**
+     * @return $this
+     */
     protected function init()
     {
         if ($this->state) {
@@ -38,6 +46,9 @@ class OpSysInfoCollector
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function linux()
     {
         $this->parseEtcOsRelease();
@@ -45,6 +56,9 @@ class OpSysInfoCollector
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function parseEtcOsRelease()
     {
         $fileName = '/etc/os-release';

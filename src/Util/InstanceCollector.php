@@ -32,12 +32,17 @@ class InstanceCollector
         return $result;
     }
 
+    /**
+     * @return array<string, array{
+     *     src?: string,
+     *     share?: string,
+     * }>
+     */
     public function collectOrphans(ConfigInterface $config): array
     {
         $orphans = [];
         $validInstances = $config->get('instances');
 
-        /** @var \Symfony\Component\Finder\SplFileInfo $dir */
         $existingInstances = $this->collect($config->get('dir.src'));
         foreach (array_diff_key($existingInstances, $validInstances) as $key => $dir) {
             $orphans[$key]['src'] = $dir->getPathname();
@@ -52,7 +57,9 @@ class InstanceCollector
     }
 
     /**
-     * @return \Symfony\Component\Finder\SplFileInfo[]
+     * @param array<string, array<string, string>> $orphans
+     *
+     * @return array<string>
      */
     public function flattenOrphanDirs(array $orphans): array
     {

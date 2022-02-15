@@ -11,7 +11,9 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
     protected string $taskName = 'PMKR - Deploy core etc files {instanceKey}';
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -36,6 +38,9 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runDoIt()
     {
         $instance = $this->getInstance();
@@ -58,6 +63,9 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getVars(array $etc, string $fileDefKey): array
     {
         $instance = $this->getInstance();
@@ -80,7 +88,8 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
             'extensions' => [],
         ];
 
-        foreach ($instance->extensionSet as $extensionKey => $extensionSetItem) {
+        /** @var \Pmkr\Pmkr\Model\ExtensionSetItem $extensionSetItem */
+        foreach ($instance->extensionSet as $extensionSetItem) {
             $default['extensions'][$extensionSetItem->extensionName] = [
                 'key' => $extensionSetItem->key,
                 'name' => $extensionSetItem->extensionName,

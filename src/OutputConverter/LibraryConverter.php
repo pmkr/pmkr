@@ -5,17 +5,21 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\OutputConverter;
 
 use Pmkr\Pmkr\Model\Library;
-use Pmkr\Pmkr\Utils;
-use Symfony\Component\Filesystem\Filesystem;
 
 class LibraryConverter
 {
 
     /**
-     * @param iterable|\Pmkr\Pmkr\Model\Instance[] $libraries
+     * @param iterable<string, \Pmkr\Pmkr\Model\Library> $libraries
      * @param bool $isHuman
      *
-     * @return array
+     * @return array<
+     *     string,
+     *     array{
+     *         key: string,
+     *         name: string,
+     *     }
+     * >
      */
     public function toFlatRows(iterable $libraries, bool $isHuman): array
     {
@@ -27,6 +31,12 @@ class LibraryConverter
         return $rows;
     }
 
+    /**
+     * @return array{
+     *     key: string,
+     *     name: string,
+     * }
+     */
     public function toFlatRow(Library $library, bool $isHuman): array
     {
         return [

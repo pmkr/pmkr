@@ -23,6 +23,8 @@ class SyntaxHighlighter implements ContainerAwareInterface
      *
      * Key auto-detection result.
      * Value external theme name.
+     *
+     * @var array<string, string>
      */
     protected array $themeAutoMapping = [
         '_default' => 'dark',
@@ -34,6 +36,19 @@ class SyntaxHighlighter implements ContainerAwareInterface
      * Language and handler mapping.
      *
      * Top-level key is the output format.
+     *
+     * @var array{
+     *     ansi: array<
+     *         string,
+     *         array<
+     *             string,
+     *             array{
+     *                 enabled?: bool,
+     *                 weight?: int|float,
+     *             }
+     *         >
+     *     >,
+     * }
      */
     protected array $languageMapping = [
         'ansi' => [],
@@ -44,6 +59,11 @@ class SyntaxHighlighter implements ContainerAwareInterface
         $this->terminalColorSchemeDetector = $terminalColorSchemeDetector;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         if (array_key_exists('theme', $options)) {

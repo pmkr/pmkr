@@ -11,8 +11,21 @@ class PmkrConfigValidator
 
     protected PmkrConfig $pmkr;
 
+    /**
+     * @var array<int, array{
+     *     type: string,
+     *     path: string,
+     * }>
+     */
     protected array $errors = [];
 
+    /**
+     *
+     * @return array<int, array{
+     *     type: string,
+     *     path: string,
+     * }>
+     */
     public function validate(PmkrConfig $pmkr): array
     {
         $this->pmkr = $pmkr;
@@ -27,6 +40,9 @@ class PmkrConfigValidator
             ->errors;
     }
 
+    /**
+     * @return $this
+     */
     protected function validateCores()
     {
         foreach ($this->pmkr->cores as $coreKey => $core) {
@@ -43,6 +59,9 @@ class PmkrConfigValidator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function validateExtensionSets()
     {
         foreach ($this->pmkr->extensionSets as $extensionSetKey => $extensionSet) {
@@ -59,6 +78,9 @@ class PmkrConfigValidator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function validateInstances()
     {
         foreach ($this->pmkr->instances as $instanceKey => $instance) {
@@ -80,6 +102,9 @@ class PmkrConfigValidator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function validateAliases()
     {
         foreach ($this->pmkr->aliases as $alias => $instanceKey) {
@@ -101,6 +126,9 @@ class PmkrConfigValidator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function validateVariations()
     {
         $validInstanceKeys = array_merge(

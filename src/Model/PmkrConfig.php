@@ -6,18 +6,20 @@ namespace Pmkr\Pmkr\Model;
 
 /**
  * @property-read string $version
- * @property-read array $app
+ * @property-read array{name: string, label: string, version: string} $app
  * @property-read \Pmkr\Pmkr\Model\Directories $dir
- * @property-read \Pmkr\Pmkr\Model\Patches|\Pmkr\Pmkr\Model\Patch[] $patches
- * @property-read \Pmkr\Pmkr\Model\Libraries|\Pmkr\Pmkr\Model\Library[] $libraries
- * @property-read \Pmkr\Pmkr\Model\Cores|\Pmkr\Pmkr\Model\Core[] $cores
- * @property-read \Pmkr\Pmkr\Model\Extensions $extensions
- * @property-read \Pmkr\Pmkr\Model\ExtensionSets $extensionSets
- * @property-read \Pmkr\Pmkr\Model\Instances|\Pmkr\Pmkr\Model\Instance[] $instances
- * @property-read string[] $aliases
- * @property-read \Pmkr\Pmkr\Model\Variations|\Pmkr\Pmkr\Model\Variation[] $variations
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Patch> $patches
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Library> $libraries
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Core> $cores
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Extension> $extensions
+ * @property-read \Pmkr\Pmkr\Model\Collection<
+ *     \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>
+ * > $extensionSets
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Instance> $instances
+ * @property-read array<string, string> $aliases
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Variation> $variations
  * @property-read ?string $defaultVariationKey
- * @property-read null|\Pmkr\Pmkr\Model\Variation defaultVariation
+ * @property-read null|\Pmkr\Pmkr\Model\Variation $defaultVariation
  */
 class PmkrConfig extends Base
 {
@@ -28,28 +30,84 @@ class PmkrConfig extends Base
             'type' => Directories::class,
         ],
         'patches' => [
-            'type' => Patches::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Patch::class,
+                    ],
+                ],
+            ],
         ],
         'libraries' => [
-            'type' => Libraries::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Library::class,
+                    ],
+                ],
+            ],
         ],
         'cores' => [
-            'type' => Cores::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Core::class,
+                    ],
+                ],
+            ],
         ],
         'extensions' => [
-            'type' => Extensions::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Extension::class,
+                    ],
+                ],
+            ],
         ],
         'extensionSets' => [
-            'type' => ExtensionSets::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Collection::class,
+                        'state' => [
+                            'propertyMapping' => [
+                                '' => [
+                                    'type' => ExtensionSetItem::class,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ],
         'instances' => [
-            'type' => Instances::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Instance::class,
+                    ],
+                ],
+            ],
         ],
         'aliases' => [
             'default' => [],
         ],
         'variations' => [
-            'type' => Variations::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Variation::class,
+                    ],
+                ],
+            ],
         ],
         'defaultVariationKey' => [
             'default' => null,

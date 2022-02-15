@@ -24,6 +24,9 @@ class BaseHookCommand extends CommandBase
 
     protected ConfigFileCollector $configFileCollector;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -40,19 +43,21 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook init @pmkrInitNormalizeConfig
      */
-    public function onHookInitPmkrNormalizeConfig()
+    public function onHookInitPmkrNormalizeConfig(): void
     {
         $this->initDependencies();
         $this->configNormalizer->normalizeConfig($this->getConfig());
     }
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
      * @hook init @pmkrInitCurrentInstanceName
      */
     public function onHookInitCurrentInstanceName(
         InputInterface $input,
         AnnotationData $annotationData
-    ) {
+    ): void {
         $currentInstanceName = $this->envPathHandler->getCurrentInstanceName((string) getenv('PATH'));
         if ($currentInstanceName === null) {
             return;
@@ -70,6 +75,8 @@ class BaseHookCommand extends CommandBase
     }
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
      * @hook init @pmkrInitDefaultInstanceName
      *
      * @link https://github.com/consolidation/annotated-command#initialize-hook
@@ -77,7 +84,7 @@ class BaseHookCommand extends CommandBase
     public function onHookInitPmkrDefaultInstanceName(
         InputInterface $input,
         AnnotationData $annotationData
-    ) {
+    ): void {
         $defaultInstanceName = $this->getConfig()->get('defaultInstanceName');
         if ($defaultInstanceName === null) {
             return;
@@ -95,6 +102,8 @@ class BaseHookCommand extends CommandBase
     }
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
      * @hook interact @pmkrInteractInstanceName
      *
      * @see \Pmkr\Pmkr\Util\Filter\InstanceFilter::setOptions
@@ -103,7 +112,7 @@ class BaseHookCommand extends CommandBase
         InputInterface $input,
         OutputInterface $output,
         AnnotationData $annotationData
-    ) {
+    ): void {
         $tag = 'pmkrInteractInstanceName';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $annotationData);
         assert(count($inputLocators) > 0, "@$tag requires at least one input locator.");
@@ -141,7 +150,7 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook validate @pmkrValidateResolveInstanceAlias
      */
-    public function onHookValidateResolveInstanceAlias(CommandData $commandData)
+    public function onHookValidateResolveInstanceAlias(CommandData $commandData): void
     {
         $inputLocators = $this->parseMultiValueAnnotation(
             'pmkrValidateResolveInstanceAlias',
@@ -180,7 +189,7 @@ class BaseHookCommand extends CommandBase
      *
      * @todo Support for InstanceFilter options like in pmkrInteractInstanceName.
      */
-    public function onHookValidateInstanceName(CommandData $commandData)
+    public function onHookValidateInstanceName(CommandData $commandData): void
     {
         $tag = 'pmkrValidateInstanceName';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $commandData->annotationData());
@@ -228,7 +237,7 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook validate @pmkrValidateInstance
      */
-    public function onHookValidateInstance(CommandData $commandData)
+    public function onHookValidateInstance(CommandData $commandData): void
     {
         $tag = 'pmkrValidateInstance';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $commandData->annotationData());
@@ -261,7 +270,7 @@ class BaseHookCommand extends CommandBase
      *
      * @link https://github.com/consolidation/annotated-command#validate-hook
      */
-    public function onHookValidatePmkrValidateInstanceBinary(CommandData $commandData)
+    public function onHookValidatePmkrValidateInstanceBinary(CommandData $commandData): void
     {
         $tag = 'pmkrValidateInstanceBinary';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $commandData->annotationData());
@@ -293,7 +302,7 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook validate @pmkrNormalizeCommaSeparatedList
      */
-    public function onHookValidateNormalizeCommaSeparatedList(CommandData $commandData)
+    public function onHookValidateNormalizeCommaSeparatedList(CommandData $commandData): void
     {
         $inputLocators = $this->parseMultiValueAnnotation(
             'pmkrNormalizeCommaSeparatedList',
@@ -313,7 +322,7 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook validate @pmkrValidateVariationKey
      */
-    public function onHookValidateVariationKey(CommandData $commandData)
+    public function onHookValidateVariationKey(CommandData $commandData): void
     {
         $tag = 'pmkrValidateVariationKey';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $commandData->annotationData());
@@ -355,7 +364,7 @@ class BaseHookCommand extends CommandBase
     /**
      * @hook validate @pmkrShellFileDescriptor
      */
-    public function onHookValidateShellFileDescriptor(CommandData $commandData)
+    public function onHookValidateShellFileDescriptor(CommandData $commandData): void
     {
         $inputLocators = $this->parseMultiValueAnnotation(
             'pmkrShellFileDescriptor',
@@ -373,13 +382,15 @@ class BaseHookCommand extends CommandBase
     }
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
      * @hook interact @pmkrInteractConfigFile
      */
     public function onHookInteractPmkrConfigFiles(
         InputInterface $input,
         OutputInterface $output,
         AnnotationData $annotationData
-    ) {
+    ): void {
         $tag = 'pmkrInteractConfigFile';
         $inputLocators = $this->parseMultiValueAnnotation($tag, $annotationData);
         assert(count($inputLocators) > 0, "@$tag requires at least one input locator.");
@@ -413,6 +424,11 @@ class BaseHookCommand extends CommandBase
         }
     }
 
+    /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
+     * @return array<string, mixed>
+     */
     protected function getInputLocatorsWithYaml(string $tag, AnnotationData $annotationData): array
     {
         $tagValue = $annotationData->get($tag);

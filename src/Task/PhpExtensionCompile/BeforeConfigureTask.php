@@ -18,7 +18,9 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
     protected string $taskName = 'PMKR extension:compile:run:before';
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -96,6 +98,11 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

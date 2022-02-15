@@ -16,6 +16,8 @@ class InstanceListCommand extends CommandBase
     /**
      * Lists all instances which are defined any pmkr.*.yml files.
      *
+     * @param mixed[] $options
+     *
      * @command instance:list
      *
      * @aliases ils
@@ -37,11 +39,13 @@ class InstanceListCommand extends CommandBase
     }
 
     /**
+     * @param mixed $result
+     *
      * @hook process @pmkrProcessInstanceHiddenFilter
      *
      * @link https://github.com/consolidation/annotated-command#process-hook
      */
-    public function onHookProcessPmkrInstanceHiddenFilter($result, CommandData $commandData)
+    public function onHookProcessPmkrInstanceHiddenFilter($result, CommandData $commandData): void
     {
         if (!($result instanceof CommandResult)) {
             return;
@@ -71,11 +75,13 @@ class InstanceListCommand extends CommandBase
     }
 
     /**
+     * @param mixed $result
+     *
      * @hook process @pmkrProcessInstanceOrderBy
      *
      * @link https://github.com/consolidation/annotated-command#process-hook
      */
-    public function onHookProcessPmkrInstanceOrderBy($result, CommandData $commandData)
+    public function onHookProcessPmkrInstanceOrderBy($result, CommandData $commandData): void
     {
         if (!($result instanceof CommandResult)) {
             return;
@@ -102,11 +108,13 @@ class InstanceListCommand extends CommandBase
     }
 
     /**
+     * @param mixed $result
+     *
      * @hook process @pmkrProcessInstanceFormat
      *
      * @link https://github.com/consolidation/annotated-command#process-hook
      */
-    public function onHookProcessPmkrInstanceFormat($result, CommandData $commandData)
+    public function onHookProcessPmkrInstanceFormat($result, CommandData $commandData): void
     {
         if (!($result instanceof CommandResult)) {
             return;

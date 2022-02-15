@@ -10,9 +10,8 @@ class VariationListCommand extends CommandBase
     /**
      * @command variation:list
      */
-    public function cmdVariationListExecute(
-        array $options = []
-    ) {
+    public function cmdVariationListExecute(): void
+    {
         $app = $this->getContainer()->get('application');
         $appName = $app->getName();
         $this->logger->warning(implode(\PHP_EOL, [

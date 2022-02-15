@@ -7,7 +7,6 @@ namespace Pmkr\Pmkr\Tests\Unit;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use Pmkr\Pmkr\Model\PmkrConfig;
-use Pmkr\Pmkr\OpSys\OpSys;
 use Pmkr\Pmkr\Tests\Helper\Dummy\ConsoleOutput;
 use Pmkr\Pmkr\Tests\UnitTester;
 use Pmkr\Pmkr\Util\Filter\PhpExtensionFilter;
@@ -29,6 +28,11 @@ class UtilsTest extends Unit
 {
     protected UnitTester $tester;
 
+    /**
+     * @param array<string, mixed> ...$configLayers
+     *
+     * @return \Pmkr\Pmkr\Utils
+     */
     protected function createUtils(...$configLayers): Utils
     {
         $config = $this->tester->grabConfig(...$configLayers);
@@ -36,20 +40,23 @@ class UtilsTest extends Unit
         return new Utils($config);
     }
 
-    public function testGetPmkrRoot()
+    public function testGetPmkrRoot(): void
     {
         $utils = $this->createUtils();
 
         $this->tester->assertSame(getcwd(), $utils->getPmkrRoot());
     }
 
-    public function testGetPmkrHome()
+    public function testGetPmkrHome(): void
     {
         $utils = $this->createUtils();
 
         $this->tester->assertSame('/home/me/.pmkr', $utils->getPmkrHome());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesFindCandidate(): array
     {
         return [
@@ -89,6 +96,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $candidates
+     * @param array<string> $array
+     *
      * @dataProvider casesFindCandidate
      */
     public function testFindCandidate(?string $expected, array $candidates, array $array): void
@@ -98,6 +108,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->findCandidate($candidates, $array));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesNameCandidates(): array
     {
         return [
@@ -183,6 +196,8 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $expected
+     *
      * @dataProvider casesNameCandidates
      */
     public function testNameCandidates(
@@ -200,6 +215,9 @@ class UtilsTest extends Unit
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesGetPhpCoreDownloadUri(): array
     {
         return [
@@ -219,7 +237,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->getPhpCoreDownloadUri($versionNumber));
     }
 
-    public function testPhpCoreCacheDestination()
+    public function testPhpCoreCacheDestination(): void
     {
         $utils = $this->createUtils();
         $uri = 'https://www.php.net/distributions/php-1.2.3.tar.bz2';
@@ -228,7 +246,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->phpCoreCacheDestination($config, $uri));
     }
 
-    public function testPhpExtensionCacheDestination()
+    public function testPhpExtensionCacheDestination(): void
     {
         $utils = $this->createUtils();
         $uri = 'https://pecl.php.net/get/pcov-1.0.11.tgz';
@@ -237,7 +255,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->phpExtensionCacheDestination($config, $uri));
     }
 
-    public function testLibraryCacheDestination()
+    public function testLibraryCacheDestination(): void
     {
         $utils = $this->createUtils();
         $uri = 'https://nih.at/libzip/libzip-1.2.0.tar.gz';
@@ -246,7 +264,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->libraryCacheDestination($config, $uri));
     }
 
-    public function testGitUrlToCacheDestination()
+    public function testGitUrlToCacheDestination(): void
     {
         $utils = $this->createUtils();
         $config = $utils->getConfig();
@@ -263,7 +281,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->gitUrlToCacheDestination($config, $gitUri));
     }
 
-    public function testPhpExtensionPeclDownloadUri()
+    public function testPhpExtensionPeclDownloadUri(): void
     {
         $utils = $this->createUtils();
         $expected = 'https://pecl.php.net/get/a-1.2.3.tgz';
@@ -272,6 +290,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->phpExtensionPeclDownloadUri($name, $version));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesPickPearReleaseVersion(): array
     {
         $v123 = PearRelease::__set_state([
@@ -340,15 +361,23 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<PearRelease> $list
+     *
      * @dataProvider casesPickPearReleaseVersion
      */
-    public function testPickPearReleaseVersion(?PearRelease $expected, string $required, array $list): void
-    {
+    public function testPickPearReleaseVersion(
+        ?PearRelease $expected,
+        string $required,
+        array $list
+    ): void {
         $utils = $this->createUtils();
 
         $this->tester->assertSame($expected, $utils->pickPearReleaseVersion($required, $list));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesIsIgnoredExtension(): array
     {
         $configLayer = [
@@ -406,6 +435,8 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $configLayer
+     *
      * @dataProvider casesIsIgnoredExtension
      */
     public function testIsIgnoredExtension(
@@ -424,6 +455,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->isIgnoredExtension($threadType, $extension));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesEnvVarsToExpressions(): array
     {
         return [
@@ -448,6 +482,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $expected
+     * @param array<int|string, null|false|string> $envVars
+     *
      * @dataProvider casesEnvVarsToExpressions
      */
     public function testEnvVarsToExpressions(array $expected, array $envVars): void
@@ -457,6 +494,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->envVarsToExpressions($envVars));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesNormalizeCommaSeparatedList(): array
     {
         return [
@@ -485,6 +525,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $expected
+     * @param mixed $items
+     *
      * @dataProvider casesNormalizeCommaSeparatedList
      */
     public function testNormalizeCommaSeparatedList(array $expected, $items): void
@@ -497,6 +540,9 @@ class UtilsTest extends Unit
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesIoInstanceOptions(): array
     {
         return [
@@ -535,6 +581,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, string> $expected
+     * @param array<string, mixed> $configLayer
+     *
      * @dataProvider casesIoInstanceOptions
      */
     public function testIoInstanceOptions(array $expected, array $configLayer): void
@@ -579,7 +628,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame('my_option_1_new', $utils->getInputValue($input, $locator));
     }
 
-    public function testGetProcessCallback()
+    public function testGetProcessCallback(): void
     {
         $stdError = new BufferedOutput();
         $output = new ConsoleOutput();
@@ -594,7 +643,7 @@ class UtilsTest extends Unit
         $this->tester->assertSame("stdError line 1\n", $output->getErrorOutput()->fetch());
     }
 
-    public function testReplaceFileExtension()
+    public function testReplaceFileExtension(): void
     {
         $utils = $this->createUtils();
         $this->tester->assertSame('composer.lock', $utils->replaceFileExtension('composer.json', 'lock'));
@@ -613,6 +662,9 @@ class UtilsTest extends Unit
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesSplitLines(): array
     {
         return [
@@ -690,6 +742,8 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $expected
+     *
      * @dataProvider casesSplitLines
      */
     public function testSplitLines(array $expected, string $lines): void
@@ -719,6 +773,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $utils->normalizeBooleanMapping($mapping));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesFetchPackageDependenciesFromInstanceCore(): array
     {
         $configLayer = [
@@ -772,6 +829,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, bool> $expected
+     * @param array<string, mixed> $configLayer
+     *
      * @dataProvider casesFetchPackageDependenciesFromInstanceCore
      */
     public function testFetchPackageDependenciesFromInstanceCore(
@@ -791,6 +851,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $actual);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesFetchPackageDependenciesFromInstanceExtensions(): array
     {
         $configLayer = [
@@ -873,6 +936,10 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, bool> $expected
+     * @param array<string, mixed> $configLayer
+     * @param ?array<string, mixed> $filterOptions
+     *
      * @dataProvider casesFetchPackageDependenciesFromInstanceExtensions
      */
     public function testFetchPackageDependenciesFromInstanceExtensions(
@@ -902,6 +969,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $actual);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesFetchLibraryKeys(): array
     {
         return [
@@ -935,6 +1005,9 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, bool> $expected
+     * @param array<string, array<string, bool>> $libraryReferences
+     *
      * @dataProvider casesFetchLibraryKeys
      */
     public function testFetchLibraryKeys(
@@ -948,6 +1021,9 @@ class UtilsTest extends Unit
         $this->tester->assertSame($expected, $actual);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesValidateInstanceBinary(): array
     {
         return [
@@ -989,6 +1065,8 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string> $expected
+     *
      * @dataProvider casesValidateInstanceBinary
      */
     public function testValidateInstanceBinary(array $expected, string $binary): void
@@ -1001,6 +1079,9 @@ class UtilsTest extends Unit
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesGetOnlyChildDir(): array
     {
         return [
@@ -1043,6 +1124,8 @@ class UtilsTest extends Unit
     }
 
     /**
+     * @param array<string, string|array<string>> $vfsStructure
+     *
      * @dataProvider casesGetOnlyChildDir
      */
     public function testGetOnlyChildDir(?string $expected, array $vfsStructure, string $dir): void

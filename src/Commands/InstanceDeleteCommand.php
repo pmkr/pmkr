@@ -20,8 +20,7 @@ class InstanceDeleteCommand extends CommandBase
      * @pmkrValidateInstanceName
      */
     public function cmdInstanceDeleteExecute(
-        string $instanceName,
-        array $options = []
+        string $instanceName
     ): TaskInterface {
         $instance = $this->getPmkr()->instances[$instanceName];
 

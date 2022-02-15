@@ -44,6 +44,9 @@ class InstanceFilter extends ArrayFilterBase
         return $this->hasShareDir;
     }
 
+    /**
+     * @return $this
+     */
     public function setHasShareDir(?bool $hasShareDir)
     {
         $this->hasShareDir = $hasShareDir;
@@ -122,6 +125,11 @@ class InstanceFilter extends ArrayFilterBase
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -150,11 +158,12 @@ class InstanceFilter extends ArrayFilterBase
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Pmkr\Pmkr\Model\Instance $item
+     *
+     * @return $this
      */
     protected function checkDoIt($item, ?string $outerKey = null)
     {
-        /** @var \Pmkr\Pmkr\Model\Instance $item */
         $this->result = true;
 
         $hasSrcDir = $this->getHasSrcDir();

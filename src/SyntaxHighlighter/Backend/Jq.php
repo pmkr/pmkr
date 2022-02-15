@@ -9,6 +9,10 @@ use Pmkr\Pmkr\Utils;
 
 class Jq extends Base
 {
+
+    /**
+     * {@inheritdoc}
+     */
     protected array $executable = [
         'jq',
     ];
@@ -56,5 +60,17 @@ class Jq extends Base
         }
 
         return $process->getOutput();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getInternalLanguages(): array
+    {
+        return [
+            'json' => [
+                'patterns' => [],
+            ],
+        ];
     }
 }

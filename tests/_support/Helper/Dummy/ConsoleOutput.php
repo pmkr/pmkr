@@ -11,16 +11,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleOutput extends BufferedOutput implements ConsoleOutputInterface
 {
-    protected OutputInterface $stdError;
+    protected BufferedOutput $stdError;
 
     /**
-     * @return \Symfony\Component\Console\Output\OutputInterface|\Symfony\Component\Console\Output\BufferedOutput
+     * @return \Symfony\Component\Console\Output\BufferedOutput
      */
     public function getErrorOutput()
     {
         return $this->stdError;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Output\BufferedOutput $error
+     *
+     * @return void
+     */
     public function setErrorOutput(OutputInterface $error)
     {
         $this->stdError = $error;
@@ -30,6 +35,9 @@ class ConsoleOutput extends BufferedOutput implements ConsoleOutputInterface
     {
         $sections = [];
         $stream = fopen('/dev/null', 'w');
+        if ($stream === false) {
+            throw new \RuntimeException('file /dev/null could not be opened for writing', 1);
+        }
 
         return new ConsoleSectionOutput(
             $stream,

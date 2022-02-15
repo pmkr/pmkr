@@ -13,11 +13,14 @@ use Robo\Collection\CollectionBuilder;
 trait InstanceTaskLoader
 {
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\Instance\DeleteTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrInstanceDelete(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
+        /** @var \Pmkr\Pmkr\Task\Instance\DeleteTask $task */
         $task = $this->task(
             DeleteTask::class,
             $container->get('filesystem'),

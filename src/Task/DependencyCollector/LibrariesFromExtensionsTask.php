@@ -37,12 +37,12 @@ class LibrariesFromExtensionsTask extends BaseTask
 
     // region extensions
     /**
-     * @var null|iterable|\Pmkr\Pmkr\Model\Extension[]
+     * @var ?array<string, \Pmkr\Pmkr\Model\Extension>
      */
     protected ?iterable $extensions = null;
 
     /**
-     * @return null|iterable|\Pmkr\Pmkr\Model\Extension[]
+     * @return ?array<string, \Pmkr\Pmkr\Model\Extension>
      */
     public function getExtensions(): ?iterable
     {
@@ -51,6 +51,8 @@ class LibrariesFromExtensionsTask extends BaseTask
 
     /**
      * If this not null then the extensionFilter won't be used.
+     *
+     * @param ?array<string, \Pmkr\Pmkr\Model\Extension> $extensions
      *
      * @return $this
      */
@@ -67,6 +69,11 @@ class LibrariesFromExtensionsTask extends BaseTask
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

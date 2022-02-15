@@ -9,6 +9,10 @@ use Pmkr\Pmkr\Utils;
 
 class Yq extends Base
 {
+
+    /**
+     * {@inheritdoc}
+     */
     protected array $executable = [
         'Yq',
     ];
@@ -59,5 +63,14 @@ class Yq extends Base
         }
 
         return $process->getOutput();
+    }
+
+    protected function getInternalLanguages(): array
+    {
+        return [
+            'yaml' => [
+                'patterns' => [],
+            ],
+        ];
     }
 }

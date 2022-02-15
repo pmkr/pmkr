@@ -62,6 +62,11 @@ class PatchFilter extends ArrayFilterBase
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -77,11 +82,12 @@ class PatchFilter extends ArrayFilterBase
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Pmkr\Pmkr\Model\Patch $item
+     *
+     * @return $this
      */
     protected function checkDoIt($item, ?string $outerKey = null)
     {
-        /** @var \Pmkr\Pmkr\Model\Patch $item */
         $version = $this->getVersion();
         $versionConstraint = $item->when['versionConstraint'] ?? null;
         $this->result = true;

@@ -11,6 +11,11 @@ class Factory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
+    /**
+     * @param array<string, mixed> $config
+     *
+     * @return null|\Pmkr\Pmkr\PackageManager\HandlerInterface
+     */
     public function createInstance(string $handler, array $config): ?HandlerInterface
     {
         $instance = null;

@@ -19,6 +19,9 @@ class TerminalColorSchemeDetectorTest extends Unit
 {
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesGetTheme(): array
     {
         return [
@@ -71,10 +74,20 @@ class TerminalColorSchemeDetectorTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $configLayer
+     * @param null|array{
+     *     exitCode: int,
+     *     stdOutput: string,
+     *     stdError: string,
+     * } $processResult
+     *
      * @dataProvider casesGetTheme
      */
-    public function testGetTheme(?string $expected, array $configLayer, ?array $processResult): void
-    {
+    public function testGetTheme(
+        ?string $expected,
+        array $configLayer,
+        ?array $processResult
+    ): void {
         if ($processResult !== null) {
             DummyProcess::$prophecy[] = $processResult;
         }

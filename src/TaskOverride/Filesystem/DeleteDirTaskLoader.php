@@ -10,6 +10,8 @@ trait DeleteDirTaskLoader
 {
 
     /**
+     * @param iterable<string> $dirs
+     *
      * @return \Pmkr\Pmkr\TaskOverride\Filesystem\DeleteDirTask|\Robo\Collection\CollectionBuilder
      *
      * @link https://github.com/consolidation/robo/issues/1078

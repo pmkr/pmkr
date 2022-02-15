@@ -16,7 +16,22 @@ class ListParser
     }
 
     /**
-     * @return array{messages: string[], installed: string[], not-installed: string[], missing: string[]}
+     * @param array<string> $packageNames
+     *
+     * @return array{
+     *     messages: string[],
+     *     installed: array<string, array{
+     *         version: ?string,
+     *         architecture: ?string,
+     *         name: string,
+     *     }>,
+     *     not-installed: array<string, array{
+     *         version: ?string,
+     *         architecture: ?string,
+     *         name: string,
+     *     }>,
+     *     missing: array<string>,
+     * }
      */
     public function parseMissing(
         array $packageNames,
@@ -40,6 +55,28 @@ class ListParser
         return $assets;
     }
 
+    /**
+     * @return array{
+     *     installed: array<string, array{
+     *         version: ?string,
+     *         architecture: ?string,
+     *         name: string,
+     *         status: string,
+     *     }>,
+     *     not-installed: array<string, array{
+     *         version: ?string,
+     *         architecture: ?string,
+     *         name: string,
+     *         status: string,
+     *     }>,
+     *     unknown: array<string, array{
+     *         version: ?string,
+     *         architecture: ?string,
+     *         name: string,
+     *         status: string,
+     *     }>,
+     * }
+     */
     protected function parseStdOutput(string $stdOutput): array
     {
         $lines = $this->utils->splitLines($stdOutput);
@@ -47,7 +84,11 @@ class ListParser
             'Installed Packages' => 'installed',
             'Available Packages' => 'not-installed',
         ];
-        $packages = [];
+        $packages = [
+            'installed' => [],
+            'not-installed' => [],
+            'unknown' => [],
+        ];
         $status = 'unknown';
         $packageNames = [];
         foreach ($lines as $line) {
@@ -67,15 +108,43 @@ class ListParser
             }
 
             $packageNames[$package['name']] = true;
-            $packages[$status][$package['name']] = $package;
+            switch ($status) {
+                case 'installed':
+                    $packages['installed'][$package['name']] = $package;
+                    break;
+
+                case 'not-installed':
+                    $packages['not-installed'][$package['name']] = $package;
+                    break;
+
+                default:
+                    $packages['unknown'][$package['name']] = $package;
+                    break;
+            }
         }
 
         return $packages;
     }
 
+    /**
+     * @param string $line
+     *
+     * @return array{
+     *     version: ?string,
+     *     architecture: ?string,
+     *     name: string,
+     * }
+     */
     protected function parseStdOutputLine(string $line): array
     {
         $parts = preg_split('/\s+/', $line);
+        if (!$parts) {
+            return [
+                'version' => null,
+                'architecture' => null,
+                'name' => '',
+            ];
+        }
         $values = [];
 
         $values['version'] = $parts[1] ?? null;

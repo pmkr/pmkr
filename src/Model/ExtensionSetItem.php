@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Model;
 
 /**
- * @property-read null|string $key
+ * @property-read string $key
  * @property-read string $status
  * @property-read bool $isEnabled
  * @property-read array $etc
@@ -14,6 +14,9 @@ namespace Pmkr\Pmkr\Model;
  */
 class ExtensionSetItem extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected array $propertyMapping = [
         'key' => [],
         'status' => [

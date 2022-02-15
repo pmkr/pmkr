@@ -65,15 +65,20 @@ class CommandBase implements
     protected ?PmkrConfig $pmkr = null;
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
      * @hook init *
      */
     public function hookInitDependencies(
         InputInterface $input,
         AnnotationData $annotationData
-    ) {
+    ): void {
         $this->initDependencies();
     }
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -148,7 +153,7 @@ class CommandBase implements
         };
     }
 
-    protected function getTaskPhpCoreInstallInit(string $instanceName)
+    protected function getTaskPhpCoreInstallInit(string $instanceName): \Closure
     {
         return function (RoboState $state) use ($instanceName): int {
             $this->logger->notice('PMKR - Initialize task pipeline state values.');
@@ -206,7 +211,6 @@ class CommandBase implements
         string $packageNamesStateKey,
         string $dstStateKeyPrefix
     ): \Closure {
-        // $dstStateKeyPrefix = packageManager.checkResult.
         return function (
             RoboState $state
         ) use (
@@ -217,9 +221,13 @@ class CommandBase implements
             $this->logger->notice('PMKR - Collect missing package dependencies');
 
             $logger = $this->logger;
+
             /** @var \Pmkr\Pmkr\PackageManager\HandlerInterface $pm */
             $pm = $state[$pmStateKey];
+
+            /** @var array<string> $packageNames */
             $packageNames = array_keys($state[$packageNamesStateKey]);
+
             if (!$packageNames) {
                 $logger->notice('there are no required packages.');
 
@@ -234,7 +242,9 @@ class CommandBase implements
 
             $key = "$dstStateKeyPrefix.not-installed";
             if (!empty($state[$key])) {
-                $state["$key.installCommand"] = $pm->installCommand(array_keys($state[$key]));
+                /** @var array<string> $missingPackages */
+                $missingPackages = array_keys($state[$key]);
+                $state["$key.installCommand"] = $pm->installCommand($missingPackages);
             }
 
             return 0;
@@ -243,11 +253,6 @@ class CommandBase implements
 
     /**
      * Finds the missing packages and throws an error if there is any.
-     *
-     * @param string $pmStateKey
-     *   Leads to a PackageManager\HandlerInterface instance.
-     * @param string $packageNamesStateKey
-     *   Leads to an array which contains all the required package names.
      *
      * @return \Closure
      */
@@ -287,6 +292,12 @@ class CommandBase implements
         };
     }
 
+    /**
+     * @param string $name
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
+     * @return array<string>
+     */
     protected function parseMultiValueAnnotation(string $name, AnnotationData $annotationData): array
     {
         $value = $annotationData->get($name);
@@ -444,7 +455,7 @@ class CommandBase implements
 
     protected function getTaskInstallLibraries(
         string $librariesStateKey
-    ) {
+    ): TaskInterface {
         $taskForEach = $this->taskForEach();
         $taskForEach
             ->iterationMessage('Install library: {key}')
@@ -453,7 +464,7 @@ class CommandBase implements
                 CollectionBuilder $builder,
                 string $key,
                 $library
-            ) use ($taskForEach) {
+            ): void {
                 $builder
                     ->addTask(
                         $this
@@ -463,5 +474,20 @@ class CommandBase implements
             });
 
         return $taskForEach;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function humanReadableOutputFormats(): array
+    {
+        return [
+            'table',
+        ];
+    }
+
+    protected function isHumanReadableOutputFormat(string $format): bool
+    {
+        return in_array($format, $this->humanReadableOutputFormats());
     }
 }

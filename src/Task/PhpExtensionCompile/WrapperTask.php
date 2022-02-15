@@ -78,6 +78,11 @@ class WrapperTask extends BaseTask implements
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

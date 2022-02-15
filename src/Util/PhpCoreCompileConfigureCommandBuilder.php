@@ -59,6 +59,9 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function processCore()
     {
         $this->addCmdEnvVars($this->instance->core->configureEnvVar);
@@ -67,9 +70,16 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function processExtensions()
     {
         $threadType = $this->instance->threadType;
+        /**
+         * @var string $extRef
+         * @var \Pmkr\Pmkr\Model\ExtensionSetItem $extensionSetItem
+         */
         foreach ($this->instance->extensionSet as $extRef => $extensionSetItem) {
             $extension = $this->instance->extensions[$extRef];
             if ($extensionSetItem->status !== 'enabled'
@@ -84,6 +94,9 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function processExtension(Extension $extension)
     {
         $this->addCmdEnvVars($extension->configureEnvVar);

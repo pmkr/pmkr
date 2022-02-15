@@ -17,6 +17,9 @@ class ExampleCommand extends CommandBase
 
     protected ShellHelper $shellHelper;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if ($this->initialized) {
@@ -32,6 +35,8 @@ class ExampleCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command example:pmkr
      */
     public function cmdExamplePmkrExecute(
@@ -51,6 +56,8 @@ class ExampleCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command example:zplug-plugin-pmkrrc
      */
     public function cmdExampleZplugPluginPmkrRcExecute(
@@ -68,10 +75,12 @@ class ExampleCommand extends CommandBase
     /**
      * Outputs an example code to add to your `~/.zshrc`.
      *
+     * @param mixed[] $options
+     *
      * @command example:zplug-entry
      */
     public function cmdExampleZplugEntryExecute(
-        $reposDir = '',
+        string $reposDir = '',
         array $options = [
             'format' => 'code',
         ]
@@ -89,6 +98,8 @@ class ExampleCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command example:rc
      */
     public function cmdExamplePmkrRcExecute(
@@ -104,6 +115,8 @@ class ExampleCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command example:instance
      */
     public function cmdExampleInstanceExecute(

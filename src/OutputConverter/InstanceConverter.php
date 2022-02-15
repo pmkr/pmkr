@@ -25,7 +25,19 @@ class InstanceConverter
      * @param iterable|\Pmkr\Pmkr\Model\Instance[] $instances
      * @param bool $isHuman
      *
-     * @return array
+     * @return array<
+     *     string,
+     *     array{
+     *         key: string,
+     *         coreVersion: string,
+     *         isZts: bool|string,
+     *         installed: bool|string,
+     *         coreNameSuffix: string,
+     *         coreName: string,
+     *         extensionSetNameSuffix: string,
+     *         extensionSetName: string,
+     *     }
+     * >
      */
     public function toFlatRows(iterable $instances, bool $isHuman): array
     {
@@ -37,6 +49,18 @@ class InstanceConverter
         return $rows;
     }
 
+    /**
+     * @return array{
+     *     key: string,
+     *     coreVersion: string,
+     *     isZts: bool|string,
+     *     installed: bool|string,
+     *     coreNameSuffix: string,
+     *     coreName: string,
+     *     extensionSetNameSuffix: string,
+     *     extensionSetName: string,
+     * }
+     */
     public function toFlatRow(Instance $instance, bool $isHuman): array
     {
         $row = [
@@ -45,9 +69,9 @@ class InstanceConverter
             'isZts' => $instance->isZts,
             'installed' => $this->fs->exists($instance->shareDir),
             'coreNameSuffix' => $instance->coreNameSuffix,
-            'coreName' => $instance->coreName,
-            'extensionSetNameSuffix' => $instance->extensionSetNameSuffix,
-            'extensionSetName' => $instance->extensionSetName,
+            'coreName' => (string) $instance->coreName,
+            'extensionSetNameSuffix' => (string) $instance->extensionSetNameSuffix,
+            'extensionSetName' => (string) $instance->extensionSetName,
         ];
 
         if ($isHuman) {

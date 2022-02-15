@@ -8,6 +8,10 @@ use Consolidation\Config\ConfigInterface;
 
 class ConfigNormalizer
 {
+
+    /**
+     * @return $this
+     */
     public function normalizeConfig(ConfigInterface $config)
     {
         $this
@@ -37,6 +41,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigPatches(ConfigInterface $config)
     {
         $patches = (array) $config->get('patches');
@@ -47,6 +54,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigLibraries(ConfigInterface $config)
     {
         $libraries = (array) $config->get('libraries');
@@ -88,6 +98,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigExtensionSets(ConfigInterface $config)
     {
         $extensionSets = (array) $config->get('extensionSets');
@@ -100,6 +113,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigCores(ConfigInterface $config)
     {
         $cores = $config->get('cores');
@@ -110,6 +126,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigInstances(ConfigInterface $config)
     {
         $instances = $config->get('instances');
@@ -134,6 +153,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigVariations(ConfigInterface $config)
     {
         $variations = $config->get('variations');
@@ -149,6 +171,9 @@ class ConfigNormalizer
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function normalizeConfigSyntaxHighlighter(ConfigInterface $config)
     {
         $topKey = 'syntaxHighlighter.languageMapping';

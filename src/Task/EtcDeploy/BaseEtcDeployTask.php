@@ -43,6 +43,11 @@ abstract class BaseEtcDeployTask extends BaseTask
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -53,8 +58,25 @@ abstract class BaseEtcDeployTask extends BaseTask
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $etc
+     *
+     * @return array<string, mixed>
+     */
     abstract protected function getVars(array $etc, string $fileDefKey): array;
 
+    /**
+     * @return array{
+     *     uname: array{
+     *         a: string,
+     *         s: string,
+     *         n: string,
+     *         r: string,
+     *         v: string,
+     *         m: string,
+     *     },
+     * }
+     */
     protected function getVarsUname(): array
     {
         return [
@@ -69,6 +91,17 @@ abstract class BaseEtcDeployTask extends BaseTask
         ];
     }
 
+    /**
+     * @param array<string, mixed> $etc
+     * @param string $fileDefKey
+     * @param array{
+     *     enabled?: bool,
+     *     src: string,
+     *     dst?: string,
+     * } $fileDef
+     *
+     * @return $this
+     */
     protected function deploy(array $etc, string $fileDefKey, array $fileDef)
     {
         $fileDef += [

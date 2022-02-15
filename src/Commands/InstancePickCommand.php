@@ -12,7 +12,6 @@ use Pmkr\Pmkr\Util\EnvPathHandler;
 use Sweetchuck\Utils\ArrayFilterInterface;
 use Sweetchuck\Utils\ComparerInterface;
 use Sweetchuck\Utils\Filesystem as UtilsFilesystem;
-use Symfony\Component\Console\Input\InputOption;
 
 class InstancePickCommand extends CommandBase
 {
@@ -40,6 +39,13 @@ class InstancePickCommand extends CommandBase
      * @param string $coreVersionConstraints
      *   https://getcomposer.org/doc/articles/versions.md#writing-version-constraints
      *
+     * @phpstan-param array{
+     *     binary: string,
+     *     threadType: string,
+     *     highest: bool,
+     *     format: string,
+     * } $options
+     *
      * @command instance:pick
      *
      * @aliases p
@@ -62,8 +68,8 @@ class InstancePickCommand extends CommandBase
     public function cmdInstancePickExecute(
         string $coreVersionConstraints,
         array $options = [
-            'threadType' => '',
-            'binary' => InputOption::VALUE_REQUIRED,
+            'binary' => 'php',
+            'threadType' => 'nts',
             'highest' => false,
             'format' => 'shell-var-setter',
         ]
@@ -73,7 +79,11 @@ class InstancePickCommand extends CommandBase
             $coreVersionConstraints = ">=$coreVersionConstraints";
         }
 
-        $requirements = ['php' => [$coreVersionConstraints]];
+        $requirements = [
+            'php' => [
+                '' => $coreVersionConstraints,
+            ],
+        ];
 
         return $this->getCommandResult($options, $requirements);
     }
@@ -82,6 +92,15 @@ class InstancePickCommand extends CommandBase
      * Picks an installed instance based on the project requirements.
      *
      * Instance with the lowest coreVersion number will be chosen.
+     *
+     * @phpstan-param array{
+     *     binary: string,
+     *     composer: string,
+     *     noDev: bool,
+     *     threadType: string,
+     *     highest: bool,
+     *     format: string,
+     * } $options
      *
      * @command instance:pick:project
      *
@@ -107,10 +126,10 @@ class InstancePickCommand extends CommandBase
     public function cmdInstancePickByProject(
         string $projectRoot = '.',
         array $options = [
-            'binary' => InputOption::VALUE_REQUIRED,
-            'composer' => InputOption::VALUE_REQUIRED,
+            'binary' => 'php',
+            'composer' => '',
             'noDev' => false,
-            'threadType' => '',
+            'threadType' => 'nts',
             'highest' => false,
             'format' => 'shell-var-setter',
         ]
@@ -128,7 +147,7 @@ class InstancePickCommand extends CommandBase
     /**
      * @hook validate instance:pick:default
      */
-    public function cmdInstancePickDefaultValidate(CommandData $commandData)
+    public function cmdInstancePickDefaultValidate(): void
     {
         $pmkr = $this->getPmkr();
         $defaultVariationKey = $pmkr->defaultVariationKey;
@@ -163,6 +182,8 @@ class InstancePickCommand extends CommandBase
      * Picks the default variations, which is defined in the
      * `pmkr.*.yml#/defaultVariationKey`.
      *
+     * @param mixed[] $options
+     *
      * @command instance:pick:default
      *
      * @aliases pd
@@ -184,7 +205,7 @@ class InstancePickCommand extends CommandBase
     public function cmdInstancePickDefaultExecute(
         array $options = [
             'soft' => false,
-            'binary' => InputOption::VALUE_REQUIRED,
+            'binary' => 'php',
             'format' => 'shell-var-setter',
         ]
     ): ?VariationPickCommandResult {
@@ -202,10 +223,12 @@ class InstancePickCommand extends CommandBase
         $result->phpIniScanDir = $defaultVariation->phpIniScanDir;
         $result->binary = $options['binary'];
 
-        return new VariationPickCommandResult($result, 0);
+        return VariationPickCommandResult::data($result);
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command instance:pick:unset
      *
      * @aliases pu
@@ -215,10 +238,12 @@ class InstancePickCommand extends CommandBase
             'format' => 'shell-var-setter',
         ]
     ): VariationPickCommandResult {
-        return new VariationPickCommandResult(new VariationPickResult());
+        return VariationPickCommandResult::data(new VariationPickResult());
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command instance:pick:this
      *
      * @aliases pt
@@ -239,7 +264,7 @@ class InstancePickCommand extends CommandBase
     public function cmdInstancePickThisExecute(
         string $instanceName,
         array $options = [
-            'binary' => InputOption::VALUE_REQUIRED,
+            'binary' => 'php',
             'format' => 'shell-var-setter'
         ]
     ): VariationPickCommandResult {
@@ -247,13 +272,15 @@ class InstancePickCommand extends CommandBase
         $result->instance = $this->getPmkr()->instances[$instanceName];
         $result->binary = $options['binary'] ?: 'php';
 
-        return new VariationPickCommandResult($result, 0);
+        return VariationPickCommandResult::data($result);
     }
 
     /**
+     * @param mixed $result
+     *
      * @hook process @pmkrProcessVariationPickResult
      */
-    public function onProcessVariationPickResult($result, CommandData $commandData)
+    public function onProcessVariationPickResult($result, CommandData $commandData): void
     {
         if (!($result instanceof CommandResult)) {
             return;
@@ -270,13 +297,23 @@ class InstancePickCommand extends CommandBase
         }
     }
 
+    /**
+     * @param array{
+     *     binary: string,
+     *     threadType: string,
+     *     highest: bool,
+     * } $options
+     * @param array{
+     *     php: array<string, string>,
+     * } $requirements
+     */
     protected function getCommandResult(array $options, array $requirements): VariationPickCommandResult
     {
         $instances = $this->getInstances($options, $requirements);
         if (!$instances) {
             $this->logger->error('no available instance');
 
-            return new VariationPickCommandResult(null, 1);
+            return VariationPickCommandResult::dataWithExitCode(null, 1);
         }
 
         usort(
@@ -291,10 +328,17 @@ class InstancePickCommand extends CommandBase
         $result->instance = $instance;
         $result->binary = $options['binary'];
 
-        return new VariationPickCommandResult($result, 0);
+        return VariationPickCommandResult::data($result);
     }
 
     /**
+     * @param array{
+     *     threadType: string,
+     * } $options
+     * @param array{
+     *     php: array<string, string>,
+     * } $requirements
+     *
      * @return \Pmkr\Pmkr\Model\Instance[]
      */
     protected function getInstances(array $options, array $requirements): array
@@ -305,6 +349,15 @@ class InstancePickCommand extends CommandBase
         );
     }
 
+    /**
+     * @return array<
+     *     '__ROOT__'|int,
+     *     array{
+     *         name?: string,
+     *         require?: array<string, string>,
+     *     }
+     * >
+     */
     protected function fetchPackages(
         string $projectRoot,
         string $jsonFileName,
@@ -338,6 +391,9 @@ class InstancePickCommand extends CommandBase
         return $packages;
     }
 
+    /**
+     * @return null|array<int, array<string, mixed>>
+     */
     protected function fetchPackagesFromInstalledJson(string $installedFileName, bool $noDev): ?array
     {
         if (!$this->fs->exists($installedFileName)) {
@@ -361,6 +417,9 @@ class InstancePickCommand extends CommandBase
         return $packages;
     }
 
+    /**
+     * @return null|array<int, array<string, mixed>>
+     */
     protected function fetchPackagesFromLock(string $lockFileName, bool $noDev): ?array
     {
         if (!$this->fs->exists($lockFileName)) {
@@ -382,6 +441,20 @@ class InstancePickCommand extends CommandBase
         return $packages;
     }
 
+    /**
+     * @param array<
+     *     int|string,
+     *     array{
+     *         name?: string,
+     *         require?: array<string, string>,
+     *     }
+     * > $packages
+     *
+     * @return array{
+     *     php: array<string, string>,
+     *     extensions: array<string, array<string, string>>,
+     * }
+     */
     protected function collectRequirements(array $packages): array
     {
         $requirements = [
@@ -394,7 +467,8 @@ class InstancePickCommand extends CommandBase
                 if ($name === 'php') {
                     $requirements['php'][$packageName] = $constraint;
                 } elseif (preg_match('@^ext-(?P<name>[^/]+)$@', $name, $matches) === 1) {
-                    $requirements['extensions'][$matches['name']][$packageName] = $constraint;
+                    $extName = (string) $matches['name'];
+                    $requirements['extensions'][$extName][$packageName] = $constraint;
                 }
             }
         }
@@ -402,6 +476,15 @@ class InstancePickCommand extends CommandBase
         return $requirements;
     }
 
+    /**
+     * @param array{
+     *     threadType: string,
+     * } $options
+     * @param array{
+     *     php: array<string, string>,
+     * } $requirements
+     *
+     */
     protected function getInstanceFilter(array $options, array $requirements): ArrayFilterInterface
     {
         $coreVersionConstraints = implode(' ', array_unique($requirements['php'])) ?: null;
@@ -415,6 +498,11 @@ class InstancePickCommand extends CommandBase
             ->setIsZts($isZts);
     }
 
+    /**
+     * @param array{
+     *     highest: bool,
+     * } $options
+     */
     protected function getInstanceComparer(array $options): ComparerInterface
     {
         $direction = $this->utils->boolToCompareDirection($options['highest']);

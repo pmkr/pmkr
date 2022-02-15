@@ -11,6 +11,9 @@ class WhichCommand extends CommandBase
 {
     protected EnvPathHandler $envPathHandler;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if ($this->initialized) {
@@ -26,6 +29,8 @@ class WhichCommand extends CommandBase
 
     /**
      * Shows the currently used PHP instance with the environment variables.
+     *
+     * @param mixed[] $options
      *
      * @command which
      *

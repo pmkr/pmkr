@@ -14,11 +14,14 @@ trait PhpExtensionEtcDeployTaskLoader
 {
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\EtcDeploy\PhpExtensionEtcDeployTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpExtensionEtcDeploy(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
+        /** @var \Pmkr\Pmkr\Task\EtcDeploy\PhpExtensionEtcDeployTask $task */
         $task = $this->task(
             PhpExtensionEtcDeployTask::class,
             $container->get('pmkr.php_extension.version_detector'),

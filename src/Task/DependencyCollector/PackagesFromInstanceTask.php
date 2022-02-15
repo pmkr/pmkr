@@ -75,8 +75,14 @@ class PackagesFromInstanceTask extends BaseTask
     // endregion
 
     // region extensions
+    /**
+     * @var ?iterable<string, \Pmkr\Pmkr\Model\Extension>
+     */
     protected ?iterable $extensions = null;
 
+    /**
+     * @return ?iterable<string, \Pmkr\Pmkr\Model\Extension>
+     */
     public function getExtensions(): ?iterable
     {
         return $this->extensions;
@@ -84,6 +90,8 @@ class PackagesFromInstanceTask extends BaseTask
 
     /**
      * If this not null then the extensionFilter won't be used.
+     *
+     * @param ?iterable<string, \Pmkr\Pmkr\Model\Extension> $extensions
      *
      * @return $this
      */
@@ -100,6 +108,11 @@ class PackagesFromInstanceTask extends BaseTask
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

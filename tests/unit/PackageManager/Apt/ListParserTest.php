@@ -17,6 +17,9 @@ class ListParserTest extends Unit
 
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesParseMissing(): array
     {
         return [
@@ -77,6 +80,9 @@ class ListParserTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $expected
+     * @param array<string> $packageNames
+     *
      * @dataProvider casesParseMissing
      */
     public function testParseMissing(

@@ -20,6 +20,8 @@ trait AnsiFormatterTrait
 
     /**
      * @see \Consolidation\OutputFormatters\Formatters\FormatterInterface::write
+     *
+     * @return void
      */
     public function write(
         OutputInterface $output,

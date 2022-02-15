@@ -17,6 +17,9 @@ class PmkrConfigValidatorTest extends Unit
 
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesValidate(): array
     {
         return [
@@ -190,9 +193,15 @@ class PmkrConfigValidatorTest extends Unit
     }
 
     /**
+     * @param array<int, array{
+     *     type: string,
+     *     path: string,
+     * }> $expected
+     * @param array<string, mixed> $configLayer
+     *
      * @dataProvider casesValidate
      */
-    public function testValidate($expected, array $configLayer): void
+    public function testValidate(array $expected, array $configLayer): void
     {
         $config = $this->tester->grabConfig(null, $configLayer);
         $pmkr = PmkrConfig::__set_state([

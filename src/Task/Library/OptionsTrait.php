@@ -53,6 +53,11 @@ trait OptionsTrait
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     protected function setOptionsCommon(array $options)
     {
         if (array_key_exists('library', $options)) {
@@ -66,6 +71,9 @@ trait OptionsTrait
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runInit()
     {
         parent::runInit();

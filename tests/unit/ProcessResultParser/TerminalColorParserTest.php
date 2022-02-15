@@ -18,6 +18,9 @@ class TerminalColorParserTest extends TestBase
         return new TerminalColorParser();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function casesParser(): array
     {
         return [

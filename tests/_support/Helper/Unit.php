@@ -16,6 +16,9 @@ use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 class Unit extends Module
 {
 
+    /**
+     * @return array<string, mixed>
+     */
     public function grabConfigLayerDefault(): array
     {
         return [
@@ -38,6 +41,12 @@ class Unit extends Module
         ];
     }
 
+    /**
+     * @param null|array<string, mixed> $defaults
+     * @param array<string, mixed> ...$configLayers
+     *
+     * @return \Consolidation\Config\ConfigInterface
+     */
     public function grabConfig(?array $defaults = null, ...$configLayers): ConfigInterface
     {
         if ($defaults === null) {

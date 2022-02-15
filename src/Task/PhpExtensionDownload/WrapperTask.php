@@ -22,6 +22,11 @@ class WrapperTask extends BaseTask implements
 
     protected string $taskName = 'PMKR - PHP extension download wrapper';
 
+    /**
+     * @param null|array<string, mixed> $context
+     *
+     * @return null|array<string, mixed>
+     */
     protected function getTaskContext($context = null)
     {
         $context = parent::getTaskContext($context);
@@ -77,6 +82,11 @@ class WrapperTask extends BaseTask implements
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

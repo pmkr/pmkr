@@ -5,14 +5,19 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Model;
 
 /**
- * @property-read array $dependencies
+ * @property-read array<string, array{
+ *     packages: array<string, bool>,
+ * }> $dependencies
  * @property-read bool[] $patchList
- * @property-read false[]|string[] $configureEnvVar
- * @property-read false[]|null[]|string[] $configure
+ * @property-read array<string, array<string, null|string>> $configureEnvVar
+ * @property-read array<string, array<string, null|false|string>> $configure
  * @property-read array $etc
  */
 class Core extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected array $propertyMapping = [
         'dependencies' => [
             'default' => [],

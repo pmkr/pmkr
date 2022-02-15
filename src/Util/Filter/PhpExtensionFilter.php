@@ -4,24 +4,33 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Util\Filter;
 
-use Pmkr\Pmkr\Model\ExtensionSet;
+use Pmkr\Pmkr\Model\Collection;
 use Sweetchuck\Utils\Filter\ArrayFilterBase;
 
 class PhpExtensionFilter extends ArrayFilterBase
 {
 
     // region extensionSet
-    protected ?ExtensionSet $extensionSet = null;
 
-    public function getExtensionSet(): ?ExtensionSet
+    /**
+     * @var null|\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>
+     */
+    protected ?Collection $extensionSet = null;
+
+    /**
+     * @return null|\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>
+     */
+    public function getExtensionSet(): ?Collection
     {
         return $this->extensionSet;
     }
 
     /**
+     * @param null|\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem> $extensionSet
+     *
      * @return $this
      */
-    public function setExtensionSet(?ExtensionSet $extensionSet)
+    public function setExtensionSet(?Collection $extensionSet)
     {
         $this->extensionSet = $extensionSet;
 
@@ -58,12 +67,12 @@ class PhpExtensionFilter extends ArrayFilterBase
 
     // region status
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected array $status = [];
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getStatus(): array
     {
@@ -71,7 +80,7 @@ class PhpExtensionFilter extends ArrayFilterBase
     }
 
     /**
-     * @param array $status
+     * @param array<string> $status
      *
      * @return $this
      */
@@ -83,6 +92,9 @@ class PhpExtensionFilter extends ArrayFilterBase
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -103,7 +115,9 @@ class PhpExtensionFilter extends ArrayFilterBase
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Pmkr\Pmkr\Model\Extension $item
+     *
+     * @return $this
      */
     protected function checkDoIt($item, ?string $outerKey = null)
     {

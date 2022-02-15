@@ -20,10 +20,13 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
 
     protected Utils $utils;
 
+    /**
+     * @var iterable<string, \Pmkr\Pmkr\Model\Extension>
+     */
     protected iterable $extensions = [];
 
     /**
-     * @return \Pmkr\Pmkr\Model\Extension[]
+     * @return iterable<\Pmkr\Pmkr\Model\Extension>
      */
     public function getExtensions(): iterable
     {
@@ -31,6 +34,8 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
     }
 
     /**
+     * @param iterable<string, \Pmkr\Pmkr\Model\Extension> $extensions
+     *
      * @return $this
      */
     public function setExtensions(iterable $extensions)
@@ -62,6 +67,11 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -81,6 +91,9 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runHeader()
     {
         $this->printTaskInfo(

@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\PackageManager\Pacman;
 
 use Pmkr\Pmkr\Utils;
-use Symfony\Component\Yaml\Yaml;
 
 class QueryParser
 {
@@ -16,6 +15,15 @@ class QueryParser
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string> $packageNames
+     *
+     * @return array{
+     *     missing: array<string>,
+     *     installed: array<string, array<string, string>>,
+     *     not-installed: array<string, array<string, string>>,
+     * }
+     */
     public function parseMissing(
         array $packageNames,
         int $exitCode,
@@ -40,8 +48,11 @@ class QueryParser
                     continue;
                 }
 
-                [$key, $value] = preg_split('/\s+:\s+/', $line, 2);
-                $info[$key] = $value;
+                $keyValue = preg_split('/\s+:\s+/', $line, 2);
+                if (!$keyValue) {
+                    continue;
+                }
+                $info[(string) $keyValue[0]] = (string) $keyValue[1];
             }
 
             $assets['installed'][$info['Name']] = $info;

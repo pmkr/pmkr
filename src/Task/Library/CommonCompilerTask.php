@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Task\Library;
 
-use Pmkr\Pmkr\Model\Library;
 use Pmkr\Pmkr\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\TaskAccessor;

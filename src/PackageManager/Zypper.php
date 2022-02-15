@@ -17,6 +17,9 @@ class Zypper extends HandlerBase
         $this->searchParser = $searchParser;
     }
 
+    /**
+     * @param array<string> $packageNames
+     */
     public function missingCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -39,13 +42,35 @@ class Zypper extends HandlerBase
     }
 
     /**
-     * @return array{messages: string[], installed: string[], not-installed: string[], missing: string[]}
+     * @param array<string> $packageNames
+     *
+     * @return array{
+     *   messages: string[],
+     *   installed: array<string, array{
+     *     name: string,
+     *     status: string,
+     *     summary: string,
+     *     kind: string,
+     *   }>,
+     *   not-installed: array<string, array{
+     *     name: string,
+     *     status: string,
+     *     summary: string,
+     *     kind: string,
+     *   }>,
+     *   missing: string[],
+     * }
      */
     public function missing(array $packageNames): array
     {
         $command = $this->missingCommand($packageNames);
         if ($command === '') {
-            return [];
+            return [
+                'messages' => [],
+                'installed' => [],
+                'not-installed' => [],
+                'missing' => [],
+            ];
         }
 
         $callback = function ($type, $text) {
@@ -61,7 +86,12 @@ class Zypper extends HandlerBase
         $process->run($callback, ['LANGUAGE' => 'en_GB:en_US']);
         $validExitCodes = [0, SearchParser::EXIT_CODE_MISSING];
         if (!in_array($process->getExitCode(), $validExitCodes)) {
-            return [];
+            return [
+                'messages' => [],
+                'installed' => [],
+                'not-installed' => [],
+                'missing' => [],
+            ];
         }
 
         // @todo Add to services.yml.
@@ -75,6 +105,11 @@ class Zypper extends HandlerBase
         );
     }
 
+    /**
+     * @param array<string> $packageNames
+     *
+     * @return string
+     */
     public function installCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -92,6 +127,11 @@ class Zypper extends HandlerBase
         return vsprintf($cmdPattern, $cmdArgs);
     }
 
+    /**
+     * @param string[] $packageNames
+     *
+     * @return $this
+     */
     public function install(array $packageNames)
     {
         $command = $this->installCommand($packageNames);
@@ -117,6 +157,6 @@ class Zypper extends HandlerBase
         $config = $this->getConfig();
         $executable = $config['executable'] ?? 'zypper';
 
-        return sprintf('% refresh', escapeshellcmd($executable));
+        return sprintf('%s refresh', escapeshellcmd($executable));
     }
 }

@@ -10,6 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ShellArgumentsFormatter extends ListFormatter
 {
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     public function write(
         OutputInterface $output,
         $data,

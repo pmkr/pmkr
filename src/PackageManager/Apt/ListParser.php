@@ -17,7 +17,26 @@ class ListParser
     }
 
     /**
-     * @return array{messages: string[], installed: string[], not-installed: string[], missing: string[]}
+     * @param array<string> $packageNames
+     *
+     * @return array{
+     *     messages?: array<string>,
+     *     missing?: array<string>,
+     *     installed: array<string, array{
+     *         name?: string,
+     *         type?: string,
+     *         architecture?: ?string,
+     *         status?: array<string>,
+     *         version?: ?string,
+     *     }>,
+     *     not-installed: array<string, array{
+     *         name?: string,
+     *         type?: string,
+     *         architecture?: ?string,
+     *         status?: array<string>,
+     *         version?: ?string,
+     *     }>,
+     * }
      */
     public function parseMissing(
         array $packageNames,
@@ -46,10 +65,24 @@ class ListParser
         return $assets;
     }
 
+    /**
+     * @return array{
+     *   name: string,
+     *   type: string,
+     *   version: string,
+     *   architecture: string,
+     *   status: array<string>,
+     * }
+     */
     protected function parseMissingLine(string $line): array
     {
-        $values = array_combine(
-            ['package', 'version', 'architecture', 'status'],
+        $values = (array) array_combine(
+            [
+                'package',
+                'version',
+                'architecture',
+                'status',
+            ],
             explode(' ', $line) + array_fill(0, 4, ''),
         );
 

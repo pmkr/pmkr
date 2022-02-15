@@ -14,16 +14,30 @@ class VariationPickResult
 
     public ?string $phpRc = null;
 
+    /**
+     * @var null|array<string>
+     */
     public ?array $phpIniScanDir = null;
 
     public ?string $binary = null;
 
     public bool $export = true;
 
-    public static function __set_state($an_array)
+    /**
+     * @param array{
+     *     weight?: int|float,
+     *     instance?: ?\Pmkr\Pmkr\Model\Instance,
+     *     phpRc?: ?string,
+     *     phpIniScanDir?: ?array<string>,
+     *     binary?: ?string,
+     * } $values
+     *
+     * @return static
+     */
+    public static function __set_state($values)
     {
         $self = new static();
-        foreach ($an_array as $key => $value) {
+        foreach ($values as $key => $value) {
             switch ($key) {
                 case 'weight':
                 case 'instance':

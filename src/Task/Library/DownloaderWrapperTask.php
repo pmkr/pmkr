@@ -21,6 +21,11 @@ class DownloaderWrapperTask extends BaseTask implements
 
     protected string $taskName = 'PMKR - Library download wrapper: {name}';
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

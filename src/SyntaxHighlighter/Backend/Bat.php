@@ -10,6 +10,10 @@ use Pmkr\Pmkr\Utils;
 
 class Bat extends Base
 {
+
+    /**
+     * {@inheritdoc}
+     */
     protected array $executable = [
         'bat',
     ];
@@ -77,6 +81,9 @@ class Bat extends Base
         return $process->getOutput();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getInternalLanguages(): array
     {
         if ($this->internalLanguages === null) {

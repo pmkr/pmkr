@@ -5,7 +5,8 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Task\DependencyCollector;
 
 use Pmkr\Pmkr\Model\Instance;
-use Pmkr\Pmkr\Model\Libraries;
+use Pmkr\Pmkr\Model\Collection;
+use Pmkr\Pmkr\Model\Library;
 use Pmkr\Pmkr\OpSys\OpSys;
 use Pmkr\Pmkr\Task\BaseTask;
 use Pmkr\Pmkr\Utils;
@@ -14,8 +15,13 @@ use Sweetchuck\Utils\ArrayFilterInterface;
 class LibrariesFromInstanceTask extends BaseTask
 {
 
-    protected string $taskName = 'pmkr - Collect library dependencies from instance {instanceKey}';
+    protected string $taskName = 'pmkr - Collect library dependencies from an instance';
 
+    /**
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
     protected function getTaskContext($context = null)
     {
         $context = parent::getTaskContext($context);
@@ -88,12 +94,12 @@ class LibrariesFromInstanceTask extends BaseTask
 
     // region extensions
     /**
-     * @var null|iterable|\Pmkr\Pmkr\Model\Extension[]
+     * @var ?iterable<string, \Pmkr\Pmkr\Model\Extension>
      */
     protected ?iterable $extensions = null;
 
     /**
-     * @return null|iterable|\Pmkr\Pmkr\Model\Extension[]
+     * @return ?iterable<string, \Pmkr\Pmkr\Model\Extension>
      */
     public function getExtensions(): ?iterable
     {
@@ -102,6 +108,8 @@ class LibrariesFromInstanceTask extends BaseTask
 
     /**
      * If this not null then the extensionFilter won't be used.
+     *
+     * @param ?iterable<string, \Pmkr\Pmkr\Model\Extension> $extensions
      *
      * @return $this
      */
@@ -118,6 +126,11 @@ class LibrariesFromInstanceTask extends BaseTask
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -141,6 +154,18 @@ class LibrariesFromInstanceTask extends BaseTask
         return $this;
     }
 
+    protected function runHeader()
+    {
+        $this->printTaskInfo(
+            'Instance key: {instance.key}',
+            [
+                'instance.key' => $this->getInstance()->key,
+            ],
+        );
+
+        return $this;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -149,9 +174,14 @@ class LibrariesFromInstanceTask extends BaseTask
         $instance = $this->getInstance();
         $config = $instance->getConfig();
         $configPathRoot = array_slice($instance->getConfigPath(), 0, -2);
-        $librariesAll = Libraries::__set_state([
+        $librariesAll = Collection::__set_state([
             'config' => $config,
             'configPath' => array_merge($configPathRoot, ['libraries']),
+            'propertyMapping' => [
+                '' => [
+                    'type' => Library::class,
+                ],
+            ],
         ]);
         $librariesAll = iterator_to_array($librariesAll);
 

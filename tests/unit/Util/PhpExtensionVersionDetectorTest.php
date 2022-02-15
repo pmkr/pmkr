@@ -13,7 +13,10 @@ use Sweetchuck\Utils\VersionNumber;
 class PhpExtensionVersionDetectorTest extends Unit
 {
     protected UnitTester $tester;
-    
+
+    /**
+     * @return array<string, mixed>
+     */
     public function casesDetect(): array
     {
         return [
@@ -110,6 +113,8 @@ class PhpExtensionVersionDetectorTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $vfsStructure
+     *
      * @dataProvider casesDetect
      */
     public function testDetect(
@@ -118,7 +123,7 @@ class PhpExtensionVersionDetectorTest extends Unit
         string $coreVersion,
         string $dir,
         ?string $name
-    ) {
+    ): void {
         $version = VersionNumber::createFromString($coreVersion);
 
         $vfsRoot = vfsStream::setup(

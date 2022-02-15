@@ -7,15 +7,21 @@ namespace Pmkr\Pmkr\PackageManager;
 abstract class HandlerBase implements HandlerInterface
 {
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $config = [];
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfig(): array
     {
         return $this->config;
     }
 
     /**
-     * @return $this
+     * {@inheritdoc}
      */
     public function setConfig(array $config)
     {

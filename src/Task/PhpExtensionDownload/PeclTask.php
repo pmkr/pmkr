@@ -27,7 +27,9 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
     protected string $taskName = 'PMKR - PHP extension download - PECL';
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -108,6 +110,11 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
     }
     //endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -234,6 +241,9 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
+    /**
+     * @return array<\Sweetchuck\PearClient\DataType\Release>
+     */
     protected function getReleases(): array
     {
         $extension = $this->getExtension();

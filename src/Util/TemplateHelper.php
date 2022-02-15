@@ -28,6 +28,14 @@ class TemplateHelper implements ConfigAwareInterface
         $this->utils = $utils;
     }
 
+    /**
+     * @param array{
+     *     shell?: string,
+     *     envVars?: array<string, string>,
+     *     phpBinary?: string,
+     *     pmkrRoot?: string,
+     * } $context
+     */
     public function renderExamplePmkr(array $context = []): string
     {
         $shell = basename($this->getConfig()->get('env.SHELL') ?: '/bin/zsh');
@@ -42,6 +50,12 @@ class TemplateHelper implements ConfigAwareInterface
         return $this->twig->render('example/pmkr.zsh.twig', $context);
     }
 
+    /**
+     * @param array{
+     *     reposDir?: string,
+     *     name?: string,
+     * } $context
+     */
     public function renderExampleZplugEntry(array $context = []): string
     {
         $config = $this->getConfig();
@@ -59,11 +73,19 @@ class TemplateHelper implements ConfigAwareInterface
         return $this->render('zplug/entry.zsh.twig', $context);
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function renderExampleZplugPluginPmkrRc(array $context = []): string
     {
         return $this->render('zplug/plugin/pmkrrc/pmkrrc.zsh.twig', $context);
     }
 
+    /**
+     * @param array{
+     *     shell?: string,
+     * } $context
+     */
     public function renderExamplePmkrRc(array $context = []): string
     {
         $shell = basename($this->getConfig()->get('env.SHELL') ?: '/bin/zsh');
@@ -75,17 +97,23 @@ class TemplateHelper implements ConfigAwareInterface
     }
 
     /**
-     * @param array $context
-     *   Required keys:
-     *   - coreVersion
-     *
-     * @return string
+     * @param array{
+     *     coreVersion: \Sweetchuck\Utils\VersionNumber,
+     * } $context
      */
-    public function renderExampleInstance(array $context = []): string
+    public function renderExampleInstance(array $context): string
     {
+        assert(
+            array_key_exists('coreVersion', $context),
+            'coreVersion is required',
+        );
+
         return $this->render('example/instance.yml.twig', $context);
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function render(string $name, array $context): string
     {
         $context += ['env' => []];

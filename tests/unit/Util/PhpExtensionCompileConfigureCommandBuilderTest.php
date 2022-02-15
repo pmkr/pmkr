@@ -18,6 +18,9 @@ class PhpExtensionCompileConfigureCommandBuilderTest extends Unit
 {
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesBuild(): array
     {
         return [
@@ -70,9 +73,12 @@ class PhpExtensionCompileConfigureCommandBuilderTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $configDefaultLayer
+     * @param array<string, mixed> $configLayerApp
+     *
      * @dataProvider casesBuild
      */
-    public function testBuild(string $expected, ?array $configDefaultLayer, array $configLayerApp)
+    public function testBuild(string $expected, ?array $configDefaultLayer, array $configLayerApp): void
     {
         $config = $this->tester->grabConfig($configDefaultLayer, $configLayerApp);
         $configNormalizer = new ConfigNormalizer();

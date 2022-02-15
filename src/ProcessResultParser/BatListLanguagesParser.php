@@ -15,6 +15,19 @@ class BatListLanguagesParser extends ParserBase
         $this->utils = $utils;
     }
 
+    /**
+     * @return array{
+     *     exitCode: int,
+     *     assets: array{
+     *         languages?: array<
+     *             string,
+     *             array{
+     *                 patterns?: array<string>,
+     *             },
+     *         >
+     *     },
+     * }
+     */
     public function parse(
         int $exitCode,
         string $stdOutput,

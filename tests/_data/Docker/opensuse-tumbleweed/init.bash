@@ -17,7 +17,14 @@ zypper install --no-confirm \
     php8-phar \
     patch
 
-php ./bin/pmkr
-
 ln -s /usr/include/locale.h /usr/include/xlocale.h
+
+sed \
+    --expression 's@^display_errors = Off$@display_errors = STDERR@g' \
+    --expression 's@^display_startup_errors = Off$@display_startup_errors = On@g' \
+    --expression 's@^;error_log = syslog$@error_log = /var/log/php-error.log@g' \
+    --in-place \
+    /etc/php8/cli/php.ini
+
+php ./bin/pmkr
 SHELL="${SHELL}" ./bin/pmkr init:pmkr --force

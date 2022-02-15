@@ -15,6 +15,9 @@ class ConfigFileCollector
 
     protected Finder $finder;
 
+    /**
+     * @var null|\IteratorAggregate<string, \Symfony\Component\Finder\SplFileInfo>
+     */
     protected ?iterable $configFiles = null;
 
     public function __construct(
@@ -26,7 +29,7 @@ class ConfigFileCollector
     }
 
     /**
-     * @return \Iterator<string, \Symfony\Component\Finder\SplFileInfo>
+     * @return \IteratorAggregate<string, \Symfony\Component\Finder\SplFileInfo>
      */
     public function collect(): iterable
     {
@@ -44,10 +47,12 @@ class ConfigFileCollector
         return $this->configFiles;
     }
 
+    /**
+     * @return array<string>
+     */
     public function collectAsChoices(): array
     {
         $choices = [];
-        /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($this->collect() as $file) {
             $choices[] = $file->getPathname();
         }

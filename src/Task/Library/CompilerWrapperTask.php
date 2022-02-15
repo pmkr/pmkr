@@ -28,6 +28,11 @@ class CompilerWrapperTask extends BaseTask implements
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
     protected function getTaskContext($context = null)
     {
         $context = parent::getTaskContext($context);
@@ -40,6 +45,9 @@ class CompilerWrapperTask extends BaseTask implements
         return $context;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runHeader()
     {
         $message = $this->isSkipped() ?
@@ -56,6 +64,11 @@ class CompilerWrapperTask extends BaseTask implements
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

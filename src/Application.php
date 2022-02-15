@@ -29,6 +29,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
      */
     const INSTANCE_DIR_PREFIX = 'pmkr-php';
 
+    /**
+     * @return array<string>
+     */
     public function getCommandClasses(string $projectRoot): array
     {
         return (new CommandFileDiscovery())
@@ -41,6 +44,11 @@ class Application extends ApplicationBase implements ContainerAwareInterface
             );
     }
 
+    /**
+     * @param array<string, string> $envVars
+     *
+     * @return string[]
+     */
     public function getConfigFiles(string $projectRoot, array $envVars): array
     {
         // @todo DRY \Pmkr\Pmkr\Util\ConfigFileCollector::collect().
@@ -55,15 +63,21 @@ class Application extends ApplicationBase implements ContainerAwareInterface
             "$projectRoot/resources/home",
         ];
 
-        $dirsRawConfig = array_filter(explode(
-            \PATH_SEPARATOR,
-            $envVars["{$envVarNamePrefix}_CONFIG"] ?? '',
-        ));
+        $dirsRawConfig = array_filter(
+            explode(
+                \PATH_SEPARATOR,
+                $envVars["{$envVarNamePrefix}_CONFIG"] ?? '',
+            ),
+            '\strlen',
+        );
 
-        $dirsRawConfigExtra = array_filter(explode(
-            \PATH_SEPARATOR,
-            $envVars["{$envVarNamePrefix}_CONFIG_EXTRA"] ?? '',
-        ));
+        $dirsRawConfigExtra = array_filter(
+            explode(
+                \PATH_SEPARATOR,
+                $envVars["{$envVarNamePrefix}_CONFIG_EXTRA"] ?? '',
+            ),
+            '\strlen',
+        );
 
         if (!$dirsRawConfigExtra) {
             $dirsRawConfigExtra[] = ($envVars['HOME'] ?? '') . "/.$appName";
@@ -97,6 +111,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $files;
     }
 
+    /**
+     * @return $this
+     */
     public function configureContainer()
     {
         $this
@@ -118,6 +135,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function configureContainerFromYaml(string $fileName)
     {
         $content = Yaml::parseFile($fileName);
@@ -127,6 +147,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function configureContainerTwig()
     {
         $config = $this->getConfig();
@@ -169,6 +192,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function configureContainerPeclClient()
     {
         /** @var \League\Container\Container $container */
@@ -186,6 +212,9 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function configureContainerSyntaxHighlighters()
     {
         /** @var \League\Container\Container $container */
@@ -225,6 +254,11 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $services
+     *
+     * @return $this
+     */
     protected function configureContainerAddServices(array $services)
     {
         foreach ($services as $id => $service) {
@@ -235,17 +269,23 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $service
+     *
+     * @return $this
+     */
     protected function configureContainerAddService(array $service)
     {
         $service += [
             'shared' => true,
             'arguments' => [],
         ];
-        $definition = $this->container->addShared(
-            $service['id'],
-            $service['class'],
-            $service['shared'],
-        );
+
+        $container = $this->getContainer();
+
+        $definition = $service['shared'] ?
+            $container->addShared($service['id'], $service['class'])
+            : $container->add($service['id'], $service['class']);
 
         foreach ($service['arguments'] as $argument) {
             switch (mb_substr($argument, 0, 1)) {

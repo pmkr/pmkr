@@ -20,6 +20,8 @@ class InstanceDependencyCommand extends CommandBase
      * @param string $instanceName
      *   Name of the instance.
      *
+     * @param mixed[] $options
+     *
      * @option string $format
      *   This controls what the output should be look like.
      * @option string $format-code
@@ -44,6 +46,7 @@ class InstanceDependencyCommand extends CommandBase
         ]
     ): CommandResult {
         $cb = $this->collectionBuilder();
+        /** @var \Robo\Contract\TaskInterface $reference */
         $reference = $cb->getCollection();
         $result = $cb
             ->addTaskList($this->getTasksCollectPackageDependencies($reference, $instanceName))
@@ -58,9 +61,11 @@ class InstanceDependencyCommand extends CommandBase
     }
 
     /**
-     * @hook alter instance:dependency:package:list
+     * @param mixed $result
      *
-     * @link https://github.com/consolidation/annotated-command#alter-hook
+     * @return mixed
+     *
+     * @hook alter instance:dependency:package:list
      */
     public function cmdInstanceDependencyPackageListAlter(
         $result,
@@ -104,7 +109,7 @@ class InstanceDependencyCommand extends CommandBase
     }
 
     /**
-     * @return \Robo\Contract\TaskInterface[]
+     * @return array<string, \Robo\Contract\TaskInterface>
      */
     protected function getTasksCollectPackageDependencies(
         TaskInterface $reference,

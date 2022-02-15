@@ -17,6 +17,9 @@ class Apt extends HandlerBase
         $this->listParser = $listParser;
     }
 
+    /**
+     * @param array<string> $packageNames
+     */
     public function missingCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -36,13 +39,18 @@ class Apt extends HandlerBase
     }
 
     /**
-     * @return array{messages: string[], installed: string[], not-installed: string[], missing: string[]}
+     * {@inheritdoc}
      */
     public function missing(array $packageNames): array
     {
         $command = $this->missingCommand($packageNames);
         if ($command === '') {
-            return [];
+            return [
+                'messages' => [],
+                'installed' => [],
+                'not-installed' => [],
+                'missing' => [],
+            ];
         }
 
         $callback = function ($type, $text) {
@@ -65,6 +73,9 @@ class Apt extends HandlerBase
         );
     }
 
+    /**
+     * @param array<string> $packageNames
+     */
     public function installCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -81,6 +92,11 @@ class Apt extends HandlerBase
         return vsprintf($cmdPattern, $cmdArgs);
     }
 
+    /**
+     * @param array<string> $packageNames
+     *
+     * @return $this
+     */
     public function install(array $packageNames)
     {
         $command = $this->installCommand($packageNames);

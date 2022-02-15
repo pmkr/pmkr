@@ -12,10 +12,19 @@ abstract class Base implements BackendInterface
 {
     protected Utils $utils;
 
+    /**
+     * @var array<string, string>
+     */
     protected array $envVars = [];
 
+    /**
+     * @var array<string>
+     */
     protected array $executable = [];
 
+    /**
+     * @var array<string, string>
+     */
     protected array $themeMapping = [];
 
     protected string $defaultTheme = '';
@@ -30,7 +39,7 @@ abstract class Base implements BackendInterface
     /**
      * Key: external; value: internal;
      *
-     * @var string[]
+     * @var array<string, string>
      */
     protected array $outputFormatMapping = [
         'html' => 'html',
@@ -39,6 +48,14 @@ abstract class Base implements BackendInterface
 
     protected ?bool $isExecutable = null;
 
+    /**
+     * @var ?array<
+     *     string,
+     *     array{
+     *         patterns?: array<string>,
+     *     }
+     * >
+     */
     protected ?array $internalLanguages = null;
 
     public function __construct(Utils $utils)
@@ -46,6 +63,11 @@ abstract class Base implements BackendInterface
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         if (array_key_exists('themeMapping', $options)) {
@@ -71,7 +93,7 @@ abstract class Base implements BackendInterface
         return $this;
     }
 
-    public function isAvailable(string $outputFormat, string $externalLanguage)
+    public function isAvailable(string $outputFormat, string $externalLanguage): bool
     {
         return
             $this->isExecutable()
@@ -96,6 +118,16 @@ abstract class Base implements BackendInterface
 
         return $this->isExecutable;
     }
+
+    /**
+     * @return array<
+     *     string,
+     *     array{
+     *         patterns?: array<string>,
+     *     }
+     * >
+     */
+    abstract protected function getInternalLanguages(): array;
 
     protected function getInternalLanguage(string $externalLanguage): ?string
     {

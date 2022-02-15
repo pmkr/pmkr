@@ -35,6 +35,11 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
         $this->filesystem = $fs;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -43,6 +48,9 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runHeader()
     {
         $library = $this->getLibrary();
@@ -126,6 +134,9 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
             ));
     }
 
+    /**
+     * @return \Robo\Contract\TaskInterface
+     */
     protected function getTaskCloneCacheToDst()
     {
         $library = $this->getLibrary();

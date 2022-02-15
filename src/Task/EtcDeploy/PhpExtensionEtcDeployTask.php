@@ -18,6 +18,11 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
 
     protected string $taskName = 'PMKR - Deploy extension etc files: {extensionKey}';
 
+    /**
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
     protected function getTaskContext($context = null)
     {
         $context = parent::getTaskContext($context);
@@ -38,6 +43,9 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this->extension;
     }
 
+    /**
+     * @return $this
+     */
     public function setExtension(?Extension $extension)
     {
         $this->extension = $extension;
@@ -55,6 +63,11 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         $this->extensionVersionDetector = $extensionVersionDetector;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -65,6 +78,9 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runHeader()
     {
         $this->printTaskInfo(
@@ -74,6 +90,9 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runDoIt()
     {
         $instance = $this->getInstance();
@@ -100,6 +119,9 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getVars(array $etc, string $fileDefKey): array
     {
         $instance = $this->getInstance();

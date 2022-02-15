@@ -1,0 +1,1042 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setAssetNamePrefix\\(\\)\\.$#"
+			count: 1
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Filesystem\\\\FilesystemStack\\:\\:mkdir\\(\\)\\.$#"
+			count: 4
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Sweetchuck\\\\Robo\\\\Git\\\\Task\\\\GitListStagedFilesTask\\:\\:setPaths\\(\\)\\.$#"
+			count: 1
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Sweetchuck\\\\Robo\\\\Git\\\\Task\\\\GitReadStagedFilesTask\\:\\:setCommandOnly\\(\\)\\.$#"
+			count: 1
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Sweetchuck\\\\Robo\\\\Phpstan\\\\Task\\\\AnalyzeTask\\:\\:setNoProgress\\(\\)\\.$#"
+			count: 1
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Sweetchuck\\\\Robo\\\\Git\\\\Task\\\\GitReadStagedFilesTask\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 1
+			path: RoboFile.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setExtensionSrcDir\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 3
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setLibrary\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setOpSys\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Collection\\\\TaskForEach\\:\\:getState\\(\\)\\.$#"
+			count: 3
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Collection\\\\TaskForEach\\:\\:iterationMessage\\(\\)\\.$#"
+			count: 4
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\TaskForEach\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 4
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Contract\\\\TaskInterface\\:\\:setOptions\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrBeforeExtensionConfigure\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrCollectLibraryDependenciesFromExtension\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrCollectLibraryDependenciesFromExtensions\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionsTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrCollectLibraryDependenciesFromInstance\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrCollectPackageDependenciesFromExtensions\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromExtensionsTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrCollectPackageDependenciesFromInstance\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromInstanceTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrConfigNormalizer\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryCompilerCommon\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryCompilerWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryDownloadArchive\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrLibraryInstall\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionCompilePecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionCompileWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionDownloadPecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\CommandBase\\:\\:taskPmkrPhpExtensionEtcDeploy\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpExtensionEtcDeployTask\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\ConfigNormalizerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionsTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromInstanceTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromExtensionsTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromInstanceTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpExtensionEtcDeployTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/CommandBase.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Contract\\\\TaskInterface\\:\\:setOptions\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskDummy\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrCollectLibraryDependenciesFromExtension\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrCollectLibraryDependenciesFromExtensions\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionsTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrCollectLibraryDependenciesFromInstance\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrCollectPackageDependenciesFromExtensions\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromExtensionsTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrCollectPackageDependenciesFromInstance\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromInstanceTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryCompilerCommon\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryCompilerWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryDownloadArchive\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\DummyCommand\\:\\:taskPmkrLibraryInstall\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromExtensionsTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\LibrariesFromInstanceTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromExtensionsTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DependencyCollector\\\\PackagesFromInstanceTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\DummyTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/DummyCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\File\\\\Write\\:\\:filename\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InitCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Filesystem\\\\FilesystemStack\\:\\:chmod\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InitCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceDeleteCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceDeleteCommand\\:\\:taskPmkrInstanceDelete\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Instance\\\\DeleteTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceDeleteCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Instance\\\\DeleteTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceDeleteCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Collection\\\\TaskForEach\\:\\:iterationMessage\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceEtcCommand\\:\\:taskPmkrPhpCoreEtcDeploy\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpCoreEtcDeployTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceEtcCommand\\:\\:taskPmkrPhpExtensionEtcDeploy\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpExtensionEtcDeployTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpCoreEtcDeployTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpExtensionEtcDeployTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceEtcCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setSrcDir\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Collection\\\\TaskForEach\\:\\:getState\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Collection\\\\TaskForEach\\:\\:iterationMessage\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Base\\\\Exec\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 5
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Filesystem\\\\FilesystemStack\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\TaskForEach\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Contract\\\\TaskInterface\\:\\:setOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskExtract\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrBeforeExtensionConfigure\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPatchApply\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpCoreEtcDeploy\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpCoreEtcDeployTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpExtensionCompilePecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpExtensionCompileWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpExtensionDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpExtensionDownloadPecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceInstallCommand\\:\\:taskPmkrPhpExtensionDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Archive\\\\ExtractTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\EtcDeploy\\\\PhpCoreEtcDeployTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Patch\\\\ApplyPatchTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceInstallCommand.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Commands\\\\InstanceOrphanCommand\\:\\:taskDeleteDir\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Commands/InstanceOrphanCommand.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Filesystem\\\\DeleteDirTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Commands/InstanceOrphanCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setLibrary\\(\\)\\.$#"
+			count: 2
+			path: src/Commands/LibraryCommand.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setSkipIfExists\\(\\)\\.$#"
+			count: 1
+			path: src/Commands/LibraryCommand.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Model/Base.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/OpSys/OpSys.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:fileName\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Library/ArchiveDownloaderTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:skipDownloadIfExists\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Library/ArchiveDownloaderTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Archive\\\\ExtractTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/ArchiveDownloaderTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Base\\\\ExecStack\\:\\:dir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Library/CommonCompilerTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setLibrary\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryCompilerCommon\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryCompilerWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryDownloadArchive\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\:\\:taskPmkrLibraryInstall\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/CompilerWrapperTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setLibrary\\(\\)\\.$#"
+			count: 2
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryCompilerCommon\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryCompilerWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryDownloadArchive\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\:\\:taskPmkrLibraryInstall\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/DownloaderWrapperTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Vcs\\\\GitStack\\:\\:dir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Library/GitDownloaderTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Vcs\\\\GitStack\\:\\:exec\\(\\)\\.$#"
+			count: 2
+			path: src/Task/Library/GitDownloaderTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Filesystem\\\\DeleteDirTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/GitDownloaderTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setLibrary\\(\\)\\.$#"
+			count: 2
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryCompilerCommon\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryCompilerWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryDownloadArchive\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\:\\:taskPmkrLibraryInstall\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\ArchiveDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CommonCompilerTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\CompilerWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\DownloaderWrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\GitDownloaderTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\Library\\\\InstallTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/Library/InstallTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setOptions\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Patch/ApplyPatchTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Base\\\\Exec\\:\\:dir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/Patch/ApplyPatchTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Base\\\\ExecStack\\:\\:dir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/BeforeConfigureTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setExtensionSrcDir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Base\\\\Exec\\:\\:deferTaskConfiguration\\(\\)\\.$#"
+			count: 5
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\:\\:taskDeleteDir\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Robo\\\\Contract\\\\TaskInterface\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\:\\:taskPmkrBeforeExtensionConfigure\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\:\\:taskPmkrPhpExtensionCompilePecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\:\\:taskPmkrPhpExtensionCompileWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Filesystem\\\\DeleteDirTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/PeclTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setExtension\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\:\\:taskPmkrBeforeExtensionConfigure\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\:\\:taskPmkrPhpExtensionCompilePecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\:\\:taskPmkrPhpExtensionCompileWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\BeforeConfigureTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionCompile\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionCompile/WrapperTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Vcs\\\\GitStack\\:\\:dir\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/GitTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\|Robo\\\\Task\\\\Vcs\\\\GitStack\\:\\:exec\\(\\)\\.$#"
+			count: 2
+			path: src/Task/PhpExtensionDownload/GitTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Filesystem\\\\DeleteDirTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/GitTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:fileName\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/PeclTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:skipDownloadIfExists\\(\\)\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/PeclTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\TaskOverride\\\\Archive\\\\ExtractTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/PeclTask.php
+
+		-
+			message: "#^Call to an undefined method Robo\\\\Collection\\\\CollectionBuilder\\:\\:setInstance\\(\\)\\.$#"
+			count: 2
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\:\\:taskPmkrPhpExtensionDownloadGit\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\:\\:taskPmkrPhpExtensionDownloadPecl\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^Method Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\:\\:taskPmkrPhpExtensionDownloadWrapper\\(\\) should return Robo\\\\Collection\\\\CollectionBuilder but returns Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\GitTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\PeclTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^PHPDoc tag @return with type Pmkr\\\\Pmkr\\\\Task\\\\PhpExtensionDownload\\\\WrapperTask\\|Robo\\\\Collection\\\\CollectionBuilder is not subtype of native type Robo\\\\Collection\\\\CollectionBuilder\\.$#"
+			count: 1
+			path: src/Task/PhpExtensionDownload/WrapperTask.php
+
+		-
+			message: "#^Parameter \\#1 \\$dirs of method Robo\\\\Task\\\\Filesystem\\\\BaseDir\\:\\:__construct\\(\\) expects array\\<string\\>\\|string, iterable\\<string\\> given\\.$#"
+			count: 1
+			path: src/TaskOverride/Filesystem/DeleteDirTask.php
+
+		-
+			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$binary \\(string\\|null\\) does not accept array\\<string\\>\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$instance \\(Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|null\\) does not accept array\\<string\\>\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$phpIniScanDir \\(array\\<string\\>\\|null\\) does not accept array\\<string\\>\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$phpRc \\(string\\|null\\) does not accept array\\<string\\>\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$weight \\(float\\|null\\) does not accept array\\<string\\>\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResult.php
+
+		-
+			message: "#^Cannot cast array\\|string\\|false to string\\.$#"
+			count: 1
+			path: src/VariationPickResult/VariationPickResultConverter.php
+

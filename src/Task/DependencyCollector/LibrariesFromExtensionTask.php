@@ -15,6 +15,11 @@ class LibrariesFromExtensionTask extends BaseTask
 
     protected string $taskName = 'pmkr - Collect library dependencies from extension {extensionName}';
 
+    /**
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
     protected function getTaskContext($context = null)
     {
         $context = parent::getTaskContext($context);
@@ -45,9 +50,6 @@ class LibrariesFromExtensionTask extends BaseTask
     //endregion
 
     // region extension
-    /**
-     * @var null|\Pmkr\Pmkr\Model\Extension
-     */
     protected ?Extension $extension = null;
 
     /**
@@ -76,6 +78,11 @@ class LibrariesFromExtensionTask extends BaseTask
         $this->utils = $utils;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);

@@ -17,9 +17,17 @@ abstract class TestBase extends Unit
 
     abstract protected function createParser(): ParserInterface;
 
+    /**
+     * @return array<string, mixed>
+     */
     abstract public function casesParser(): array;
 
     /**
+     * @param array{
+     *     exitCode: int,
+     *     assets: array<string, mixed>,
+     * } $expected
+     *
      * @dataProvider casesParser
      */
     public function testParse(
@@ -27,7 +35,7 @@ abstract class TestBase extends Unit
         int $exitCode,
         string $stdOutput,
         string $stdError
-    ) {
+    ): void {
         $parser = $this->createParser();
 
         $this->tester->assertSame(

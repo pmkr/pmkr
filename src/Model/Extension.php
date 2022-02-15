@@ -9,14 +9,17 @@ namespace Pmkr\Pmkr\Model;
  * @property-read int|float $weight
  * @property-read string $name
  * @property-read null|string $version
- * @property-read \Pmkr\Pmkr\Model\Checksums $checksums
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Checksum> $checksums
  * @property-read string $ignore
  * @property-read \Pmkr\Pmkr\Model\Downloader $downloader
  * @property-read \Pmkr\Pmkr\Model\Compiler $compiler
- * @property-read array $dependencies
- * @property-read bool[] $patches
- * @property-read false[]|string[] $configureEnvVar
- * @property-read false[]|null[]|string[] $configure
+ * @property-read array{
+ *     packages?: array<string, array<string, bool>>,
+ *     libraries?: array<string, array<string, bool>>,
+ * } $dependencies
+ * @property-read array<string, bool> $patches
+ * @property-read array<string, array<string, false|string>> $configureEnvVar
+ * @property-read array<string, array<string, null|false|string>> $configure
  * @property-read array $etc
  */
 class Extension extends Base
@@ -29,7 +32,14 @@ class Extension extends Base
         'name' => [],
         'version' => [],
         'checksums' => [
-            'type' => Checksums::class,
+            'type' => Collection::class,
+            'state' => [
+                'propertyMapping' => [
+                    '' => [
+                        'type' => Checksum::class,
+                    ],
+                ],
+            ],
         ],
         'ignore' => [
             'default' => 'never',

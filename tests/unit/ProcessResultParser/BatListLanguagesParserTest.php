@@ -22,6 +22,9 @@ class BatListLanguagesParserTest extends TestBase
         return new BatListLanguagesParser($utils);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function casesParser(): array
     {
         return [

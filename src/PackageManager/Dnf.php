@@ -17,6 +17,9 @@ class Dnf extends HandlerBase
         $this->listParser = $listParser;
     }
 
+    /**
+     * @param array<string> $packageNames
+     */
     public function missingCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -36,13 +39,17 @@ class Dnf extends HandlerBase
     }
 
     /**
-     * @return array{messages: string[], installed: string[], not-installed: string[], missing: string[]}
+     * {@inheritdoc}
      */
     public function missing(array $packageNames): array
     {
         $command = $this->missingCommand($packageNames);
         if ($command === '') {
-            return [];
+            return [
+                'missing' => [],
+                'installed' => [],
+                'not-installed' => [],
+            ];
         }
 
         $callback = function ($type, $text) {
@@ -65,6 +72,9 @@ class Dnf extends HandlerBase
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function installCommand(array $packageNames): string
     {
         if (!$packageNames) {
@@ -81,6 +91,9 @@ class Dnf extends HandlerBase
         return vsprintf($cmdPattern, $cmdArgs);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function install(array $packageNames)
     {
         $command = $this->installCommand($packageNames);

@@ -29,6 +29,10 @@ class ProcessFactory
     // endregion
 
     /**
+     * @param array<string> $command
+     * @param array<string, string> $env
+     * @param null|resource $input
+     *
      * @see \Symfony\Component\Process\Process::__construct()
      */
     public function createInstance(
@@ -38,12 +42,16 @@ class ProcessFactory
         $input = null,
         ?float $timeout = 60
     ): Process {
+        /** @var \Symfony\Component\Process\Process $class */
         $class = $this->getClassFqn();
 
         return new $class($command, $cwd, $env, $input, $timeout);
     }
 
     /**
+     * @param array<string, string> $env
+     * @param null|resource $input
+     *
      * @see \Symfony\Component\Process\Process::fromShellCommandline()
      */
     public function fromShellCommandline(
@@ -53,6 +61,15 @@ class ProcessFactory
         $input = null,
         ?float $timeout = 60
     ): Process {
+        /**
+         * @var callable(
+         *     string $command,
+         *     ?string $cwd,
+         *     ?array<string, string> $env,
+         *     ?resource $input,
+         *     ?float $timeout
+         * ): \Symfony\Component\Process\Process $callable
+         */
         $callable = $this->getClassFqn() . '::fromShellCommandline';
 
         return $callable($command, $cwd, $env, $input, $timeout);

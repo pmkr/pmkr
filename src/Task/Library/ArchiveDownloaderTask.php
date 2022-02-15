@@ -32,7 +32,9 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -56,6 +58,11 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -64,6 +71,9 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function runDoIt()
     {
         // @todo Apply patches.

@@ -17,6 +17,9 @@ class InitCommand extends CommandBase
 
     protected TemplateHelper $templateHelper;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if ($this->initialized) {
@@ -31,6 +34,8 @@ class InitCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command init
      */
     public function cmdInitExecute(
@@ -48,6 +53,8 @@ class InitCommand extends CommandBase
     }
 
     /**
+     * @param mixed[] $options
+     *
      * @command init:home
      */
     public function cmdInitHomeExecute(
@@ -65,6 +72,8 @@ class InitCommand extends CommandBase
      * Initializes ~/bin/pmkr to make sure that pmkr always uses a specific PHP
      * executable.
      *
+     * @param mixed[] $options
+     *
      * @command init:pmkr
      */
     public function cmdInitPmkrExecute(
@@ -80,6 +89,11 @@ class InitCommand extends CommandBase
         return $cb;
     }
 
+    /**
+     * @param mixed[] $options
+     *
+     * @return $this
+     */
     protected function addTasksInitHome(CollectionBuilder $cb, array $options)
     {
         $cb->addCode(
@@ -124,6 +138,11 @@ class InitCommand extends CommandBase
         return $this;
     }
 
+    /**
+     * @param mixed[] $options
+     *
+     * @return $this
+     */
     protected function addTasksInitPmkr(CollectionBuilder $cb, array $options)
     {
         $cb->addCode(

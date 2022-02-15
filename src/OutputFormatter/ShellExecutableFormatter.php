@@ -27,6 +27,11 @@ class ShellExecutableFormatter implements FormatterInterface, ValidationInterfac
         $this->syntaxHighlighter = $syntaxHighlighter;
     }
 
+    /**
+     * @param \ReflectionClass<object> $dataType
+     *
+     * @return bool
+     */
     public function isValidDataType(\ReflectionClass $dataType)
     {
         return $dataType->getName() === VariationPickCommandResult::class
@@ -34,11 +39,19 @@ class ShellExecutableFormatter implements FormatterInterface, ValidationInterfac
             || $dataType->getName() === VariationPickResult::class;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function validate($structuredData)
     {
         return $structuredData;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     public function write(
         OutputInterface $output,
         $data,

@@ -28,7 +28,9 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
     protected string $taskName = 'PMKR extension:compile {extensionKey}';
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -108,6 +110,11 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -165,7 +172,6 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
                             <=> mb_substr_count($b->getPathname(), \DIRECTORY_SEPARATOR);
                     });
 
-                /** @var \Symfony\Component\Finder\SplFileInfo $file */
                 $iterator = $files->getIterator();
                 $iterator->rewind();
                 $file = $iterator->valid() ? $iterator->current() : null;

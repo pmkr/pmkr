@@ -22,7 +22,7 @@ use Sweetchuck\Utils\VersionNumber;
  * @property-read null|\Pmkr\Pmkr\Model\Core $core
  * @property-read null|string $extensionSetNameSuffix
  * @property-read null|string $extensionSetName
- * @property-read \Pmkr\Pmkr\Model\ExtensionSet $extensionSet
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>> $extensionSet
  * @property-read \Pmkr\Pmkr\Model\Extension[] $extensions
  * @property-read string $srcDir
  * @property-read string $shareDir
@@ -32,6 +32,9 @@ class Instance extends Base
 {
     protected Utils $utils;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function __set_state($values)
     {
         $self = parent::__set_state($values);
@@ -124,13 +127,13 @@ class Instance extends Base
     {
         $config = $this->getConfig();
         $coreName = $this->coreName;
-        if (!$config->has("cores.$coreName")) {
+        if ($coreName === null || !$config->has("cores.$coreName")) {
             return null;
         }
 
         return Core::__set_state([
             'config' => $config,
-            'configPath' => ['cores', $this->coreName],
+            'configPath' => ['cores', $coreName],
         ]);
     }
 
@@ -175,19 +178,30 @@ class Instance extends Base
         );
     }
 
-    protected function extensionSet(): ?ExtensionSet
+    /**
+     * @return null|\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>
+     */
+    protected function extensionSet(): ?Collection
     {
         $extensionSetName = $this->extensionSetName;
         if ($extensionSetName === null) {
             return null;
         }
 
-        return ExtensionSet::__set_state([
+        return Collection::__set_state([
             'config' => $this->getConfig(),
             'configPath' => ['extensionSets', $extensionSetName],
+            'propertyMapping' => [
+                '' => [
+                    'type' => ExtensionSetItem::class,
+                ],
+            ],
         ]);
     }
 
+    /**
+     * @return array<\Pmkr\Pmkr\Model\Extension>
+     */
     protected function extensions(): array
     {
         $extensionsAll = $this->getConfig()->get('extensions') ?: [];

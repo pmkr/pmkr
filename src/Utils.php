@@ -44,6 +44,10 @@ class Utils implements ConfigAwareInterface
         return $this->getConfig()->get('env.HOME') . "/.$appName";
     }
 
+    /**
+     * @param array<string> $candidates
+     * @param array<string> $array
+     */
     public function findCandidate(
         array $candidates,
         array $array
@@ -57,6 +61,9 @@ class Utils implements ConfigAwareInterface
         return null;
     }
 
+    /**
+     * @return array<string>
+     */
     public function nameCandidates(
         string $prefix,
         VersionNumber $versionNumber,
@@ -118,7 +125,7 @@ class Utils implements ConfigAwareInterface
      */
     public function phpCoreCacheDestination(ConfigInterface $config, string $uri): string
     {
-        $uriPath = parse_url($uri, \PHP_URL_PATH);
+        $uriPath = (string) parse_url($uri, \PHP_URL_PATH);
         $uriBaseName = basename($uriPath);
 
         return $config->get('dir.cache') . "/file/php-core/$uriBaseName";
@@ -127,9 +134,9 @@ class Utils implements ConfigAwareInterface
     /**
      * @todo Remove $config argument.
      */
-    public function phpExtensionCacheDestination(ConfigInterface $config, string $uri)
+    public function phpExtensionCacheDestination(ConfigInterface $config, string $uri): string
     {
-        $uriPath = parse_url($uri, \PHP_URL_PATH);
+        $uriPath = (string) parse_url($uri, \PHP_URL_PATH);
         $uriBaseName = basename($uriPath);
 
         return $config->get('dir.cache') . "/file/php-extension/$uriBaseName";
@@ -138,9 +145,9 @@ class Utils implements ConfigAwareInterface
     /**
      * @todo Remove $config argument.
      */
-    public function libraryCacheDestination(ConfigInterface $config, string $uri)
+    public function libraryCacheDestination(ConfigInterface $config, string $uri): string
     {
-        $uriPath = parse_url($uri, \PHP_URL_PATH);
+        $uriPath = (string) parse_url($uri, \PHP_URL_PATH);
         $uriBaseName = basename($uriPath);
 
         // @todo This not gonna work for every URL.
@@ -153,7 +160,7 @@ class Utils implements ConfigAwareInterface
      */
     public function gitUrlToCacheDestination(ConfigInterface $config, string $url): string
     {
-        $parts = parse_url($url);
+        $parts = (array) parse_url($url);
         if (!isset($parts['host']) || !isset($parts['path'])) {
             $parts = $this->parseGitUrl($url);
         }
@@ -166,7 +173,7 @@ class Utils implements ConfigAwareInterface
             [
                 $config->get('dir.cache'),
                 'git',
-                $parts['host'],
+                $parts['host'] ?? 'unknown',
                 $path,
             ]
         );
@@ -178,6 +185,13 @@ class Utils implements ConfigAwareInterface
         return $dst;
     }
 
+    /**
+     * @return array{
+     *     user?: string,
+     *     host?: string,
+     *     path?: string,
+     * }
+     */
     public function parseGitUrl(string $url): array
     {
         $matches = [];
@@ -197,7 +211,7 @@ class Utils implements ConfigAwareInterface
 
     /**
      * @param string $required
-     * @param PearRelease[] $list
+     * @param array<string, PearRelease> $list
      *
      * @return null|PearRelease
      */
@@ -207,8 +221,9 @@ class Utils implements ConfigAwareInterface
         if ($isExact) {
             return $list[$required] ?? null;
         }
-
-        uksort($list, 'version_compare');
+        /** @var callable(string $a, string $b): int $comparer */
+        $comparer = 'version_compare';
+        uksort($list, $comparer);
         /** @var PearRelease[] $list */
         $list = array_reverse($list, true);
         if ($required === 'stable') {
@@ -238,6 +253,11 @@ class Utils implements ConfigAwareInterface
         return $extension->ignore === $instanceThreadType;
     }
 
+    /**
+     * @param iterable<int|string, null|false|string> $envVars
+     *
+     * @return array<string>
+     */
     public function envVarsToExpressions(iterable $envVars): array
     {
         $expressions = [];
@@ -249,6 +269,7 @@ class Utils implements ConfigAwareInterface
 
             if ($value === null) {
                 // Unset.
+                assert(!is_numeric($name));
                 $expressions[] = "$name=";
 
                 continue;
@@ -267,6 +288,9 @@ class Utils implements ConfigAwareInterface
         return $expressions;
     }
 
+    /**
+     * @return string[]
+     */
     public function explodeCommaSeparatedList(string $list): array
     {
         return preg_split(
@@ -274,19 +298,18 @@ class Utils implements ConfigAwareInterface
             trim($list, "\n\r\t ,"),
             -1,
             PREG_SPLIT_NO_EMPTY,
-        );
+        ) ?: [];
     }
 
     /**
-     * @param null|string|string[] $list
+     * @param null|string|array<string>|array<array<string>> $list
      *
-     * @return array
+     * @return array<string>
      */
     public function normalizeCommaSeparatedList($list): array
     {
-        settype($list, 'array');
         $result = [];
-        foreach ($list as $item) {
+        foreach ((array) $list as $item) {
             $item = is_array($item) ?
                 $this->normalizeCommaSeparatedList($item)
                 : $this->explodeCommaSeparatedList($item);
@@ -297,13 +320,14 @@ class Utils implements ConfigAwareInterface
         return $result;
     }
 
+    /**
+     * @param iterable<string, \Pmkr\Pmkr\Model\Instance> $instances
+     *
+     * @return array<string, string>
+     */
     public function ioInstanceOptions(iterable $instances): array
     {
         $options = [];
-        /**
-         * @var string $instanceName
-         * @var \Pmkr\Pmkr\Model\Instance $instance
-         */
         foreach ($instances as $instance) {
             if ($instance->hidden) {
                 continue;
@@ -324,6 +348,9 @@ class Utils implements ConfigAwareInterface
         return $options;
     }
 
+    /**
+     * @return mixed
+     */
     public function getInputValue(InputInterface $input, string $locator)
     {
         [$type, $name] = explode('.', $locator, 2);
@@ -333,6 +360,11 @@ class Utils implements ConfigAwareInterface
             : $input->getOption($name);
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return $this
+     */
     public function setInputValue(InputInterface $input, string $locator, $value)
     {
         [$type, $name] = explode('.', $locator, 2);
@@ -347,10 +379,9 @@ class Utils implements ConfigAwareInterface
     public function getProcessCallback(OutputInterface $output): callable
     {
         $stdOutput = $output;
-        $stdError = $output;
-        if ($output instanceof ConsoleOutputInterface) {
-            $stdError = $output->getErrorOutput() ?? $output;
-        }
+        $stdError = $output instanceof ConsoleOutputInterface ?
+            $output->getErrorOutput()
+            : $stdOutput;
 
         return function ($type, $text) use ($stdOutput, $stdError) {
             $type === Process::OUT ?
@@ -359,7 +390,7 @@ class Utils implements ConfigAwareInterface
         };
     }
 
-    public function replaceFileExtension($fileName, $new): string
+    public function replaceFileExtension(string $fileName, string $new): string
     {
         // @todo Support for multipart. .tar.gz.
         return preg_replace('/\..+?$/', ".$new", $fileName);
@@ -378,6 +409,9 @@ class Utils implements ConfigAwareInterface
         return $value ? "<fg=green>$true</>" : "<fg=red>$false</>";
     }
 
+    /**
+     * @return array<string>
+     */
     public function splitLines(string $lines): array
     {
         if ($lines === '') {
@@ -405,6 +439,11 @@ class Utils implements ConfigAwareInterface
         return $mainPos === false ? [$lines] : explode($main, $lines);
     }
 
+    /**
+     * @param iterable<string, bool|string> $mapping
+     *
+     * @return array<string, bool>
+     */
     public function normalizeBooleanMapping(iterable $mapping): array
     {
         $result = [];
@@ -420,6 +459,9 @@ class Utils implements ConfigAwareInterface
         return $result;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function fetchPackageDependenciesFromInstanceCore(
         OpSys $opSys,
         Instance $instance
@@ -437,6 +479,9 @@ class Utils implements ConfigAwareInterface
         return array_filter($packages);
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function fetchPackageDependenciesFromInstanceExtensions(
         OpSys $opSys,
         Instance $instance,
@@ -455,6 +500,9 @@ class Utils implements ConfigAwareInterface
         return $packagesAll;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function fetchPackageDependenciesFromExtension(
         OpSys $opSys,
         Extension $extension
@@ -472,6 +520,12 @@ class Utils implements ConfigAwareInterface
         return array_filter($packages);
     }
 
+    /**
+     * @param \Pmkr\Pmkr\OpSys\OpSys $opSys
+     * @param array<string, array<string, bool>> $libraryReferences
+     *
+     * @return array<string, bool>
+     */
     public function fetchLibraryKeys(
         OpSys $opSys,
         array $libraryReferences
@@ -483,6 +537,9 @@ class Utils implements ConfigAwareInterface
             : [];
     }
 
+    /**
+     * @return array<string>
+     */
     public function validateInstanceBinary(string $binary): array
     {
         $errors = [];

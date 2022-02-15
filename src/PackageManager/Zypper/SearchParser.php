@@ -10,7 +10,24 @@ class SearchParser
     const EXIT_CODE_MISSING = 104;
 
     /**
-     * @return array{'messages': string[], 'installed': string[], 'not-installed': string[], 'missing': string[]}
+     * @param string[] $packageNames
+     *
+     * @return array{
+     *   messages: string[],
+     *   installed: array<string, array{
+     *     name: string,
+     *     status: string,
+     *     summary: string,
+     *     kind: string,
+     *   }>,
+     *   not-installed: array<string, array{
+     *     name: string,
+     *     status: string,
+     *     summary: string,
+     *     kind: string,
+     *   }>,
+     *   missing: string[],
+     * }
      */
     public function parseMissing(
         array $packageNames,
@@ -41,7 +58,14 @@ class SearchParser
                 'kind' => $solvable->getAttribute('kind'),
             ];
 
-            $assets[$package['status']][$package['name']] = $package;
+            switch ($package['status']) {
+                case 'installed':
+                    $assets['installed'][$package['name']] = $package;
+                    break;
+                case 'not-installed':
+                    $assets['not-installed'][$package['name']] = $package;
+                    break;
+            }
         }
 
         $assets['missing'] = array_diff(

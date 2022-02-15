@@ -409,24 +409,24 @@ cores:
 
 
 instances:
-    '070427-nts': &instance_070427
+    '070428-nts': &instance_070428
         isZts: false
-        coreVersion: '7.4.27'
+        coreVersion: '7.4.28'
         coreChecksum:
             hashAlgorithm: 'sha256'
-            hashChecksum: '184aaef313fbf28c9987f6aa07b655cd1b0eae9e7e17061775a3e7d880185563'
-    '070427-zts':
+            hashChecksum: '2085086a863444b0e39547de1a4969fd1c40a0c188eb58fab2938b649b0c4b58'
+    '070428-zts':
         isZts: true
-        <<: *instance_070427
-    '070427-nts-none':
+        <<: *instance_070428
+    '070428-nts-none':
         hidden: true
         extensionSetNameSuffix: 'none'
-        <<: *instance_070427
+        <<: *instance_070428
 
 
 aliases:
-    '0704-nts': '070427-nts'
-    '0704-zts': '070427-zts'
+    '0704-nts': '070428-nts'
+    '0704-zts': '070428-zts'
 
 
 variations:

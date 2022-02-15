@@ -13,6 +13,9 @@ class PhpExtensionVersionDetector
 
     protected VersionNumber $coreVersion;
 
+    /**
+     * @var array<string, array<string, bool>>
+     */
     protected array $coreExtensions = [
         '0506' => [
             'bcmath' => true,
@@ -110,6 +113,9 @@ class PhpExtensionVersionDetector
         $this->initCoreExtensions();
     }
 
+    /**
+     * @return $this
+     */
     protected function initCoreExtensions()
     {
         $this->coreExtensions['0700'] = $this->coreExtensions['0506'];
@@ -166,6 +172,9 @@ class PhpExtensionVersionDetector
         return null;
     }
 
+    /**
+     * @return array<string>
+     */
     protected function headerFileNameCandidates(string $name): array
     {
         return [
@@ -186,7 +195,7 @@ class PhpExtensionVersionDetector
         $matches = [];
         preg_match(
             "/^#define PHP_{$nameUpperSafe}_VERSION\s+(?P<version>PHP_VERSION|\"[^\"]+\")\$/m",
-            file_get_contents($filePath),
+            (string) file_get_contents($filePath),
             $matches,
         );
 

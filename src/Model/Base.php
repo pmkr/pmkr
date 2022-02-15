@@ -9,32 +9,57 @@ use Consolidation\Config\ConfigAwareTrait;
 
 /**
  * @todo Every property can cause conflict with the config schema.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Base implements ConfigAwareInterface, \ArrayAccess, \JsonSerializable
 {
     use ConfigAwareTrait;
 
+    /**
+     * @var array<string>
+     */
     protected array $configPath = [];
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getConfigPath(): array
     {
         return $this->configPath;
     }
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $propertyMapping = [];
 
+    /**
+     * @param array{
+     *     config: \Consolidation\Config\ConfigInterface,
+     *     configPath?: array<string>,
+     *     propertyMapping?: array<string, mixed>,
+     * } $values
+     *
+     * @return static
+     */
     public static function __set_state(array $values)
     {
         $self = new static();
         $self->setConfig($values['config']);
         $self->configPath = $values['configPath'] ?? [];
+        if (isset($values['propertyMapping'])) {
+            $self->propertyMapping = $values['propertyMapping'];
+        }
 
         return $self;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
     public function __get($name)
     {
         $path = $this->configPath($name);
@@ -65,13 +90,21 @@ class Base implements ConfigAwareInterface, \ArrayAccess, \JsonSerializable
             return $this->{$method}($meta);
         }
 
-        return call_user_func(
-            [$meta['type'], '__set_state'],
-            [
-                'config' => $config,
-                'configPath' => array_merge($this->configPath, [$name]),
-            ],
-        );
+        /**
+         * @var callable(array<string, mixed> $values): \Pmkr\Pmkr\Model\Base
+         */
+        $setState = [$meta['type'], '__set_state'];
+
+        $values = [
+            'config' => $config,
+            'configPath' => array_merge($this->configPath, [$name]),
+        ];
+
+        if (isset($meta['state'])) {
+            $values += $meta['state'];
+        }
+
+        return $setState($values);
     }
 
     // region JsonSerializable

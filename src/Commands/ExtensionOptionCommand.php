@@ -11,6 +11,8 @@ class ExtensionOptionCommand extends CommandBase
 {
 
     /**
+     * @param array<string> $extensionNames
+     *
      * @command extension:option:list
      *
      * @pmkrInitNormalizeConfig
@@ -29,7 +31,7 @@ class ExtensionOptionCommand extends CommandBase
     public function cmdExtensionOptionListExecute(
         string $instanceName,
         array $extensionNames
-    ) {
+    ): void {
         $instance = $this->getPmkr()->instances[$instanceName];
         $extDirRoot = $instance->srcDir . '/ext';
         $extDirs = (new Finder())
@@ -68,9 +70,9 @@ class ExtensionOptionCommand extends CommandBase
             }
 
             $stdOutput = $process->getOutput();
-            $startPos = strpos($stdOutput, '--with-php-config');
-            $startPos = strpos($stdOutput, "\n", $startPos);
-            $endPos = strpos($stdOutput, '--enable-shared');
+            $startPos = (int) strpos($stdOutput, '--with-php-config');
+            $startPos = (int) strpos($stdOutput, "\n", $startPos);
+            $endPos = (int) strpos($stdOutput, '--enable-shared');
             $value = substr($stdOutput, $startPos, $endPos - $startPos);
             $this->yell($extName);
             $this->output()->writeln($value);

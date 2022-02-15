@@ -14,11 +14,14 @@ trait PhpCoreEtcDeployTaskLoader
 {
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\EtcDeploy\PhpCoreEtcDeployTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpCoreEtcDeploy(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
+        /** @var \Pmkr\Pmkr\Task\EtcDeploy\PhpCoreEtcDeployTask $task */
         $task = $this->task(
             PhpCoreEtcDeployTask::class,
             $container->get('twig.environment'),

@@ -5,12 +5,13 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Commands;
 
 use Pmkr\Pmkr\VariationPickResult\VariationPickResult;
-use Symfony\Component\Console\Input\InputOption;
 
 class VariationPickCommand extends CommandBase
 {
 
     /**
+     * @param mixed[] $options
+     *
      * @command variation:pick
      *
      * @aliases vp
@@ -19,9 +20,9 @@ class VariationPickCommand extends CommandBase
      * @pmkrValidateVariationKey arg.variationKey
      */
     public function cmdVariationPickExecute(
-        $variationKey,
+        string $variationKey,
         array $options = [
-            'binary' => InputOption::VALUE_REQUIRED,
+            'binary' => 'php',
             'format' => 'shell-var-setter',
         ]
     ): ?VariationPickResult {

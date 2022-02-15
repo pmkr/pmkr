@@ -16,8 +16,24 @@ abstract class CommandBuilderBase
 
     protected ConfigInterface $config;
 
-    protected array $cmd = [];
+    /**
+     * @var array{
+     *     workingDirectory: string,
+     *     envVars: array<string, array<string>>,
+     *     envVarsFlat: array<string, string>,
+     *     command: array<string>,
+     * }
+     */
+    protected array $cmd = [
+        'workingDirectory' => '',
+        'envVars' => [],
+        'envVarsFlat' => [],
+        'command' => [],
+    ];
 
+    /**
+     * @var array<string, array<string>>
+     */
     protected array $cmdOptions = [];
 
     public function __construct(Utils $utils, OpSys $opSys)
@@ -41,12 +57,16 @@ abstract class CommandBuilderBase
 
     abstract protected function getSrcDir(): string;
 
+    /**
+     * @return $this
+     */
     protected function init()
     {
         $this->cmdOptions = [];
         $this->cmd = [
             'workingDirectory' => $this->getSrcDir(),
             'envVars' => [],
+            'envVarsFlat' => [],
             'command' => [],
         ];
 
@@ -63,6 +83,11 @@ abstract class CommandBuilderBase
      */
     abstract protected function process();
 
+    /**
+     * @param array<string, array<string, false|string>> $configureEnvVar
+     *
+     * @return $this
+     */
     protected function addCmdEnvVars(array $configureEnvVar)
     {
         $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($configureEnvVar));
@@ -81,6 +106,11 @@ abstract class CommandBuilderBase
         return $this;
     }
 
+    /**
+     * @param array<string, array<string, null|false|string>> $configure
+     *
+     * @return $this
+     */
     protected function addCmdOptions(array $configure)
     {
         $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($configure));
@@ -122,7 +152,7 @@ abstract class CommandBuilderBase
     protected function mergeCmdOptions()
     {
         foreach ($this->cmdOptions as $value) {
-            $this->cmd['command'][] = reset($value);
+            $this->cmd['command'][] = (string) reset($value);
         }
 
         return $this;
@@ -151,7 +181,7 @@ abstract class CommandBuilderBase
     protected function mergeCmdEnvVars()
     {
         foreach ($this->cmd['envVars'] as $name => $value) {
-            $this->cmd['envVars'][$name] = reset($value);
+            $this->cmd['envVarsFlat'][$name] = (string) reset($value);
         }
 
         return $this;
@@ -159,7 +189,7 @@ abstract class CommandBuilderBase
 
     protected function flat(): string
     {
-        $flat = implode(" \\\n", $this->cmd['envVars']);
+        $flat = implode(" \\\n", $this->cmd['envVarsFlat']);
         if ($flat) {
             $flat .= " \\\n";
         }

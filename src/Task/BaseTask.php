@@ -21,6 +21,9 @@ abstract class BaseTask extends RoboBaseTask
 
     protected string $taskResultMessage = '';
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $assets = [];
 
     // region Option - assetNamePrefix.
@@ -42,6 +45,11 @@ abstract class BaseTask extends RoboBaseTask
     }
     // endregion
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return $this
+     */
     public function setOptions(array $options)
     {
         if (array_key_exists('assetNamePrefix', $options)) {
@@ -57,7 +65,9 @@ abstract class BaseTask extends RoboBaseTask
     }
 
     /**
-     * {@inheritdoc}
+     * @param ?array<string, mixed> $context
+     *
+     * @return array<string, mixed>
      */
     protected function getTaskContext($context = null)
     {
@@ -71,7 +81,7 @@ abstract class BaseTask extends RoboBaseTask
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Robo\Result<string, mixed>
      */
     public function run()
     {
@@ -82,6 +92,9 @@ abstract class BaseTask extends RoboBaseTask
             ->runReturn();
     }
 
+    /**
+     * @return $this
+     */
     protected function runInit()
     {
         return $this;
@@ -107,6 +120,9 @@ abstract class BaseTask extends RoboBaseTask
      */
     abstract protected function runDoIt();
 
+    /**
+     * @return \Robo\Result<string, mixed>
+     */
     protected function runReturn(): Result
     {
         return new Result(
@@ -127,6 +143,9 @@ abstract class BaseTask extends RoboBaseTask
         return $this->taskResultMessage;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getAssetsWithPrefixedNames(): array
     {
         $prefix = $this->getAssetNamePrefix();

@@ -23,6 +23,11 @@ class CodeFormatter implements FormatterInterface, ValidationInterface
         $this->syntaxHighlighter = $syntaxHighlighter;
     }
 
+    /**
+     * @param \ReflectionClass<object> $dataType
+     *
+     * @return bool
+     */
     public function isValidDataType(\ReflectionClass $dataType)
     {
         return $dataType->getName() === CodeCommandResult::class
@@ -31,6 +36,11 @@ class CodeFormatter implements FormatterInterface, ValidationInterface
             || $dataType->isSubclassOf(CodeResult::class);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return mixed
+     */
     public function validate($structuredData)
     {
         if (!($structuredData instanceof CodeResult)) {
@@ -46,6 +56,11 @@ class CodeFormatter implements FormatterInterface, ValidationInterface
         return $structuredData;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     public function write(
         OutputInterface $output,
         $data,

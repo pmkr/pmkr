@@ -16,13 +16,16 @@ class EnvPathHandlerTest extends Unit
 {
     protected UnitTester $tester;
 
-    public function testPathSeparator()
+    public function testPathSeparator(): void
     {
         $config = $this->tester->grabConfig(null);
         $handler = new EnvPathHandler($config);
         $this->tester->assertSame(\PATH_SEPARATOR, $handler->getPathSeparator());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesRemove(): array
     {
         return [
@@ -53,6 +56,9 @@ class EnvPathHandlerTest extends Unit
         $this->tester->assertEquals($expected, $handler->remove($envPath));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesOverride(): array
     {
         return [
@@ -87,7 +93,7 @@ class EnvPathHandlerTest extends Unit
     /**
      * @dataProvider casesOverride
      */
-    public function testOverride($expected, string $envPath): void
+    public function testOverride(string $expected, string $envPath): void
     {
         $config = $this->tester->grabConfig(
             null,
@@ -108,6 +114,9 @@ class EnvPathHandlerTest extends Unit
         $this->tester->assertSame($expected, $handler->override($envPath, $instance));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesGetCurrentInstanceName(): array
     {
         return [

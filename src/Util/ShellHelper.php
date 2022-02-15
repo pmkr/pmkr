@@ -14,6 +14,12 @@ class ShellHelper
         $this->processFactory = $processFactory;
     }
 
+    /**
+     * @return array{
+     *     PHPRC?: string,
+     *     PHP_INI_SCAN_DIR?: string,
+     * }
+     */
     public function collectPhpIniPaths(string $phpBinary): array
     {
         $paths = [];

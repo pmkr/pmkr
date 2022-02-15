@@ -7,7 +7,10 @@ namespace Pmkr\Pmkr\Model;
 /**
  * @property-read null|string $key
  * @property-read bool $enabled
- * @property-read array $when
+ * @property-read array{
+ *     opSys?: array<string, bool>,
+ *     versionConstraint?: string,
+ * } $when
  * @property-read int|float $weight
  * @property-read null|string $issue
  * @property-read null|string $description

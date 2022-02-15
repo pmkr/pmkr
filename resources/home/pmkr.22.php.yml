@@ -354,7 +354,7 @@ extensions:
                     libonig5: true
                     oniguruma-devel: true
         configure:
-            defautl:
+            default:
                 --enable-mbstring: ~
                 #--with-onig: 'DIR'
         etc:

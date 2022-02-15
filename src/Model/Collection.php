@@ -9,8 +9,9 @@ namespace Pmkr\Pmkr\Model;
  * @implements \IteratorAggregate<string, TValue>
  * @implements \ArrayAccess<string, TValue>
  */
-abstract class IterableBase extends Base implements \IteratorAggregate, \ArrayAccess
+class Collection extends Base implements \IteratorAggregate, \ArrayAccess
 {
+
     /**
      * @return \Traversable<string, TValue>
      */

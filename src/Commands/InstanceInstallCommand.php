@@ -32,6 +32,9 @@ class InstanceInstallCommand extends CommandBase
 
     protected PhpCoreCompileConfigureCommandBuilder $phpCoreCompileConfigureCommandBuilder;
 
+    /**
+     * @return $this
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -159,7 +162,6 @@ class InstanceInstallCommand extends CommandBase
             ))
             ->addCode($this->getTaskCheckMissingPackageDependencies(
                 'packageManager',
-                'packageManager.packages',
             ))
             ->addTask($this->getTaskPhpExtensionsInstall(
                 'opSys',
@@ -175,7 +177,7 @@ class InstanceInstallCommand extends CommandBase
      *
      * @param string $instanceName
      *   A key from the pmkr.yml#/instances array.
-     * @param array $extensionNames
+     * @param array<string> $extensionNames
      *   Keys from the pmkr.yml#/extensions array.
      *   Comma separated list or multiple argument.
      *
@@ -198,9 +200,8 @@ class InstanceInstallCommand extends CommandBase
      */
     public function cmdInstanceInstallExtCustomExecute(
         string $instanceName,
-        array $extensionNames,
-        array $options = []
-    ) {
+        array $extensionNames
+    ): TaskInterface {
         return $this
             ->collectionBuilder()
             ->addCode(function (RoboState $state) use ($instanceName, $extensionNames): int {
@@ -220,7 +221,6 @@ class InstanceInstallCommand extends CommandBase
                 'extensionNameMapping',
             ))
             ->addCode($this->getTaskValidateExtensionNameMapping(
-                'instance',
                 'extensionNameMapping',
                 'extensions',
             ))
@@ -239,7 +239,6 @@ class InstanceInstallCommand extends CommandBase
             ))
             ->addCode($this->getTaskCheckMissingPackageDependencies(
                 'packageManager',
-                'packageManager.packages',
             ))
             ->addTask($this->getTaskPhpExtensionsInstall(
                 'opSys',
@@ -286,7 +285,6 @@ class InstanceInstallCommand extends CommandBase
             ))
             ->addCode($this->getTaskCheckMissingPackageDependencies(
                 'packageManager',
-                'packageManager.packages',
             ))
             ->addTask(
                 $this
@@ -387,7 +385,7 @@ class InstanceInstallCommand extends CommandBase
         };
     }
 
-    protected function getTaskApplyPatches(string $srcDirStateKey, $patchesStateKey)
+    protected function getTaskApplyPatches(string $srcDirStateKey, string $patchesStateKey): TaskInterface
     {
         $taskForEach = $this->taskForEach();
         $taskForEach
@@ -580,14 +578,12 @@ class InstanceInstallCommand extends CommandBase
     }
 
     protected function getTaskValidateExtensionNameMapping(
-        string $instanceStateKey,
         string $mappingStateKey,
         string $dstStateKey
     ): \Closure {
         return function (
             RoboState $state
         ) use (
-            $instanceStateKey,
             $mappingStateKey,
             $dstStateKey
         ): int {

@@ -17,6 +17,9 @@ class TemplateHandlerTest extends Unit
 {
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesRenderExamplePmkr(): array
     {
         $selfRoot = dirname(codecept_data_dir(), 2);
@@ -65,9 +68,11 @@ class TemplateHandlerTest extends Unit
     }
 
     /**
+     * @param array<string, mixed> $context
+     *
      * @dataProvider casesRenderExamplePmkr
      */
-    public function testRenderExamplePmkr(string $expected, array $context)
+    public function testRenderExamplePmkr(string $expected, array $context): void
     {
         $config = $this->tester->grabConfig();
         $this->tester->assertSame('/home/me', $config->get('env.HOME'));
@@ -82,7 +87,7 @@ class TemplateHandlerTest extends Unit
         );
     }
 
-    public function testRenderExampleZplugEntry()
+    public function testRenderExampleZplugEntry(): void
     {
         $config = $this->tester->grabConfig();
         $utils = new Utils($config);
@@ -103,7 +108,7 @@ class TemplateHandlerTest extends Unit
         );
     }
 
-    public function testRenderExampleZplugPluginPmkrrc()
+    public function testRenderExampleZplugPluginPmkrrc(): void
     {
         $config = $this->tester->grabConfig();
         $utils = new Utils($config);
@@ -134,7 +139,7 @@ class TemplateHandlerTest extends Unit
         );
     }
 
-    public function testRenderExamplePmkrRc()
+    public function testRenderExamplePmkrRc(): void
     {
         $config = $this->tester->grabConfig();
         $utils = new Utils($config);
@@ -155,7 +160,7 @@ class TemplateHandlerTest extends Unit
         );
     }
 
-    public function testRenderExampleInstance()
+    public function testRenderExampleInstance(): void
     {
         $config = $this->tester->grabConfig();
         $utils = new Utils($config);

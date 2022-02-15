@@ -6,6 +6,10 @@ namespace Pmkr\Pmkr\ProcessResultParser;
 
 abstract class ParserBase implements ParserInterface
 {
+
+    /**
+     * @var array<string, string>
+     */
     protected array $assetNameMapping = [];
 
     public function getAssetNameMapping(): array

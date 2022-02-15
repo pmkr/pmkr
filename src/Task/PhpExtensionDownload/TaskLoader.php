@@ -14,10 +14,13 @@ trait TaskLoader
 {
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\PhpExtensionDownload\WrapperTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpExtensionDownloadWrapper(array $options = []): CollectionBuilder
     {
+        /** @var \Pmkr\Pmkr\Task\PhpExtensionDownload\WrapperTask $task */
         $task = $this->task(WrapperTask::class);
         $task->setOptions($options);
         $task->setContainer($this->getContainer());
@@ -26,11 +29,14 @@ trait TaskLoader
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\PhpExtensionDownload\PeclTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpExtensionDownloadPecl(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
+        /** @var \Pmkr\Pmkr\Task\PhpExtensionDownload\PeclTask $task */
         $task = $this->task(
             PeclTask::class,
             $container->get('pmkr.php_extension.version_detector'),
@@ -44,11 +50,14 @@ trait TaskLoader
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\PhpExtensionDownload\GitTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpExtensionDownloadGit(array $options = []): CollectionBuilder
     {
         $container = $this->getContainer();
+        /** @var \Pmkr\Pmkr\Task\PhpExtensionDownload\GitTask $task */
         $task = $this->task(
             GitTask::class,
             $container->get('pmkr.utils'),

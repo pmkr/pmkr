@@ -13,6 +13,8 @@ use Robo\Collection\CollectionBuilder;
 trait TaskLoader
 {
     /**
+     * @param array<string, mixed> $options
+     *
      * @return \Pmkr\Pmkr\Task\Patch\ApplyPatchTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPatchApply(array $options = []): CollectionBuilder

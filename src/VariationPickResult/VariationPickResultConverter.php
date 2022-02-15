@@ -58,10 +58,16 @@ class VariationPickResultConverter
         return implode(\PHP_EOL, $shell) . \PHP_EOL;
     }
 
-    public function toProcessArgs(VariationPickResult $result): array
+    /**
+     * @return ?array{
+     *     command: array<string>,
+     *     envVars: array<string, string>,
+     * }
+     */
+    public function toProcessArgs(VariationPickResult $result): ?array
     {
         if ($result->instance === null) {
-            return [];
+            return null;
         }
 
         $replacementPairs = $this->getReplacementPairs($result);
@@ -97,11 +103,7 @@ class VariationPickResultConverter
         }
 
         $parts = [];
-        foreach ($args['envVars'] ?? [] as $name => $value) {
-            if ($value === null) {
-                continue;
-            }
-
+        foreach ($args['envVars'] as $name => $value) {
             $parts[] = "$name=" . escapeshellarg($value);
         }
 
@@ -115,6 +117,9 @@ class VariationPickResultConverter
         return implode(' ', $parts);
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getReplacementPairs(VariationPickResult $result): array
     {
         return [

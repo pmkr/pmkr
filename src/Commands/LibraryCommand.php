@@ -8,11 +8,14 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\AnnotatedCommand\CommandResult;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Pmkr\Pmkr\Model\Library;
+use Robo\Contract\TaskInterface;
 
 class LibraryCommand extends CommandBase
 {
 
     /**
+     * @param mixed[] $options
+     *
      * @command library:list
      *
      * @aliases lls
@@ -30,6 +33,10 @@ class LibraryCommand extends CommandBase
     }
 
     /**
+     * @param mixed $result
+     *
+     * @return mixed
+     *
      * @hook process library:list
      *
      * @link https://github.com/consolidation/annotated-command#process-hook
@@ -42,19 +49,20 @@ class LibraryCommand extends CommandBase
             return $result;
         }
 
+        /** @var \Pmkr\Pmkr\Model\Library[] $libraries */
         $libraries = $result->getOutputData();
-        if (!$libraries) {
+        $library = reset($libraries);
+        if (!$library) {
             return $result;
         }
 
-        $library = reset($libraries);
         if (!($library instanceof Library)) {
             return $result;
         }
 
         $input = $commandData->input();
         $format = $input->getOption('format');
-        $isHuman = in_array($format, ['table']);
+        $isHuman = $this->isHumanReadableOutputFormat($format);
 
         $converter = $this->getContainer()->get('pmkr.library.command_result_converter');
         $rows = $converter->toFlatRows($libraries, $isHuman);
@@ -71,6 +79,8 @@ class LibraryCommand extends CommandBase
     /**
      * Download and compile together.
      *
+     * @param mixed[] $options
+     *
      * @command library:install
      *
      * @aliases li
@@ -82,7 +92,7 @@ class LibraryCommand extends CommandBase
         array $options = [
             'skipIfExists' => true,
         ]
-    ) {
+    ): TaskInterface {
         $pmkr = $this->getPmkr();
         $library = $pmkr->libraries[$libraryKey];
 
@@ -99,10 +109,8 @@ class LibraryCommand extends CommandBase
      *
      * @pmkrInitNormalizeConfig
      */
-    public function cmdLibraryDownloadExecute(
-        string $libraryKey,
-        array $options = []
-    ) {
+    public function cmdLibraryDownloadExecute(string $libraryKey): TaskInterface
+    {
         $pmkr = $this->getPmkr();
         $library = $pmkr->libraries[$libraryKey];
 
@@ -118,10 +126,8 @@ class LibraryCommand extends CommandBase
      *
      * @pmkrInitNormalizeConfig
      */
-    public function cmdLibraryCompileExecute(
-        string $libraryKey,
-        array $options = []
-    ) {
+    public function cmdLibraryCompileExecute(string $libraryKey): TaskInterface
+    {
         $pmkr = $this->getPmkr();
         $library = $pmkr->libraries[$libraryKey];
 

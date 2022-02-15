@@ -18,6 +18,9 @@ class PatchFilterTest extends Unit
 
     protected UnitTester $tester;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function casesCheck(): array
     {
         return [
@@ -154,6 +157,11 @@ class PatchFilterTest extends Unit
     }
 
     /**
+     * @param array{
+     *     opSys?: string,
+     * } $options
+     * @param array<string, mixed> $configLayer
+     *
      * @dataProvider casesCheck
      */
     public function testCheck(bool $expected, array $options, array $configLayer): void

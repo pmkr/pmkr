@@ -10,6 +10,10 @@ use Symfony\Component\Process\Process;
 
 class Kate extends Base
 {
+
+    /**
+     * {@inheritdoc}
+     */
     protected array $executable = [
         'kate-syntax-highlighter',
     ];
@@ -87,7 +91,9 @@ class Kate extends Base
             }
 
             $stdOutput = trim($process->getOutput());
-            $languages = $stdOutput === '' ? [] : preg_split('/\s*\n\s*/', $stdOutput);
+            $languages = $stdOutput === '' ?
+                [] :
+                (preg_split('/\s*\n\s*/', $stdOutput) ?: []);
             $this->internalLanguages = array_fill_keys(
                 $languages,
                 [

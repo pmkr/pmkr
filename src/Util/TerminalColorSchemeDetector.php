@@ -48,6 +48,12 @@ class TerminalColorSchemeDetector
         return null;
     }
 
+    /**
+     * @return ?array{
+     *     fg: int,
+     *     bg: int,
+     * }
+     */
     protected function getFgBg(): ?array
     {
         $value = $this->config->get('env.COLORFGBG') ?? '';
@@ -63,6 +69,13 @@ class TerminalColorSchemeDetector
         ];
     }
 
+    /**
+     * @return ?array{
+     *     r: int,
+     *     g: int,
+     *     b: int,
+     * }
+     */
     protected function getBgRgb(): ?array
     {
         $command = ['printf', '\033]11;?\007'];

@@ -9,9 +9,14 @@ use Sweetchuck\Utils\VersionNumber;
 class OpSys
 {
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $state = [];
 
     /**
+     * @param array<string, mixed> $state
+     *
      * @return static
      */
     public static function __set_state(array $state)
@@ -34,6 +39,9 @@ class OpSys
         return $this->state['ID'] ?? null;
     }
 
+    /**
+     * @return null|array<string>
+     */
     public function idLike(): ?array
     {
         return $this->state['ID_LIKE'] ?? null;
@@ -83,7 +91,9 @@ class OpSys
             return $idWithVersionId;
         }
 
-        usort($identifiers, 'version_compare');
+        /** @var callable(string $a, string $b): int $comparer */
+        $comparer = 'version_compare';
+        usort($identifiers, $comparer);
         foreach (array_reverse($identifiers) as $identifier) {
             if (strpos($identifier, $id) === 0
                 && version_compare($identifier, $idWithVersionId, '<=')
@@ -102,13 +112,13 @@ class OpSys
 
     public function isLinux(): bool
     {
-        return $this->state['os_family'] ?? '' === 'Linux';
+        return ($this->state['os_family'] ?? '') === 'Linux';
     }
 
     public function isUnix(): bool
     {
         // @todo Improve.
-        return $this->state['os_family'] ?? '' === 'Linux';
+        return ($this->state['os_family'] ?? '') === 'Linux';
     }
 
     public function isBsd(): bool
@@ -136,6 +146,9 @@ class OpSys
         return $this->state['os_family'] ?? null;
     }
 
+    /**
+     * @param array<string, mixed> $expected
+     */
     public function isIdLikeOneOf(array $expected): bool
     {
         return count(array_intersect($this->idLike(), $expected)) > 0;

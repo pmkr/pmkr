@@ -22,6 +22,9 @@ class ConfigCommand extends CommandBase
 
     protected PmkrConfigValidator $pmkrConfigValidator;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function initDependencies()
     {
         if (!$this->initialized) {
@@ -32,10 +35,14 @@ class ConfigCommand extends CommandBase
             $this->jsonSchemaValidator = $container->get('json_schema.validator');
             $this->pmkrConfigValidator = $container->get('pmkr.config.validator');
         }
+
+        return $this;
     }
 
     /**
      * Exports PMKR configuration.
+     *
+     * @param mixed[] $options
      *
      * @command config:export
      *
@@ -64,7 +71,7 @@ class ConfigCommand extends CommandBase
     public function cmdConfigValidateExecute(): CommandResult
     {
         $schema = Yaml::parseFile('./schema/pmkr-01.schema.yml');
-        $data = json_decode(json_encode($this->getConfig()->export()));
+        $data = json_decode(json_encode($this->getConfig()->export()) ?: '{}');
 
         $this
             ->jsonSchemaValidator
