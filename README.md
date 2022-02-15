@@ -111,7 +111,7 @@ sed \
 
 @todo Method 2: not yet - phive.
 
-Method 3: Git + Composer
+Method 3: Git + [Composer 2.x]
 1. Run: `cd into/a/parent`
 2. Run:
     ```bash
@@ -137,8 +137,8 @@ After the installation, the basic usage is:
 
 ## Configuration
 
-The actually used configuration can be exported with the `pmkr config:export`
-command.
+The `pmkr config:export` command can be used in order to get an overview about
+the actually used configuration.
 
 The main configuration blocks are:
 
@@ -150,7 +150,7 @@ The main configuration blocks are:
 To edit the configuration pmkr.*.yml files, it is recommended to use a text
 editor which understands the JSONSchema definition and gives autocomplete and
 shows the corresponding documentation for the data structures. \
-[pmkr configuration JSON schema](./schema/pmkr-01.schema.yml)
+[pmkr configuration JSON schema]
 
 
 ### Configuration - instances
@@ -202,7 +202,31 @@ different operating systems. This mapping has to be maintained manually. \
 Don't worry, you don't have to do it alone, because pmkr ships this mapping. \
 But it can be incomplete or out of date, so patches are welcome.
 
+**Related configuration options**
+* `#/cores/*/dependencies/packages`
+* `#/extensions/*/dependencies/packages`
+
+
+## Library dependency installation
+
+On an up-to-date operating system difficult to compile an older PHP version from
+source, because it doesn't work with latest packages. \
+For example a PHP 5.6 can't be compiled against the latest ICU or openSSL
+libraries. \
+pmkr tries to solve this problem as well, by installing the required libraries
+from source.
+
+**Related configuration options**
+* `#/libraries`
+* `#/cores/*/dependencies/libraries`
+* `#/extensions/*/dependencies/libraries`
+
 
 ## ZPlug
 
 Run: `pmkr zplug:entry`
+
+---
+
+[Composer 2.x]: https://getcomposer.org/download/
+[pmkr configuration JSON schema]: ./schema/pmkr-01.schema.yml

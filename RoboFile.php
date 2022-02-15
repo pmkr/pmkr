@@ -5,12 +5,17 @@ declare(strict_types = 1);
 use Consolidation\AnnotatedCommand\CommandResult;
 use League\Container\Container as LeagueContainer;
 use NuvoleWeb\Robo\Task\Config\Robo\loadTasks as ConfigLoader;
+use Pmkr\Pmkr\Util\ProcessFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Collection\CallableTask;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
+use Robo\Contract\TaskInterface;
+use Robo\State\Data as RoboState;
 use Robo\Tasks;
+use Robo\Task\Docker\Tasks as DockerTaskLoader;
 use Sweetchuck\LintReport\Reporter\BaseReporter;
 use Sweetchuck\Robo\Git\GitTaskLoader;
 use Sweetchuck\Robo\Phpcs\PhpcsTaskLoader;
@@ -27,6 +32,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     use ConfigLoader;
     use GitTaskLoader;
     use PhpcsTaskLoader;
+    use DockerTaskLoader;
 
     protected array $composerInfo = [];
 
@@ -57,12 +63,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
      */
     protected string $environmentName = '';
 
+    protected ProcessFactory $processFactory;
+
     /**
      * RoboFile constructor.
      */
     public function __construct()
     {
-        putenv('COMPOSER_DISABLE_XDEBUG_WARN=1');
+        $this->processFactory = new ProcessFactory();
+
         $this
             ->initShell()
             ->initComposerInfo()
@@ -73,7 +82,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     /**
      * @hook pre-command @initLintReporters
      */
-    public function initLintReporters()
+    public function onHookPreCommandInitLintReporters()
     {
         $lintServices = BaseReporter::getServices();
         $container = $this->getContainer();
@@ -154,6 +163,170 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         ksort($phpExtensions);
 
         return CommandResult::data(array_keys($phpExtensions));
+    }
+
+    /**
+     * @command pmkr:instance:install
+     */
+    public function cmdPmkrInstanceInstallExecute(
+        string $serviceKey,
+        string $instanceKey,
+        array $options = []
+    ): TaskInterface {
+        $cb = $this->collectionBuilder();
+        $collection = $cb->getCollection();
+
+        $processCallback = $this->getProcessCallback();
+        $taskContainerStart = new CallableTask(
+            function (RoboState $state) use ($serviceKey, $processCallback): int {
+                $this->logger->notice(
+                    'Start container {service.key}',
+                    [
+                        'service.key' => $serviceKey,
+                    ],
+                );
+                $process = $this->processFactory->createInstance(
+                    [
+                        'docker-compose',
+                        '--file',
+                        './docker-compose.yml',
+                        'run',
+                        '--rm',
+                        '--detach',
+                        '--entrypoint',
+                        'tail -f /dev/null',
+                        $serviceKey,
+                    ],
+                );
+
+                $process->setTimeout(null);
+                $process->run($processCallback);
+                $state['container.name'] = trim($process->getOutput());
+
+                return $process->getExitCode();
+            },
+            $collection,
+        );
+
+        $taskContainerStop = new CallableTask(
+            function (RoboState $state) use ($serviceKey, $processCallback): int {
+                $this->logger->notice(
+                    'Stop container: {container.name}',
+                    [
+                        'container.name' => $state['container.name'],
+                    ],
+                );
+
+                $process = $this->processFactory->createInstance(
+                    [
+                        'docker',
+                        'container',
+                        'stop',
+                        $state['container.name'],
+                    ],
+                );
+
+                $process->setTimeout(null);
+                $process->run($processCallback);
+
+                return $process->getExitCode();
+            },
+            $collection,
+        );
+
+        $taskInit = new CallableTask(
+            function (RoboState $state) use ($serviceKey, $processCallback): int {
+                $process = $this->processFactory->createInstance(
+                    [
+                        'docker',
+                        'exec',
+                        $state['container.name'],
+                        'bash',
+                        "./tests/_data/Docker/$serviceKey/init.bash",
+                    ],
+                );
+
+                $this->logger->notice(
+                    'Exec in container: {container.name} - {command}',
+                    [
+                        'container.name' => $state['container.name'],
+                        'command' => $process->getCommandLine(),
+                    ],
+                );
+
+                $process->setTimeout(null);
+                $process->run($processCallback);
+
+                return $process->getExitCode();
+            },
+            $collection,
+        );
+
+        $taskInstallPackages = new CallableTask(
+            function (RoboState $state) use ($processCallback, $serviceKey, $instanceKey): int {
+                $subCommand = sprintf(
+                    'zypper install -y $(pmkr instance:dependency:package:list --format=shell-arguments %s)',
+                    escapeshellarg($instanceKey),
+                );
+
+                $command = sprintf(
+                    'docker exec %s bash -c %s',
+                    escapeshellarg($state['container.name']),
+                    escapeshellarg($subCommand),
+                );
+
+                $process = $this->processFactory->fromShellCommandline($command);
+
+                $this->logger->notice(
+                    'Exec: {command}',
+                    [
+                        'command' => $process->getCommandLine(),
+                    ],
+                );
+
+                $process->setTimeout(null);
+                $process->run($processCallback);
+
+                return $process->getExitCode();
+            },
+            $collection,
+        );
+
+        $taskInstanceInstall = new CallableTask(
+            function (RoboState $state) use ($processCallback, $serviceKey, $instanceKey): int {
+                $process = $this->processFactory->createInstance(
+                    [
+                        'docker',
+                        'exec',
+                        $state['container.name'],
+                        'pmkr',
+                        'instance:install',
+                        $instanceKey,
+                    ],
+                );
+
+                $this->logger->notice(
+                    'Exec: {command}',
+                    [
+                        'command' => $process->getCommandLine(),
+                    ],
+                );
+
+                $process->setTimeout(null);
+                $process->run($processCallback);
+
+                return $process->getExitCode();
+            },
+            $collection,
+        );
+
+        $cb->addTask($taskContainerStart);
+        $cb->completion($taskContainerStop);
+        $cb->addTask($taskInit);
+        $cb->addTask($taskInstallPackages);
+        $cb->addTask($taskInstanceInstall);
+
+        return $cb;
     }
 
     protected function fetchExtensions(iterable $requirements): array
@@ -565,5 +738,28 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         }
 
         return $default;
+    }
+
+    protected function getProcessCallback(
+        bool $hideStdOutput = false,
+        bool $hideStdError = false
+    ): \Closure {
+        return function (string $type, string $data) use ($hideStdOutput, $hideStdError) {
+            if (($type === Process::OUT && $hideStdOutput)
+                || ($type === Process::ERR && $hideStdError)
+            ) {
+                return;
+            }
+
+            switch ($type) {
+                case Process::OUT:
+                    $this->output()->write($data);
+                    break;
+
+                case Process::ERR:
+                    $this->errorOutput()->write($data);
+                    break;
+            }
+        };
     }
 }

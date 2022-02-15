@@ -1,0 +1,82 @@
+version: '3'
+
+x-common:
+    working_dir: &working_dir '/root/project/pmkr/pmkr-1.x'
+    volumes:
+        pmkr: &volume_pmkr './:/root/project/pmkr/pmkr-1.x'
+        env_var_storage: &volume_env_var_storage '../../sweetchuck/env-var-storage-1.x/:/root/project/sweetchuck/env-var-storage-1.x:ro'
+        pear_client: &volume_pear_client '../../sweetchuck/pear-client-1.x/:/root/project/sweetchuck/pear-client-1.x:ro'
+        robo_download_curl: &volume_robo_download_curl '../../sweetchuck/robo-download-curl-1.x/:/root/project/sweetchuck/robo-download-curl-1.x:ro'
+        robo_git: &volume_robo_git '../../sweetchuck/robo-git-2.x/:/root/project/sweetchuck/robo-git-2.x:ro'
+        robo_hash: &volume_robo_hash '../../sweetchuck/robo-hash-2.x/:/root/project/sweetchuck/robo-hash-2.x:ro'
+        cache: &volume_pmkr_cache '${HOME}/.cache/pmkr/:/root/.cache/pmkr'
+
+##
+# Usage:
+# docker-compose --file ./docker-compose.yml run --rm opensuse-tumbleweed /bin/bash --login
+##
+services:
+    archlinux:
+        image: 'archlinux:base'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/archlinux/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
+        entrypoint:
+            - '/bin/bash'
+            - '--login'
+
+    fedora-36:
+        image: 'fedora:36'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/fedora_36/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
+
+    opensuse-tumbleweed:
+        image: 'opensuse/tumbleweed:latest'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/opensuse/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
+        environment:
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+    ubuntu-21-10:
+        image: 'ubuntu:21.10'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/ubuntu_2110/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
