@@ -13,7 +13,6 @@ use Sweetchuck\Codeception\Module\RoboTaskRunner\DummyProcess;
 
 /**
  * @covers \Pmkr\Pmkr\Util\TerminalColorSchemeDetector
- * @covers \Pmkr\Pmkr\Util\ProcessFactory
  */
 class TerminalColorSchemeDetectorTest extends Unit
 {

@@ -20,6 +20,7 @@ use Sweetchuck\LintReport\Reporter\BaseReporter;
 use Sweetchuck\Robo\Git\GitTaskLoader;
 use Sweetchuck\Robo\Phpcs\PhpcsTaskLoader;
 use Sweetchuck\Robo\Phpstan\PhpstanTaskLoader;
+use Sweetchuck\Utils\Filter\ArrayFilterEnabled;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
@@ -128,6 +129,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
             ->addTask($this->getTaskComposerValidate())
             ->addTask($this->getTaskPhpcsLint())
             ->addTask($this->getTaskCodeceptRunSuites());
+    }
+
+    /**
+     * @option string $format
+     *   Default: yaml
+     *
+     * @command config:export
+     */
+    public function cmdConfigExportExecute(): CommandResult
+    {
+        return CommandResult::data($this->getConfig()->export());
     }
 
     /**
@@ -475,11 +487,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         return $this;
     }
 
-    protected function getPhpExecutable(): string
-    {
-        return getenv($this->getEnvVarName('php_executable')) ?: PHP_BINARY;
-    }
-
     /**
      * @return $this
      */
@@ -557,22 +564,22 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
             $suiteNames = ['all'];
         }
 
+        $phpExecutables = $this->getEnabledPhpExecutables();
         $cb = $this->collectionBuilder();
         foreach ($suiteNames as $suiteName) {
-            $cb->addTask($this->getTaskCodeceptRunSuite($suiteName));
+            foreach ($phpExecutables as $phpExecutable) {
+                $cb->addTask($this->getTaskCodeceptRunSuite($suiteName, $phpExecutable));
+            }
         }
 
         return $cb;
     }
 
-    protected function getTaskCodeceptRunSuite(string $suite): CollectionBuilder
+    /**
+     * @param DevPhpExecutable $php
+     */
+    protected function getTaskCodeceptRunSuite(string $suite, array $php): CollectionBuilder
     {
-        $php = $this->getPhpExecutableWithCoverage();
-        $envVars = [
-            'COLUMNS' => getenv('COLUMNS') ?: '80',
-        ];
-        $envVars += $php['envVar'];
-
         $this->initCodeceptionInfo();
 
         $withCoverageHtml = $this->environmentType === 'dev';
@@ -583,10 +590,20 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
 
         $logDir = $this->getLogDir();
 
-        $cmdPattern = '%s';
-        $cmdArgs = [
-            $php['command'],
-        ];
+        $cmdPattern = '';
+        $cmdArgs = [];
+        foreach ($php['envVars'] ?? [] as $envName => $envValue) {
+            $cmdPattern .= "{$envName}";
+            if ($envValue === null) {
+                $cmdPattern .= ' ';
+            } else {
+                $cmdPattern .= '=%s ';
+                $cmdArgs[] = escapeshellarg($envValue);
+            }
+        }
+
+        $cmdPattern .= '%s';
+        $cmdArgs[] = $php['command'];
 
         $cmdPattern .= ' %s';
         $cmdArgs[] = escapeshellcmd("{$this->binDir}/codecept");
@@ -666,7 +683,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         $command = vsprintf($cmdPattern, $cmdArgs);
 
         return $cb
-            ->addCode(function () use ($envVars, $command) {
+            ->addCode(function () use ($command, $php) {
                 $this->output()->writeln(strtr(
                     '<question>[{name}]</question> runs <info>{command}</info>',
                     [
@@ -678,7 +695,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
                 $process = Process::fromShellCommandline(
                     $command,
                     null,
-                    $envVars,
+                    $php['envVars'] ?? null,
                     null,
                     null,
                 );
@@ -796,29 +813,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         }
     }
 
-    /**
-     * @return array{
-     *     available: bool,
-     *     envVar: array<string, string>,
-     *     command: string,
-     * }
-     */
-    protected function getPhpExecutableWithCoverage(): array
-    {
-        $default = [
-            'available' => true,
-            'envVar' => [],
-            'command' => 'php',
-        ];
-        foreach ($this->config('php.executable') as $php) {
-            if (!empty($php['available'])) {
-                return $php + $default;
-            }
-        }
-
-        return $default;
-    }
-
     protected function getProcessCallback(
         bool $hideStdOutput = false,
         bool $hideStdError = false
@@ -840,5 +834,19 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
                     break;
             }
         };
+    }
+
+    /**
+     * @return array<string, DevPhpExecutable>
+     */
+    protected function getEnabledPhpExecutables(): array
+    {
+        /** @var array<string, DevPhpExecutable> $phpExecutables */
+        $phpExecutables = array_filter(
+            $this->getConfig()->get('php.executables'),
+            new ArrayFilterEnabled(),
+        );
+
+        return $phpExecutables;
     }
 }

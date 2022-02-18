@@ -12,7 +12,7 @@ use Pmkr\Pmkr\Util\PhpCoreCompileConfigureCommandBuilder;
 use Pmkr\Pmkr\Utils;
 
 /**
- * @covers \Pmkr\Pmkr\Util\PhpCoreCompileConfigureCommandBuilder
+ * @covers \Pmkr\Pmkr\Util\PhpCoreCompileConfigureCommandBuilder<extended>
  */
 class PhpCoreCompileConfigureCommandBuilderTest extends Unit
 {

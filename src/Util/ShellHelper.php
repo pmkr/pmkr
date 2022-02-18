@@ -27,7 +27,7 @@ class ShellHelper
         $command = sprintf(
             '( unset PHPRC PHP_INI_SCAN_DIR ; LANGUAGE=%s %s -i )',
             escapeshellarg('en_GB:en_US'),
-            escapeshellarg(\PHP_BINARY),
+            escapeshellarg($phpBinary),
         );
 
         $process = $this->processFactory->createInstance(['bash', '-c', $command]);

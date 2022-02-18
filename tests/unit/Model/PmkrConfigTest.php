@@ -8,17 +8,18 @@ use Codeception\Test\Unit;
 use Pmkr\Pmkr\Model\Collection;
 use Pmkr\Pmkr\Model\Patch;
 use Pmkr\Pmkr\Model\PmkrConfig;
+use Pmkr\Pmkr\Model\Variation;
 use Pmkr\Pmkr\Tests\UnitTester;
 
 /**
- * @covers \Pmkr\Pmkr\Model\PmkrConfig
+ * @covers \Pmkr\Pmkr\Model\PmkrConfig<extended>
  */
 class PmkrConfigTest extends Unit
 {
 
     protected UnitTester $tester;
 
-    public function testFoo(): void
+    public function testPatches(): void
     {
         $pmkr = $this->create([]);
         $this->tester->assertInstanceOf(Collection::class, $pmkr->patches);
@@ -35,6 +36,42 @@ class PmkrConfigTest extends Unit
         $this->tester->assertArrayHasKey('foo', $pmkr->patches);
         $this->tester->assertInstanceOf(Patch::class, $pmkr->patches['foo']);
         $this->tester->assertSame(42, $pmkr->patches['foo']->weight);
+    }
+
+    public function testDefaultVariation(): void
+    {
+        $pmkr = $this->create([]);
+        $this->tester->assertSame(null, $pmkr->defaultVariation);
+
+        $pmkr = $this->create([
+            'defaultVariationKey' => 'v1',
+        ]);
+        $this->tester->assertSame('v1', $pmkr->defaultVariationKey);
+        $this->tester->assertSame(null, $pmkr->defaultVariation);
+
+        $pmkr = $this->create([
+            'extensions' => [],
+            'extensionSets' => [],
+            'cores' => [
+                '0704-nts' => [
+                    '0704-nts' => '',
+                ],
+            ],
+            'instances' => [
+                'i1' => [
+                    'key' => 'i1',
+                    'coreVersion' => '7.4.0',
+                ],
+            ],
+            'variations' => [
+                'v1' => [
+                    'key' => 'v0',
+                ],
+            ],
+            'defaultVariationKey' => 'v1',
+        ]);
+        $this->tester->assertSame('v1', $pmkr->defaultVariationKey);
+        $this->tester->assertInstanceOf(Variation::class, $pmkr->defaultVariation);
     }
 
     /**

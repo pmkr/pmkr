@@ -65,6 +65,9 @@ class Yq extends Base
         return $process->getOutput();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getInternalLanguages(): array
     {
         return [

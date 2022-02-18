@@ -30,6 +30,7 @@ class VariationPickResult
      *     phpRc?: ?string,
      *     phpIniScanDir?: ?array<string>,
      *     binary?: ?string,
+     *     export?: bool,
      * } $values
      *
      * @return static

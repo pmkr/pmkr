@@ -189,6 +189,154 @@ class PmkrConfigValidatorTest extends Unit
                     ],
                 ],
             ],
+            'instance.extensionSetName - not exists' => [
+                [
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/instances/instance-01/extensionSetNameSuffix'
+                    ],
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/instances/instance-02/extensionSetNameSuffix'
+                    ],
+                ],
+                [
+                    'cores' => [
+                        'core-01' => [],
+                        'core-02' => [],
+                    ],
+                    'extensionSets' => [
+                        'foo' => [],
+                        'bar' => [],
+                    ],
+                    'instances' => [
+                        'instance-01' => [
+                            'coreVersion' => '1.2.3',
+                            'coreNameSuffix' => 'core-01',
+                            'extensionSetNameSuffix' => 'nope-1',
+                        ],
+                        'instance-02' => [
+                            'coreVersion' => '4.5.6',
+                            'coreNameSuffix' => 'core-01',
+                            'extensionSetNameSuffix' => 'nope-2',
+                        ],
+                    ],
+                ],
+            ],
+            'aliases - not exists' => [
+                [
+                    [
+                        'type' => 'alias_ambiguous',
+                        'path' => '/aliases/instance-01',
+                    ],
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/aliases/alias-02',
+                    ],
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/aliases/alias-03',
+                    ],
+                ],
+                [
+                    'cores' => [
+                        'core-01' => [],
+                    ],
+                    'extensionSets' => [
+                        'foo' => [],
+                    ],
+                    'instances' => [
+                        'instance-01' => [
+                            'coreVersion' => '1.2.3',
+                            'coreNameSuffix' => 'core-01',
+                            'extensionSetNameSuffix' => 'foo',
+                        ],
+                    ],
+                    'aliases' => [
+                        'alias-01' => 'instance-01',
+                        'instance-01' => 'instance-01',
+                        'alias-02' => 'instance-02',
+                        'alias-03' => 'instance-03',
+                    ],
+                ],
+            ],
+            'defaultVariationKey - valid null' => [
+                [],
+                [
+                    'defaultVariationKey' => null,
+                ],
+            ],
+            'defaultVariationKey - valid exists' => [
+                [],
+                [
+                    'cores' => [
+                        'core-01' => [],
+                    ],
+                    'extensionSets' => [
+                        'foo' => [],
+                    ],
+                    'instances' => [
+                        'instance-01' => [
+                            'coreVersion' => '1.2.3',
+                            'coreNameSuffix' => 'core-01',
+                            'extensionSetNameSuffix' => 'foo',
+                        ],
+                    ],
+                    'variations' => [
+                        'my-variation-01' => [
+                            'key' => 'my-variation-01',
+                            'instanceKey' => 'instance-01',
+                        ],
+                    ],
+                    'defaultVariationKey' => 'my-variation-01',
+                ],
+            ],
+            'defaultVariationKey - instance not exists' => [
+                [
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/variations/my-variation-01/instanceKey',
+                    ],
+                ],
+                [
+                    'variations' => [
+                        'my-variation-01' => [
+                            'key' => 'my-variation-01',
+                        ],
+                    ],
+                    'defaultVariationKey' => 'my-variation-01',
+                ],
+            ],
+            'defaultVariationKey - variation not exists' => [
+                [
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/defaultVariationKey',
+                    ],
+                ],
+                [
+                    'cores' => [
+                        'core-01' => [],
+                    ],
+                    'extensionSets' => [
+                        'foo' => [],
+                    ],
+                    'instances' => [
+                        'instance-01' => [
+                            'coreVersion' => '1.2.3',
+                            'coreNameSuffix' => 'core-01',
+                            'extensionSetNameSuffix' => 'foo',
+                        ],
+                    ],
+                    'variations' => [
+                        'my-variation-01' => [
+                            'key' => 'my-variation-01',
+                            'instanceKey' => 'instance-01',
+                        ],
+                    ],
+                    'defaultVariationKey' => 'my-variation-02',
+                ],
+            ],
         ];
     }
 

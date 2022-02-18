@@ -51,6 +51,10 @@ stash:
                         php-pcov-ini:
                             src: 'etc/php.pcov-0702.ini.twig'
                             dst: 'php.pcov.ini'
+                            vars:
+                                extensions:
+                                    pcov:
+                                        isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod-0702.ini.twig'
                             dst: 'php.prod.ini'
