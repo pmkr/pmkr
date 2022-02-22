@@ -113,6 +113,10 @@ class BaseHookCommand extends CommandBase
         OutputInterface $output,
         AnnotationData $annotationData
     ): void {
+        if (!$input->isInteractive()) {
+            return;
+        }
+
         $tag = 'pmkrInteractInstanceName';
         $inputLocators = $this->getInputLocatorsWithYaml($tag, $annotationData);
         assert(count($inputLocators) > 0, "@$tag requires at least one input locator.");

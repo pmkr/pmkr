@@ -16,7 +16,9 @@ class InstanceDeleteCommand extends CommandBase
      * @command instance:delete
      *
      * @pmkrInitNormalizeConfig
-     * @pmkrInteractInstanceName arg.instanceName
+     * @pmkrInteractInstanceName
+     *     arg.instanceName:
+     *         hasShareDir: true
      * @pmkrValidateInstanceName
      */
     public function cmdInstanceDeleteExecute(

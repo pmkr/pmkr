@@ -85,7 +85,7 @@ class Pacman extends HandlerBase
     public function installCommand(array $packageNames): string
     {
         if (!$packageNames) {
-            return '';
+            return 'true';
         }
 
         $cmdPattern = 'pacman --noconfirm --sync';

@@ -9,6 +9,7 @@ use Consolidation\AnnotatedCommand\CommandResult;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Pmkr\Pmkr\Instance\InstanceComparer;
 use Pmkr\Pmkr\Model\Instance;
+use Symfony\Component\Yaml\Yaml;
 
 class InstanceListCommand extends CommandBase
 {
@@ -19,6 +20,8 @@ class InstanceListCommand extends CommandBase
      * @param mixed[] $options
      *
      * @command instance:list
+     *
+     * @option string $fields
      *
      * @aliases ils
      *
@@ -31,11 +34,21 @@ class InstanceListCommand extends CommandBase
         array $options = [
             'show-hidden' => false,
             'format' => 'table',
+            'filter' => '',
+            'fields' => '',
         ]
     ): CommandResult {
-        return CommandResult::data(iterator_to_array(
+        $instances = iterator_to_array(
             $this->getPmkr()->instances->getIterator(),
-        ));
+        );
+
+        if ($options['filter'] !== '') {
+            $filter = $this->getContainer()->get('pmkr.instance.filter');
+            $filter->setOptions(Yaml::parse($options['filter']));
+            $instances = array_filter($instances, $filter);
+        }
+
+        return CommandResult::data($instances);
     }
 
     /**
@@ -133,7 +146,7 @@ class InstanceListCommand extends CommandBase
         $converter = $this->getContainer()->get('pmkr.instance.command_result_converter');
         $rows = $converter->toFlatRows($instances, $isHuman);
 
-        if ($format === 'table') {
+        if (in_array($format, ['list', 'table'])) {
             $rows = new RowsOfFields($rows);
         }
 

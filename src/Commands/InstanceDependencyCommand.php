@@ -31,7 +31,7 @@ class InstanceDependencyCommand extends CommandBase
      *
      * @command instance:dependency:package:list
      *
-     * @usage --no-ansi --format='code' --format='install-command'
+     * @usage --no-ansi --format='code' --format-code='install-command'
      *   This suitable form `eval "$(above)"`
      *
      * @pmkrInitNormalizeConfig

@@ -24,34 +24,15 @@
     "config": {
         "allow-plugins": {
             "cweagans/composer-patches": true,
+            "sweetchuck/composer-suite": true,
+            "sweetchuck/composer-repo-path": true,
             "sweetchuck/git-hooks": true
         },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "repositories": {
-        "sweetchuck/env-var-storage": {
-            "type": "path",
-            "url": "../../sweetchuck/env-var-storage-1.x"
-        },
-        "sweetchuck/pear-client": {
-            "type": "path",
-            "url": "../../sweetchuck/pear-client-1.x"
-        },
-        "sweetchuck/robo-download-curl": {
-            "type": "path",
-            "url": "../../sweetchuck/robo-download-curl-1.x"
-        },
-        "sweetchuck/robo-git": {
-            "type": "path",
-            "url": "../../sweetchuck/robo-git-2.x"
-        },
-        "sweetchuck/robo-hash": {
-            "type": "path",
-            "url": "../../sweetchuck/robo-hash-2.x"
-        }
-    },
+    "repositories": {},
     "require": {
         "php": ">=7.4",
         "ext-bz2": "*",
@@ -85,6 +66,8 @@
         "phpstan/phpstan": "^1.4",
         "squizlabs/php_codesniffer": "^3.6",
         "sweetchuck/codeception-module-robo-task-runner": "2.x-dev",
+        "sweetchuck/composer-repo-path": "1.x-dev",
+        "sweetchuck/composer-suite": "1.x-dev",
         "sweetchuck/git-hooks": "2.x-dev",
         "sweetchuck/robo-git": "2.x-dev",
         "sweetchuck/robo-phpcs": "2.x-dev",
@@ -120,6 +103,71 @@
         "patches": {
             "codeception/lib-asserts": {
                 "https://github.com/Codeception/lib-asserts/issues/10 - Use FQN in PHPDoc type hints": "https://patch-diff.githubusercontent.com/raw/Codeception/lib-asserts/pull/11.patch"
+            }
+        },
+        "composer-suite": {
+            "local": {
+                "description": "Local development",
+                "actions": [
+                    {
+                        "type": "prepend",
+                        "config": {
+                            "parents": ["repositories"],
+                            "items": {
+                                "sweetchuck/env-var-storage": {
+                                    "type": "path",
+                                    "url": "../../sweetchuck/env-var-storage-1.x",
+                                    "options": {
+                                        "repo-path": {
+                                            "url": "https://github.com/sweetchuck/env-var-storage.git",
+                                            "branch": "1.x"
+                                        }
+                                    }
+                                },
+                                "sweetchuck/pear-client": {
+                                    "type": "path",
+                                    "url": "../../sweetchuck/pear-client-1.x",
+                                    "options": {
+                                        "repo-path": {
+                                            "url": "https://github.com/sweetchuck/pear-client.git",
+                                            "branch": "1.x"
+                                        }
+                                    }
+                                },
+                                "sweetchuck/robo-download-curl": {
+                                    "type": "path",
+                                    "url": "../../sweetchuck/robo-download-curl-1.x",
+                                    "options": {
+                                        "repo-path": {
+                                            "url": "https://github.com/sweetchuck/robo-download-curl.git",
+                                            "branch": "1.x"
+                                        }
+                                    }
+                                },
+                                "sweetchuck/robo-git": {
+                                    "type": "path",
+                                    "url": "../../sweetchuck/robo-git-2.x",
+                                    "options": {
+                                        "repo-path": {
+                                            "url": "https://github.com/sweetchuck/robo-git.git",
+                                            "branch": "1.x"
+                                        }
+                                    }
+                                },
+                                "sweetchuck/robo-hash": {
+                                    "type": "path",
+                                    "url": "../../sweetchuck/robo-hash-2.x",
+                                    "options": {
+                                        "repo-path": {
+                                            "url": "https://github.com/sweetchuck/robo-hash.git",
+                                            "branch": "1.x"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         }
     }

@@ -1,3 +1,5 @@
+/resources/images/*.png
+
 /tests/_log/
 /tests/_support/_generated/
 /tests/*.suite.yml
@@ -8,3 +10,6 @@
 
 /.git-hooks-local
 /robo.yml
+
+/composer.*.json
+/composer.*.lock

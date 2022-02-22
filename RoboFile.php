@@ -5,6 +5,7 @@ declare(strict_types = 1);
 use Consolidation\AnnotatedCommand\CommandResult;
 use League\Container\Container as LeagueContainer;
 use NuvoleWeb\Robo\Task\Config\Robo\loadTasks as ConfigLoader;
+use Pmkr\Pmkr\Tests\Robo\Commands\BuildCommandsTrait;
 use Pmkr\Pmkr\Util\ProcessFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -36,6 +37,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     use PhpcsTaskLoader;
     use PhpstanTaskLoader;
     use DockerTaskLoader;
+    use BuildCommandsTrait;
 
     /**
      * @var array<string, mixed>
@@ -330,7 +332,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         $taskInstallPackages = new CallableTask(
             function (RoboState $state) use ($processCallback, $instanceKey): int {
                 $subCommand = sprintf(
-                    'zypper install -y $(pmkr instance:dependency:package:list --format=shell-arguments %s)',
+                    'eval $(pmkr instance:dependency:package:list --format=code --format-code=install-command %s)',
                     escapeshellarg($instanceKey),
                 );
 
@@ -392,6 +394,22 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         $cb->addTask($taskInstanceInstall);
 
         return $cb;
+    }
+
+    /**
+     * @command php-core:release:list
+     *
+     * @option string $format
+     *   Default: yaml
+     */
+    public function cmdPhpCoreReleaseListExecute(): CommandResult
+    {
+        $releases = file_get_contents('https://www.php.net/releases/?json');
+        if ($releases === false) {
+            return CommandResult::exitCode(1);
+        }
+
+        return CommandResult::data(json_decode($releases, true));
     }
 
     /**

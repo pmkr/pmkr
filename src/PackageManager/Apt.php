@@ -79,7 +79,7 @@ class Apt extends HandlerBase
     public function installCommand(array $packageNames): string
     {
         if (!$packageNames) {
-            return '';
+            return 'true';
         }
 
         $cmdPattern = 'apt-get install -y';

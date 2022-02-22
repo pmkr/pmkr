@@ -37,6 +37,9 @@ class AptParserTest extends Unit
         $expected = "apt-get install -y 'a' 'b'";
         $packageNames = ['a', 'b'];
         $this->tester->assertSame($expected, $pm->installCommand($packageNames));
-        $this->tester->assertSame('', $pm->installCommand([]));
+
+        $expected = 'true';
+        $packageNames = [];
+        $this->tester->assertSame($expected, $pm->installCommand($packageNames));
     }
 }
