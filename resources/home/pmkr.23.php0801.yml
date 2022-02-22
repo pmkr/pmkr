@@ -72,6 +72,9 @@ stash:
                         conf/default/date-ini:
                             src: 'etc/ext/date.ini.twig'
                             dst: 'conf/default/date.ini'
+                        conf/default/mail-ini:
+                            src: 'etc/ext/mail.ini.twig'
+                            dst: 'conf/default/mail.ini'
                     fpm: &cores_0801_etc_files_fpm
                         php-fpm-d/includes/00-pool-ini:
                             src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
@@ -87,34 +90,34 @@ stash:
                         php-fpm-d/pool-d/dev-default-ini:
                             src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/dev.default.ini'
-                        php-fpm-d/pool-d/xdebug-default-ini:
-                            src: 'etc/php-fpm.d/pool.d/xdebug.default.ini.twig'
-                            dst: 'php-fpm.d/pool.d/xdebug.default.ini'
+                        php-fpm-d/pool-d/prod-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/prod.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/prod.default.ini'
 
                         php-fpm-d/php-dev-ini:
                             src: 'etc/php-fpm.d/php.dev.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
-                        php-fpm-d/php-xdebug-ini:
-                            src: 'etc/php-fpm.d/php.xdebug.ini.twig'
-                            dst: 'php-fpm.d/php.xdebug.ini'
+                        php-fpm-d/php-prod-ini:
+                            src: 'etc/php-fpm.d/php.prod.ini.twig'
+                            dst: 'php-fpm.d/php.prod.ini'
 
                         php-fpm-d/php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
                             dst: 'php-fpm.d/php-fpm.dev.ini'
-                        php-fpm-d/php-fpm-xdebug-ini:
-                            src: 'etc/php-fpm.d/php-fpm.xdebug.ini.twig'
-                            dst: 'php-fpm.d/php-fpm.xdebug.ini'
+                        php-fpm-d/php-fpm-prod-ini:
+                            src: 'etc/php-fpm.d/php-fpm.prod.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.prod.ini'
 
                         supervisor/program-php-fpm-dev-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.dev.ini'
                             vars:
                                 iniVariant: 'dev'
-                        supervisor/program-php-fpm-xdebug-ini:
+                        supervisor/program-php-fpm-prod-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
-                            dst: 'supervisor/program.php-fpm.xdebug.ini'
+                            dst: 'supervisor/program.php-fpm.prod.ini'
                             vars:
-                                iniVariant: 'xdebug'
+                                iniVariant: 'prod'
 
 patches:
     core-0801-ext-socket-gnu-source:
@@ -438,10 +441,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080102
 
+    '080103-nts': &instance_080103
+        isZts: false
+        coreVersion: '8.1.3'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '354c4e2c506046eca812d1fc2526884a2f54b5e3d20ef0ede919a69eb232d0be'
+    '080103-zts':
+        isZts: true
+        <<: *instance_080103
+    '080103-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080103
+
 
 aliases:
-    '0801-nts': '080102-nts'
-    '0801-zts': '080102-zts'
+    '0801-nts': '080103-nts'
+    '0801-zts': '080103-zts'
 
 
 variations:

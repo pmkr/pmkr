@@ -16,7 +16,7 @@ dir:
     src: '${dir.usr}/src'
     usr: '${dir.slash}/usr'
     cache: '${env.HOME}/.cache/${app.name}'
-    log: '${dir.slash}/log'
+    log: '${dir.slash}/var/log'
     run: '${dir.slash}/var/run'
     templates: '${env.HOME}/.${app.name}/templates'
 

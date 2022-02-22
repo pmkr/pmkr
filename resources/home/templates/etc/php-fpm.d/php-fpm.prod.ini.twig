@@ -3,7 +3,7 @@
 ; Note: the default prefix is /usr/share/php-x.x.x/var
 ; Default Value: none
 ;pid=run/php-fpm.pid
-pid={{ dir.run }}/pmkr-php.{{ instance.key }}.fpm.xdebug.pid
+pid={{ dir.run }}/pmkr-php.{{ instance.key }}.fpm.prod.pid
 
 
 ; Error log file
@@ -11,6 +11,6 @@ pid={{ dir.run }}/pmkr-php.{{ instance.key }}.fpm.xdebug.pid
 ; in a local file.
 ; Note: the default prefix is /usr/share/php-x.x.x/var
 ; Default Value: log/php-fpm.log
-error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.xdebug.fpm.error.log
+error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.prod.fpm.error.log
 
-include=etc/php-fpm.d/pool.d/xdebug.*.ini
+include=etc/php-fpm.d/pool.d/prod.*.ini
