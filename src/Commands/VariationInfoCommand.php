@@ -6,40 +6,34 @@ namespace Pmkr\Pmkr\Commands;
 
 use Pmkr\Pmkr\VariationPickResult\VariationPickResult;
 
-class VariationPickCommand extends CommandBase
+class VariationInfoCommand extends CommandBase
 {
-
     /**
      * @phpstan-param array<string, mixed> $options
      *
-     * @command variation:pick
+     * @command variation:info
      *
-     * @aliases vp
+     * @aliases vi
      *
      * @pmkrInitNormalizeConfig
-     * @pmkrInitReadStdInput arg.variationKey
+     * @pmkrInteractVariationKey arg.variationKey
      * @pmkrValidateVariationKey arg.variationKey
      */
-    public function cmdVariationPickExecute(
-        string $variationKey,
+    public function cmdVariationInfoExecute(
+        string $variationKey = '',
         array $options = [
-            'binary' => 'php',
-            'format' => 'shell-var-setter',
+            'format' => 'string',
         ]
     ): ?VariationPickResult {
         $pmkr = $this->getPmkr();
+        /** @var \Pmkr\Pmkr\Model\Variation $variation */
         $variation = $pmkr->variations[$variationKey];
-        $aliases = $pmkr->aliases;
-        $instanceKey = $variation->instanceKey;
-        if (isset($aliases[$instanceKey])) {
-            $instanceKey = $aliases[$instanceKey];
-        }
 
         $result = new VariationPickResult();
-        $result->instance = $pmkr->instances[$instanceKey];
+        $result->key = $variation->key;
+        $result->instance = $variation->instance;
         $result->phpRc = $variation->phpRc;
         $result->phpIniScanDir = $variation->phpIniScanDir;
-        $result->binary = $options['binary'] ?: 'php';
 
         return $result;
     }

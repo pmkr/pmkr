@@ -349,6 +349,28 @@ class Utils implements ConfigAwareInterface
     }
 
     /**
+     * @param iterable<string, \Pmkr\Pmkr\Model\Variation> $variations
+     *
+     * @return array<string, string>
+     */
+    public function ioVariationOptions(iterable $variations): array
+    {
+        $options = [];
+        foreach ($variations as $variation) {
+            $parts = array_filter([
+                $variation->key,
+                $variation->instanceKey,
+                $variation->instance->coreVersion,
+                ($variation->instance->isZts ? 'ZTS' : 'NTS'),
+            ]);
+
+            $options[$variation->key] = implode(' ', $parts);
+        }
+
+        return $options;
+    }
+
+    /**
      * @return mixed
      */
     public function getInputValue(InputInterface $input, string $locator)

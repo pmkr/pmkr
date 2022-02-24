@@ -47,24 +47,42 @@ executors:
                 image: 'cimg/php:8.1'
 
 commands:
-    php_extension_install_pcov:
-        description: 'Install PHP extension – pcov'
+    pecl_install:
+        description: 'Install PHP extension with pecl'
+        parameters:
+            ext_name:
+                type: 'string'
+            package_names:
+                type: 'string'
+                default: ''
         steps:
             -
                 run:
-                    name: 'Install PHP extension – pcov'
+                    name: 'Install PHP extension with pecl – <<parameters.ext_name>>'
                     command: |
-                        if php -m | grep pcov ; then
+                        if php -m | grep '<<parameters.ext_name>>' ; then
                             exit 0
                         fi
-
-                        sudo pecl install pcov
-                        if php -m | grep pcov ; then
+                        
+                        if [[ '<<parameters.package_names>>' != '' ]] ; then
+                            sudo apt-get update
+                            sudo apt-get install -y <<parameters.package_names>>
+                        fi
+                        
+                        sudo pecl install '<<parameters.ext_name>>'
+                        if php -m | grep '<<parameters.ext_name>>' ; then
                             exit 0
                         fi
 
                         scanDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^Scan this dir for additional \.ini files => ).+')"
-                        echo 'extension=pcov' | sudo tee "${scanDir}/pcov.ini"
+                        echo "extension=<<parameters.ext_name>>" | sudo tee --append "${scanDir}/<<parameters.ext_name>>.ini"
+
+    php_extension_install_pcov:
+        description: 'Install PHP extension – pcov'
+        steps:
+            -
+                pecl_install:
+                    ext_name: 'pcov'
 
     php_extension_install_bz2:
         description: 'Install PHP extension – bz2'

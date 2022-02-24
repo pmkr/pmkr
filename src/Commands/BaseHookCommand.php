@@ -11,6 +11,7 @@ use Pmkr\Pmkr\Util\ConfigNormalizer;
 use Pmkr\Pmkr\Util\EnvPathHandler;
 use Sweetchuck\Utils\Filesystem as UtilsFilesystem;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
@@ -47,6 +48,31 @@ class BaseHookCommand extends CommandBase
     {
         $this->initDependencies();
         $this->configNormalizer->normalizeConfig($this->getConfig());
+    }
+
+    /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
+     * @hook init @pmkrInitReadStdInput
+     *
+     * @link https://github.com/consolidation/annotated-command#initialize-hook
+     */
+    public function onHookInitPmkrInitReadStdInput(
+        InputInterface $input,
+        AnnotationData $annotationData
+    ): void {
+        $tag = 'pmkrInitReadStdInput';
+        $inputLocator = trim($annotationData->get($tag));
+        $inputValue = $this->utils->getInputValue($input, $inputLocator);
+        if ($inputValue !== '-') {
+            return;
+        }
+
+        $this->utils->setInputValue(
+            $input,
+            $inputLocator,
+            rtrim(file_get_contents('php://stdin') ?: '', "\r\n"),
+        );
     }
 
     /**
@@ -123,7 +149,7 @@ class BaseHookCommand extends CommandBase
 
         $pmkr = $this->getPmkr();
         $instances = iterator_to_array($pmkr->instances->getIterator());
-        $io = new SymfonyStyle($input, $output);
+        $io = $this->getInteractIo($input, $output);
         $trueFilter = function () {
             return true;
         };
@@ -324,6 +350,42 @@ class BaseHookCommand extends CommandBase
     }
 
     /**
+     * @param \Consolidation\AnnotatedCommand\AnnotationData<string, mixed> $annotationData
+     *
+     * @hook interact @pmkrInteractVariationKey
+     */
+    public function onHookInteractVariationKey(
+        InputInterface $input,
+        OutputInterface $output,
+        AnnotationData $annotationData
+    ): void {
+        if (!$input->isInteractive()) {
+            return;
+        }
+
+        $tag = 'pmkrInteractVariationKey';
+        $inputLocators = $this->getInputLocatorsWithYaml($tag, $annotationData);
+        assert(count($inputLocators) > 0, "@$tag requires at least one input locator.");
+
+        $pmkr = $this->getPmkr();
+        $variations = iterator_to_array($pmkr->variations->getIterator());
+
+        $io = $this->getInteractIo($input, $output);
+        foreach ($inputLocators as $inputLocator => $filterOptions) {
+            $variationKey = $this->utils->getInputValue($input, $inputLocator);
+            if ($variationKey !== '') {
+                continue;
+            }
+
+            $variationKey = $io->choice(
+                "$inputLocator: Choice a variation",
+                $this->utils->ioVariationOptions($variations),
+            );
+            $this->utils->setInputValue($input, $inputLocator, $variationKey);
+        }
+    }
+
+    /**
      * @hook validate @pmkrValidateVariationKey
      */
     public function onHookValidateVariationKey(CommandData $commandData): void
@@ -408,7 +470,7 @@ class BaseHookCommand extends CommandBase
 
         $allOfThem = '- All -';
         array_unshift($choices, $allOfThem);
-        $io = new SymfonyStyle($input, $output);
+        $io = $this->getInteractIo($input, $output);
         foreach ($inputLocators as $inputLocator) {
             $configFileName = $this->utils->getInputValue($input, $inputLocator);
             if ($configFileName !== null) {
@@ -444,5 +506,14 @@ class BaseHookCommand extends CommandBase
         }
 
         return Yaml::parse('top-level:' . $tagValue)['top-level'];
+    }
+
+    protected function getInteractIo(InputInterface $input, OutputInterface $output): SymfonyStyle
+    {
+        $errorOutput = $output instanceof ConsoleOutputInterface ?
+            $output->getErrorOutput()
+            : $output;
+
+        return new SymfonyStyle($input, $errorOutput);
     }
 }
