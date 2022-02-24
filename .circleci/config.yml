@@ -47,7 +47,7 @@ executors:
                 image: 'cimg/php:8.1'
 
 commands:
-    pecl_install:
+    php_extension_pecl_install:
         description: 'Install PHP extension with pecl'
         parameters:
             ext_name:
@@ -70,62 +70,88 @@ commands:
                         fi
                         
                         sudo pecl install '<<parameters.ext_name>>'
+            -
+                php_extension_enable:
+                    ext_name: '<<parameters.ext_name>>'
+
+    php_extension_bundled_install:
+        parameters:
+            ext_name:
+                type: 'string'
+            package_names:
+                type: 'string'
+                default: ''
+        steps:
+            -
+                run:
+                    name: 'Compile bundled PHP extension – <<parameters.ext_name>>'
+                    command: |
+                        if php -m | grep '<<parameters.ext_name>>' ; then
+                            echo 1>&2 "PHP extension <<parameters.ext_name>> is already installed."
+    
+                            exit 0
+                        fi
+    
+                        srcRoot='/usr/local/src'
+                        phpVersion="$(php -r 'echo \PHP_VERSION;')"
+                        phpSrcDir="${srcRoot}/php-${phpVersion}"
+                        
+                        if [[ ! -d "${phpSrcDir}" ]] ; then
+                            phpUrl="https://www.php.net/distributions/php-${phpVersion}.tar.gz"
+                            wget "${phpUrl}"
+                            sudo tar xvzf "php-${phpVersion}.tar.gz" -C "${srcRoot}"
+                            rm "php-${phpVersion}.tar.gz"
+                        fi
+    
+                        if [[ '<<parameters.package_names>>' != '' ]] ; then
+                            sudo apt-get update
+                            sudo apt-get install -y <<parameters.package_names>>
+                        fi
+                    
+                        if command -v docker-php-ext-install ; then
+                            sudo docker-php-ext-install '<<parameters.ext_name>>'
+    
+                            exit $?
+                        fi
+    
+                        cd "${srcRoot}/php-${phpVersion}/ext/<<parameters.ext_name>>"
+                        sudo phpize
+                        sudo ./configure
+                        sudo make -j
+                        sudo make install
+            -
+                php_extension_enable:
+                    ext_name: '<<parameters.ext_name>>'
+
+    php_extension_enable:
+        parameters:
+            ext_name:
+                type: 'string'
+        steps:
+            -
+                run:
+                    name: 'Enable PHP extension – <<parameters.ext_name>>'
+                    command: |
                         if php -m | grep '<<parameters.ext_name>>' ; then
                             exit 0
                         fi
-
                         scanDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^Scan this dir for additional \.ini files => ).+')"
-                        echo "extension=<<parameters.ext_name>>" | sudo tee --append "${scanDir}/<<parameters.ext_name>>.ini"
+                        echo 'extension=<<parameters.ext_name>>' | sudo tee --append "${scanDir}/<<parameters.ext_name>>.ini"
 
     php_extension_install_pcov:
         description: 'Install PHP extension – pcov'
         steps:
             -
-                pecl_install:
+                php_extension_pecl_install:
                     ext_name: 'pcov'
 
     php_extension_install_bz2:
         description: 'Install PHP extension – bz2'
         steps:
             -
-                run:
-                    name: 'Install PHP extension – bz2'
-                    command: |
-                        extName='bz2'
-                        if php -m | grep "${extName}" ; then
-                            echo 1>&2 "PHP extension ${extName} is already installed."
-
-                            exit 0
-                        fi
-
-                        sudo apt-get update
-                        sudo apt-get install -y libbz2-dev
-                        
-                        
-                        if command -v docker-php-ext-install ; then
-                            sudo docker-php-ext-install "${extName}"
-
-                            exit $?
-                        fi
-
-                        phpVersion="$(php -r 'echo \PHP_VERSION;')"
-                        phpUrl="https://www.php.net/distributions/php-${phpVersion}.tar.gz"
-                        wget "${phpUrl}"
-                        # @todo Checksum validation.
-                        sudo tar xvzf "php-${phpVersion}.tar.gz" -C '/usr/local/src/'
-                        rm "php-${phpVersion}.tar.gz"
-    
-                        cd "/usr/local/src/php-${phpVersion}/ext/${extName}"
-                        sudo phpize
-                        sudo ./configure
-                        sudo make -j
-                        sudo make install
-    
-                        if php -m | grep "${extName}" ; then
-                            exit 0
-                        fi
-                        scanDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^Scan this dir for additional \.ini files => ).+')"
-                        echo "extension=${extName}" | sudo tee --append "${scanDir}/${extName}.ini"
+                php_extension_bundled_install:
+                    ext_name: 'bz2'
+                    package_names: 'libbz2-dev'
 
     composer_install:
         description: 'Install Composer dependencies with cache restore and save'

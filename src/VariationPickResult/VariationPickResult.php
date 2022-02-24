@@ -94,6 +94,8 @@ class VariationPickResult implements
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
     public function simplifyToString(FormatterOptions $options)
     {
