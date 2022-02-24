@@ -48,7 +48,7 @@ class InstancePickCommand extends CommandBase
      *
      * @command instance:pick
      *
-     * @aliases p
+     * @aliases ip
      *
      * @option string $threadType
      *   Allowed values: nts, zts.
@@ -81,7 +81,7 @@ class InstancePickCommand extends CommandBase
 
         $requirements = [
             'php' => [
-                '' => $coreVersionConstraints,
+                '__ROOT__' => $coreVersionConstraints,
             ],
         ];
 
@@ -104,7 +104,7 @@ class InstancePickCommand extends CommandBase
      *
      * @command instance:pick:project
      *
-     * @aliases pp
+     * @aliases ipp
      *
      * @option string $composer
      *   Relative path to the composer.json file from the $projectRoot.
@@ -186,7 +186,7 @@ class InstancePickCommand extends CommandBase
      *
      * @command instance:pick:default
      *
-     * @aliases pd
+     * @aliases ipd
      *
      * @usage eval "$(pmkr --no-ansi instance:pick:default --format='shell-var-setter')"
      *
@@ -227,11 +227,12 @@ class InstancePickCommand extends CommandBase
     }
 
     /**
-     * @param mixed[] $options
+     * @param array $options
+     * @phpstan-param array<string, mixed> $options
      *
      * @command instance:pick:unset
      *
-     * @aliases pu
+     * @aliases ipu
      */
     public function cmdInstancePickUnsetExecute(
         array $options = [
@@ -242,11 +243,12 @@ class InstancePickCommand extends CommandBase
     }
 
     /**
-     * @param mixed[] $options
+     * @param array $options
+     * @phpstan-param array<string, mixed> $options
      *
      * @command instance:pick:this
      *
-     * @aliases pt
+     * @aliases ipt
      *
      * @pmkrInitNormalizeConfig
      * @pmkrInitDefaultInstanceName arg.instanceName

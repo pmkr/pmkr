@@ -42,7 +42,8 @@ class ConfigCommand extends CommandBase
     /**
      * Exports PMKR configuration.
      *
-     * @param mixed[] $options
+     * @param array $options
+     * @phpstan-param array<string, mixed> $options
      *
      * @command config:export
      *

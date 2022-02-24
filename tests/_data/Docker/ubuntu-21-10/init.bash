@@ -10,9 +10,16 @@ sed \
     --in-place \
     '/etc/apt/apt.conf.d/docker-clean'
 
+
+TIMEZONE="${TIMEZONE:-Europe/Budapest}"
+ln -snf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
+echo "${TIMEZONE}" > /etc/timezone
+
+
 # Minimal requirements to run `pmkr`.
 apt-get update
 apt-get install -y \
+    patch \
     php \
     php-bz2 \
     php-ctype \
@@ -20,31 +27,3 @@ apt-get install -y \
     php-dom \
     php-mbstring \
     php-phar
-
-php ./bin/pmkr
-
-# Minimal requirements to compile PHP core or PHP extension.
-#apt-get install -y \
-#    autoconf \
-#    bison \
-#    cmake \
-#    findutils \
-#    g++ \
-#    gcc \
-#    git \
-#    make \
-#    re2c
-
-# User friendly.
-apt-get install -y \
-    util-linux \
-    mc \
-    vim
-
-cat <<'EOT'
-ln -s /usr/include/locale.h /usr/include/xlocale.h
-export PATH="${HOME}/bin:${PATH}"
-SHELL="${SHELL}" ./bin/pmkr init:pmkr --force
-pmkr instance:list
-pmkr -vv instance:install
-EOT

@@ -6,10 +6,10 @@ use Consolidation\AnnotatedCommand\CommandResult;
 use League\Container\Container as LeagueContainer;
 use NuvoleWeb\Robo\Task\Config\Robo\loadTasks as ConfigLoader;
 use Pmkr\Pmkr\Tests\Robo\Commands\BuildCommandsTrait;
+use Pmkr\Pmkr\Tests\Robo\Commands\PmkrCommandsTrait;
 use Pmkr\Pmkr\Util\ProcessFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Robo\Collection\CallableTask;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
@@ -38,6 +38,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     use PhpstanTaskLoader;
     use DockerTaskLoader;
     use BuildCommandsTrait;
+    use PmkrCommandsTrait;
 
     /**
      * @var array<string, mixed>
@@ -66,9 +67,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
 
     protected string $envVarNamePrefix = '';
 
-    /**
-     * Allowed values: dev, ci, prod.
-     */
     protected string $environmentType = '';
 
     /**
@@ -128,9 +126,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
 
         return $this
             ->collectionBuilder()
-            ->addTask($this->getTaskComposerValidate())
-            ->addTask($this->getTaskPhpcsLint())
-            ->addTask($this->getTaskCodeceptRunSuites());
+            ->addTaskList(array_filter([
+                'composer.validate' => $this->getTaskComposerValidate(),
+                'circleci.config.validate' => $this->getTaskCircleCiConfigValidate(),
+                'phpcs.lint' => $this->getTaskPhpcsLint(),
+                'phpstan.analyze' => $this->getTaskPhpstanAnalyze(),
+                'codecept.run' => $this->getTaskCodeceptRunSuites(),
+            ]));
     }
 
     /**
@@ -169,9 +171,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     {
         return $this
             ->collectionBuilder()
-            ->addTask($this->getTaskComposerValidate())
-            ->addTask($this->getTaskPhpcsLint())
-            ->addTask($this->getTaskPhpstanAnalyze());
+            ->addTaskList(array_filter([
+                'composer.validate' => $this->getTaskComposerValidate(),
+                'circleci.config.validate' => $this->getTaskCircleCiConfigValidate(),
+                'phpcs.lint' => $this->getTaskPhpcsLint(),
+                'phpstan.analyze' => $this->getTaskPhpstanAnalyze(),
+            ]));
     }
 
     /**
@@ -210,17 +215,66 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
     }
 
     /**
-     * @param array{
-     *     format: string,
-     * } $options
+     * @command lint:circleci-config
+     */
+    public function cmdLintCircleciConfigExecute(): ?TaskInterface
+    {
+        return $this->getTaskCircleCiConfigValidate();
+    }
+
+    protected function getTaskCircleCiConfigValidate(): ?TaskInterface
+    {
+        if ($this->environmentType === 'ci') {
+            return null;
+        }
+
+        if ($this->gitHook === 'pre-commit') {
+            $cb = $this->collectionBuilder();
+            $cb->addTask(
+                $this
+                    ->taskGitListStagedFiles()
+                    ->setPaths(['./.circleci/config.yml' => true])
+                    ->setDiffFilter(['d' => false])
+                    ->setAssetNamePrefix('staged.')
+            );
+
+            $cb->addTask(
+                $this
+                    ->taskGitReadStagedFiles()
+                    ->setCommandOnly(true)
+                    ->setWorkingDirectory('.')
+                    ->deferTaskConfiguration('setPaths', 'staged.fileNames')
+            );
+
+            $taskForEach = $this->taskForEach();
+            $taskForEach
+                ->iterationMessage('CircleCI config validate: {key}')
+                ->deferTaskConfiguration('setIterable', 'files')
+                ->withBuilder(function (
+                    CollectionBuilder $builder,
+                    string $key,
+                    $file
+                ) {
+                    $builder->addTask(
+                        $this->taskExec("{$file['command']} | circleci --skip-update-check config validate -"),
+                    );
+                });
+            $cb->addTask($taskForEach);
+
+            return $cb;
+        }
+
+        return $this->taskExec('circleci --skip-update-check config validate');
+    }
+
+    /**
+     * @option string $format
+     *     Default: list
      *
      * @command requirements
      */
-    public function cmdRequirementsExecute(
-        array $options = [
-            'format' => 'list',
-        ]
-    ): CommandResult {
+    public function cmdRequirementsExecute(): CommandResult
+    {
         $jsonFileName = getenv('COMPOSER') ?: 'composer.json';
         $lockFileName = preg_replace('/\.json$/', '.lock', $jsonFileName);
         $lock = json_decode(file_get_contents($lockFileName) ?: '{}', true);
@@ -232,170 +286,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         ksort($phpExtensions);
 
         return CommandResult::data(array_keys($phpExtensions));
-    }
-
-    /**
-     * @command pmkr:instance:install
-     */
-    public function cmdPmkrInstanceInstallExecute(
-        string $serviceKey,
-        string $instanceKey
-    ): TaskInterface {
-        $cb = $this->collectionBuilder();
-        /** @var TaskInterface $collection */
-        $collection = $cb->getCollection();
-
-        $processCallback = $this->getProcessCallback();
-        $taskContainerStart = new CallableTask(
-            function (RoboState $state) use ($serviceKey, $processCallback): int {
-                $this->logger->notice(
-                    'Start container {service.key}',
-                    [
-                        'service.key' => $serviceKey,
-                    ],
-                );
-                $process = $this->processFactory->createInstance(
-                    [
-                        'docker-compose',
-                        '--file',
-                        './docker-compose.yml',
-                        'run',
-                        '--rm',
-                        '--detach',
-                        '--entrypoint',
-                        'tail -f /dev/null',
-                        $serviceKey,
-                    ],
-                );
-
-                $process->setTimeout(null);
-                $process->run($processCallback);
-                $state['container.name'] = trim($process->getOutput());
-
-                return $process->getExitCode();
-            },
-            $collection,
-        );
-
-        $taskContainerStop = new CallableTask(
-            function (RoboState $state) use ($processCallback): int {
-                $this->logger->notice(
-                    'Stop container: {container.name}',
-                    [
-                        'container.name' => $state['container.name'],
-                    ],
-                );
-
-                $process = $this->processFactory->createInstance(
-                    [
-                        'docker',
-                        'container',
-                        'stop',
-                        $state['container.name'],
-                    ],
-                );
-
-                $process->setTimeout(null);
-                $process->run($processCallback);
-
-                return $process->getExitCode();
-            },
-            $collection,
-        );
-
-        $taskInit = new CallableTask(
-            function (RoboState $state) use ($serviceKey, $processCallback): int {
-                $process = $this->processFactory->createInstance(
-                    [
-                        'docker',
-                        'exec',
-                        $state['container.name'],
-                        'bash',
-                        "./tests/_data/Docker/$serviceKey/init.bash",
-                    ],
-                );
-
-                $this->logger->notice(
-                    'Exec in container: {container.name} - {command}',
-                    [
-                        'container.name' => $state['container.name'],
-                        'command' => $process->getCommandLine(),
-                    ],
-                );
-
-                $process->setTimeout(null);
-                $process->run($processCallback);
-
-                return $process->getExitCode();
-            },
-            $collection,
-        );
-
-        $taskInstallPackages = new CallableTask(
-            function (RoboState $state) use ($processCallback, $instanceKey): int {
-                $subCommand = sprintf(
-                    'eval $(pmkr instance:dependency:package:list --format=code --format-code=install-command %s)',
-                    escapeshellarg($instanceKey),
-                );
-
-                $command = sprintf(
-                    'docker exec %s bash -c %s',
-                    escapeshellarg($state['container.name']),
-                    escapeshellarg($subCommand),
-                );
-
-                $process = $this->processFactory->fromShellCommandline($command);
-
-                $this->logger->notice(
-                    'Exec: {command}',
-                    [
-                        'command' => $process->getCommandLine(),
-                    ],
-                );
-
-                $process->setTimeout(null);
-                $process->run($processCallback);
-
-                return $process->getExitCode();
-            },
-            $collection,
-        );
-
-        $taskInstanceInstall = new CallableTask(
-            function (RoboState $state) use ($processCallback, $instanceKey): int {
-                $process = $this->processFactory->createInstance(
-                    [
-                        'docker',
-                        'exec',
-                        $state['container.name'],
-                        'pmkr',
-                        'instance:install',
-                        $instanceKey,
-                    ],
-                );
-
-                $this->logger->notice(
-                    'Exec: {command}',
-                    [
-                        'command' => $process->getCommandLine(),
-                    ],
-                );
-
-                $process->setTimeout(null);
-                $process->run($processCallback);
-
-                return $process->getExitCode();
-            },
-            $collection,
-        );
-
-        $cb->addTask($taskContainerStart);
-        $cb->completion($taskContainerStop);
-        $cb->addTask($taskInit);
-        $cb->addTask($taskInstallPackages);
-        $cb->addTask($taskInstanceInstall);
-
-        return $cb;
     }
 
     /**

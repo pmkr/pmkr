@@ -65,6 +65,7 @@ class Bat extends Base
         ]);
 
         $process = $this->processFactory->fromShellCommandline($command);
+        $process->setTimeout(120);
         $exitCode = $process->run(
             null,
             [
@@ -95,6 +96,7 @@ class Bat extends Base
             );
 
             $process = $this->processFactory->fromShellCommandline(implode(' ', $command));
+            $process->setTimeout(120);
             $exitCode = $process->run(null, $this->envVars);
             $result = $this->listLanguagesParser->parse(
                 $exitCode,

@@ -9,7 +9,7 @@ stash:
                         OpenSSL_1_0: true
 
                 packages:
-                    fedora-36: &cores_0506_dependencies_packages_fedora-36
+                    fedora-35: &cores_0506_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
                         findutils: true
@@ -284,7 +284,7 @@ extensions:
             packages:
                 arch:
                     libmemcached: true
-                fedora-36:
+                fedora-35:
                     libmemcached-awesome-devel: true
                 opensuse-tumbleweed:
                     libevent-devel: true
@@ -355,7 +355,7 @@ extensions:
         version: '4.3.0'
         dependencies:
             packages:
-                fedora-36:
+                fedora-35:
                     lz4-devel: true
                 opensuse-tumbleweed:
                     liblz4-devel: true
@@ -384,7 +384,7 @@ extensions:
         version: '0.13'
         dependencies:
             packages:
-                fedora-36:
+                fedora-35:
                     libssh2-devel: true
                 opensuse-tumbleweed:
                     libssh2-devel: true
@@ -414,7 +414,7 @@ extensions:
         version: '1.0.5'
         dependencies:
             packages:
-                fedora-36:
+                fedora-35:
                     libuuid-devel: true
                 opensuse-tumbleweed:
                     libuuid-devel: true
@@ -592,8 +592,8 @@ cores:
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
-                fedora-36:
-                    <<: *cores_0506_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
@@ -614,8 +614,8 @@ cores:
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
-                fedora-36:
-                    <<: *cores_0506_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:

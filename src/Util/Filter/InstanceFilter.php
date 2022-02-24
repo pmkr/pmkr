@@ -194,7 +194,7 @@ class InstanceFilter extends ArrayFilterBase
 
         $isZts = $this->getIsZts();
         if ($this->result && $isZts !== null) {
-            $this->result = $item->isZts;
+            $this->result = $isZts === $item->isZts;
         }
 
         return $this;

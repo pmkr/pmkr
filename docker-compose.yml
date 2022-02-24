@@ -14,9 +14,11 @@ x-common:
 ##
 # Usage:
 # docker-compose --file ./docker-compose.yml run --rm opensuse-tumbleweed /bin/bash --login
+#
+# @see \Pmkr\Pmkr\OpSys\OpSys::packageManager
 ##
 services:
-    archlinux:
+    arch:
         image: 'archlinux:base'
         volumes:
             - *volume_pmkr
@@ -30,12 +32,14 @@ services:
         working_dir: *working_dir
         privileged: true
         tty: true
+        environment:
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
         entrypoint:
             - '/bin/bash'
             - '--login'
 
-    fedora-36:
-        image: 'fedora:36'
+    fedora-35:
+        image: 'fedora:35'
         volumes:
             - *volume_pmkr
             - *volume_env_var_storage
@@ -44,7 +48,7 @@ services:
             - *volume_robo_git
             - *volume_robo_hash
             - *volume_pmkr_cache
-            - './tmp/platform/fedora_36/slash/var/cache/:/var/cache/'
+            - './tmp/platform/fedora-35/slash/var/cache/:/var/cache/'
         working_dir: *working_dir
         privileged: true
         tty: true
@@ -59,11 +63,12 @@ services:
             - *volume_robo_git
             - *volume_robo_hash
             - *volume_pmkr_cache
-            - './tmp/platform/opensuse/slash/var/cache/:/var/cache/'
+            - './tmp/platform/opensuse-tumbleweed/slash/var/cache/:/var/cache/'
         working_dir: *working_dir
         privileged: true
         tty: true
         environment:
+            ZYPPER_KEEP_PACKAGES: 'true'
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
     ubuntu-21-10:
@@ -76,7 +81,9 @@ services:
             - *volume_robo_git
             - *volume_robo_hash
             - *volume_pmkr_cache
-            - './tmp/platform/ubuntu_2110/slash/var/cache/:/var/cache/'
+            - './tmp/platform/ubuntu-21-10/slash/var/cache/:/var/cache/'
         working_dir: *working_dir
         privileged: true
         tty: true
+        environment:
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
