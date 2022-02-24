@@ -203,6 +203,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         return $this
             ->taskPhpstanAnalyze()
             ->setNoProgress(true)
+            ->setNoInteraction(true)
+            ->setMemoryLimit('512M')
             ->setErrorFormat('json')
             ->addLintReporter('lintVerboseReporter', $verboseReporter);
     }

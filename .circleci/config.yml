@@ -52,6 +52,9 @@ commands:
         parameters:
             ext_name:
                 type: 'string'
+            is_zend:
+                type: 'string'
+                default: 'false'
             package_names:
                 type: 'string'
                 default: ''
@@ -61,6 +64,14 @@ commands:
                     name: 'Install PHP extension with pecl – <<parameters.ext_name>>'
                     command: |
                         if php -m | grep '<<parameters.ext_name>>' ; then
+                            echo 1>&2 'PHP extension <<parameters.ext_name>> is already enabled. No need to install'
+
+                            exit 0
+                        fi
+                        
+                        if compgen -G '/usr/local/lib/php/extensions/*/<<parameters.ext_name>>.so' 1>/dev/null ; then
+                            echo 1>&2 'PHP extension <<parameters.ext_name>> is already installed.'
+
                             exit 0
                         fi
                         
@@ -73,11 +84,15 @@ commands:
             -
                 php_extension_enable:
                     ext_name: '<<parameters.ext_name>>'
+                    is_zend: '<<parameters.is_zend>>'
 
     php_extension_bundled_install:
         parameters:
             ext_name:
                 type: 'string'
+            is_zend:
+                type: 'string'
+                default: 'false'
             package_names:
                 type: 'string'
                 default: ''
@@ -87,31 +102,36 @@ commands:
                     name: 'Compile bundled PHP extension – <<parameters.ext_name>>'
                     command: |
                         if php -m | grep '<<parameters.ext_name>>' ; then
-                            echo 1>&2 "PHP extension <<parameters.ext_name>> is already installed."
-    
+                            echo 1>&2 'PHP extension <<parameters.ext_name>> is already enabled. No need to install'
+                            
                             exit 0
                         fi
-    
+                        
+                        if compgen -G '/usr/local/lib/php/extensions/*/<<parameters.ext_name>>.so' 1>/dev/null ; then
+                            echo 1>&2 'PHP extension <<parameters.ext_name>> is already installed.'
+
+                            exit 0
+                        fi
+                        
+                        if [[ '<<parameters.package_names>>' != '' ]] ; then
+                            sudo apt-get update
+                            sudo apt-get install -y <<parameters.package_names>>
+                        fi
+                        
+                        if command -v docker-php-ext-install ; then
+                            sudo docker-php-ext-install '<<parameters.ext_name>>'
+                        
+                            exit $?
+                        fi
+
                         srcRoot='/usr/local/src'
                         phpVersion="$(php -r 'echo \PHP_VERSION;')"
                         phpSrcDir="${srcRoot}/php-${phpVersion}"
                         
                         if [[ ! -d "${phpSrcDir}" ]] ; then
-                            phpUrl="https://www.php.net/distributions/php-${phpVersion}.tar.gz"
-                            wget "${phpUrl}"
+                            wget "https://www.php.net/distributions/php-${phpVersion}.tar.gz"
                             sudo tar xvzf "php-${phpVersion}.tar.gz" -C "${srcRoot}"
                             rm "php-${phpVersion}.tar.gz"
-                        fi
-    
-                        if [[ '<<parameters.package_names>>' != '' ]] ; then
-                            sudo apt-get update
-                            sudo apt-get install -y <<parameters.package_names>>
-                        fi
-                    
-                        if command -v docker-php-ext-install ; then
-                            sudo docker-php-ext-install '<<parameters.ext_name>>'
-    
-                            exit $?
                         fi
     
                         cd "${srcRoot}/php-${phpVersion}/ext/<<parameters.ext_name>>"
@@ -122,11 +142,15 @@ commands:
             -
                 php_extension_enable:
                     ext_name: '<<parameters.ext_name>>'
+                    is_zend: '<<parameters.is_zend>>'
 
     php_extension_enable:
         parameters:
             ext_name:
                 type: 'string'
+            is_zend:
+                type: 'string'
+                default: 'false'
         steps:
             -
                 run:
@@ -135,8 +159,16 @@ commands:
                         if php -m | grep '<<parameters.ext_name>>' ; then
                             exit 0
                         fi
+
                         scanDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^Scan this dir for additional \.ini files => ).+')"
-                        echo 'extension=<<parameters.ext_name>>' | sudo tee --append "${scanDir}/<<parameters.ext_name>>.ini"
+                        
+                        if [[ '<<parameters.is_zend>>' = 'true' ]] ; then
+                            content='zend_extension=<<parameters.ext_name>>'
+                        else
+                            content='extension=<<parameters.ext_name>>'
+                        fi
+
+                        echo "${content}" | sudo tee --append "${scanDir}/<<parameters.ext_name>>.ini"
 
     php_extension_install_pcov:
         description: 'Install PHP extension – pcov'
@@ -152,6 +184,47 @@ commands:
                 php_extension_bundled_install:
                     ext_name: 'bz2'
                     package_names: 'libbz2-dev'
+
+    php_extension_install:
+        description: 'Install required PHP extensions'
+        steps:
+            -
+                restore_cache:
+                    name: 'Install required PHP extensions - cache restore'
+                    keys:
+                        - 'php-extensions-{{ checksum "/usr/local/bin/php" }}-5'
+            -
+                run:
+                    name: 'Install required PHP extensions – copy to final location'
+                    command: |
+                        extDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^extension_dir => ).+' | sed 's/ => .*//g')"
+                        mkdir -p "${extDir}"
+                        for extName in bz2 pcov ; do
+                            if [[ -s ~/.cache/php/ext/${extName}.so ]] ; then
+                                sudo cp ~/.cache/php/ext/${extName}.so "${extDir}/${extName}.so"
+                            fi
+                        done
+            -
+                php_extension_install_bz2: {}
+            -
+                php_extension_install_pcov: {}
+            -
+                run:
+                    name: 'Install required PHP extensions – copy to cache location'
+                    command: |
+                        mkdir -p ~/.cache/php/ext
+                        extDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^extension_dir => ).+' | sed 's/ => .*//g')"
+                        for extName in bz2 pcov ; do
+                            if [[ -s "${extDir}/${extName}.so" ]] ; then
+                                cp "${extDir}/${extName}.so" ~/.cache/php/ext/${extName}.so
+                            fi
+                        done
+            -
+                save_cache:
+                    name: 'PHP extensions - cache save'
+                    key: 'php-extensions-{{ checksum "/usr/local/bin/php" }}-5'
+                    paths:
+                        - '~/.cache/php/ext/'
 
     composer_install:
         description: 'Install Composer dependencies with cache restore and save'
@@ -220,7 +293,7 @@ jobs:
         executor: 'php_min'
         working_directory: '~/repo'
         steps:
-            - 'php_extension_install_bz2'
+            - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
 
@@ -229,7 +302,7 @@ jobs:
         executor: 'php_min'
         working_directory: '~/repo'
         steps:
-            - 'php_extension_install_bz2'
+            - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
             - 'lint'
@@ -237,8 +310,7 @@ jobs:
         executor: 'php_min'
         working_directory: '~/repo'
         steps:
-            - 'php_extension_install_bz2'
-            - 'php_extension_install_pcov'
+            - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
             - 'test'
@@ -246,8 +318,7 @@ jobs:
         executor: 'php_plus1'
         working_directory: '~/repo'
         steps:
-            - 'php_extension_install_bz2'
-            - 'php_extension_install_pcov'
+            - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
             - 'test'
@@ -255,8 +326,7 @@ jobs:
         executor: 'php_plus2'
         working_directory: '~/repo'
         steps:
-            - 'php_extension_install_bz2'
-            - 'php_extension_install_pcov'
+            - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
             - 'test'

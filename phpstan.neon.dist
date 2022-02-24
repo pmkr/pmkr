@@ -10,6 +10,10 @@ parameters:
         - tests/
         - RoboFile.php
     excludePaths:
+        - src/Commands/DummyCommand.php
+        - src/Task/DummyTask.php
+        - src/Task/DummyTaskLoader.php
+        - RoboFileDummy.php
         - tests/_log/
         - tests/_support/_generated/
     typeAliases:

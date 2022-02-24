@@ -1,3 +1,3 @@
 <?php
 
-exec('"$(composer config bin-dir)/codecept" build');
+exec('"$(composer config bin-dir)/codecept" --no-interaction build');

@@ -1,7 +1,7 @@
 # pmkr
 
-@todo CI badge
-@todo code coverage badge
+[![CircleCI](https://circleci.com/gh/pmkr/pmkr/tree/1.x.svg?style=svg)](https://circleci.com/gh/pmkr/pmkr/?branch=1.x)
+[![codecov](https://codecov.io/gh/pmkr/pmkr/branch/1.x/graph/badge.svg?token=HSF16OGPyr)](https://app.codecov.io/gh/pmkr/pmkr/branch/1.x)
 
 
 ## What is pmkr?
