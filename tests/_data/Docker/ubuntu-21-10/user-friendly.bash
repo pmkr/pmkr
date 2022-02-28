@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-# User friendly.
-pacman --sync --noconfirm \
-    'vim'
+set -x
+set -e
+
+apt-get update
+apt-get install -y \
+    bat \
+    command-not-found \
+    jq
 
 cat <<'EOT'
 SHELL=$SHELL ./bin/pmkr init:pmkr --force

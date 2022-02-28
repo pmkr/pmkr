@@ -6,6 +6,9 @@ namespace Pmkr\Pmkr\Util;
 
 use Pmkr\Pmkr\Model\PmkrConfig;
 
+/**
+ * @todo Validate library references.
+ */
 class PmkrConfigValidator
 {
 
@@ -20,7 +23,6 @@ class PmkrConfigValidator
     protected array $errors = [];
 
     /**
-     *
      * @return array<int, array{
      *     type: string,
      *     path: string,

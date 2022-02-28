@@ -158,7 +158,7 @@ trait PmkrCommandsTrait
         $taskInstallPackages = new CallableTask(
             function (RoboState $state) use ($processCallback, $instanceKey): int {
                 $subCommand = sprintf(
-                    'eval $(pmkr instance:dependency:package:list --format=code --format-code=install-command %s)',
+                    'eval $(pmkr instance:dependency:package:list --no-ansi --format=code --format-code=install-command %s)',
                     escapeshellarg($instanceKey),
                 );
 

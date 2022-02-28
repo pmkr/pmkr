@@ -62,60 +62,60 @@ stash:
                             src: 'etc/php.xdebug-0702.ini.twig'
                             dst: 'php.xdebug.ini'
                     ext: &cores_0702_etc_files_ext
-                        conf/default/00-core-ini:
+                        conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
                             dst: 'conf/default/00-core.ini'
-                        conf/default/assert-ini:
+                        conf-default-assert-ini:
                             src: 'etc/ext/assert.ini.twig'
                             dst: 'conf/default/assert.ini'
-                        conf/default/cli_server-ini:
+                        conf-default-cli_server-ini:
                             src: 'etc/ext/cli_server.ini.twig'
                             dst: 'conf/default/cli_server.ini'
-                        conf/default/date-ini:
+                        conf-default-date-ini:
                             src: 'etc/ext/date.ini.twig'
                             dst: 'conf/default/date.ini'
-                        conf/default/mail-ini:
+                        conf-default-mail-ini:
                             src: 'etc/ext/mail.ini.twig'
                             dst: 'conf/default/mail.ini'
                     fpm: &cores_0702_etc_files_fpm
-                        php-fpm-d/includes/00-pool-ini:
+                        php-fpm-d-includes-00-pool-ini:
                             src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
                             dst: 'php-fpm.d/includes/00-pool.ini'
                             vars:
                                 envVars:
                                     LOCALHOST_NAME: '${stash.uname.n}'
                                     LOCAL_DEVELOPMENT: 'true'
-                        php-fpm-d/includes/10-php-ini:
+                        php-fpm-d-includes-10-php-ini:
                             src: 'etc/php-fpm.d/includes/10-php.ini.twig'
                             dst: 'php-fpm.d/includes/10-php.ini'
 
-                        php-fpm-d/pool-d/dev-default-ini:
+                        php-fpm-d-pool-d-dev-default-ini:
                             src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/dev.default.ini'
-                        php-fpm-d/pool-d/prod-default-ini:
+                        php-fpm-d-pool-d-prod-default-ini:
                             src: 'etc/php-fpm.d/pool.d/prod.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/prod.default.ini'
 
-                        php-fpm-d/php-dev-ini:
+                        php-fpm-d-php-dev-ini:
                             src: 'etc/php-fpm.d/php.dev.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
-                        php-fpm-d/php-prod-ini:
+                        php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
 
-                        php-fpm-d/php-fpm-dev-ini:
+                        php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
                             dst: 'php-fpm.d/php-fpm.dev.ini'
-                        php-fpm-d/php-fpm-prod-ini:
+                        php-fpm-d-php-fpm-prod-ini:
                             src: 'etc/php-fpm.d/php-fpm.prod.ini.twig'
                             dst: 'php-fpm.d/php-fpm.prod.ini'
 
-                        supervisor/program-php-fpm-dev-ini:
+                        supervisor-program-php-fpm-dev-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.dev.ini'
                             vars:
                                 iniVariant: 'dev'
-                        supervisor/program-php-fpm-prod-ini:
+                        supervisor-program-php-fpm-prod-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.prod.ini'
                             vars:
@@ -158,7 +158,7 @@ extensions:
                 --with-libdir: 'lib/x86_64-linux-gnu'
         etc:
             files:
-                conf/default/gd-ini:
+                conf-default-gd-ini:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
@@ -180,7 +180,7 @@ extensions:
                 --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
         etc:
             files:
-                conf/default/intl-ini:
+                conf-default-intl-ini:
                     src: 'etc/ext/intl.ini.twig'
                     dst: 'conf/default/intl.ini'
 
