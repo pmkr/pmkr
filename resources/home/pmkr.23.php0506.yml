@@ -67,60 +67,60 @@ stash:
                             src: 'etc/php.xdebug-0506.ini.twig'
                             dst: 'php.xdebug.ini'
                     ext: &cores_0506_etc_files_ext
-                        conf/default/00-core-ini:
+                        conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
                             dst: 'conf/default/00-core.ini'
-                        conf/default/assert-ini:
+                        conf-default-assert-ini:
                             src: 'etc/ext/assert.ini.twig'
                             dst: 'conf/default/assert.ini'
-                        conf/default/cli_server-ini:
+                        conf-default-cli_server-ini:
                             src: 'etc/ext/cli_server.ini.twig'
                             dst: 'conf/default/cli_server.ini'
-                        conf/default/date-ini:
+                        conf-default-date-ini:
                             src: 'etc/ext/date.ini.twig'
                             dst: 'conf/default/date.ini'
-                        conf/default/mail-ini:
+                        conf-default-mail-ini:
                             src: 'etc/ext/mail.ini.twig'
                             dst: 'conf/default/mail.ini'
                     fpm: &cores_0506_etc_files_fpm
-                        php-fpm-d/includes/00-pool-ini:
+                        php-fpm-d-includes-00-pool-ini:
                             src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
                             dst: 'php-fpm.d/includes/00-pool.ini'
                             vars:
                                 envVars:
                                     LOCALHOST_NAME: '${stash.uname.n}'
                                     LOCAL_DEVELOPMENT: 'true'
-                        php-fpm-d/includes/10-php-ini:
+                        php-fpm-d-includes-10-php-ini:
                             src: 'etc/php-fpm.d/includes/10-php.ini.twig'
                             dst: 'php-fpm.d/includes/10-php.ini'
 
-                        php-fpm-d/pool-d/dev-default-ini:
+                        php-fpm-d-pool-d-dev-default-ini:
                             src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/dev.default.ini'
-                        php-fpm-d/pool-d/prod-default-ini:
+                        php-fpm-d-pool-d-prod-default-ini:
                             src: 'etc/php-fpm.d/pool.d/prod.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/prod.default.ini'
 
-                        php-fpm-d/php-dev-ini:
+                        php-fpm-d-php-dev-ini:
                             src: 'etc/php-fpm.d/php.dev.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
-                        php-fpm-d/php-prod-ini:
+                        php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
 
-                        php-fpm-d/php-fpm-dev-ini:
+                        php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
                             dst: 'php-fpm.d/php-fpm.dev.ini'
-                        php-fpm-d/php-fpm-prod-ini:
+                        php-fpm-d-php-fpm-prod-ini:
                             src: 'etc/php-fpm.d/php-fpm.prod.ini.twig'
                             dst: 'php-fpm.d/php-fpm.prod.ini'
 
-                        supervisor/program-php-fpm-dev-ini:
+                        supervisor-program-php-fpm-dev-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.dev.ini'
                             vars:
                                 iniVariant: 'dev'
-                        supervisor/program-php-fpm-prod-ini:
+                        supervisor-program-php-fpm-prod-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.prod.ini'
                             vars:
@@ -142,7 +142,7 @@ extensions:
                 #--enable-coverage: ~
         etc:
             files:
-                conf/default/apcu-ini:
+                conf-default-apcu-ini:
                     src: 'etc/ext/apcu.ini.twig'
                     dst: 'conf/default/apcu.ini'
 
@@ -181,7 +181,7 @@ extensions:
                 #--with-libdir: 'lib/x86_64-linux-gnu'
         etc:
             files:
-                conf/default/gd-ini:
+                conf-default-gd-ini:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
@@ -192,7 +192,7 @@ extensions:
                 --enable-igbinary: ~
         etc:
             files:
-                conf/default/igbinary-ini:
+                conf-default-igbinary-ini:
                     src: 'etc/ext/igbinary.ini.twig'
                     dst: 'conf/default/igbinary.ini'
 
@@ -203,7 +203,7 @@ extensions:
                 --enable-inotify: ~
         etc:
             files:
-                conf/default/inotify-ini:
+                conf-default-inotify-ini:
                     src: 'etc/ext/inotify.ini.twig'
                     dst: 'conf/default/inotify.ini'
 
@@ -225,7 +225,7 @@ extensions:
                 --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
         etc:
             files:
-                conf/default/intl-ini:
+                conf-default-intl-ini:
                     src: 'etc/ext/intl.ini.twig'
                     dst: 'conf/default/intl.ini'
 
@@ -251,7 +251,7 @@ extensions:
                 --with-readline: '${dir.share}/${libraries.readline-07.name}'
         etc:
             files:
-                conf/default/readline-ini:
+                conf-default-readline-ini:
                     src: 'etc/ext/readline.ini.twig'
                     dst: 'conf/default/readline.ini'
 
@@ -269,7 +269,7 @@ extensions:
                 #--enable-debug: ~
         etc:
             files:
-                conf/default/memcache-ini:
+                conf-default-memcache-ini:
                     src: 'etc/ext/memcache.ini.twig'
                     dst: 'conf/default/memcache.ini'
 
@@ -307,7 +307,7 @@ extensions:
 
         etc:
             files:
-                conf/default/memcached-ini:
+                conf-default-memcached-ini:
                     src: 'etc/ext/memcached.ini.twig'
                     dst: 'conf/default/memcached.ini'
 
@@ -318,7 +318,7 @@ extensions:
                 --with-msgpack: ~
         etc:
             files:
-                conf/default/msgpack-ini:
+                conf-default-msgpack-ini:
                     src: 'etc/ext/msgpack.ini.twig'
                     dst: 'conf/default/msgpack.ini'
 
@@ -330,7 +330,7 @@ extensions:
                 #--disable-huge-code-pages: ~
         etc:
             files:
-                conf/default/opcache-ini:
+                conf-default-opcache-ini:
                     src: 'etc/ext/opcache.ini.twig'
                     dst: 'conf/default/opcache.ini'
 
@@ -341,7 +341,7 @@ extensions:
                 --enable-protobuf: ~
         etc:
             files:
-                conf/default/protobuf-ini:
+                conf-default-protobuf-ini:
                     src: 'etc/ext/protobuf.ini.twig'
                     dst: 'conf/default/protobuf.ini'
 
@@ -376,7 +376,7 @@ extensions:
                 --with-liblz4: '/usr'
         etc:
             files:
-                conf/default/redis-ini:
+                conf-default-redis-ini:
                     src: 'etc/ext/redis.ini.twig'
                     dst: 'conf/default/redis.ini'
 
@@ -395,7 +395,7 @@ extensions:
                 --with-ssh2: ~
         etc:
             files:
-                conf/default/ssh2-ini:
+                conf-default-ssh2-ini:
                     src: 'etc/ext/ssh2.ini.twig'
                     dst: 'conf/default/ssh2.ini'
 
@@ -406,7 +406,7 @@ extensions:
                 --enable-xdebug: ~
         etc:
             files:
-                conf/default/xdebug-ini:
+                conf-default-xdebug-ini:
                     src: 'etc/ext/xdebug-0506.ini.twig'
                     dst: 'conf/default/xdebug.ini'
 
@@ -423,7 +423,7 @@ extensions:
                 --with-uuid: ~
         etc:
             files:
-                conf/default/uuid-ini:
+                conf-default-uuid-ini:
                     src: 'etc/ext/uuid.ini.twig'
                     dst: 'conf/default/uuid.ini'
 

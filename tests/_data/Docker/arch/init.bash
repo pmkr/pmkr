@@ -20,3 +20,9 @@ sed \
     --expression='s/display_errors = Off/display_errors = On/g' \
     --expression='s/display_startup_errors = Off/display_startup_errors = On/g' \
     '/etc/php/php.ini'
+
+#digitlst.cpp:67:13: fatal error: xlocale.h: No such file or directory
+#   67 | #   include <xlocale.h>
+ln -s /usr/include/locale.h /usr/include/xlocale.h
+
+ln -s /usr/bin/pkg-config /usr/bin/freetype-config

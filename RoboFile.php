@@ -14,7 +14,6 @@ use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\TaskInterface;
-use Robo\State\Data as RoboState;
 use Robo\Tasks;
 use Robo\Task\Docker\Tasks as DockerTaskLoader;
 use Sweetchuck\LintReport\Reporter\BaseReporter;

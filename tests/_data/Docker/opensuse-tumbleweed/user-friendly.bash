@@ -13,6 +13,7 @@ zypper install --no-confirm \
     yq
 
 cat <<'EOT'
+SHELL=$SHELL ./bin/pmkr init:pmkr --force
 pmkr instance:list
 pmkr -vv instance:install
 EOT
