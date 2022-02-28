@@ -52,6 +52,7 @@ class Yq extends Base
         ]);
 
         $process = $this->processFactory->fromShellCommandline($command);
+        $process->setTimeout(120);
         $exitCode = $process->run(
             null,
             [

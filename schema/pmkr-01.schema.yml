@@ -90,7 +90,7 @@ definitions:
     checksums:
         type: 'object'
         default: { }
-        # @todo Dor is not allowed in property names.
+        # @todo Dot is not allowed in property names.
         additionalProperties:
             '$ref': '#/definitions/checksum'
 
@@ -522,7 +522,7 @@ definitions:
                     - never: Will be always used.
                     - nts: Will be used when the core is NTS
                     - zts: Will be used when the core is ZTS
-                    
+
                     There are some extensions that can not be used with both NTS and ZTS.
                     For example pthreads extension can be used only with ZTS.
             compiler:
@@ -866,7 +866,7 @@ definitions:
                             Key is an external language identifier.
                             Value is a key from the ./handler array.
                             The special "_default" key will be used when the language identifier doesn't exists.
-                            
+
                             More than one SyntaxHighlighterBackend can be suitable for a certain language,
                             all of them can be defined here.
                         # @todo Dot is not allowed in property names.

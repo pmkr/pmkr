@@ -49,16 +49,22 @@ Currently there is no install helper script, so it requires some manual steps.
   * ext-libxml
   * ext-mbstring
   * ext-phar
+  * additional DEV requirements
+    * ext-tokenizer
+    * ext-xmlwriter
+* patch
 
 **openSUSE tumbleweed**
 ```bash
 zypper install \
     --no-confirm \
+    patch \
     php8 \
     php8-bz2 \
     php8-ctype \
     php8-curl \
     php8-dom \
+    php8-iconv \
     php8-openssl \
     php8-mbstring \
     php8-phar
@@ -69,6 +75,7 @@ zypper install \
 apt-get update
 apt-get install \
     -y \
+    patch \
     php \
     php-bz2 \
     php-ctype \
@@ -82,6 +89,7 @@ apt-get install \
 ```bash
 dnf install \
     --assumeyes \
+    patch \
     php-cli \
     php-bz2 \
     php-ctype \
@@ -92,9 +100,10 @@ dnf install \
 ```
 
 **Arch**
-```base
+```bash
 pacman --sync \
     --noconfirm \
+    patch \
     php
 
 sed \
@@ -120,9 +129,9 @@ Method 3: Git + [Composer 2.x]
         --branch='1.x' \
         'https://github.com/pmkr/pmkr.git' \
         'pmkr-1.x'
-   
+
     cd 'pmkr-1.x'
-    composer install
+    composer install --no-dev
     SHELL="${SHELL}" ./bin/pmkr init:pmkr
     ```
 

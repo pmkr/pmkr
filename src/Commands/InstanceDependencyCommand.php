@@ -20,7 +20,7 @@ class InstanceDependencyCommand extends CommandBase
      * @param string $instanceName
      *   Name of the instance.
      *
-     * @param mixed[] $options
+     * @phpstan-param array<string, mixed> $options
      *
      * @option string $format
      *   This controls what the output should be look like.
@@ -36,6 +36,7 @@ class InstanceDependencyCommand extends CommandBase
      *
      * @pmkrInitNormalizeConfig
      * @pmkrInteractInstanceName arg.instanceName
+     * @pmkrValidateResolveInstanceAlias arg.instanceName
      * @pmkrValidateInstanceName arg.instanceName
      */
     public function cmdInstanceDependencyPackageListExecute(

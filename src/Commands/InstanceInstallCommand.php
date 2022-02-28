@@ -192,6 +192,7 @@ class InstanceInstallCommand extends CommandBase
      *   arg.instanceName:
      *     hasSrcDir: true
      *     hasShareDir: true
+     * @pmkrValidateResolveInstanceAlias arg.instanceName
      * @pmkrValidateInstanceName
      *   arg.instanceName:
      *     hasSrcDir: true

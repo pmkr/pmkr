@@ -16,7 +16,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
 
     protected ?string $extensionVersion;
 
-    protected string $taskName = 'PMKR - Deploy extension etc files: {extensionKey}';
+    protected string $taskName = 'PMKR - Deploy extension etc files';
 
     /**
      * @param ?array<string, mixed> $context
@@ -84,7 +84,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
     protected function runHeader()
     {
         $this->printTaskInfo(
-            'PMKR - deploy extension etc files: {extensionKey}',
+            'extensionKey is: {extensionKey}',
         );
 
         return $this;

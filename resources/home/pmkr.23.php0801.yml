@@ -14,7 +14,7 @@ stash:
                         make: true
                         pkgconf: true
                         re2c: true
-                    fedora-36: &cores_0801_dependencies_packages_fedora-36
+                    fedora-35: &cores_0801_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
                         findutils: true
@@ -137,7 +137,7 @@ extensions:
     dom-0801:
         dependencies:
             packages:
-                fedora-36:
+                fedora-35:
                     libxml2: true
                     libxml2-devel: true
                 opensuse-tumbleweed:
@@ -154,11 +154,12 @@ extensions:
         dependencies:
             packages:
                 arch:
+                    libavif: true
                     libpng: true
                     libwebp: true
                     libxpm: true
                     freetype2: true
-                fedora-36:
+                fedora-35:
                     libpng-devel: true
                     libwebp-devel: true
                     libjpeg-turbo-devel: true
@@ -179,6 +180,7 @@ extensions:
                     libXpm-devel: true
                     zlib-devel: true
                 ubuntu-21-10:
+                    libavif-dev: true
                     libpng-dev: true
                     libwebp-dev: true
                     libjpeg-dev: true
@@ -372,8 +374,8 @@ cores:
             packages:
                 arch:
                     <<: *cores_0801_dependencies_packages_arch
-                fedora-36:
-                    <<: *cores_0801_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0801_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
@@ -393,8 +395,8 @@ cores:
             packages:
                 arch:
                     <<: *cores_0801_dependencies_packages_arch
-                fedora-36:
-                    <<: *cores_0801_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0801_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:

@@ -3056,12 +3056,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sweetchuck/robo-download-curl.git",
-                "reference": "5672717ead5d94b49c8c6888952064d9e68716bb"
+                "reference": "98b0bde7fa75f19d5a710cf3ef2d4978481e1ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sweetchuck/robo-download-curl/zipball/5672717ead5d94b49c8c6888952064d9e68716bb",
-                "reference": "5672717ead5d94b49c8c6888952064d9e68716bb",
+                "url": "https://api.github.com/repos/Sweetchuck/robo-download-curl/zipball/98b0bde7fa75f19d5a710cf3ef2d4978481e1ede",
+                "reference": "98b0bde7fa75f19d5a710cf3ef2d4978481e1ede",
                 "shasum": ""
             },
             "require": {
@@ -3077,12 +3077,15 @@
                 "mikey179/vfsstream": "^1.6",
                 "nuvoleweb/robo-config": "3.x-dev",
                 "phpmd/phpmd": "^2.10",
+                "phpstan/phpstan": "^1.4",
                 "squizlabs/php_codesniffer": "^3.5",
                 "sweetchuck/codeception-module-robo-task-runner": "2.x-dev",
                 "sweetchuck/git-hooks": "2.x-dev",
                 "sweetchuck/robo-git": "2.x-dev",
                 "sweetchuck/robo-phpcs": "2.x-dev",
                 "sweetchuck/robo-phpmd": "2.x-dev",
+                "sweetchuck/robo-phpstan": "1.x-dev",
+                "sweetchuck/utils": "1.x-dev",
                 "symfony/debug": "^4.4 || ^5.0",
                 "symfony/error-handler": "^4.4 || ^5.0",
                 "symfony/finder": "^4.0 || ^5.0",
@@ -3117,7 +3120,7 @@
                 "issues": "https://github.com/Sweetchuck/robo-download-curl/issues",
                 "source": "https://github.com/Sweetchuck/robo-download-curl"
             },
-            "time": "2021-12-10T12:45:10+00:00"
+            "time": "2022-02-25T14:10:28+00:00"
         },
         {
             "name": "sweetchuck/robo-hash",

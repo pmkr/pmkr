@@ -5,7 +5,7 @@ stash:
         '0703':
             dependencies:
                 packages:
-                    fedora-36: &cores_0703_dependencies_packages_fedora-36
+                    fedora-35: &cores_0703_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
                         findutils: true
@@ -331,8 +331,8 @@ cores:
     '0703-nts':
         dependencies:
             packages:
-                fedora-36:
-                    <<: *cores_0703_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0703_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0703_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
@@ -350,8 +350,8 @@ cores:
     '0703-zts':
         dependencies:
             packages:
-                fedora-36:
-                    <<: *cores_0703_dependencies_packages_fedora-36
+                fedora-35:
+                    <<: *cores_0703_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
                     <<: *cores_0703_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:

@@ -1,5 +1,6 @@
 includes:
     - phpstan.baseline.neon
+    - phpstan.typeAliasesDev.neon
 
 parameters:
     bootstrapFiles:
@@ -16,18 +17,3 @@ parameters:
         - RoboFileDummy.php
         - tests/_log/
         - tests/_support/_generated/
-    typeAliases:
-        DevPhpExecutable: '''
-            array{
-                enabled: bool,
-                command: string,
-                envVars?: array<string, ?string>,
-            }
-        '''
-        DevProcessResult: '''
-            array{
-                exitCode: int,
-                stdOutput: string,
-                stdError: string,
-            }
-        '''

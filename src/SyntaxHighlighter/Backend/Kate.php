@@ -58,6 +58,7 @@ class Kate extends Base
         ]);
 
         $process = $this->processFactory->fromShellCommandline($command);
+        $process->setTimeout(120);
         $exitCode = $process->run(
             null,
             [
@@ -85,6 +86,7 @@ class Kate extends Base
             );
 
             $process = Process::fromShellCommandline(implode(' ', $command));
+            $process->setTimeout(120);
             $exitCode = $process->run(null, $this->envVars);
             if ($exitCode !== 0) {
                 return [];

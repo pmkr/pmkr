@@ -46,6 +46,45 @@ executors:
                 name: 'main'
                 image: 'cimg/php:8.1'
 
+    os_arch:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'archlinux:base'
+        environment:
+            <<: *env_composer
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+    os_fedora-35:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'fedora:35'
+        environment:
+            <<: *env_composer
+
+    os_opensuse-tumbleweed:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'opensuse/tumbleweed:latest'
+        environment:
+            <<: *env_composer
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+    os_ubuntu-21-10:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'ubuntu:21.10'
+        environment:
+            <<: *env_composer
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
 commands:
     php_extension_pecl_install:
         description: 'Install PHP extension with pecl'
@@ -68,18 +107,18 @@ commands:
 
                             exit 0
                         fi
-                        
+
                         if compgen -G '/usr/local/lib/php/extensions/*/<<parameters.ext_name>>.so' 1>/dev/null ; then
                             echo 1>&2 'PHP extension <<parameters.ext_name>> is already installed.'
 
                             exit 0
                         fi
-                        
+
                         if [[ '<<parameters.package_names>>' != '' ]] ; then
                             sudo apt-get update
                             sudo apt-get install -y <<parameters.package_names>>
                         fi
-                        
+
                         sudo pecl install '<<parameters.ext_name>>'
             -
                 php_extension_enable:
@@ -103,37 +142,37 @@ commands:
                     command: |
                         if php -m | grep '<<parameters.ext_name>>' ; then
                             echo 1>&2 'PHP extension <<parameters.ext_name>> is already enabled. No need to install'
-                            
+
                             exit 0
                         fi
-                        
+
                         if compgen -G '/usr/local/lib/php/extensions/*/<<parameters.ext_name>>.so' 1>/dev/null ; then
                             echo 1>&2 'PHP extension <<parameters.ext_name>> is already installed.'
 
                             exit 0
                         fi
-                        
+
                         if [[ '<<parameters.package_names>>' != '' ]] ; then
                             sudo apt-get update
                             sudo apt-get install -y <<parameters.package_names>>
                         fi
-                        
+
                         if command -v docker-php-ext-install ; then
                             sudo docker-php-ext-install '<<parameters.ext_name>>'
-                        
+
                             exit $?
                         fi
 
                         srcRoot='/usr/local/src'
                         phpVersion="$(php -r 'echo \PHP_VERSION;')"
                         phpSrcDir="${srcRoot}/php-${phpVersion}"
-                        
+
                         if [[ ! -d "${phpSrcDir}" ]] ; then
                             wget "https://www.php.net/distributions/php-${phpVersion}.tar.gz"
                             sudo tar xvzf "php-${phpVersion}.tar.gz" -C "${srcRoot}"
                             rm "php-${phpVersion}.tar.gz"
                         fi
-    
+
                         cd "${srcRoot}/php-${phpVersion}/ext/<<parameters.ext_name>>"
                         sudo phpize
                         sudo ./configure
@@ -161,7 +200,7 @@ commands:
                         fi
 
                         scanDir="$(php -i | grep --color=never --only-matching --perl-regexp '(?<=^Scan this dir for additional \.ini files => ).+')"
-                        
+
                         if [[ '<<parameters.is_zend>>' = 'true' ]] ; then
                             content='zend_extension=<<parameters.ext_name>>'
                         else
@@ -228,26 +267,27 @@ commands:
 
     composer_install:
         description: 'Install Composer dependencies with cache restore and save'
+        parameters:
+            arguments:
+                type: 'string'
+                default: ''
         steps:
             -
                 restore_cache:
-                    name: 'Composer - cache restore'
+                    name: 'Composer install – cache restore'
                     keys:
                         - 'composer-{{ checksum "./composer.lock" }}-2'
-
             -
                 run:
-                    name: 'Composer - install'
+                    name: 'Composer install – do it'
                     command: >
-                        composer install --no-progress
-
+                        composer install --no-progress <<parameters.arguments>>
             -
                 save_cache:
-                    name: 'Composer - cache save'
+                    name: 'Composer install – cache save'
                     key: 'composer-{{ checksum "./composer.lock" }}-2'
                     paths:
                         - '~/.cache/composer/'
-
 
     lint:
         description: 'Run linters'
@@ -288,6 +328,104 @@ commands:
                     name: 'Store test results as artifacts'
                     path: './tests/_log/machine/junit'
 
+    install_composer:
+        description: 'Install Composer executable'
+        parameters:
+            version:
+                type: 'string'
+                default: '2.2.6'
+            install_dir:
+                type: 'string'
+                default: '${HOME}/bin'
+            filename:
+                type: 'string'
+                default: 'composer'
+        steps:
+            -
+                run:
+                    name: 'Install Composer executable'
+                    command: |-
+                        mkdir -p "<<parameters.install_dir>>"
+                        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+                        php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+
+                        php composer-setup.php \
+                            --version='<<parameters.version>>' \
+                            --install-dir="<<parameters.install_dir>>" \
+                            --filename='<<parameters.filename>>'
+
+                        php -r "unlink('composer-setup.php');"
+
+    os_init:
+        description: 'OS init'
+        parameters:
+            opsys:
+                type: 'string'
+        steps:
+            -
+                run:
+                    name: 'OS init – <<parameters.opsys>> – install required packages'
+                    command: |
+                        case '<<parameters.opsys>>' in
+                            ubuntu*)
+                                apt-get update
+                                apt-get install -y \
+                                    git \
+                                    tar
+                                ;;
+
+                            opensuse-tumbleweed)
+                                zypper install --no-confirm \
+                                    git \
+                                    tar
+                                ;;
+                        esac
+            -
+                checkout: {}
+            -
+                run:
+                    name: 'OS init – <<parameters.opsys>> – init.bash'
+                    command: |
+                        bash './tests/_data/Docker/<<parameters.opsys>>/init.bash'
+            -
+                install_composer: {}
+            -
+                composer_install:
+                    arguments: '--no-dev'
+            -
+                run:
+                    name: 'OS init – <<parameters.opsys>> – pmkr init:pmkr'
+                    command: |
+                        SHELL="${SHELL}" ./bin/pmkr init:pmkr --force
+
+
+    pmkr_instance_install:
+        description: 'pmkr instance:install'
+        parameters:
+            instance_name:
+                type: 'string'
+
+        steps:
+            -
+                run:
+                    name: 'pmkr instance:install <<parameters.instance_name>> – install package dependencies'
+                    command: |
+                        eval "$(pmkr instance:dependency:package:list --format='code' --format-code='install-command' <<parameters.instance_name>>)"
+            -
+                run:
+                    name: 'pmkr instance:install <<parameters.instance_name>>'
+                    command: |
+                        pmkr instance:install '<<parameters.instance_name>>'
+            -
+                run:
+                    name: 'pmkr instance:install <<parameters.instance_name>> – test'
+                    command: |
+                        eval "$(pmkr --no-ansi instance:pick:this '<<parameters.instance_name>>')"
+                        pmkr which
+                        command -v php
+                        php --version
+                        php -m
+
 jobs:
     build:
         executor: 'php_min'
@@ -306,30 +444,33 @@ jobs:
             - 'checkout'
             - 'composer_install'
             - 'lint'
-    test_php_min:
-        executor: 'php_min'
+    test:
+        parameters:
+            executor:
+                type: 'string'
+        executor: '<<parameters.executor>>'
         working_directory: '~/repo'
         steps:
             - 'php_extension_install'
             - 'checkout'
             - 'composer_install'
             - 'test'
-    test_php_plus1:
-        executor: 'php_plus1'
-        working_directory: '~/repo'
+
+    pmkr_instance_install:
+        parameters:
+            opsys:
+                type: 'string'
+            instance_name:
+                type: 'string'
+        executor: 'os_<<parameters.opsys>>'
+        working_directory: '~/project/pmkr/pmkr'
         steps:
-            - 'php_extension_install'
-            - 'checkout'
-            - 'composer_install'
-            - 'test'
-    test_php_plus2:
-        executor: 'php_plus2'
-        working_directory: '~/repo'
-        steps:
-            - 'php_extension_install'
-            - 'checkout'
-            - 'composer_install'
-            - 'test'
+            -
+                os_init:
+                    opsys: '<<parameters.opsys>>'
+            -
+                pmkr_instance_install:
+                    instance_name: '<<parameters.instance_name>>'
 
 workflows:
     lint_and_test:
@@ -341,14 +482,39 @@ workflows:
                     requires:
                         - 'build'
             -
-                test_php_min:
+                test:
+                    name: 'test_<<matrix.executor>>'
                     requires:
                         - 'build'
+                    matrix:
+                        parameters:
+                            executor:
+                                - 'php_min'
+                                - 'php_plus1'
+                                - 'php_plus2'
+
+    pmkr_instance_install:
+        jobs:
             -
-                test_php_plus1:
-                    requires:
-                        - 'build'
+                pmkr_instance_install-hold:
+                    name: 'pmkr_ii-<<matrix.opsys>>-<<matrix.instance_name>>-hold'
+                    description: 'Approval will trigger other jobs.'
+                    type: 'approval'
+                    matrix:
+                        parameters: &wf-pmkr_instance_install-parameters
+                            opsys:
+                                - 'arch'
+#                                - 'fedora-35'
+                                - 'opensuse-tumbleweed'
+                                - 'ubuntu-21-10'
+                            instance_name:
+                                - '0704-nts'
+                                - '0800-nts'
+                                - '0801-nts'
             -
-                test_php_plus2:
+                pmkr_instance_install:
+                    name: 'pmkr_ii-<<matrix.opsys>>-<<matrix.instance_name>>-execute'
                     requires:
-                        - 'build'
+                        - 'pmkr_ii-<<matrix.opsys>>-<<matrix.instance_name>>-hold'
+                    matrix:
+                        parameters: *wf-pmkr_instance_install-parameters

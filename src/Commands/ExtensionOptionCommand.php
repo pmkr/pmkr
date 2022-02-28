@@ -48,6 +48,7 @@ class ExtensionOptionCommand extends CommandBase
             }
 
             $process = Process::fromShellCommandline(escapeshellcmd($phpize), $extDir->getPathname());
+            $process->setTimeout(null);
             $exitCode = $process->run();
             if ($exitCode !== 0) {
                 $this->logger->error(
@@ -64,6 +65,7 @@ class ExtensionOptionCommand extends CommandBase
             }
 
             $process = Process::fromShellCommandline('./configure --help', $extDir->getPathname());
+            $process->setTimeout(null);
             $exitCode = $process->run();
             if ($exitCode !== 0) {
                 $this->logger->error('./configure --help', ['dir' => $extDir->getPathname()]);
