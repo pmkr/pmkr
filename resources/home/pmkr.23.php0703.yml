@@ -178,7 +178,7 @@ extensions:
                 --with-libdir: 'lib/x86_64-linux-gnu'
         etc:
             files:
-                conf/default/gd-ini:
+                conf-default-gd-ini:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
     json-0703:

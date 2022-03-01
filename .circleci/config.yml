@@ -508,6 +508,7 @@ workflows:
                                 - 'opensuse-tumbleweed'
                                 - 'ubuntu-21-10'
                             instance_name:
+                                - '0702-nts'
                                 - '0703-nts'
                                 - '0704-nts'
                                 - '0800-nts'

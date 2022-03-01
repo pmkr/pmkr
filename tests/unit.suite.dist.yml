@@ -1,5 +1,5 @@
 actor: 'UnitTester'
-foo: bar
+
 modules:
     enabled:
         - 'Asserts'

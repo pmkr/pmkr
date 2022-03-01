@@ -5,6 +5,15 @@ stash:
         '0702':
             dependencies:
                 packages:
+                    arch: &cores_0702_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
                     fedora-35: &cores_0702_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
@@ -61,6 +70,10 @@ stash:
                         php-xdebug-ini:
                             src: 'etc/php.xdebug-0702.ini.twig'
                             dst: 'php.xdebug.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
                     ext: &cores_0702_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -132,6 +145,17 @@ extensions:
     gd-0702:
         dependencies:
             packages:
+                arch:
+                    libpng: true
+                    libwebp: true
+                    libxpm: true
+                    freetype2: true
+                fedora-35:
+                    libpng-devel: true
+                    libwebp-devel: true
+                    libjpeg-turbo-devel: true
+                    libXpm-devel: true
+                    freetype-devel: true
                 opensuse-tumbleweed:
                     libfreetype6: true
                     freetype2-devel: true
@@ -145,6 +169,12 @@ extensions:
                     libXpm4: true
                     libXpm-devel: true
                     zlib-devel: true
+                ubuntu-21-10:
+                    libpng-dev: true
+                    libwebp-dev: true
+                    libjpeg-dev: true
+                    libxpm-dev: true
+                    libfreetype6-dev: true
         configure:
             default:
                 --with-gd: ~
@@ -156,6 +186,13 @@ extensions:
                 --with-freetype-dir: '/usr'
                 #--enable-gd-jis-conv: ~
                 --with-libdir: 'lib/x86_64-linux-gnu'
+            arch:
+                # @todo fatal error: ft2build.h: No such file or directory.
+                --with-freetype-dir: 'no'
+            ubuntu-21-10:
+                # @todo fatal error: ft2build.h: No such file or directory.
+                # https://bugs.php.net/bug.php?id=76324
+                --with-freetype-dir: 'no'
         etc:
             files:
                 conf-default-gd-ini:
@@ -202,12 +239,23 @@ extensions:
 
     zip-0702:
         weight: 200
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    libzip-devel: true
+                ubuntu-21-10:
+                    libzip-dev: true
         configure:
             default:
                 --with-pcre-dir: '/usr'
                 --enable-zip: ~
                 #--with-zlib-dir: 'DIR'
                 #--with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
+        etc:
+            files:
+                conf-default-zip-ini:
+                    src: 'etc/ext/zip.ini.twig'
+                    dst: 'conf/default/zip.ini'
 
 
 extensionSets:
@@ -375,6 +423,8 @@ cores:
     '0702-nts':
         dependencies:
             packages:
+                arch:
+                    <<: *cores_0702_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0702_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
@@ -394,6 +444,8 @@ cores:
     '0702-zts':
         dependencies:
             packages:
+                arch:
+                    <<: *cores_0702_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0702_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
