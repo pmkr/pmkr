@@ -10,7 +10,8 @@ zypper install --no-confirm \
     jq \
     tar \
     util-linux \
-    yq
+    yq \
+    vim
 
 cat <<'EOT'
 SHELL=$SHELL ./bin/pmkr init:pmkr --force
