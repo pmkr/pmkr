@@ -134,7 +134,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         $config = $this->getConfig();
 
         $default = [
-            'extFileSuffix' => version_compare($instance->coreVersion, '7.0', '<') ? '.so' : '',
+            'extFileSuffix' => $this->getExtFileSuffix($instance),
             'dir' => $config->get('dir'),
             'env' => $config->get('env'),
             'instance' => [

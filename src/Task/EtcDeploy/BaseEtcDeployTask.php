@@ -136,4 +136,9 @@ abstract class BaseEtcDeployTask extends BaseTask
 
         return $this;
     }
+
+    protected function getExtFileSuffix(Instance $instance): string
+    {
+        return version_compare($instance->coreVersion, '7.2', '<') ? '.so' : '';
+    }
 }

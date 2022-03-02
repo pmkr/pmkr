@@ -404,7 +404,8 @@ commands:
         parameters:
             instance_name:
                 type: 'string'
-
+            opsys:
+                type: 'string'
         steps:
             -
                 run:
@@ -418,13 +419,44 @@ commands:
                         pmkr instance:install '<<parameters.instance_name>>'
             -
                 run:
+                    name: 'pmkr instance:install <<parameters.instance_name>> – Fix ICU problem'
+                    command: |
+                        case "<<parameters.opsys>>:<<parameters.instance_name>>" in
+                            "ubuntu-21-10:0701-nts" | \
+                            "ubuntu-21-10:0702-nts" )
+                                find ~/slash/usr/share/ \
+                                    -mindepth 3 \
+                                    -maxdepth 3 \
+                                    \( -type f -or -type l \) \
+                                    -regextype 'posix-extended' \
+                                    -regex '.*/icu4c-.*/lib/libicu.*\.so\.[0-9]+.*' \
+                                    -exec cp "{}" /usr/lib/ \;
+                                ;;
+                        esac
+            -
+                run:
                     name: 'pmkr instance:install <<parameters.instance_name>> – test'
                     command: |
                         eval "$(pmkr --no-ansi instance:pick:this '<<parameters.instance_name>>')"
                         pmkr which
                         command -v php
-                        php --version
-                        php -m
+
+                        php --version \
+                            1>./php-version-stdOutput.txt \
+                            2>./php-version-stdError.txt
+                        cat ./php-version-stdError.txt
+                        cat ./php-version-stdOutput.txt
+                        ! grep --ignore-case 'error'   ./php-version-stdError.txt
+                        ! grep --ignore-case 'warning' ./php-version-stdError.txt
+
+
+                        php -m \
+                            1>./php-modules-stdOutput.txt \
+                            2>./php-modules-stdError.txt
+                        cat ./php-modules-stdError.txt
+                        cat ./php-modules-stdOutput.txt
+                        ! grep --ignore-case 'error'   ./php-modules-stdError.txt
+                        ! grep --ignore-case 'warning' ./php-modules-stdError.txt
 
 jobs:
     build:
@@ -471,6 +503,7 @@ jobs:
             -
                 pmkr_instance_install:
                     instance_name: '<<parameters.instance_name>>'
+                    opsys: '<<parameters.opsys>>'
 
 workflows:
     lint_and_test:
@@ -508,6 +541,7 @@ workflows:
                                 - 'opensuse-tumbleweed'
                                 - 'ubuntu-21-10'
                             instance_name:
+                                - '0701-nts'
                                 - '0702-nts'
                                 - '0703-nts'
                                 - '0704-nts'
