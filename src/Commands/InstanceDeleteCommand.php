@@ -19,11 +19,12 @@ class InstanceDeleteCommand extends CommandBase
      * @pmkrInteractInstanceName
      *     arg.instanceName:
      *         hasShareDir: true
-     * @pmkrValidateInstanceName
+     * @pmkrValidateInstanceName arg.instanceName
      */
     public function cmdInstanceDeleteExecute(
         string $instanceName
     ): TaskInterface {
+        // NOTE: Instance name alias is intentionally not resolved.
         $instance = $this->getPmkr()->instances[$instanceName];
 
         return $this

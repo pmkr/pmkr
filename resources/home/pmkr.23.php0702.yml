@@ -202,9 +202,14 @@ extensions:
     intl-0702:
         dependencies:
             libraries:
+                arch:
+                    icu4c-59: true
                 opensuse-tumbleweed:
-                    icu4c-59_1: true
+                    icu4c-59: true
+                ubuntu-21-10:
+                    icu4c-59: true
             packages:
+                # @todo Very likely some of these packages aren't necessary, because of the custom library.
                 opensuse-tumbleweed:
                     icu: true
                     libicu-devel: true
@@ -241,6 +246,8 @@ extensions:
         weight: 200
         dependencies:
             packages:
+                arch:
+                    libzip: true
                 opensuse-tumbleweed:
                     libzip-devel: true
                 ubuntu-21-10:
@@ -288,8 +295,18 @@ extensionSets:
         iconv:
             status: 'enabled'
         intl-0702:
-            # @todo
-            status: 'skip'
+            # @todo Extension intl-0702.
+            # arch: OK
+            #     There are lot of warning in the output.
+            #     icudata-59 maybe not compatible with icudata-70.
+            # opensuse-tumbleweed: OK
+            #     I didn't check the output for errors.
+            # ubuntu-21-10: error while loading shared libraries: libicudata.so.59: cannot open shared object file: No such file or directory.
+            #     This works: cp ~/slash/usr/share/icu4c-59_2/lib/libicu*.59 /usr/lib/
+            #     But the PHP shouldn't look for those *.so files in the /usr/lib/ directory.
+            #
+            # Looks like the --with-icu-dir just partially used.
+            status: 'optional'
         json-0702:
             status: 'enabled'
         mbstring:
@@ -332,7 +349,13 @@ extensionSets:
         xsl:
             status: 'enabled'
         zip-0702:
-            status: 'enabled'
+            # @todo zip as enabled extension.
+            # PHP core ./configure throws an error if zip extension is "enabled".
+            # Error message contains: t_off undefined.
+            # But for an unknown reason it works when it compiled separately.
+            # I don't know if the zip extension is fully operational or not.
+            status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Enabled - 3th-party.

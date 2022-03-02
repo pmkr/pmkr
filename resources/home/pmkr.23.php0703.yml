@@ -297,6 +297,7 @@ extensionSets:
         xsl:
             status: 'enabled'
         zip-0703:
+            # @todo zip as enabled extension.
             # PHP core ./configure throws an error if zip extension is "enabled".
             # Error message contains: t_off undefined.
             # But for an unknown reason it works when it compiled separately.
