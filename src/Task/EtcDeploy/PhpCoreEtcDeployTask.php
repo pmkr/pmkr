@@ -73,6 +73,7 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
         $config = $this->getConfig();
 
         $default = [
+            'extFileSuffix' => $this->getExtFileSuffix($instance),
             'dir' => $config->get('dir'),
             'env' => $config->get('env'),
             'instance' => [

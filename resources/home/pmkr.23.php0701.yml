@@ -5,6 +5,15 @@ stash:
         '0701':
             dependencies:
                 packages:
+                    arch: &cores_0701_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
                     fedora-35: &cores_0701_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
@@ -61,6 +70,10 @@ stash:
                         php-xdebug-ini:
                             src: 'etc/php.xdebug-0701.ini.twig'
                             dst: 'php.xdebug.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
                     ext: &cores_0701_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -132,6 +145,17 @@ extensions:
     gd-0701:
         dependencies:
             packages:
+                arch:
+                    libpng: true
+                    libwebp: true
+                    libxpm: true
+                    freetype2: true
+                fedora-35:
+                    libpng-devel: true
+                    libwebp-devel: true
+                    libjpeg-turbo-devel: true
+                    libXpm-devel: true
+                    freetype-devel: true
                 opensuse-tumbleweed:
                     libfreetype6: true
                     freetype2-devel: true
@@ -145,6 +169,12 @@ extensions:
                     libXpm4: true
                     libXpm-devel: true
                     zlib-devel: true
+                ubuntu-21-10:
+                    libpng-dev: true
+                    libwebp-dev: true
+                    libjpeg-dev: true
+                    libxpm-dev: true
+                    libfreetype6-dev: true
         configure:
             default:
                 --with-gd: ~
@@ -156,6 +186,17 @@ extensions:
                 --with-freetype-dir: '/usr'
                 #--enable-gd-jis-conv: ~
                 --with-libdir: 'lib/x86_64-linux-gnu'
+            arch:
+                # @todo ext/gd/gd.c:77:12: fatal error: ft2build.h: No such file or directory
+                --with-freetype-dir: 'no'
+            ubuntu-21-10:
+                # @todo ext/gd/gd.c:77:12: fatal error: ft2build.h: No such file or directory
+                --with-freetype-dir: 'no'
+            # For unknown reason freetype works on opensuse-tumbleweed:
+            # /root/slash/usr/share/pmkr-php-070133-nts/bin/php -i | grep --ignore-case 'freetype'
+            # FreeType Support => enabled
+            # FreeType Linkage => with freetype
+            # FreeType Version => 2.11.1
         etc:
             files:
                 conf-default-gd-ini:
@@ -165,9 +206,14 @@ extensions:
     intl-0701:
         dependencies:
             libraries:
+                arch:
+                    icu4c-58: true
                 opensuse-tumbleweed:
-                    icu4c-59_1: true
+                    icu4c-58: true
+                ubuntu-21-10:
+                    icu4c-58: true
             packages:
+                # @todo Very likely some of these packages aren't necessary, because of the custom library.
                 opensuse-tumbleweed:
                     icu: true
                     libicu-devel: true
@@ -177,7 +223,7 @@ extensions:
         configure:
             default:
                 --enable-intl: ~
-                --with-icu-dir: '${dir.share}/${stash.libraries.icu-0701}'
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-58.name}'
         etc:
             files:
                 conf-default-intl-ini:
@@ -187,13 +233,16 @@ extensions:
     json-0701:
         dependencies:
             libraries:
+                arch:
+                    icu4c-58: true
                 opensuse-tumbleweed:
-                    icu4c-58_2: true
-                    icu4c-59_1: true
+                    icu4c-58: true
+                ubuntu-21-10:
+                    icu4c-58: true
         configure:
             default:
                 --enable-json: ~
-                --with-icu-dir: '${dir.share}/${stash.libraries.icu-0701}'
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-58.name}'
 
     psr-0701:
         version: '1.1.0'
@@ -201,15 +250,70 @@ extensions:
             default:
                 --enable-psr: ~
 
+    # /usr/sbin/ld: warning: libicuuc.so.70, needed by /usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/../../../../lib/libxml2.so, may conflict with libicuuc.so.59
+    # /usr/sbin/ld: warning: libicudata.so.70, needed by /usr/lib/libicuuc.so.70, may conflict with libicudata.so.59
     zip-0701:
         weight: 200
+        dependencies:
+            packages:
+                arch:
+                    libzip: true
+                opensuse-tumbleweed:
+                    libzip-devel: true
+                ubuntu-21-10:
+                    libzip-dev: true
         configure:
             default:
                 --with-pcre-dir: '/usr'
                 --enable-zip: ~
                 #--with-zlib-dir: 'DIR'
                 #--with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
+        etc:
+            files:
+                conf-default-zip-ini:
+                    src: 'etc/ext/zip.ini.twig'
+                    dst: 'conf/default/zip.ini'
 
+    swoole-0701:
+        version: '4.5.11'
+        dependencies:
+            extensions:
+                sockets: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+        etc:
+            files:
+                conf-default-swoole-ini:
+                    src: 'etc/ext/swoole.ini.twig'
+                    dst: 'conf/default/swoole.ini'
+
+    xdebug-0701:
+        version: '2.9.8'
+        configure:
+            default:
+                --enable-xdebug: ~
+        etc:
+            files:
+                conf-default-xdebug-ini:
+                    src: 'etc/ext/xdebug-0701.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
 
 extensionSets:
     '0701':
@@ -241,8 +345,16 @@ extensionSets:
         iconv:
             status: 'enabled'
         intl-0701:
-            # @todo
-            status: 'skip'
+            # arch: OK
+            # opensuse-tumbleweed: OK
+            # ubuntu-21-10: FAIL
+            #     Error message:
+            #         libicudata.so.59: cannot open shared object file: No such file or directory in Unknown on line 0.
+            #     Workaround:
+            #         manual: sudo cp ~/slash/usr/share/icu4c-58_3/lib/libicu*58* /usr/lib/
+            #         Unfortunately this requires root privileges.
+            status: 'optional'
+            isEnabled: true
         json-0701:
             status: 'enabled'
         mbstring:
@@ -250,9 +362,14 @@ extensionSets:
         mysqli:
             status: 'enabled'
         opcache:
-            status: 'enabled'
-            # @todo Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
-            isEnabled: false
+            # @todo PHP 0701 ext-opcache
+            #
+            # When it is enabled: Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
+            #
+            # arch:
+            #     configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no
+            status: 'optional'
+            isEnabled: true
         pdo:
             status: 'enabled'
         pdo_mysql:
@@ -283,7 +400,8 @@ extensionSets:
         xsl:
             status: 'enabled'
         zip-0701:
-            status: 'enabled'
+            status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Enabled - 3th-party.
@@ -351,10 +469,9 @@ extensionSets:
             status: 'optional'
         ssh2:
             status: 'optional'
-        swoole:
+        swoole-0701:
             status: 'optional'
-        xdebug:
-            # @todo Maybe lower version.
+        xdebug-0701:
             status: 'optional'
         yaml:
             status: 'optional'
@@ -377,6 +494,8 @@ cores:
     '0701-nts':
         dependencies:
             packages:
+                arch:
+                    <<: *cores_0701_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0701_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
@@ -396,6 +515,8 @@ cores:
     '0701-zts':
         dependencies:
             packages:
+                arch:
+                    <<: *cores_0701_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0701_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
