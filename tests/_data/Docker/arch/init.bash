@@ -26,4 +26,5 @@ sed \
 ln -s /usr/include/locale.h /usr/include/xlocale.h
 
 # configure: error: freetype-config not found.
+# @todo Remove this.
 ln -s /usr/bin/pkg-config /usr/bin/freetype-config

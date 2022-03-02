@@ -12,7 +12,7 @@
 {% if not extensions.readline.isEnabled %};{% endif %}extension=readline{{ extFileSuffix }}
 {% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole{{ extFileSuffix }}
 
-{% if not extension.imagick.isEnabled %};{% endif %}extension=imagick{{ extFileSuffix }}
+{% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick{{ extFileSuffix }}
 ;extension=gmagick{{ extFileSuffix }}
 
 opcache.validate_timestamps=1

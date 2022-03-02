@@ -1,0 +1,22 @@
+version: '1'
+
+
+libraries:
+    freetype-0207:
+        name: 'freetype-2.7'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://deac-ams.dl.sourceforge.net/project/freetype/freetype2/2.7.1/freetype-2.7.1.tar.bz2'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '3a3bb2c4e15ffb433f2032f50a5b5a92558206822e22bfe8cbe339af4aa82f88'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install
