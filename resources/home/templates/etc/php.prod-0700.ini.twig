@@ -1,19 +1,19 @@
 
-{% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=opcache
+{% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=opcache{{ extFileSuffix }}
 
 
 
 
-extension=mbstring.so
-{% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify
-{% if not extensions.maxminddb.isEnabled %};{% endif %}extension=maxminddb
-{% if not extensions.pcntl.isEnabled %};{% endif %}extension=pcntl
-{% if not extensions.posix.isEnabled %};{% endif %}extension=posix
-{% if not extensions.readline.isEnabled %};{% endif %}extension=readline
-{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
+extension=mbstring{{ extFileSuffix }}
+{% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify{{ extFileSuffix }}
+{% if not extensions.maxminddb.isEnabled %};{% endif %}extension=maxminddb{{ extFileSuffix }}
+{% if not extensions.pcntl.isEnabled %};{% endif %}extension=pcntl{{ extFileSuffix }}
+{% if not extensions.posix.isEnabled %};{% endif %}extension=posix{{ extFileSuffix }}
+{% if not extensions.readline.isEnabled %};{% endif %}extension=readline{{ extFileSuffix }}
+{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole{{ extFileSuffix }}
 
-{% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
-;extension=gmagick
+{% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick{{ extFileSuffix }}
+;extension=gmagick{{ extFileSuffix }}
 
 opcache.validate_timestamps=1
 zend.assertions=-1

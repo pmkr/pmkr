@@ -1,0 +1,22 @@
+version: '1'
+
+
+libraries:
+    freetype-0208:
+        name: 'freetype-2.8'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://deac-ams.dl.sourceforge.net/project/freetype/freetype2/2.8.1/freetype-2.8.1.tar.bz2'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: 'e5435f02e02d2b87bb8e4efdcaa14b1f78c9cf3ab1ed80f94b6382fb6acc7d78'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./configure --prefix="${prefix}" \
+                    && \
+                    make -j \
+                    && \
+                    make install

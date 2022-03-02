@@ -422,6 +422,7 @@ commands:
                     name: 'pmkr instance:install <<parameters.instance_name>> – Fix ICU problem'
                     command: |
                         case "<<parameters.opsys>>:<<parameters.instance_name>>" in
+                            "ubuntu-21-10:0700-nts" | \
                             "ubuntu-21-10:0701-nts" | \
                             "ubuntu-21-10:0702-nts" )
                                 find ~/slash/usr/share/ \
@@ -541,6 +542,7 @@ workflows:
                                 - 'opensuse-tumbleweed'
                                 - 'ubuntu-21-10'
                             instance_name:
+                                - '0700-nts'
                                 - '0701-nts'
                                 - '0702-nts'
                                 - '0703-nts'

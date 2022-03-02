@@ -12,7 +12,7 @@
 {% if not extensions.readline.isEnabled %};{% endif %}extension=readline
 {% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
 
-{% if not extension.imagick.isEnabled %};{% endif %}extension=imagick
+{% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
 ;extension=gmagick
 
 opcache.validate_timestamps=1
