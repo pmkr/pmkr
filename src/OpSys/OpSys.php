@@ -60,6 +60,12 @@ class OpSys
         $idLike = (array) $this->idLike();
         $idLike = $idLike[0] ?? $this->id();
         switch ($idLike) {
+            case 'arch':
+                return 'pacman';
+
+            case 'alpine':
+                return 'apk';
+
             case 'opensuse':
             case 'suse':
                 return 'zypper';
@@ -70,9 +76,6 @@ class OpSys
 
             case 'fedora':
                 return 'dnf';
-
-            case 'arch':
-                return 'pacman';
         }
 
         return null;

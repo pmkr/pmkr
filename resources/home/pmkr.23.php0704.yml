@@ -6,6 +6,16 @@ stash:
         '0704':
             dependencies:
                 packages:
+                    alpine-3: &cores_0704_dependencies_packages_alpine-3
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
                     arch: &cores_0704_dependencies_packages_arch
                         autoconf: true
                         bison: true
@@ -60,6 +70,10 @@ stash:
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
                     ext: &cores_0704_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -125,6 +139,8 @@ extensions:
     dom-0704:
         dependencies:
             packages:
+                alpine-3:
+                    libxml2-dev: true
                 fedora-35:
                     libxml2: true
                     libxml2-devel: true
@@ -145,6 +161,13 @@ extensions:
     gd-0704:
         dependencies:
             packages:
+                alpine-3:
+                    libpng-dev: true
+                    libavif-dev: true
+                    libwebp-dev: true
+                    libjpeg-turbo-dev: true
+                    libxpm-dev: true
+                    freetype-dev: true
                 arch:
                     libpng: true
                     libwebp: true
@@ -242,6 +265,8 @@ extensionSets:
             status: 'enabled'
         pdo_pgsql:
             status: 'enabled'
+        sqlite3:
+            status: 'enabled'
         pdo_sqlite:
             status: 'enabled'
         pdo:
@@ -257,8 +282,6 @@ extensionSets:
         simplexml:
             status: 'enabled'
         sodium:
-            status: 'enabled'
-        sqlite3:
             status: 'enabled'
         tokenizer:
             status: 'enabled'
@@ -374,6 +397,8 @@ cores:
     '0704-nts':
         dependencies:
             packages:
+                alpine-3:
+                    <<: *cores_0704_dependencies_packages_alpine-3
                 arch:
                     <<: *cores_0704_dependencies_packages_arch
                 fedora-35:
@@ -395,6 +420,8 @@ cores:
     '0704-zts':
         dependencies:
             packages:
+                alpine-3:
+                    <<: *cores_0704_dependencies_packages_alpine-3
                 arch:
                     <<: *cores_0704_dependencies_packages_arch
                 fedora-35:

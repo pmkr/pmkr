@@ -1,0 +1,12 @@
+parameters:
+    typeAliases:
+        ApkListItem: '''
+            array{
+                id: string,
+                architecture: string,
+                name: string,
+                version: string,
+                license: array<string>,
+                status: array<string>,
+            }
+        '''

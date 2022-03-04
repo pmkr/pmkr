@@ -585,6 +585,7 @@ definitions:
                 description: |
                     Only used when ../status is "optional".
                     If true then the extension=foo will be active in the foo.ini file.
+                default: false
 
 
     extensionSet:

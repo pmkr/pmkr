@@ -30,4 +30,5 @@ apt-get install -y \
 
 #digitlst.cpp:67:13: fatal error: xlocale.h: No such file or directory
 #   67 | #   include <xlocale.h>
-ln -s /usr/include/locale.h /usr/include/xlocale.h
+mkdir -p /usr/include
+( cd /usr/include ; ls -s './locale.h' './xlocale.h' )

@@ -151,11 +151,17 @@ services:
             - '@pmkr.env_path.handler'
             - '@env_var_storage'
 
-    pmkr.os_detector.factory:
-        class: 'Pmkr\Pmkr\OpSys\Factory'
-
     pmkr.package_manager.factory:
         class: 'Pmkr\Pmkr\PackageManager\Factory'
+
+    pmkr.package_manager.apk:
+        class: 'Pmkr\Pmkr\PackageManager\Apk'
+        arguments:
+            - '@pmkr.package_manager.apk.list_parser'
+    pmkr.package_manager.apk.list_parser:
+        class: 'Pmkr\Pmkr\PackageManager\Apk\ListParser'
+        arguments:
+            - '@pmkr.utils'
 
     pmkr.package_manager.apt:
         class: 'Pmkr\Pmkr\PackageManager\Apt'

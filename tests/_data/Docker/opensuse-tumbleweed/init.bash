@@ -30,7 +30,8 @@ zypper install --no-confirm \
     php8-xmlwriter \
     php8-tokenizer
 
-ln -s /usr/include/locale.h /usr/include/xlocale.h
+mkdir -p /usr/include
+( cd /usr/include ; ls -s './locale.h' './xlocale.h' )
 
 sed \
     --expression 's@^display_errors = Off$@display_errors = STDERR@g' \

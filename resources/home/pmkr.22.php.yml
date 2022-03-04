@@ -37,6 +37,8 @@ extensions:
     bz2:
         dependencies:
             packages:
+                alpine-3:
+                    bzip2-dev: true
                 fedora:
                     bzip2-devel: true
                 opensuse-tumbleweed:
@@ -62,6 +64,8 @@ extensions:
     openssl:
         dependencies:
             packages:
+                alpine-3:
+                    openssl-dev: true
                 fedora-35:
                     openssl1-1: 'openssl1.1'
                     openssl1-1-devel: 'openssl1.1-devel'
@@ -82,6 +86,9 @@ extensions:
     curl:
         dependencies:
             packages:
+                alpine-3:
+                    curl-dev: true
+                    libcurl: true
                 fedora-35:
                     libcurl-devel: true
                 opensuse-tumbleweed:
@@ -128,6 +135,8 @@ extensions:
     enchant:
         dependencies:
             packages:
+                alpine-3:
+                    enchant2-dev: true
                 fedora-35:
                     enchant-devel: true
                 opensuse-tumbleweed:
@@ -140,6 +149,10 @@ extensions:
         configure:
             default:
                 --with-enchant: ~
+            alpine-3:
+                # @todo Make it work.
+                --with-enchant: false
+                --without-enchant: ~
             arch:
                 # @todo Make it work.
                 --without-enchant: ~
@@ -181,6 +194,8 @@ extensions:
     gmp:
         dependencies:
             packages:
+                alpine-3:
+                    gmp-dev: true
                 fedora-35:
                     gmp-devel: true
                 opensuse-tumbleweed:
@@ -225,6 +240,9 @@ extensions:
     imagick:
         dependencies:
             packages:
+                alpine-3:
+                    imagemagick: true
+                    imagemagick-dev: true
                 arch:
                     imagemagick: true
                 fedora-35:
@@ -272,6 +290,8 @@ extensions:
     intl:
         dependencies:
             packages:
+                alpine-3:
+                    icu-dev: true
                 opensuse-tumbleweed:
                     icu: true
                     libicu-devel: true
@@ -315,12 +335,17 @@ extensions:
 
     mcrypt:
         dependencies:
+            packages:
+                alpine-3:
+                    libmcrypt-dev: true
             libraries:
                 opensuse-tumbleweed:
                     libmcrypt-2-5: true
         configure:
             default:
                 --with-mcrypt: '${dir.share}/${libraries.libmcrypt-2-5.name}'
+            alpine-3:
+                --with-mcrypt: ~
 
     mssql:
         configure:
@@ -330,6 +355,8 @@ extensions:
     maxminddb:
         dependencies:
             packages:
+                alpine-3:
+                    libmaxminddb-dev: true
                 arch:
                     libmaxminddb: true
                 fedora-35:
@@ -350,6 +377,8 @@ extensions:
     mbstring:
         dependencies:
             packages:
+                alpine-3:
+                    oniguruma-dev: true
                 opensuse-tumbleweed:
                     libonig5: true
                     oniguruma-devel: true
@@ -525,6 +554,8 @@ extensions:
     sqlite3:
         dependencies:
             packages:
+                alpine-3:
+                    sqlite-dev: true
                 fedora-35:
                     libsqlite3x-devel: true
                 opensuse-tumbleweed:
@@ -548,6 +579,8 @@ extensions:
     pgsql:
         dependencies:
             packages:
+                alpine-3:
+                    libpq-dev: true
                 arch:
                     libpqxx: true
                 fedora-35:
@@ -609,6 +642,8 @@ extensions:
     pspell:
         dependencies:
             packages:
+                alpine-3:
+                    aspell-dev: true
                 arch:
                     aspell: true
                 fedora-35:
@@ -653,6 +688,8 @@ extensions:
     readline:
         dependencies:
             packages:
+                alpine-3:
+                    libedit-dev: true
                 arch:
                     libedit: true
                 fedora-35:
@@ -677,6 +714,8 @@ extensions:
     redis:
         dependencies:
             packages:
+                alpine-3:
+                    lz4-dev: true
                 fedora-35:
                     lz4-devel: true
                 opensuse-tumbleweed:
@@ -733,6 +772,8 @@ extensions:
     memcached:
         dependencies:
             packages:
+                alpine-3:
+                    libmemcached-dev: true
                 arch:
                     libmemcached: true
                 fedora-35:
@@ -815,6 +856,8 @@ extensions:
     sodium:
         dependencies:
             packages:
+                alpine-3:
+                    libsodium-dev: true
                 arch:
                     libsodium: true
                 fedora-35:
@@ -830,6 +873,8 @@ extensions:
         version: '1.3.1'
         dependencies:
             packages:
+                alpine-3:
+                    libssh2-dev: true
                 fedora-35:
                     libssh2-devel: true
                 opensuse-tumbleweed:
@@ -897,6 +942,8 @@ extensions:
     tidy:
         dependencies:
             packages:
+                alpine-3:
+                    tidyhtml-dev: true
                 arch:
                     tidy: true
                 fedora-35:
@@ -960,6 +1007,8 @@ extensions:
     xsl:
         dependencies:
             packages:
+                alpine-3:
+                    libxslt-dev: true
                 arch:
                     libxslt: true
                 fedora-35:
@@ -972,6 +1021,8 @@ extensions:
     yaml:
         dependencies:
             packages:
+                alpine-3:
+                    yaml-dev: true
                 arch:
                     libyaml: true
                 fedora-35:
@@ -1010,6 +1061,8 @@ extensions:
     zip:
         dependencies:
             packages:
+                alpine-3:
+                    libzip-dev: true
                 fedora-35:
                     libzip-devel: true
                 opensuse-tumbleweed:
@@ -1030,6 +1083,8 @@ extensions:
     zstd:
         dependencies:
             packages:
+                alpine-3:
+                    zstd-dev: true
                 fedora-35:
                     libzstd-devel: true
                 opensuse-tumbleweed:
