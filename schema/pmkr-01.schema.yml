@@ -186,7 +186,7 @@ definitions:
             additionalProperties:
                 description: |
                     Keys are package names.
-                    The boolen value indicates that the package has to be installed ot not.
+                    The boolean value indicates that the package has to be installed or not.
                     Sometimes a package name contains a dot character (`.`),
                     which is not supported by `dflydev/dot-access-data`,
                     In that case the key has to be something else,
@@ -205,6 +205,32 @@ definitions:
                         foo: true
                         bar: false
                         openssl1-1: 'openssl1.1'
+
+    dependenciesLibraries:
+        type: 'object'
+        description: |
+            Keys are OpSys identifiers.
+        additionalProperties:
+            type: 'object'
+            description: |
+                Keys are library identifiers from #/libraries array.
+            additionalProperties:
+                type: 'boolean'
+
+    dependenciesExtensions:
+        type: 'object'
+        description: |
+            Some extension depends on other extensions.
+            For example "phalcon" depends on the "psr" extension.
+            Or "pdo_sqlite" depends on the "pdo" and "sqlite3" extensions.
+            This is the place where these kind of dependencies can be defined.
+            However this information isn't used yet.
+        additionalProperties:
+            type: 'boolean'
+        examples:
+            -
+                pdo: true
+                sqlite3: true
 
     libraryDownloader:
         anyOf:
@@ -242,6 +268,14 @@ definitions:
                 type: 'string'
             description:
                 type: 'string'
+            dependencies:
+                type: 'object'
+                additionalProperties: false
+                properties:
+                    packages:
+                        '$ref': '#/definitions/dependenciesPackages'
+                    libraries:
+                        '$ref': '#/definitions/dependenciesLibraries'
             downloader:
                 '$ref': '#/definitions/libraryDownloader'
             patchList:
@@ -275,29 +309,9 @@ definitions:
             packages:
                 '$ref': '#/definitions/dependenciesPackages'
             libraries:
-                type: 'object'
-                description: |
-                    Keys are OpSys identifiers.
-                additionalProperties:
-                    type: 'object'
-                    description: |
-                        Keys are library identifiers from #/libraries array.
-                    additionalProperties:
-                        type: 'boolean'
+                '$ref': '#/definitions/dependenciesLibraries'
             extensions:
-                type: 'object'
-                description: |
-                    Some extension depends on other extensions.
-                    For example "phalcon" depends on the "psr" extension.
-                    Or "pdo_sqlite" depends on the "pdo" and "sqlite3" extensions.
-                    This is the place where these kind of dependencies can be defined.
-                    However this information isn't used yet.
-                additionalProperties:
-                    type: 'boolean'
-                examples:
-                    -
-                        pdo: true
-                        sqlite3: true
+                '$ref': '#/definitions/dependenciesExtensions'
 
     patch:
         type: 'object'
