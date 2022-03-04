@@ -4,6 +4,14 @@ version: '1'
 libraries:
     OpenSSL_1_0:
         name: 'OpenSSL_1_0_2u'
+        dependencies:
+            packages:
+                arch:
+                    gcc: true
+                    make: true
+                    perl: true
+                ubuntu-21-10:
+                    zlib1g-dev: true
         downloader:
             type: 'archive'
             options:
