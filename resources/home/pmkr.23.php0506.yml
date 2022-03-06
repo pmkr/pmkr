@@ -5,10 +5,23 @@ stash:
         '0506':
             dependencies:
                 libraries:
+                    alpine-3: &cores_0506_dependencies_libraries_alpine-3
+                        OpenSSL_1_0: true
                     opensuse-tumbleweed: &cores_0506_dependencies_libraries_opensuse-tumbleweed
                         OpenSSL_1_0: true
 
                 packages:
+                    alpine-3: &cores_0506_dependencies_packages_alpine-3
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
                     fedora-35: &cores_0506_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
@@ -66,6 +79,10 @@ stash:
                         php-xdebug-ini:
                             src: 'etc/php.xdebug-0506.ini.twig'
                             dst: 'php.xdebug.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
                     ext: &cores_0506_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -146,6 +163,35 @@ extensions:
                     src: 'etc/ext/apcu.ini.twig'
                     dst: 'conf/default/apcu.ini'
 
+    curl-0506:
+        dependencies:
+            packages:
+                alpine-3:
+                    curl-dev: true
+                    libcurl: true
+                    libpsl-dev: true
+                fedora-35:
+                    libcurl-devel: true
+                opensuse-tumbleweed:
+                    libcurl4: true
+                    libcurl-devel: true
+                ubuntu-21-10:
+                    libcurl4: true
+                    libcurl4-openssl-dev: true
+            libraries:
+                alpine-3:
+                    OpenSSL_1_0: true
+                    curl-7-61: true
+            configure:
+                default:
+                    --with-curl: '${dir.share}/${libraries.curl-7-61.name}'
+                    #--with-curlwrappers: ~
+            etc:
+                files:
+                    conf/default/curl-ini:
+                        src: 'etc/ext/curl.ini.twig'
+                        dst: 'conf/default/curl.ini'
+
     dom-0506:
         configure:
             default:
@@ -156,6 +202,13 @@ extensions:
     gd-0506:
         dependencies:
             packages:
+                alpine-3:
+                    libpng-dev: true
+                    libavif-dev: true
+                    libwebp-dev: true
+                    libjpeg-turbo-dev: true
+                    libxpm-dev: true
+                    freetype-dev: true
                 opensuse-tumbleweed:
                     libfreetype6: true
                     freetype2-devel: true
@@ -210,8 +263,10 @@ extensions:
     intl-0506:
         dependencies:
             libraries:
+                alpine-3:
+                    icu4c-58: true
                 opensuse-tumbleweed:
-                    icu4c-59: true
+                    icu4c-58: true
             packages:
                 opensuse-tumbleweed:
                     icu: true
@@ -222,7 +277,7 @@ extensions:
         configure:
             default:
                 --enable-intl: ~
-                --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-58.name}'
         etc:
             files:
                 conf-default-intl-ini:
@@ -232,23 +287,33 @@ extensions:
     json-0506:
         dependencies:
             libraries:
+                alpine-3:
+                    icu4c-58: true
+                    libzip-1-4: true
                 opensuse-tumbleweed:
-                    icu4c-59: true
-                    libzip-1-2: true
+                    icu4c-58: true
+                    libzip-1-4: true
         configure:
             default:
                 --enable-json: ~
-                --with-libzip: '${dir.share}/${libraries.libzip-1-2.name}'
-                --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
+                --with-libzip: '${dir.share}/${libraries.libzip-1-4.name}'
+                --with-icu-dir: '${dir.share}/${libraries.icu4c-58.name}'
 
     readline-0506:
         dependencies:
+            packages:
+                alpine-3:
+                    libedit-dev: true
             libraries:
+                arch:
+                    readline-02: true
                 opensuse-tumbleweed:
                     readline-07: true
         configure:
             default:
-                --with-readline: '${dir.share}/${libraries.readline-07.name}'
+#                --with-libedit: ~
+                --with-readline: ~
+#                --with-readline: '${dir.share}/${libraries.readline-07.name}'
         etc:
             files:
                 conf-default-readline-ini:
@@ -275,6 +340,7 @@ extensions:
 
     memcached-0506:
         version: '2.2.0'
+        weight: 51
         dependencies:
             extensions:
                 session: true
@@ -282,6 +348,8 @@ extensions:
                 json: true
                 msgpack: true
             packages:
+                alpine-3:
+                    libmemcached-dev: true
                 arch:
                     libmemcached: true
                 fedora-35:
@@ -355,6 +423,8 @@ extensions:
         version: '4.3.0'
         dependencies:
             packages:
+                alpine-3:
+                    lz4-dev: true
                 fedora-35:
                     lz4-devel: true
                 opensuse-tumbleweed:
@@ -384,6 +454,8 @@ extensions:
         version: '0.13'
         dependencies:
             packages:
+                alpine-3:
+                    libssh2-dev: true
                 fedora-35:
                     libssh2-devel: true
                 opensuse-tumbleweed:
@@ -400,7 +472,7 @@ extensions:
                     dst: 'conf/default/ssh2.ini'
 
     xdebug-0506:
-        version: '2.0.5'
+        version: '2.5'
         configure:
             default:
                 --enable-xdebug: ~
@@ -428,11 +500,15 @@ extensions:
                     dst: 'conf/default/uuid.ini'
 
     zip-0506:
-        weight: 200
+        dependencies:
+            libraries:
+                alpine-3:
+                    libzip-1-4: true
         configure:
             default:
                 --with-pcre-dir: '/usr'
                 --enable-zip: ~
+                --with-libzip: '${dir.share}/${libraries.libzip-1-4.name}'
 
 
 extensionSets:
@@ -446,8 +522,12 @@ extensionSets:
             status: 'enabled'
         ctype:
             status: 'enabled'
-        curl:
-            status: 'enabled'
+        curl-0506:
+            # @todo php-0506 ext-curl
+            #
+            # alpine-3: FAIL
+            #     Segmentation fault.
+            status: 'skip'
         dom-0506:
             status: 'enabled'
         enchant:
@@ -474,9 +554,6 @@ extensionSets:
             status: 'enabled'
         mysqli:
             status: 'enabled'
-        opcache-0506:
-            status: 'enabled'
-            isEnabled: false
         pdo:
             status: 'enabled'
         pdo_mysql:
@@ -488,8 +565,7 @@ extensionSets:
         pgsql:
             status: 'enabled'
         phar:
-            # @todo
-            status: 'skip'
+            status: 'enabled'
         session:
             status: 'enabled'
         simplexml:
@@ -505,7 +581,14 @@ extensionSets:
         xsl:
             status: 'enabled'
         zip-0506:
-            # @todo
+            # @todo php-0506 ext-zip.
+            #
+            # alpine-3: FAIL
+            #     libzip_1_1 - library compiler fails.
+            #     libzip_1_2 - fatal error: zipconf.h: No such file or directory.
+            #     libzip_1_3 - library compiler fails.
+            #     libzip_1_4 - fatal error: zip.h: No such file or directory
+            #     libzip_1_7 - fatal error: zip.h: No such file or directory
             status: 'skip'
         # endregion
 
@@ -516,6 +599,9 @@ extensionSets:
         # region Optional - core.
         ftp:
             status: 'optional'
+        opcache-0506:
+            status: 'optional'
+            isEnabled: true
         pcntl:
             status: 'optional'
         posix:
@@ -523,7 +609,8 @@ extensionSets:
         pspell:
             status: 'optional'
         readline-0506:
-            # @todo Maybe lower library version.
+            # @todo php-0506 ext-readline
+            # Maybe lower library version.
             status: 'skip'
         shmop:
             status: 'optional'
@@ -538,13 +625,19 @@ extensionSets:
         sysvshm:
             status: 'optional'
         tidy:
-            status: 'optional'
+            # @todo php-0506 ext-tidy
+            # alpine-3: FAIL
+            #     fatal error: buffio.h: No such file or directory
+            # arch: ?
+            # opensuse-tumbleweed: OK
+            # ubuntu-21-10: ?
+            status: 'skip'
         xmlrpc:
             status: 'optional'
         # endregion
 
         # region Optional - 3th-party.
-        apcu:
+        apcu-0506:
             status: 'optional'
         igbinary-0506:
             status: 'optional'
@@ -589,9 +682,13 @@ cores:
     '0506-nts':
         dependencies:
             libraries:
+                alpine-3:
+                    <<: *cores_0506_dependencies_libraries_alpine-3
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
+                alpine-3:
+                    <<: *cores_0506_dependencies_packages_alpine-3
                 fedora-35:
                     <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
@@ -611,9 +708,13 @@ cores:
     '0506-zts':
         dependencies:
             libraries:
+                alpine-3:
+                    <<: *cores_0506_dependencies_libraries_alpine-3
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
+                alpine-3:
+                    <<: *cores_0506_dependencies_packages_alpine-3
                 fedora-35:
                     <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:

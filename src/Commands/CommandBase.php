@@ -177,10 +177,10 @@ class CommandBase implements
             uasort($state['extensions'], $extensionComparer);
 
             $extensionFilter->setStatus(['enabled']);
-            $state['enabledExtensions'] = array_filter($state['instance']->extensions, $extensionFilter);
+            $state['enabledExtensions'] = array_filter($state['extensions'], $extensionFilter);
 
             $extensionFilter->setStatus(['optional']);
-            $state['optionalExtensions'] = array_filter($state['instance']->extensions, $extensionFilter);
+            $state['optionalExtensions'] = array_filter($state['extensions'], $extensionFilter);
 
             return 0;
         };

@@ -46,6 +46,18 @@ executors:
                 name: 'main'
                 image: 'cimg/php:8.1'
 
+    os_alpine-3:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'alpine:3.15.0'
+        environment:
+            <<: *env_composer
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+            SHELL: '/bin/sh'
+
+
     os_arch:
         resource_class: 'large'
         docker:
@@ -55,6 +67,7 @@ executors:
         environment:
             <<: *env_composer
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+            SHELL: '/bin/bash'
 
     os_fedora-35:
         resource_class: 'large'
@@ -64,6 +77,7 @@ executors:
                 image: 'fedora:35'
         environment:
             <<: *env_composer
+            SHELL: '/bin/bash'
 
     os_opensuse-tumbleweed:
         resource_class: 'large'
@@ -74,6 +88,7 @@ executors:
         environment:
             <<: *env_composer
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+            SHELL: '/bin/bash'
 
     os_ubuntu-21-10:
         resource_class: 'large'
@@ -84,6 +99,7 @@ executors:
         environment:
             <<: *env_composer
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+            SHELL: '/bin/bash'
 
 commands:
     php_extension_pecl_install:
@@ -386,7 +402,7 @@ commands:
                 run:
                     name: 'OS init – <<parameters.opsys>> – init.bash'
                     command: |
-                        bash './tests/_data/Docker/<<parameters.opsys>>/init.bash'
+                        "${SHELL}" './tests/_data/Docker/<<parameters.opsys>>/init.bash'
             -
                 install_composer: {}
             -
@@ -537,6 +553,7 @@ workflows:
                     matrix:
                         parameters: &wf-pmkr_instance_install-parameters
                             opsys:
+                                - 'alpine-3'
                                 - 'arch'
 #                                - 'fedora-35'
                                 - 'opensuse-tumbleweed'

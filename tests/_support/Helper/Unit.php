@@ -64,6 +64,32 @@ class Unit extends Module
     public function grabOpSys(string $identifier): OpSys
     {
         switch ($identifier) {
+            case 'alpine-3':
+                $state = [
+                    'NAME' => 'Alpine Linux',
+                    'ID' => 'alpine',
+                    'VERSION_ID' => '3.15.0',
+                    'PRETTY_NAME' => 'Alpine Linux v3.15',
+                    'HOME_URL' => 'https://alpinelinux.org/',
+                    'BUG_REPORT_URL' => 'https://bugs.alpinelinux.org/',
+                ];
+                break;
+
+            case 'arch':
+                $state = [
+                    'NAME' => 'Arch Linux',
+                    'PRETTY_NAME' => 'Arch Linux',
+                    'ID' => 'arch',
+                    'BUILD_ID' => 'rolling',
+                    'ANSI_COLOR' => '38;2;23;147;209',
+                    'HOME_URL' => 'https://archlinux.org/',
+                    'DOCUMENTATION_URL' => 'https://wiki.archlinux.org/',
+                    'SUPPORT_URL' => 'https://bbs.archlinux.org/',
+                    'BUG_REPORT_URL' => 'https://bugs.archlinux.org/',
+                    'LOGO' => 'archlinux-logo',
+                ];
+                break;
+
             case 'opensuse-tumbleweed':
                 $state = [
                     'NAME' => 'openSUSE Tumbleweed',

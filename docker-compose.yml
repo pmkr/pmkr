@@ -18,6 +18,27 @@ x-common:
 # @see \Pmkr\Pmkr\OpSys\OpSys::packageManager
 ##
 services:
+    alpine-3:
+        image: 'alpine:3.15.0'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/alpine/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
+        environment:
+            SHELL: '/bin/sh'
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+        entrypoint:
+            - '/bin/sh'
+            - '--login'
+
     arch:
         image: 'archlinux:base'
         volumes:

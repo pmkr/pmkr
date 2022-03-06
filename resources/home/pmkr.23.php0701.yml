@@ -5,6 +5,16 @@ stash:
         '0701':
             dependencies:
                 packages:
+                    alpine-3: &cores_0701_dependencies_packages_alpine-3
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
                     arch: &cores_0701_dependencies_packages_arch
                         autoconf: true
                         bison: true
@@ -145,6 +155,13 @@ extensions:
     gd-0701:
         dependencies:
             packages:
+                alpine-3:
+                    libpng-dev: true
+                    libavif-dev: true
+                    libwebp-dev: true
+                    libjpeg-turbo-dev: true
+                    libxpm-dev: true
+                    freetype-dev: true
                 arch:
                     libpng: true
                     libwebp: true
@@ -206,6 +223,8 @@ extensions:
     intl-0701:
         dependencies:
             libraries:
+                alpine-3:
+                    icu4c-58: true
                 arch:
                     icu4c-58: true
                 opensuse-tumbleweed:
@@ -233,6 +252,8 @@ extensions:
     json-0701:
         dependencies:
             libraries:
+                alpine-3:
+                    icu4c-58: true
                 arch:
                     icu4c-58: true
                 opensuse-tumbleweed:
@@ -256,6 +277,8 @@ extensions:
         weight: 200
         dependencies:
             packages:
+                alpine-3:
+                    libzip: true
                 arch:
                     libzip: true
                 opensuse-tumbleweed:
@@ -366,10 +389,12 @@ extensionSets:
             #
             # When it is enabled: Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
             #
+            # alpine-3: FAIL
+            #     opcache.so: zend_file_cache_invalidate: symbol not found.
             # arch:
             #     configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no
             status: 'optional'
-            isEnabled: true
+            isEnabled: false
         pdo:
             status: 'enabled'
         pdo_mysql:
@@ -494,6 +519,8 @@ cores:
     '0701-nts':
         dependencies:
             packages:
+                alpine-3:
+                    <<: *cores_0701_dependencies_packages_alpine-3
                 arch:
                     <<: *cores_0701_dependencies_packages_arch
                 fedora-35:
@@ -515,6 +542,8 @@ cores:
     '0701-zts':
         dependencies:
             packages:
+                alpine-3:
+                    <<: *cores_0701_dependencies_packages_alpine-3
                 arch:
                     <<: *cores_0701_dependencies_packages_arch
                 fedora-35:

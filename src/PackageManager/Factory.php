@@ -20,6 +20,7 @@ class Factory implements ContainerAwareInterface
     {
         $instance = null;
         switch ($handler) {
+            case 'apk':
             case 'apt':
             case 'dnf':
             case 'pacman':
