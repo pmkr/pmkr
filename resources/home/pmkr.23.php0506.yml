@@ -7,6 +7,8 @@ stash:
                 libraries:
                     alpine-3: &cores_0506_dependencies_libraries_alpine-3
                         OpenSSL_1_0: true
+                    arch: &cores_0506_dependencies_libraries_arch
+                        OpenSSL_1_0: true
                     opensuse-tumbleweed: &cores_0506_dependencies_libraries_opensuse-tumbleweed
                         OpenSSL_1_0: true
 
@@ -17,6 +19,15 @@ stash:
                         cmake: true
                         findutils: true
                         g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
+                    arch: &cores_0506_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
                         gcc: true
                         git: true
                         make: true
@@ -684,11 +695,15 @@ cores:
             libraries:
                 alpine-3:
                     <<: *cores_0506_dependencies_libraries_alpine-3
+                arch:
+                    <<: *cores_0506_dependencies_libraries_arch
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
                 alpine-3:
                     <<: *cores_0506_dependencies_packages_alpine-3
+                arch:
+                    <<: *cores_0506_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
@@ -710,11 +725,15 @@ cores:
             libraries:
                 alpine-3:
                     <<: *cores_0506_dependencies_libraries_alpine-3
+                arch:
+                    <<: *cores_0506_dependencies_libraries_arch
                 opensuse-tumbleweed:
                     <<: *cores_0506_dependencies_libraries_opensuse-tumbleweed
             packages:
                 alpine-3:
                     <<: *cores_0506_dependencies_packages_alpine-3
+                arch:
+                    <<: *cores_0506_dependencies_packages_arch
                 fedora-35:
                     <<: *cores_0506_dependencies_packages_fedora-35
                 opensuse-tumbleweed:

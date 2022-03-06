@@ -24,7 +24,7 @@ sed \
 # digitlst.cpp:67:13: fatal error: xlocale.h: No such file or directory
 #   67 | #   include <xlocale.h>
 mkdir -p /usr/include
-( cd /usr/include ; ls -s './locale.h' './xlocale.h' )
+( cd /usr/include ; ln -s './locale.h' './xlocale.h' )
 
 # configure: error: freetype-config not found.
 # @todo Remove this.
