@@ -10,3 +10,20 @@ parameters:
                 status: array<string>,
             }
         '''
+        php-net-release-info: '''
+            array{
+                announcement: bool,
+                tags: string[],
+                date: string,
+                source: array<string, php-net-downloadable>,
+                version: string,
+            }
+        '''
+        php-net-downloadable: '''
+            array{
+                filename: string,
+                name: string,
+                sha256: string,
+                date: string,
+            }
+        '''

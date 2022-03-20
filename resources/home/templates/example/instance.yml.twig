@@ -4,7 +4,7 @@ instances:
         coreVersion: '{{ coreVersion.formatMA0DMI0DP0 }}'
         coreChecksum:
             hashAlgorithm: 'sha256'
-            hashChecksum: '@todo'
+            hashChecksum: '{{ hashChecksum }}'
     '{{ coreVersion.formatMA2MI2P2 }}-zts':
         isZts: true
         <<: *instance_{{ coreVersion.formatMA2MI2P2 }}

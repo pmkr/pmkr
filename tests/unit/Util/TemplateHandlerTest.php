@@ -169,6 +169,7 @@ class TemplateHandlerTest extends Unit
 
         $context = [
             'coreVersion' => VersionNumber::createFromString('7.4.27'),
+            'hashChecksum' => 'my-sha256'
         ];
 
         $this->tester->assertSame(
@@ -181,7 +182,7 @@ class TemplateHandlerTest extends Unit
                     "        coreVersion: '7.4.27'",
                     '        coreChecksum:',
                     "            hashAlgorithm: 'sha256'",
-                    "            hashChecksum: '@todo'",
+                    "            hashChecksum: 'my-sha256'",
                     "    '070427-zts':",
                     '        isZts: true',
                     '        <<: *instance_070427',
