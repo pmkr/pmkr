@@ -12,9 +12,7 @@ namespace Pmkr\Pmkr\Model;
  * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Library> $libraries
  * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Core> $cores
  * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Extension> $extensions
- * @property-read \Pmkr\Pmkr\Model\Collection<
- *     \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>
- * > $extensionSets
+ * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem>> $extensionSets
  * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Instance> $instances
  * @property-read array<string, string> $aliases
  * @property-read \Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\Variation> $variations

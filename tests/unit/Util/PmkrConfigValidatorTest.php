@@ -93,6 +93,150 @@ class PmkrConfigValidatorTest extends Unit
                 ],
             ],
 
+            'cores.dependencies.libraries - all exists' => [
+                [],
+                [
+                    'libraries' => [
+                        'lib-01' => [],
+                        'lib-02' => [],
+                        'lib-03' => [],
+                    ],
+                    'cores' => [
+                        'core-01' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-01' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'core-02' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-02' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'cores.dependencies.libraries - two missing' => [
+                [
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/cores/core-01/dependencies/libraries/opensuse-tumbleweed/lib-04',
+                    ],
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/cores/core-02/dependencies/libraries/opensuse-tumbleweed/lib-05',
+                    ],
+                ],
+                [
+                    'libraries' => [
+                        'lib-01' => [],
+                        'lib-02' => [],
+                        'lib-03' => [],
+                    ],
+                    'cores' => [
+                        'core-01' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-01' => true,
+                                        'lib-04' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'core-02' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-02' => true,
+                                        'lib-05' => false,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
+            'extensions.dependencies.libraries - all exists' => [
+                [],
+                [
+                    'libraries' => [
+                        'lib-01' => [],
+                        'lib-02' => [],
+                        'lib-03' => [],
+                    ],
+                    'extensions' => [
+                        'ext-01' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-01' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'ext-02' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-02' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'extensions.dependencies.libraries - two missing' => [
+                [
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/extensions/ext-01/dependencies/libraries/opensuse-tumbleweed/lib-04',
+                    ],
+                    [
+                        'type' => 'invalid_reference',
+                        'path' => '/extensions/ext-02/dependencies/libraries/opensuse-tumbleweed/lib-05',
+                    ],
+                ],
+                [
+                    'libraries' => [
+                        'lib-01' => [],
+                        'lib-02' => [],
+                        'lib-03' => [],
+                    ],
+                    'extensions' => [
+                        'ext-01' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-01' => true,
+                                        'lib-04' => true,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'ext-02' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'opensuse-tumbleweed' => [
+                                        'lib-02' => true,
+                                        'lib-05' => false,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
             'extensionSets - all exists' => [
                 [],
                 [
