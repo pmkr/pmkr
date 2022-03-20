@@ -26,6 +26,9 @@ services:
     env_var_storage:
         class: 'Sweetchuck\EnvVarStorage\EnvVarStorage'
 
+    http_client:
+        class: 'GuzzleHttp\Client'
+
     pmkr.utils:
         class: 'Pmkr\Pmkr\Utils'
         arguments:

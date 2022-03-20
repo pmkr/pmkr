@@ -4,10 +4,13 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Commands;
 
+use GuzzleHttp\ClientInterface as HttpClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use Pmkr\Pmkr\CodeResult\CodeCommandResult;
 use Pmkr\Pmkr\CodeResult\CodeResult;
 use Pmkr\Pmkr\Util\ShellHelper;
 use Pmkr\Pmkr\Util\TemplateHelper;
+use Sweetchuck\Utils\Uri;
 use Sweetchuck\Utils\VersionNumber;
 
 class ExampleCommand extends CommandBase
@@ -16,6 +19,8 @@ class ExampleCommand extends CommandBase
     protected TemplateHelper $templateHelper;
 
     protected ShellHelper $shellHelper;
+
+    protected HttpClientInterface $httpClient;
 
     /**
      * @return $this
@@ -30,6 +35,7 @@ class ExampleCommand extends CommandBase
         $container = $this->getContainer();
         $this->templateHelper = $container->get('pmkr.template_helper');
         $this->shellHelper = $container->get('pmkr.shell_helper');
+        $this->httpClient = $container->get('http_client');
 
         return $this;
     }
@@ -98,15 +104,13 @@ class ExampleCommand extends CommandBase
     }
 
     /**
-     * @param mixed[] $options
-     *
      * @command example:rc
+     *
+     * @option string $format
+     *   Default: code
      */
-    public function cmdExamplePmkrRcExecute(
-        array $options = [
-            'format' => 'code',
-        ]
-    ): CodeCommandResult {
+    public function cmdExamplePmkrRcExecute(): CodeCommandResult
+    {
         $result = new CodeResult();
         $result->language = 'zsh';
         $result->code = $this->templateHelper->renderExamplePmkrRc();
@@ -115,18 +119,20 @@ class ExampleCommand extends CommandBase
     }
 
     /**
-     * @param mixed[] $options
-     *
      * @command example:instance
+     *
+     * @option string $format
+     *   Default: code
+     *
+     * @usage 8.1.4
      */
-    public function cmdExampleInstanceExecute(
-        string $coreVersion,
-        array $options = [
-            'format' => 'code',
-        ]
-    ): CodeCommandResult {
+    public function cmdExampleInstanceExecute(string $coreVersion): CodeCommandResult
+    {
+        $releaseInfo = $this->getPhpNetReleaseInfo($coreVersion);
+
         $context = [
             'coreVersion' => VersionNumber::createFromString($coreVersion),
+            'hashChecksum' => $releaseInfo['source']['tar.bz2']['sha256'] ?? '',
         ];
 
         $result = new CodeResult();
@@ -134,5 +140,48 @@ class ExampleCommand extends CommandBase
         $result->code = $this->templateHelper->renderExampleInstance($context);
 
         return CodeCommandResult::data($result);
+    }
+
+    /**
+     * @return null|php-net-release-info
+     */
+    protected function getPhpNetReleaseInfo(string $coreVersion): ?array
+    {
+        $uri = Uri::build([
+            'scheme' => 'https',
+            'host' => 'www.php.net',
+            'path' => '/releases',
+            'query' => [
+                'json' => '',
+                'version' => $coreVersion,
+            ],
+        ]);
+        try {
+            $response = $this->httpClient->request('GET', $uri);
+            $info = json_decode($response->getBody()->getContents(), true);
+        } catch (GuzzleException $e) {
+            return null;
+        }
+
+        return $this->processPhpNetReleaseInfo($info);
+    }
+
+    /**
+     * @param array<string, mixed> $info
+     *
+     * @return php-net-release-info
+     */
+    protected function processPhpNetReleaseInfo(array $info): array
+    {
+        $prefixLength = mb_strlen("php-{$info['version']}.");
+        foreach (array_keys($info['source']) as $key) {
+            $source = $info['source'][$key];
+            unset($info['source'][$key]);
+            $type = mb_substr($source['filename'], $prefixLength);
+            $info['source'][$type] = $source;
+        }
+
+        /** @phpstan-var php-net-release-info $info */
+        return $info;
     }
 }
