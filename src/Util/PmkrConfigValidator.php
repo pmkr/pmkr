@@ -35,6 +35,7 @@ class PmkrConfigValidator
 
         return $this
             ->validateCores()
+            ->validateExtensions()
             ->validateExtensionSets()
             ->validateInstances()
             ->validateAliases()
@@ -47,6 +48,10 @@ class PmkrConfigValidator
      */
     protected function validateCores()
     {
+        /**
+         * @var string $coreKey
+         * @var \Pmkr\Pmkr\Model\Core $core
+         */
         foreach ($this->pmkr->cores as $coreKey => $core) {
             foreach ($core->patchList as $patchId => $patchState) {
                 if (!$this->pmkr->patches->offsetExists($patchId)) {
@@ -55,6 +60,57 @@ class PmkrConfigValidator
                         'path' => "/cores/$coreKey/patchList/$patchId",
                     ];
                 }
+            }
+
+            $this->validateDependenciesLibraries(
+                "/cores/$coreKey/dependencies/libraries",
+                $core->dependencies['libraries'] ?? [],
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function validateExtensions()
+    {
+        /**
+         * @var string $extensionKey
+         * @var \Pmkr\Pmkr\Model\Extension $extension
+         */
+        foreach ($this->pmkr->extensions as $extensionKey => $extension) {
+            $this->validateDependenciesLibraries(
+                "/extensions/$extensionKey/dependencies/libraries",
+                $extension->dependencies['libraries'] ?? [],
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @phpstan-param iterable<string, array<string, bool>> $libraries
+     *
+     * @return $this
+     */
+    protected function validateDependenciesLibraries(
+        string $pathPrefix,
+        iterable $libraries
+    ) {
+        $availableLibraries = $this->pmkr->libraries;
+
+        foreach ($libraries as $opSys => $libs) {
+            foreach ($libs as $libraryKey => $state) {
+                if (isset($availableLibraries[$libraryKey])) {
+                    continue;
+                }
+
+                $this->errors[] = [
+                    'type' => 'invalid_reference',
+                    'path' => "$pathPrefix/$opSys/$libraryKey",
+                ];
             }
         }
 
