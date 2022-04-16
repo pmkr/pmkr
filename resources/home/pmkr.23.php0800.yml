@@ -462,8 +462,8 @@ instances:
         <<: *instance_080017
 
 aliases:
-    '0800-nts': '080016-nts'
-    '0800-zts': '080016-zts'
+    '0800-nts': '080017-nts'
+    '0800-zts': '080017-zts'
 
 
 variations:

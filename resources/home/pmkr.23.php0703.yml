@@ -109,10 +109,10 @@ stash:
                             dst: 'php-fpm.d/pool.d/prod.default.ini'
 
                         php-fpm-d-php-dev-ini:
-                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            src: 'etc/php-fpm.d/php.dev-0703.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
                         php-fpm-d-php-prod-ini:
-                            src: 'etc/php-fpm.d/php.prod.ini.twig'
+                            src: 'etc/php-fpm.d/php.prod-0703.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
 
                         php-fpm-d-php-fpm-dev-ini:

@@ -58,6 +58,12 @@ class SearchParser
                 'kind' => $solvable->getAttribute('kind'),
             ];
 
+            if ($package['kind'] !== 'package') {
+                // The same package name can exists multiple times with
+                // different kind. Such as "package" or "srcpackage".
+                continue;
+            }
+
             switch ($package['status']) {
                 case 'installed':
                     $assets['installed'][$package['name']] = $package;
