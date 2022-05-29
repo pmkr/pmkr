@@ -86,13 +86,13 @@ class ListParser
             explode(' ', $line) + array_fill(0, 4, ''),
         );
 
-        $parts = explode('/', $values['package']);
+        $parts = explode('/', $values['package'] ?: '/');
         $info = [];
         $info['name'] = $parts[0];
         $info['type'] = $parts[1];
-        $info['version'] = $values['version'];
-        $info['architecture'] = $values['architecture'];
-        $info['status'] = $this->utils->explodeCommaSeparatedList(trim($values['status'], '[]'));
+        $info['version'] = $values['version'] ?: '';
+        $info['architecture'] = $values['architecture'] ?: '';
+        $info['status'] = $this->utils->explodeCommaSeparatedList(trim($values['status'] ?: '', '[]'));
 
         return $info;
     }

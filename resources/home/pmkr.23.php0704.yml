@@ -82,6 +82,8 @@ stash:
                                         isEnabled: true
                                     imagick:
                                         isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
                     ext: &cores_0704_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -120,6 +122,14 @@ stash:
                         php-fpm-d-php-dev-ini:
                             src: 'etc/php-fpm.d/php.dev.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
