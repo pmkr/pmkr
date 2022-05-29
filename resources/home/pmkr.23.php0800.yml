@@ -461,9 +461,37 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080017
 
+    '080018-nts': &instance_080018
+        isZts: false
+        coreVersion: '8.0.18'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '826ee34881a1c349678d4f7cc55ff9141fa1411344e4bb8f95d0f9223bceb55a'
+    '080018-zts':
+        isZts: true
+        <<: *instance_080018
+    '080018-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080018
+
+    '080019-nts': &instance_080019
+        isZts: false
+        coreVersion: '8.0.19'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'eba0e67fdaf6904b2e4b84e064be0a0d61b2cb64a23f81a0ca9b1a51bc3a8330'
+    '080019-zts':
+        isZts: true
+        <<: *instance_080019
+    '080019-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080019
+
 aliases:
-    '0800-nts': '080017-nts'
-    '0800-zts': '080017-zts'
+    '0800-nts': '080019-nts'
+    '0800-zts': '080019-zts'
 
 
 variations:

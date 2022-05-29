@@ -62,17 +62,25 @@ stash:
                             dst: 'php.pcov.ini'
                             vars:
                                 extensions:
+                                    imagick:
+                                        isEnabled: true
                                     pcov:
                                         isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    imagick:
+                                        isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
                                     xdebug:
+                                        isEnabled: true
+                                    imagick:
                                         isEnabled: true
                     ext: &cores_0704_etc_files_ext
                         conf-default-00-core-ini:
@@ -457,10 +465,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_070428
 
+    '070429-nts': &instance_070429
+        isZts: false
+        coreVersion: '7.4.29'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '7dde58a02b225c25130c6e2ae2cbba7254bb0340f7fe17291478176d866f9482'
+    '070429-zts':
+        isZts: true
+        <<: *instance_070429
+    '070429-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070429
+
 
 aliases:
-    '0704-nts': '070428-nts'
-    '0704-zts': '070428-zts'
+    '0704-nts': '070429-nts'
+    '0704-zts': '070429-zts'
 
 
 variations:
