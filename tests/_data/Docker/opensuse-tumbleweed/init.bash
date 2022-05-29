@@ -28,10 +28,11 @@ zypper install --no-confirm \
     unzip \
     php8-zip \
     php8-xmlwriter \
-    php8-tokenizer
+    php8-tokenizer \
+    glibc-devel
 
 mkdir -p /usr/include
-( cd /usr/include ; ls -s './locale.h' './xlocale.h' )
+( cd /usr/include ; ln -s './locale.h' './xlocale.h' )
 
 sed \
     --expression 's@^display_errors = Off$@display_errors = STDERR@g' \
@@ -39,3 +40,9 @@ sed \
     --expression 's@^;error_log = syslog$@error_log = /var/log/php-error.log@g' \
     --in-place \
     /etc/php8/cli/php.ini
+
+git config \
+    --global \
+    --add \
+    safe.directory \
+    /root/.cache/pmkr/git/github.com/sensational/sassphp.git
