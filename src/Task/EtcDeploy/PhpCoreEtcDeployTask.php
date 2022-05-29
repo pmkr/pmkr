@@ -79,7 +79,7 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
             'instance' => [
                 'key' => $instance->key,
                 'shareDir' => $instance->shareDir,
-                'sessionsDir' => $config->get('dir.run') . '/pmkr-php--session',
+                'sessionsDir' => $instance->sessionsDir,
             ],
             'core' => [
                 'name' => $instance->coreName,

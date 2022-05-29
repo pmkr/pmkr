@@ -158,7 +158,7 @@ class Instance extends Base
         $parent = $this->getConfig()->get('dir.run');
         $prefix = Application::INSTANCE_DIR_PREFIX;
 
-        return "$parent/$prefix-$this->key-sessions";
+        return "$parent/$prefix--session";
     }
 
     protected function extensionSetName(): ?string
