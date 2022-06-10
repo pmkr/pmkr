@@ -489,10 +489,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_070429
 
+    '070430-nts': &instance_070430
+        isZts: false
+        coreVersion: '7.4.30'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'b601bb12e53720469b60ea816776cac1c0696b09888a11ad2379b2eee835386e'
+    '070430-zts':
+        isZts: true
+        <<: *instance_070430
+    '070430-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070430
+
 
 aliases:
-    '0704-nts': '070429-nts'
-    '0704-zts': '070429-zts'
+    '0704-nts': '070430-nts'
+    '0704-zts': '070430-zts'
 
 
 variations:
