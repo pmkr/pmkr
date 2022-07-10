@@ -526,9 +526,23 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080107
 
+    '080108-nts': &instance_080108
+        isZts: false
+        coreVersion: '8.1.8'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'b8815a5a02431453d4261e3598bd1f28516e4c0354f328c12890f257870e4c01'
+    '080108-zts':
+        isZts: true
+        <<: *instance_080108
+    '080108-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080108
+
 aliases:
-    '0801-nts': '080107-nts'
-    '0801-zts': '080107-zts'
+    '0801-nts': '080108-nts'
+    '0801-zts': '080108-zts'
 
 variations:
     '0801-nts-pcov':
