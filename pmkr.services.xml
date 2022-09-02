@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <container
+    xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/symfony/dependency-injection/5.4/Loader/schema/dic/services/services-1.0.xsd">
+    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/symfony/dependency-injection/5.4/Loader/schema/dic/services/services-1.0.xsd"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services https://raw.githubusercontent.com/symfony/dependency-injection/5.4/Loader/schema/dic/services/services-1.0.xsd">
 
     <services>
         <service
@@ -27,7 +29,10 @@
         <service
             shared="true"
             id="syntax_highlighter"
-            class="Pmkr\Pmkr\SyntaxHighlighter\SyntaxHighlighter" />
+            class="Pmkr\Pmkr\SyntaxHighlighter\SyntaxHighlighter">
+
+            <argument>pmkr.terminal_color_schema.detector</argument>
+        </service>
 
         <!-- region Twig  -->
         <service

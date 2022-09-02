@@ -891,11 +891,6 @@ parameters:
 			path: src/VariationPickResult/VariationPickResult.php
 
 		-
-			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$export \\(bool\\) does not accept array\\<string\\>\\|bool\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
-			count: 1
-			path: src/VariationPickResult/VariationPickResult.php
-
-		-
 			message: "#^Property Pmkr\\\\Pmkr\\\\VariationPickResult\\\\VariationPickResult\\:\\:\\$instance \\(Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|null\\) does not accept array\\<string\\>\\|bool\\|float\\|int\\|Pmkr\\\\Pmkr\\\\Model\\\\Instance\\|string\\|null\\.$#"
 			count: 1
 			path: src/VariationPickResult/VariationPickResult.php
