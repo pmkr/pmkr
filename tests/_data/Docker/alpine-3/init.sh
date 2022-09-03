@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -x
 set -e
@@ -31,3 +31,10 @@ mkdir -p /usr/include/
 # configure: error: freetype-config not found.
 # @todo Remove this.
 #ln -s /usr/bin/pkg-config /usr/bin/freetype-config
+
+touch "${HOME}/.gitconfig"
+cat <<'INI' >> "${HOME}/.gitconfig"
+[safe]
+    directory = *
+
+INI

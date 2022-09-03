@@ -42,6 +42,7 @@ trait PmkrCommandsTrait
         /** @var \Robo\Contract\TaskInterface $collection */
         $collection = $cb->getCollection();
 
+        $shell = $this->preferedShell($serviceKey);
         $processCallback = $this->getProcessCallback();
         $taskContainerStart = new CallableTask(
             function (RoboState $state) use ($serviceKey, $processCallback): int {
@@ -101,14 +102,14 @@ trait PmkrCommandsTrait
         );
 
         $taskInitOs = new CallableTask(
-            function (RoboState $state) use ($serviceKey, $processCallback): int {
+            function (RoboState $state) use ($serviceKey, $processCallback, $shell): int {
                 $process = $this->processFactory->createInstance(
                     [
                         'docker',
                         'exec',
                         $state['container.name'],
-                        'bash',
-                        "./tests/_data/Docker/$serviceKey/init.bash",
+                        $shell,
+                        "./tests/_data/Docker/$serviceKey/init.$shell",
                     ],
                 );
 
@@ -129,11 +130,11 @@ trait PmkrCommandsTrait
         );
 
         $taskInitPmkr = new CallableTask(
-            function (RoboState $state) use ($processCallback): int {
+            function (RoboState $state) use ($processCallback, $shell): int {
                 $subCommand = 'SHELL="${SHELL}" ./bin/pmkr init:pmkr --force';
 
                 $command = sprintf(
-                    'docker exec %s bash -c %s',
+                    "docker exec %s $shell -c %s",
                     escapeshellarg($state['container.name']),
                     escapeshellarg($subCommand),
                 );
@@ -156,14 +157,14 @@ trait PmkrCommandsTrait
         );
 
         $taskInstallPackages = new CallableTask(
-            function (RoboState $state) use ($processCallback, $instanceKey): int {
+            function (RoboState $state) use ($processCallback, $shell, $instanceKey): int {
                 $subCommand = sprintf(
                     'eval $(pmkr instance:dependency:package:list --no-ansi --format=code --format-code=install-command %s)',
                     escapeshellarg($instanceKey),
                 );
 
                 $command = sprintf(
-                    'docker exec %s bash -c %s',
+                    "docker exec %s $shell -c %s",
                     escapeshellarg($state['container.name']),
                     escapeshellarg($subCommand),
                 );
@@ -213,14 +214,13 @@ trait PmkrCommandsTrait
             $collection,
         );
 
-        $cb->addTask($taskContainerStart);
-        $cb->completion($taskContainerStop);
-        $cb->addTask($taskInitOs);
-        $cb->addTask($taskInitPmkr);
-        $cb->addTask($taskInstallPackages);
-        $cb->addTask($taskInstanceInstall);
-
-        return $cb;
+        return $cb
+            ->addTask($taskContainerStart)
+            ->completion($taskContainerStop)
+            ->addTask($taskInitOs)
+            ->addTask($taskInitPmkr)
+            ->addTask($taskInstallPackages)
+            ->addTask($taskInstanceInstall);
     }
 
     /**
@@ -322,5 +322,20 @@ trait PmkrCommandsTrait
         exec($command, $output);
 
         return json_decode(implode("\n", $output), true);
+    }
+
+    protected function preferedShell(string $serviceKey): string
+    {
+        $candidates = [
+            'zsh',
+            'bash',
+        ];
+        foreach ($candidates as $candidate) {
+            if (file_exists("./tests/_data/Docker/$serviceKey/init.$candidate")) {
+                return $candidate;
+            }
+        }
+
+        return 'sh';
     }
 }
