@@ -413,7 +413,7 @@ commands:
                 run:
                     name: 'OS init – <<parameters.opsys>> – init.bash'
                     command: |
-                        "${SHELL}" './tests/_data/Docker/<<parameters.opsys>>/init.bash'
+                        "${SHELL}" "./tests/_data/Docker/<<parameters.opsys>>/init.$(basename $SHELL)"
             -
                 install_composer: {}
             -
