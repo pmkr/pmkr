@@ -1,20 +1,6 @@
 includes:
-    - phpstan.baseline.neon
-    - phpstan.typeAliases.neon
-    - phpstan.typeAliasesDev.neon
-
-parameters:
-    bootstrapFiles:
-        - phpstan-bootstrap.php
-    level: 7
-    paths:
-        - src/
-        - tests/
-        - RoboFile.php
-    excludePaths:
-        - src/Commands/DummyCommand.php
-        - src/Task/DummyTask.php
-        - src/Task/DummyTaskLoader.php
-        - RoboFileDummy.php
-        - tests/_log/
-        - tests/_support/_generated/
+    - ./.phpstan/parameters.general.neon
+    - ./.phpstan/parameters.paths.neon
+    - ./.phpstan/parameters.typeAliases.prod.neon
+    - ./.phpstan/parameters.typeAliases.dev.neon
+    - ./.phpstan/parameters.ignoreErrors.neon
