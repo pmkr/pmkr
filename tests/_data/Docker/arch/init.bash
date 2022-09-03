@@ -4,8 +4,8 @@ set -x
 set -e
 
 pacman-key --init
-
-pacman --sync --refresh
+pacman --sync --noconfirm --refresh
+pacman --sync --noconfirm archlinux-keyring
 
 # Minimal requirements to run `pmkr`.
 pacman --sync --noconfirm \
@@ -29,3 +29,10 @@ mkdir -p /usr/include
 # configure: error: freetype-config not found.
 # @todo Remove this.
 ln -s /usr/bin/pkg-config /usr/bin/freetype-config
+
+touch "${HOME}/.gitconfig"
+cat <<'INI' >> "${HOME}/.gitconfig"
+[safe]
+    directory = *
+
+INI
