@@ -90,6 +90,22 @@ class Unit extends Module
                 ];
                 break;
 
+            case 'arch_version_id_template':
+                $state = [
+                    'NAME' => 'Arch Linux',
+                    'PRETTY_NAME' => 'Arch Linux',
+                    'ID' => 'arch',
+                    'VERSION_ID' => 'TEMPLATE_VERSION_ID',
+                    'BUILD_ID' => 'rolling',
+                    'ANSI_COLOR' => '38;2;23;147;209',
+                    'HOME_URL' => 'https://archlinux.org/',
+                    'DOCUMENTATION_URL' => 'https://wiki.archlinux.org/',
+                    'SUPPORT_URL' => 'https://bbs.archlinux.org/',
+                    'BUG_REPORT_URL' => 'https://bugs.archlinux.org/',
+                    'LOGO' => 'archlinux-logo',
+                ];
+                break;
+
             case 'opensuse-tumbleweed':
                 $state = [
                     'NAME' => 'openSUSE Tumbleweed',

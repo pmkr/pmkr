@@ -66,6 +66,17 @@ class OpSysTest extends Unit
                     'b',
                 ],
             ],
+            'match base - version_id available but not listed in the $identifiers' => [
+                'arch',
+                'arch_version_id_template',
+                [
+                    'a',
+                    'opensuse-tumbleweed',
+                    'ubuntu',
+                    'arch',
+                    'b',
+                ],
+            ],
         ];
     }
 

@@ -105,12 +105,12 @@ class OpSys
             }
         }
 
-        return isset($identifiers[$id]) ? $id : null;
+        return in_array($id, $identifiers) ? $id : null;
     }
 
     public function versionNumber(): VersionNumber
     {
-        throw new \LogicException('Not implemented yet.');
+        throw new \LogicException('Not implemented yet: ' . __METHOD__);
     }
 
     public function isLinux(): bool
@@ -126,22 +126,22 @@ class OpSys
 
     public function isBsd(): bool
     {
-        throw new \LogicException('Not implemented yet.');
+        throw new \LogicException('Not implemented yet: ' . __METHOD__);
     }
 
     public function isSolaris(): bool
     {
-        throw new \LogicException('Not implemented yet.');
+        throw new \LogicException('Not implemented yet: ' . __METHOD__);
     }
 
     public function isWindows(): bool
     {
-        throw new \LogicException('Not implemented yet.');
+        throw new \LogicException('Not implemented yet: ' . __METHOD__);
     }
 
     public function isOsx(): bool
     {
-        throw new \LogicException('Not implemented yet.');
+        throw new \LogicException('Not implemented yet: ' . __METHOD__);
     }
 
     public function family(): ?string

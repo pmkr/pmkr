@@ -63,7 +63,8 @@ executors:
         docker:
             -
                 name: 'main'
-                image: 'archlinux:base'
+                image: 'archlinux:base-20220828.0.78480'
+        shell: '/bin/bash'
         environment:
             <<: *env_composer
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
@@ -390,25 +391,14 @@ commands:
                 type: 'string'
         steps:
             -
-                run:
-                    name: 'OS init – <<parameters.opsys>> – install required packages'
-                    command: |
-                        case '<<parameters.opsys>>' in
-                            ubuntu*)
-                                apt-get update
-                                apt-get install -y \
-                                    git \
-                                    tar
-                                ;;
-
-                            opensuse-tumbleweed)
-                                zypper install --no-confirm \
-                                    git \
-                                    tar
-                                ;;
-                        esac
-            -
                 checkout: {}
+            -
+                run:
+                    name: 'OS init – <<parameters.opsys>> – check'
+                    command: |
+                        echo "\${0} = ${0}"
+                        echo "\${SHELL} = ${SHELL}"
+                        echo "\${PATH} = ${PATH}"
             -
                 run:
                     name: 'OS init – <<parameters.opsys>> – init.bash'
