@@ -911,6 +911,38 @@ extensions:
                 conf/default/sysvshm-ini:
                     src: 'etc/ext/sysvshm.ini.twig'
                     dst: 'conf/default/sysvshm.ini'
+    openswoole:
+        dependencies:
+            extensions:
+                sockets: true
+            packages:
+                opensuse-tumbleweed:
+                    c-ares-devel: true
+                    jemalloc: true
+                    jemalloc-devel: true
+        configure:
+            default:
+                --enable-openswoole: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+
+                --enable-sockets: ~
+                --enable-http2: ~
+                --enable-openssl: ~
+                --with-openssl-dir: ~
+                --enable-cares: ~
+                #--enable-asan: ~
+                --enable-mysqlnd: ~
+                #--enable-thread-context: ~
+                #--with-postgres: '${stash.configure.with-pdo-pgsql}'
+                #--with-jemalloc-dir: ~
+        etc:
+            files:
+                conf/default/swoole-ini:
+                    src: 'etc/ext/openswoole.ini.twig'
+                    dst: 'conf/default/openswoole.ini'
     swoole:
         dependencies:
             extensions:
