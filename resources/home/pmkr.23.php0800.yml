@@ -531,9 +531,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080022
 
+    '080023-nts': &instance_080023
+        isZts: false
+        coreVersion: '8.0.23'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '1412db46800a45ced377c2892ec6261b3c412f13dc133bfc998cfb2f147b40cf'
+    '080023-zts':
+        isZts: true
+        <<: *instance_080023
+    '080023-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080023
+
+
 aliases:
-    '0800-nts': '080022-nts'
-    '0800-zts': '080022-zts'
+    '0800-nts': '080023-nts'
+    '0800-zts': '080023-zts'
 
 
 variations:
