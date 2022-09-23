@@ -230,6 +230,35 @@ extensions:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
+    swoole-0704:
+        version: '4'
+        dependencies:
+            extensions:
+                sockets: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/swoole-ini:
+                    src: 'etc/ext/swoole.ini.twig'
+                    dst: 'conf/default/swoole.ini'
 
 extensionSets:
     '0704':
@@ -382,7 +411,7 @@ extensionSets:
             status: 'optional'
         ssh2:
             status: 'optional'
-        swoole:
+        swoole-0704:
             status: 'optional'
         xdebug:
             status: 'optional'

@@ -358,6 +358,8 @@ extensionSets:
             status: 'optional'
         memcached:
             status: 'optional'
+        openswoole:
+            status: 'optional'
         pcov:
             status: 'optional'
         protobuf:
