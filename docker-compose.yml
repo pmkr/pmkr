@@ -108,3 +108,20 @@ services:
         tty: true
         environment:
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+    ubuntu-22-04:
+        image: 'ubuntu:22.04'
+        volumes:
+            - *volume_pmkr
+            - *volume_env_var_storage
+            - *volume_pear_client
+            - *volume_robo_download_curl
+            - *volume_robo_git
+            - *volume_robo_hash
+            - *volume_pmkr_cache
+            - './tmp/platform/ubuntu-24-04/slash/var/cache/:/var/cache/'
+        working_dir: *working_dir
+        privileged: true
+        tty: true
+        environment:
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'

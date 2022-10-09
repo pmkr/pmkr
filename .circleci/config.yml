@@ -102,6 +102,17 @@ executors:
             PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
             SHELL: '/bin/bash'
 
+    os_ubuntu-22-04:
+        resource_class: 'large'
+        docker:
+            -
+                name: 'main'
+                image: 'ubuntu:22.04'
+        environment:
+            <<: *env_composer
+            PATH: '/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+            SHELL: '/bin/bash'
+
 commands:
     php_extension_pecl_install:
         description: 'Install PHP extension with pecl'
@@ -559,6 +570,7 @@ workflows:
 #                                - 'fedora-35'
                                 - 'opensuse-tumbleweed'
                                 - 'ubuntu-21-10'
+                                - 'ubuntu-22-04'
                             instance_name:
                                 - '0700-nts'
                                 - '0701-nts'

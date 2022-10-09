@@ -358,8 +358,6 @@ extensionSets:
             status: 'optional'
         memcached:
             status: 'optional'
-        openswoole:
-            status: 'optional'
         pcov:
             status: 'optional'
         protobuf:
@@ -389,6 +387,9 @@ extensionSets:
 
         # region Skip - 3th-party.
         mongodb:
+            status: 'skip'
+        openswoole:
+            # Problematic on ubuntu-22-04.
             status: 'skip'
         # endregion
 
