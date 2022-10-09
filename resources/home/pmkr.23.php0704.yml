@@ -231,6 +231,7 @@ extensions:
                     dst: 'conf/default/gd.ini'
 
     swoole-0704:
+        weight: 30
         version: '4'
         dependencies:
             extensions:
@@ -534,10 +535,25 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_070430
 
+    # NOTE: Official PHP version 7.4.31 is not exists.
+    '070432-nts': &instance_070432
+        isZts: false
+        coreVersion: '7.4.32'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '9b4c3c21ffbb4f35d7b865dbf88538bba1742335248ae1cc2afc303d456e3aa6'
+    '070432-zts':
+        isZts: true
+        <<: *instance_070432
+    '070432-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_070432
+
 
 aliases:
-    '0704-nts': '070430-nts'
-    '0704-zts': '070430-zts'
+    '0704-nts': '070432-nts'
+    '0704-zts': '070432-zts'
 
 
 variations:

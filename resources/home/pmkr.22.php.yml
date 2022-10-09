@@ -850,6 +850,7 @@ extensions:
                 --enable-soap: ~
                 #--with-libxml-dir: 'DIR'
     sockets:
+        weight: 10
         configure:
             default:
                 --enable-sockets: ~
@@ -912,6 +913,7 @@ extensions:
                     src: 'etc/ext/sysvshm.ini.twig'
                     dst: 'conf/default/sysvshm.ini'
     openswoole:
+        weight: 30
         dependencies:
             extensions:
                 sockets: true
@@ -944,6 +946,7 @@ extensions:
                     src: 'etc/ext/openswoole.ini.twig'
                     dst: 'conf/default/openswoole.ini'
     swoole:
+        weight: 30
         dependencies:
             extensions:
                 sockets: true
