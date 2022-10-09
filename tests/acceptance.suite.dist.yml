@@ -1,0 +1,6 @@
+actor: AcceptanceTester
+modules:
+    enabled:
+        - 'Filesystem'
+        - 'Cli'
+        - \Pmkr\Pmkr\Tests\Helper\Acceptance
