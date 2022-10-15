@@ -922,6 +922,9 @@ extensions:
                     c-ares-devel: true
                     jemalloc: true
                     jemalloc-devel: true
+                ubuntu-22-04:
+                    libc-ares2: true
+                    libc-ares-dev: true
         configure:
             default:
                 --enable-openswoole: ~
@@ -950,6 +953,10 @@ extensions:
         dependencies:
             extensions:
                 sockets: true
+            packages:
+                ubuntu-22-04:
+                    libc-ares2: true
+                    libc-ares-dev: true
         configure:
             default:
                 --enable-swoole: ~
