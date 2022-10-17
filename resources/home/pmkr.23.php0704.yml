@@ -494,6 +494,7 @@ cores:
 
 instances:
     '070428-nts': &instance_070428
+        hidden: true
         isZts: false
         coreVersion: '7.4.28'
         coreChecksum:
