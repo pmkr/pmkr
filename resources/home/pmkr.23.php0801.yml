@@ -443,6 +443,7 @@ cores:
 
 instances:
     '080101-nts': &instance_080101
+        hidden: true
         isZts: false
         coreVersion: '8.1.1'
         coreChecksum:
@@ -459,6 +460,7 @@ instances:
     # https://github.com/php/php-src/issues/7978
     # https://github.com/php/php-src/issues/7986
     '080102-nts': &instance_080102
+        hidden: true
         isZts: false
         coreVersion: '8.1.2'
         coreChecksum:
@@ -473,6 +475,7 @@ instances:
         <<: *instance_080102
 
     '080103-nts': &instance_080103
+        hidden: true
         isZts: false
         coreVersion: '8.1.3'
         coreChecksum:
@@ -487,6 +490,7 @@ instances:
         <<: *instance_080103
 
     '080104-nts': &instance_080104
+        hidden: true
         isZts: false
         coreVersion: '8.1.4'
         coreChecksum:
@@ -501,6 +505,7 @@ instances:
         <<: *instance_080104
 
     '080106-nts': &instance_080106
+        hidden: true
         isZts: false
         coreVersion: '8.1.6'
         coreChecksum:
@@ -515,6 +520,7 @@ instances:
         <<: *instance_080106
 
     '080107-nts': &instance_080107
+        hidden: true
         isZts: false
         coreVersion: '8.1.7'
         coreChecksum:
@@ -529,6 +535,7 @@ instances:
         <<: *instance_080107
 
     '080108-nts': &instance_080108
+        hidden: true
         isZts: false
         coreVersion: '8.1.8'
         coreChecksum:

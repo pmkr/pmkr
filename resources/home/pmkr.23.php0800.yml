@@ -422,6 +422,7 @@ cores:
 
 instances:
     '080015-nts': &instance_080015
+        hidden: true
         isZts: false
         coreVersion: '8.0.15'
         coreChecksum:
@@ -436,6 +437,7 @@ instances:
         <<: *instance_080015
 
     '080016-nts': &instance_080016
+        hidden: true
         isZts: false
         coreVersion: '8.0.16'
         coreChecksum:
@@ -450,6 +452,7 @@ instances:
         <<: *instance_080016
 
     '080017-nts': &instance_080017
+        hidden: true
         isZts: false
         coreVersion: '8.0.17'
         coreChecksum:
@@ -464,6 +467,7 @@ instances:
         <<: *instance_080017
 
     '080018-nts': &instance_080018
+        hidden: true
         isZts: false
         coreVersion: '8.0.18'
         coreChecksum:
@@ -478,6 +482,7 @@ instances:
         <<: *instance_080018
 
     '080019-nts': &instance_080019
+        hidden: true
         isZts: false
         coreVersion: '8.0.19'
         coreChecksum:
@@ -492,6 +497,7 @@ instances:
         <<: *instance_080019
 
     '080020-nts': &instance_080020
+        hidden: true
         isZts: false
         coreVersion: '8.0.20'
         coreChecksum:
@@ -506,6 +512,7 @@ instances:
         <<: *instance_080020
 
     '080021-nts': &instance_080021
+        hidden: true
         isZts: false
         coreVersion: '8.0.21'
         coreChecksum:
