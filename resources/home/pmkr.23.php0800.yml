@@ -122,6 +122,14 @@ stash:
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: false
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
 
                         php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
@@ -591,9 +599,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080025
 
+    '080026-nts': &instance_080026
+        isZts: false
+        coreVersion: '8.0.26'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '6df87af96f275a75889ece6e3fe4a13abd93a767a9992863bdc0e90f1e887ee7'
+    '080026-zts':
+        isZts: true
+        <<: *instance_080026
+    '080026-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080026
+
+
 aliases:
-    '0800-nts': '080025-nts'
-    '0800-zts': '080025-zts'
+    '0800-nts': '080026-nts'
+    '0800-zts': '080026-zts'
 
 
 variations:

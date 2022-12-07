@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
 
-autoload -U add-zsh-hook
-
-eval "$(pmkr --no-ansi instance:pick:default --format='shell-var-setter' --soft)"
-
 function _pmkr_on_hook_chpwd {
     if [[ -s './.pmkrrc.zsh' ]]; then
         . './.pmkrrc.zsh'
     fi
 }
 
+autoload -U add-zsh-hook
 add-zsh-hook chpwd _pmkr_on_hook_chpwd
+
+eval "$(pmkr --no-ansi instance:pick:default --format='shell-var-setter' --soft)"
+_pmkr_on_hook_chpwd
