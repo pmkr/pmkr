@@ -587,9 +587,9 @@ extensions:
                     libpq-devel: true
                 opensuse-tumbleweed:
                     libpqxx-devel: true
-                    postgresql13-devel: true
-                    postgresql13-server: true
-                    postgresql13-server-devel: true
+                    postgresql15-devel: true
+                    postgresql15-server: true
+                    postgresql15-server-devel: true
                 ubuntu-21-10:
                     libpqxx-dev: true
         configure:

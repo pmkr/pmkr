@@ -1,12 +1,11 @@
 version: '1'
 
-
 stash:
     cores:
-        '0801':
+        '0802':
             dependencies:
                 packages:
-                    alpine-3: &cores_0801_dependencies_packages_alpine-3
+                    alpine-3: &cores_0802_dependencies_packages_alpine-3
                         autoconf: true
                         bison: true
                         findutils: true
@@ -16,7 +15,7 @@ stash:
                         make: true
                         pkgconf: true
                         re2c: true
-                    arch: &cores_0801_dependencies_packages_arch
+                    arch: &cores_0802_dependencies_packages_arch
                         autoconf: true
                         bison: true
                         findutils: true
@@ -25,7 +24,7 @@ stash:
                         make: true
                         pkgconf: true
                         re2c: true
-                    fedora-35: &cores_0801_dependencies_packages_fedora-35
+                    fedora-35: &cores_0802_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
                         findutils: true
@@ -34,7 +33,7 @@ stash:
                         git: true
                         make: true
                         re2c: true
-                    opensuse-tumbleweed: &cores_0801_dependencies_packages_opensuse-tumbleweed
+                    opensuse-tumbleweed: &cores_0802_dependencies_packages_opensuse-tumbleweed
                         autoconf: true
                         bison: true
                         cmake: true
@@ -43,7 +42,7 @@ stash:
                         git: true
                         make: true
                         re2c: true
-                    ubuntu-21-10: &cores_0801_dependencies_packages_ubuntu-21-10
+                    ubuntu-21-10: &cores_0802_dependencies_packages_ubuntu-21-10
                         autoconf: true
                         bison: true
                         cmake: true
@@ -56,7 +55,7 @@ stash:
                         re2c: true
             etc:
                 files:
-                    ini: &cores_0801_etc_files_ini
+                    ini: &cores_0802_etc_files_ini
                         php-pcov-ini:
                             src: 'etc/php.pcov.ini.twig'
                             dst: 'php.pcov.ini'
@@ -74,7 +73,7 @@ stash:
                                 extensions:
                                     xdebug:
                                         isEnabled: true
-                    ext: &cores_0801_etc_files_ext
+                    ext: &cores_0802_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
                             dst: 'conf/default/00-core.ini'
@@ -90,7 +89,7 @@ stash:
                         conf-default-mail-ini:
                             src: 'etc/ext/mail.ini.twig'
                             dst: 'conf/default/mail.ini'
-                    fpm: &cores_0801_etc_files_fpm
+                    fpm: &cores_0802_etc_files_fpm
                         php-fpm-d-includes-00-pool-ini:
                             src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
                             dst: 'php-fpm.d/includes/00-pool.ini'
@@ -151,22 +150,8 @@ stash:
                                 iniVariant: 'prod'
 
 
-patches:
-    core-0801-ext-socket-gnu-source:
-        when:
-            versionConstraint: '8.1.2'
-            opSys:
-                default: true
-        issue: 'https://github.com/php/php-src/issues/7978'
-        description: 'sockets extension compilation errors'
-        uri: 'https://patch-diff.githubusercontent.com/raw/php/php-src/pull/7981.patch'
-        checksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '11d0360a8b124c7417b90f0798d60859483cdf229e80f23b4cf177843e2bc89b'
-
-
 extensions:
-    dom-0801:
+    dom-0802:
         dependencies:
             packages:
                 alpine-3:
@@ -184,7 +169,8 @@ extensions:
             default:
                 --enable-dom: ~
                 --with-libxml: ~
-    gd-0801:
+
+    gd-0802:
         dependencies:
             packages:
                 alpine-3:
@@ -242,39 +228,63 @@ extensions:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
+    libxml-0802:
+        dependencies:
+            packages:
+                fedora-35:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-devel: true
+        configure:
+            default:
+                --with-libxml: ~
 
+
+# Extensions always enabled, even with "--disable-all":
+# - date
+# - hash
+# - json
+# - pcre
+# - random
+# - Reflection
+# - SPL
+# - standard
 extensionSets:
-    '0801':
+    '0802':
         # region Enabled - core.
-        bcmath:
-            status: 'enabled'
-        bz2:
-            status: 'enabled'
-        calendar:
-            status: 'enabled'
-        ctype:
+        openssl:
             status: 'enabled'
         curl:
             status: 'enabled'
-        dom-0801:
+        session:
             status: 'enabled'
+        phpdbg:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            isEnabled: true
+        gmp:
+            status: 'enabled'
+        bcmath:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        # @todo PHP 0802 - Extension - com_dotnet
+        ctype:
+            status: 'enabled'
+        # @todo PHP 0802 - Extension - dba
         embed:
-            status: 'enabled'
-        enchant:
-            status: 'enabled'
-        exif:
             status: 'enabled'
         fileinfo:
             status: 'enabled'
         filter:
             status: 'enabled'
         ftp:
-            status: 'optional'
-        gd-0801:
             status: 'enabled'
-        gettext:
+        exif:
             status: 'enabled'
-        gmp:
+        gd-0802:
             status: 'enabled'
         iconv:
             status: 'enabled'
@@ -282,34 +292,43 @@ extensionSets:
             status: 'enabled'
         mbstring:
             status: 'enabled'
-        mysqli:
+        enchant:
             status: 'enabled'
-        mysqlnd:
-            status: 'enabled'
-        opcache:
-            status: 'enabled'
-            isEnabled: true
-        openssl:
-            status: 'enabled'
-        pdo_mysql:
-            status: 'enabled'
-        pdo_pgsql:
-            status: 'enabled'
-        pdo_sqlite:
+        gettext:
             status: 'enabled'
         pdo:
             status: 'enabled'
+        sqlite3:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        mysqlnd:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
         pgsql:
             status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        # @todo PHP 0802 - Extension - oci8.
+        # @todo PHP 0802 - Extension - pdo_oci.
+        # @todo PHP 0802 - Extension - pdo_dblib.
+        # @todo PHP 0802 - Extension - pdo_firebird.
+        # @todo PHP 0802 - Extension - pdo_odbc.
         phar:
             status: 'enabled'
         sodium:
             status: 'enabled'
-        simplexml:
-            status: 'enabled'
-        sqlite3:
-            status: 'enabled'
         tokenizer:
+            # NOTE: Can't be optional.
+            # make: *** No rule to make target '/.../ext/tokenizer/Zend/zend_language_parser.y',
+            # needed by '/.../ext/tokenizer/Zend/zend_language_parser.c'.
+            status: 'enabled'
+        libxml-0802:
+            status: 'enabled'
+        simplexml:
             status: 'enabled'
         xmlreader:
             status: 'enabled'
@@ -319,13 +338,13 @@ extensionSets:
             status: 'enabled'
         xsl:
             status: 'enabled'
-        zip:
+        dom-0802:
             status: 'enabled'
         zlib:
             status: 'enabled'
-        session:
+        bz2:
             status: 'enabled'
-        phpdbg:
+        zip:
             status: 'enabled'
         # endregion
 
@@ -339,8 +358,9 @@ extensionSets:
         # endregion
 
         # region Optional - core.
-        maxminddb:
-            status: 'optional'
+        ldap:
+            # @todo PHP 0802 - Extension - LDAP.
+            status: 'skip'
         pcntl:
             status: 'optional'
         posix:
@@ -348,6 +368,8 @@ extensionSets:
         pspell:
             status: 'optional'
         readline:
+            status: 'optional'
+        snmp:
             status: 'optional'
         shmop:
             status: 'optional'
@@ -372,9 +394,13 @@ extensionSets:
             status: 'optional'
         inotify:
             status: 'optional'
+        maxminddb:
+            status: 'optional'
         memcache:
             status: 'optional'
         memcached:
+            status: 'optional'
+        mongodb:
             status: 'optional'
         openswoole:
             status: 'optional'
@@ -402,255 +428,89 @@ extensionSets:
 
         # region Skip - core.
         imap:
+            # @todo
+            #   error: utf8_mime2text() has new signature, but U8T_CANONICAL is missing.
+            #   This should not happen. Check config.log for additional information.
             status: 'skip'
         # endregion
 
         # region Skip - 3th-party.
-        mongodb:
-            status: 'skip'
+        # Empty.
         # endregion
 
 
 cores:
-    '0801-nts':
+    '0802-nts':
         dependencies:
             packages:
                 alpine-3:
-                    <<: *cores_0801_dependencies_packages_alpine-3
+                    <<: *cores_0802_dependencies_packages_alpine-3
                 arch:
-                    <<: *cores_0801_dependencies_packages_arch
+                    <<: *cores_0802_dependencies_packages_arch
                 fedora-35:
-                    <<: *cores_0801_dependencies_packages_fedora-35
+                    <<: *cores_0802_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
-                    <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
+                    <<: *cores_0802_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
-                    <<: *cores_0801_dependencies_packages_ubuntu-21-10
-        patchList:
-            core-0801-ext-socket-gnu-source: true
+                    <<: *cores_0802_dependencies_packages_ubuntu-21-10
         configure:
             default:
                 --enable-fpm: ~
         etc:
             files:
-                <<: *cores_0801_etc_files_ini
-                <<: *cores_0801_etc_files_ext
-                <<: *cores_0801_etc_files_fpm
-    '0801-zts':
+                <<: *cores_0802_etc_files_ini
+                <<: *cores_0802_etc_files_ext
+                <<: *cores_0802_etc_files_fpm
+    '0802-zts':
         dependencies:
             packages:
                 alpine-3:
-                    <<: *cores_0801_dependencies_packages_alpine-3
+                    <<: *cores_0802_dependencies_packages_alpine-3
                 arch:
-                    <<: *cores_0801_dependencies_packages_arch
+                    <<: *cores_0802_dependencies_packages_arch
                 fedora-35:
-                    <<: *cores_0801_dependencies_packages_fedora-35
+                    <<: *cores_0802_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
-                    <<: *cores_0801_dependencies_packages_opensuse-tumbleweed
+                    <<: *cores_0802_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
-                    <<: *cores_0801_dependencies_packages_ubuntu-21-10
-        patchList:
-            core-0801-ext-socket-gnu-source: true
+                    <<: *cores_0802_dependencies_packages_ubuntu-21-10
         configure:
             default:
                 --enable-zts: ~
         etc:
             files:
-                <<: *cores_0801_etc_files_ini
-                <<: *cores_0801_etc_files_ext
+                <<: *cores_0802_etc_files_ini
+                <<: *cores_0802_etc_files_ext
 
 
 instances:
-    '080101-nts': &instance_080101
-        hidden: true
+    '080200-nts': &instance_080200
         isZts: false
-        coreVersion: '8.1.1'
+        coreVersion: '8.2.0'
         coreChecksum:
             hashAlgorithm: 'sha256'
-            hashChecksum: '8f8bc9cad6cd124edc111f7db0a109745e2f638770a101b3c22a2953f7a9b40e'
-    '080101-zts':
+            hashChecksum: '1bf4fca663f93d9e0b4909bd6eae0583a1ce383e7f05df126f28f272fa1fd51a'
+    '080200-zts':
         isZts: true
-        <<: *instance_080101
-    '080101-nts-none':
+        <<: *instance_080200
+    '080200-nts-none':
         hidden: true
         extensionSetNameSuffix: 'none'
-        <<: *instance_080101
-
-    # https://github.com/php/php-src/issues/7978
-    # https://github.com/php/php-src/issues/7986
-    '080102-nts': &instance_080102
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.2'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '913dc7dd4388427fa33ea4ac89834e856ff5394f4218eace260a3a279f5b53a9'
-    '080102-zts':
-        isZts: true
-        <<: *instance_080102
-    '080102-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080102
-
-    '080103-nts': &instance_080103
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.3'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '354c4e2c506046eca812d1fc2526884a2f54b5e3d20ef0ede919a69eb232d0be'
-    '080103-zts':
-        isZts: true
-        <<: *instance_080103
-    '080103-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080103
-
-    '080104-nts': &instance_080104
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.4'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'b3f688cb69758523838b8e7f509aaef0152133d9b84a84a0b7cf68eeafc1df76'
-    '080104-zts':
-        isZts: true
-        <<: *instance_080104
-    '080104-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080104
-
-    '080106-nts': &instance_080106
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.6'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '7b353304b7407554f70d3e101a226a1fc22decae5c4c42ed270c4e389bfa1b66'
-    '080106-zts':
-        isZts: true
-        <<: *instance_080106
-    '080106-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080106
-
-    '080107-nts': &instance_080107
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.7'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'b816753eb005511e695d90945c27093c3236cc73db1262656d9fadd73ead7e9d'
-    '080107-zts':
-        isZts: true
-        <<: *instance_080107
-    '080107-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080107
-
-    '080108-nts': &instance_080108
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.8'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'b8815a5a02431453d4261e3598bd1f28516e4c0354f328c12890f257870e4c01'
-    '080108-zts':
-        isZts: true
-        <<: *instance_080108
-    '080108-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080108
-
-    '080109-nts': &instance_080109
-        hidden: true
-        isZts: false
-        coreVersion: '8.1.9'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '9ebb0e2e571db6fd5930428dcb2d19ed3e050338ec1f1347c282cae92fc086ff'
-    '080109-zts':
-        isZts: true
-        <<: *instance_080109
-    '080109-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080109
-
-    '080110-nts': &instance_080110
-        isZts: false
-        coreVersion: '8.1.10'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '2de8e0402285f7c56887defe651922308aded58ba60befcf3b77720209e31f10'
-    '080110-zts':
-        isZts: true
-        <<: *instance_080110
-    '080110-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080110
-
-    '080111-nts': &instance_080111
-        isZts: false
-        coreVersion: '8.1.11'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'af6250b18b4403b6eeff9b4a02786ac86a12a208141f6f65478f79256f47f246'
-    '080111-zts':
-        isZts: true
-        <<: *instance_080111
-    '080111-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080111
-
-    '080112-nts': &instance_080112
-        isZts: false
-        coreVersion: '8.1.12'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'f87d73e917facf78de7bcde53fc2faa4d4dbe0487a9406e1ab68c8ae8f33eb03'
-    '080112-zts':
-        isZts: true
-        <<: *instance_080112
-    '080112-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080112
-
-    '080113-nts': &instance_080113
-        isZts: false
-        coreVersion: '8.1.13'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '93fcfdfaaa3d094a0fdb18ce08d20f20d526ee3f07a146a8a8ec82ce00b237ca'
-    '080113-zts':
-        isZts: true
-        <<: *instance_080113
-    '080113-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080113
+        <<: *instance_080200
 
 
 aliases:
-    '0801-nts': '080113-nts'
-    '0801-zts': '080113-zts'
+    '0802-nts': '080200-nts'
+    '0802-zts': '080200-zts'
 
 
 variations:
-    '0801-nts-pcov':
-        instanceKey: '0801-nts'
+    '0802-nts-pcov':
+        instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
-    '0801-nts-prod':
-        instanceKey: '0801-nts'
+    '0802-nts-prod':
+        instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'
-    '0801-nts-xdebug':
-        instanceKey: '0801-nts'
+    '0802-nts-xdebug':
+        instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'
