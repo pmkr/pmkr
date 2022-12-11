@@ -46,6 +46,17 @@ executors:
                 name: 'main'
                 image: 'cimg/php:8.1'
 
+    php_plus3:
+        resource_class: 'small'
+        environment:
+            <<: *env_common
+            <<: *env_composer
+
+        docker:
+            -
+                name: 'main'
+                image: 'cimg/php:8.2'
+
 
     os_alpine-3:
         resource_class: 'large'
@@ -554,6 +565,7 @@ workflows:
                                 - 'php_min'
                                 - 'php_plus1'
                                 - 'php_plus2'
+                                #- 'php_plus3'
 
     pmkr_instance_install:
         jobs:
@@ -579,6 +591,7 @@ workflows:
                                 - '0704-nts'
                                 - '0800-nts'
                                 - '0801-nts'
+                                - '0802-nts'
             -
                 pmkr_instance_install:
                     name: 'pmkr_ii-<<matrix.opsys>>-<<matrix.instance_name>>-execute'

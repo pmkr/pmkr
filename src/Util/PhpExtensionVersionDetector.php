@@ -105,6 +105,7 @@ class PhpExtensionVersionDetector
         '0704' => [],
         '0800' => [],
         '0801' => [],
+        '0802' => [],
     ];
 
     public function __construct(?Filesystem $filesystem = null)
@@ -147,12 +148,19 @@ class PhpExtensionVersionDetector
         // Same.
         $this->coreExtensions['0801'] = $this->coreExtensions['0800'];
 
+        // Same.
+        $this->coreExtensions['0802'] = $this->coreExtensions['0801'];
+        $this->coreExtensions['0802']['random'] = true;
+
         return $this;
     }
 
     public function detect(VersionNumber $coreVersion, string $dir, ?string $name = null): ?string
     {
         $this->coreVersion = $coreVersion;
+        if (!$this->isCoreVersionSupported($coreVersion)) {
+            throw new \InvalidArgumentException("core version $coreVersion is not supported");
+        }
 
         if ($name === null || $name === '') {
             $name = basename($dir);
@@ -216,5 +224,12 @@ class PhpExtensionVersionDetector
         }
 
         return false;
+    }
+
+    protected function isCoreVersionSupported(VersionNumber $coreVersion): bool
+    {
+        return isset($this->coreExtensions[$coreVersion->formatMA2MI2P2])
+            || isset($this->coreExtensions[$coreVersion->formatMA2MI2])
+            || isset($this->coreExtensions[$coreVersion->formatMA2]);
     }
 }
