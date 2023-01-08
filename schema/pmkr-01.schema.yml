@@ -256,6 +256,98 @@ definitions:
             -
                 '$ref': '#/definitions/libraryCompilerCommon'
 
+    configureEnvVarValueItem:
+        type: 'object'
+        additionalProperties: false
+        properties:
+            enabled:
+                type: 'boolean'
+            weight:
+                type: 'number'
+            value:
+                type: 'string'
+        required:
+            - 'value'
+        examples:
+            -
+                enabled: true
+                weight: 42
+                value: 'foo'
+
+    configureEnvVarValueItems:
+        additionalProperties:
+            '$ref': '#/definitions/configureEnvVarValueItem'
+        examples:
+            -
+                my_custom_key_01:
+                    enabled: false
+                    weight: 42
+                    value: 'foo'
+                my_custom_key_02:
+                    enabled: true
+                    weight: 43
+                    value: 'bar'
+
+    configureEnvVarValueOs:
+        additionalProperties:
+            '$ref': '#/definitions/configureEnvVarValueItems'
+        examples:
+            -
+                opensuse-tumbleweed:
+                    my_custom_key_01:
+                        enabled: false
+                        weight: 42
+                        value: 'foo'
+                    my_custom_key_02:
+                        enabled: true
+                        weight: 43
+                        value: 'bar'
+                ubuntu-21-10:
+                    my_custom_key_03:
+                        enabled: true
+                        weight: 43
+                        value: 'bar'
+
+    configureEnvVarList:
+        type: 'object'
+        additionalProperties:
+            '$ref': '#/definitions/configureEnvVarValueOs'
+        examples:
+            # Result:
+            # openSUSE Tumbleweed: PKG_CONFIG_PATH='foo:bar' MY_01='bar'
+            # Any other OS: <none>
+            -
+                MY_01:
+                    opensuse-tumbleweed:
+                        my_custom_key_01:
+                            enabled: false
+                            weight: 42
+                            value: 'foo'
+                        my_custom_key_02:
+                            enabled: true
+                            weight: 43
+                            value: 'bar'
+                    ubuntu-21-10:
+                        my_custom_key_03:
+                            enabled: true
+                            weight: 43
+                            value: 'bar'
+                PKG_CONFIG_PATH:
+                    opensuse-tumbleweed:
+                        my_custom_key_01:
+                            enabled: true
+                            weight: 42
+                            value: 'foo'
+                        my_custom_key_02:
+                            enabled: true
+                            weight: 43
+                            value: 'bar'
+                ubuntu-21-10:
+                    my_custom_key_03:
+                        enabled: true
+                        weight: 43
+                        value: 'bar'
+
     library:
         type: 'object'
         additionalProperties: false
@@ -282,6 +374,9 @@ definitions:
                 '$ref': '#/definitions/patchList'
             compiler:
                 '$ref': '#/definitions/libraryCompiler'
+            parentConfigureEnvVars:
+                '$ref': '#/definitions/configureEnvVarList'
+
         examples:
             -
                 name: 'icu4c-59_1'
@@ -291,7 +386,7 @@ definitions:
                     type: 'common'
 
     libraries:
-        type: object
+        type: 'object'
         additionalProperties:
             '$ref': '#/definitions/library'
         examples:
@@ -460,24 +555,6 @@ definitions:
                         vars:
                             type: 'object'
                             additionalProperties: true
-
-    configureEnvVar:
-        examples:
-            -
-                opensuse-tumbleweed:
-                    FOO: false
-                    BAR: 'my-value'
-        type: 'object'
-        additionalProperties:
-            type: 'object'
-            additionalProperties:
-                oneOf:
-                    -
-                        type: 'boolean'
-                        enum:
-                            - false
-                    -
-                        type: 'string'
 
     configure:
         # @todo Dot is not allowed in property names.

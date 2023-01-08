@@ -1,0 +1,22 @@
+version: '1'
+
+
+libraries:
+    OpenSSL_1_0_0:
+        name: 'OpenSSL_1_0_0t'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/openssl/openssl/archive/refs/tags/OpenSSL_1_0_0t.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '023c5e2be1603b34b2a09b800b7f2108399aa372b31d0cd77d324c9b95466619'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./config --prefix="${prefix}" zlib \
+                    && \
+                    make -j \
+                    && \
+                    make install

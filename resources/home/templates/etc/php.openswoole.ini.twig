@@ -5,20 +5,22 @@
 xdebug.mode=develop,debug,coverage
 
 
-
 {% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify
 {% if not extensions.maxminddb.isEnabled %};{% endif %}extension=maxminddb
 {% if not extensions.pcntl.isEnabled %};{% endif %}extension=pcntl
 {% if not extensions.posix.isEnabled %};{% endif %}extension=posix
 {% if not extensions.readline.isEnabled %};{% endif %}extension=readline
-{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
+{% if not extensions.sockets.isEnabled %};{% endif %}extension=sockets
 
 {% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
 ;extension=gmagick
+
+{% if not extensions.openswoole.isEnabled %};{% endif %}extension=openswoole
+{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
 
 opcache.validate_timestamps=1
 zend.assertions=1
 assert.active=On
 
 html_errors=Off
-error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.xdebug.cli.error.log
+error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.openswoole.cli.error.log

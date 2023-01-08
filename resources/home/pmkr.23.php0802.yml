@@ -63,16 +63,53 @@ stash:
                                 extensions:
                                     pcov:
                                         isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                                     xdebug:
                                         isEnabled: true
+                        php-openswoole-ini:
+                            src: 'etc/php.openswoole.ini.twig'
+                            dst: 'php.openswoole.ini'
+                            vars:
+                                extensions:
+                                    openswoole:
+                                        isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                                    sockets:
+                                        isEnabled: true
+                                    xdebug:
+                                        isEnabled: false
                     ext: &cores_0802_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -240,6 +277,18 @@ extensions:
             default:
                 --with-libxml: ~
 
+#    xdebug-0802:
+#        configure:
+#            default:
+#                --enable-xdebug: ~
+#                #--enable-xdebug-dev: ~
+#                #--without-xdebug-compression: ~
+#        etc:
+#            files:
+#                conf/default/xdebug-ini:
+#                    src: 'etc/ext/xdebug.ini.twig'
+#                    dst: 'conf/default/xdebug.ini'
+
 
 # Extensions always enabled, even with "--disable-all":
 # - date
@@ -398,8 +447,10 @@ extensionSets:
             status: 'optional'
         memcache:
             status: 'optional'
+            isEnabled: true
         memcached:
             status: 'optional'
+            isEnabled: true
         mongodb:
             status: 'optional'
         openswoole:
@@ -412,8 +463,10 @@ extensionSets:
             status: 'optional'
         redis:
             status: 'optional'
+            isEnabled: true
         sass:
             status: 'optional'
+            isEnabled: true
         ssh2:
             status: 'optional'
         swoole:
@@ -422,8 +475,10 @@ extensionSets:
             status: 'optional'
         yaml:
             status: 'optional'
+            isEnabled: true
         uuid:
             status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Skip - core.
@@ -485,6 +540,7 @@ cores:
 
 instances:
     '080200-nts': &instance_080200
+        hidden: true
         isZts: false
         coreVersion: '8.2.0'
         coreChecksum:
@@ -494,14 +550,55 @@ instances:
         isZts: true
         <<: *instance_080200
     '080200-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080200
 
+    '080201-nts': &instance_080201
+        hidden: true
+        isZts: false
+        coreVersion: '8.2.1'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '75d6f8f365993ec0d1d9c6281d4557e6feec5a26194a468b8b01459d177efb29'
+    '080201-zts':
+        isZts: true
+        <<: *instance_080201
+    '080201-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080201
+
+    '080202-nts': &instance_080202
+        isZts: false
+        coreVersion: '8.2.2'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'f5223a5274eda8b40c19e47de0de4678c65d64401ccf710e2464962eb8136804'
+    '080202-zts':
+        isZts: true
+        <<: *instance_080202
+    '080202-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080202
+
+    '080203-nts': &instance_080203
+        isZts: false
+        coreVersion: '8.2.3'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '87bb58865f38f5e2941813029152cea2102fe2961bb4d68b88f831ddd0548d0f'
+    '080203-zts':
+        isZts: true
+        <<: *instance_080203
+    '080203-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080203
+
 
 aliases:
-    '0802-nts': '080200-nts'
-    '0802-zts': '080200-zts'
+    '0802-nts': '080203-nts'
+    '0802-zts': '080203-zts'
 
 
 variations:
@@ -514,3 +611,9 @@ variations:
     '0802-nts-xdebug':
         instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'
+    '0802-nts-openswoole':
+        instanceKey: '0802-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.openswoole.ini'
+    '0802-nts-swoole':
+        instanceKey: '0802-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.swoole.ini'

@@ -238,6 +238,7 @@ extensions:
                     src: 'etc/ext/igbinary.ini.twig'
                     dst: 'conf/default/igbinary.ini'
     imagick:
+        version: '3.6.0'
         dependencies:
             packages:
                 alpine-3:

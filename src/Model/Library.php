@@ -11,6 +11,7 @@ namespace Pmkr\Pmkr\Model;
  * @property-read array $downloader
  * @property-read bool[] $patches
  * @property-read array $compiler
+ * @property-read array $parentConfigureEnvVars
  */
 class Library extends Base
 {
@@ -23,5 +24,14 @@ class Library extends Base
             'default' => [],
         ],
         'compiler' => [],
+        'parentConfigureEnvVars' => [
+            'type' => 'callback',
+            'callback' => 'parentConfigureEnvVars',
+        ],
     ];
+
+    //protected function parentConfigureEnvVars(): array
+    //{
+    //
+    //}
 }

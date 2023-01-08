@@ -1,4 +1,6 @@
 parameters:
+#    scanDirectories:
+#        - ../vendor/
     paths:
         - ../src/
         - ../tests/

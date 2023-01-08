@@ -26,6 +26,7 @@ class PhpCoreCompileConfigureCommandBuilderTest extends Unit
         return [
             'nts' => [
                 implode("\n", [
+                    "PKG_CONFIG_PATH='/path/to/OpenSSL_1_1_1t/lib/pkgconfig' \\",
                     "CORE_AK='core_av' \\",
                     "EXT01_AK='ext01_av' \\",
                     './configure \\',
@@ -39,8 +40,31 @@ class PhpCoreCompileConfigureCommandBuilderTest extends Unit
                 ]),
                 null,
                 [
+                    'libraries' => [
+                        'OpenSSL_1_1' => [
+                            'name' => 'OpenSSL_1_1_1t',
+                            'parentConfigureEnvVars' => [
+                                'PKG_CONFIG_PATH' => [
+                                    'default' => [
+                                        'pkgconfig' => [
+                                            'enabled' => true,
+                                            'weight' => 1,
+                                            'value' => '/path/to/OpenSSL_1_1_1t/lib/pkgconfig',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                     'extensions' => [
                         'ext01' => [
+                            'dependencies' => [
+                                'libraries' => [
+                                    'default' => [
+                                        'OpenSSL_1_1' => true,
+                                    ],
+                                ],
+                            ],
                             'configureEnvVar' => [
                                 'default' => [
                                     'EXT01_AK' => 'ext01_av',

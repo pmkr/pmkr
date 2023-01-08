@@ -255,6 +255,32 @@ extensions:
                 --enable-json: ~
                 --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
 
+    swoole-0702:
+        weight: 30
+        version: '4'
+        dependencies:
+            extensions:
+                sockets: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+
     psr-0702:
         version: '1.1.0'
         configure:
@@ -348,9 +374,6 @@ extensionSets:
             status: 'enabled'
         pgsql:
             status: 'enabled'
-        phar:
-            # @todo
-            status: 'skip'
         phpdbg:
             status: 'enabled'
         session:
@@ -393,6 +416,9 @@ extensionSets:
             status: 'optional'
         pcntl:
             status: 'optional'
+        phar:
+            status: 'optional'
+            isEnabled: true
         posix:
             status: 'optional'
         pspell:
@@ -442,7 +468,7 @@ extensionSets:
             status: 'optional'
         ssh2:
             status: 'optional'
-        swoole:
+        swoole-0702:
             status: 'optional'
         xdebug:
             status: 'optional'

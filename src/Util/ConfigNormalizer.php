@@ -62,6 +62,21 @@ class ConfigNormalizer
         $libraries = (array) $config->get('libraries');
         foreach ($libraries as $libKey => $lib) {
             $config->setDefault("libraries.$libKey.key", $libKey);
+            foreach ($lib['parentConfigureEnvVars'] ?? [] as $envVarName => $osList) {
+                foreach ($osList as $osId => $items) {
+                    foreach ($items as $itemId => $item) {
+                        $configKeyPrefix = "libraries.$libKey.parentConfigureEnvVars.$envVarName.$osId.$itemId";
+
+                        if (!array_key_exists('enabled', $item)) {
+                            $config->setDefault("$configKeyPrefix.enabled", true);
+                        }
+
+                        if (!array_key_exists('weight', $item)) {
+                            $config->setDefault("$configKeyPrefix.weight", 0);
+                        }
+                    }
+                }
+            }
         }
 
         return $this;
