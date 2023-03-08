@@ -1,0 +1,22 @@
+version: '1'
+
+
+libraries:
+    OpenSSL_3_0:
+        name: 'OpenSSL_3_0_8'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.8.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '6933e2f1da6f23a50ea226eec6e91b543d277d2098025763b5931cf6a7e099c7'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./config --prefix="${prefix}" zlib \
+                    && \
+                    make -j \
+                    && \
+                    make install

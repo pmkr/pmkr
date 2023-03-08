@@ -261,6 +261,19 @@ extensions:
                     src: 'etc/ext/swoole.ini.twig'
                     dst: 'conf/default/swoole.ini'
 
+    xdebug-0704:
+        version: '3.1'
+        configure:
+            default:
+                --enable-xdebug: ~
+                #--enable-xdebug-dev: ~
+                #--without-xdebug-compression: ~
+        etc:
+            files:
+                conf/default/xdebug-ini:
+                    src: 'etc/ext/xdebug.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
 extensionSets:
     '0704':
         # region Enabled - core.
@@ -396,8 +409,10 @@ extensionSets:
             status: 'optional'
         memcache:
             status: 'optional'
+            isEnabled: true
         memcached:
             status: 'optional'
+            isEnabled: true
         openswoole:
             status: 'optional'
         pcov:
@@ -408,18 +423,22 @@ extensionSets:
             status: 'optional'
         redis:
             status: 'optional'
+            isEnabled: true
         sass:
             status: 'optional'
+            isEnabled: true
         ssh2:
             status: 'optional'
         swoole-0704:
             status: 'optional'
-        xdebug:
+        xdebug-0704:
             status: 'optional'
         yaml:
             status: 'optional'
+            isEnabled: true
         uuid:
             status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Skip - core
@@ -509,6 +528,7 @@ instances:
         <<: *instance_070428
 
     '070429-nts': &instance_070429
+        hidden: true
         isZts: false
         coreVersion: '7.4.29'
         coreChecksum:
@@ -523,6 +543,7 @@ instances:
         <<: *instance_070429
 
     '070430-nts': &instance_070430
+        hidden: true
         isZts: false
         coreVersion: '7.4.30'
         coreChecksum:
@@ -538,6 +559,7 @@ instances:
 
     # NOTE: Official PHP version 7.4.31 is not exists.
     '070432-nts': &instance_070432
+        hidden: true
         isZts: false
         coreVersion: '7.4.32'
         coreChecksum:

@@ -1,0 +1,29 @@
+version: '1'
+
+
+libraries:
+    OpenSSL_1_1:
+        name: 'OpenSSL_1_1_1t'
+        downloader:
+            type: 'archive'
+            options:
+                url: 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1t/openssl-1.1.1t.tar.gz'
+                checksum:
+                    hashAlgorithm: 'sha256'
+                    hashChecksum: '8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b'
+        compiler:
+            type: 'common'
+            options:
+                exec: |
+                    ./config --prefix="${prefix}" zlib \
+                    && \
+                    make -j \
+                    && \
+                    make install
+        parentConfigureEnvVars:
+            PKG_CONFIG_PATH:
+                default:
+                    pkgconfig:
+                        enabled: true
+                        weight: 10
+                        value: '${dir.share}/${libraries.OpenSSL_1_1.name}/lib/pkgconfig/'

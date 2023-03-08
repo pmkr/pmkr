@@ -329,13 +329,23 @@ commands:
                         - '~/.cache/composer/'
 
     lint:
-        description: 'Run linters'
+        description: 'Lint'
         steps:
             -
                 run:
-                    name: 'Run linters'
+                    name: 'Lint – all'
                     command: |
                         "$(composer config bin-dir)/robo" -vv lint
+            -
+                run:
+                    name: 'Lint – pmkr config:validate:schema'
+                    command: |
+                        ./bin/pmkr config:validate:schema
+            -
+                run:
+                    name: 'Lint – pmkr config:validate:integrity'
+                    command: |
+                        ./bin/pmkr config:validate:integrity
 
     test:
         description: 'Run tests'

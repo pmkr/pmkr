@@ -10,6 +10,7 @@ fi
 # Minimal requirements to run `pmkr`.
 zypper install --no-confirm \
     php8 \
+    php8-cli \
     php8-bz2 \
     php8-ctype \
     php8-curl \

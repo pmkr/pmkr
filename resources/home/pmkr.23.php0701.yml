@@ -406,7 +406,7 @@ extensionSets:
         pgsql:
             status: 'enabled'
         phar:
-            # @todo
+            # @todo It works on openSUSE, check other OSs.
             status: 'skip'
         phpdbg:
             status: 'enabled'

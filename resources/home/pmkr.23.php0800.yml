@@ -53,6 +53,9 @@ stash:
                         make: true
                         pkg-config: true
                         re2c: true
+                libraries:
+                    opensuse-tumbleweed: &cores_0800_dependencies_libraries_opensuse-tumbleweed
+                        OpenSSL_1_1: true
             etc:
                 files:
                     ini: &cores_0800_etc_files_ini
@@ -61,16 +64,36 @@ stash:
                             dst: 'php.pcov.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
                                     pcov:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
                                         isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                                     xdebug:
                                         isEnabled: true
                     ext: &cores_0800_etc_files_ext
@@ -149,6 +172,8 @@ stash:
                             vars:
                                 iniVariant: 'prod'
 
+    with-openssl-0800: &with-openssl-0800 '${dir.share}/${libraries.OpenSSL_1_1.name}'
+
 
 extensions:
     dom-0800:
@@ -223,6 +248,32 @@ extensions:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
+    openssl-0800:
+        dependencies:
+            packages:
+                alpine-3:
+                    openssl-dev: true
+                fedora-35:
+                    openssl1-1: 'openssl1.1'
+                    openssl1-1-devel: 'openssl1.1-devel'
+                opensuse-tumbleweed:
+                    libopenssl1_1: true
+                    libopenssl-devel: true
+                ubuntu-21-10:
+                    openssl: true
+                    libssl-dev: true
+            libraries:
+                opensuse-tumbleweed:
+                    OpenSSL_1_1: true
+        configure:
+            default:
+                --with-openssl: *with-openssl-0800
+        etc:
+            files:
+                conf/default/oopenssl-ini:
+                    src: 'etc/ext/openssl.ini.twig'
+                    dst: 'conf/default/openssl.ini'
+
 
 extensionSets:
     '0800':
@@ -270,7 +321,7 @@ extensionSets:
         opcache:
             status: 'enabled'
             isEnabled: true
-        openssl:
+        openssl-0800:
             status: 'enabled'
         pdo_mysql:
             status: 'enabled'
@@ -355,8 +406,10 @@ extensionSets:
             status: 'optional'
         memcache:
             status: 'optional'
+            isEnabled: true
         memcached:
             status: 'optional'
+            isEnabled: true
         openswoole:
             status: 'optional'
         pcov:
@@ -367,8 +420,10 @@ extensionSets:
             status: 'optional'
         redis:
             status: 'optional'
+            isEnabled: true
         sass:
             status: 'optional'
+            isEnabled: true
         ssh2:
             status: 'optional'
         swoole:
@@ -377,8 +432,10 @@ extensionSets:
             status: 'optional'
         yaml:
             status: 'optional'
+            isEnabled: true
         uuid:
             status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Skip - core.
@@ -406,9 +463,13 @@ cores:
                     <<: *cores_0800_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
                     <<: *cores_0800_dependencies_packages_ubuntu-21-10
+            libraries:
+                opensuse-tumbleweed:
+                    <<: *cores_0800_dependencies_libraries_opensuse-tumbleweed
         configure:
             default:
                 --enable-fpm: ~
+                --with-openssl: *with-openssl-0800
         etc:
             files:
                 <<: *cores_0800_etc_files_ini
@@ -430,6 +491,7 @@ cores:
         configure:
             default:
                 --enable-zts: ~
+                --with-openssl: *with-openssl-0800
         etc:
             files:
                 <<: *cores_0800_etc_files_ini
@@ -448,7 +510,6 @@ instances:
         isZts: true
         <<: *instance_080015
     '080015-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080015
 
@@ -463,7 +524,6 @@ instances:
         isZts: true
         <<: *instance_080016
     '080016-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080016
 
@@ -478,7 +538,6 @@ instances:
         isZts: true
         <<: *instance_080017
     '080017-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080017
 
@@ -493,7 +552,6 @@ instances:
         isZts: true
         <<: *instance_080018
     '080018-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080018
 
@@ -508,7 +566,6 @@ instances:
         isZts: true
         <<: *instance_080019
     '080019-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080019
 
@@ -523,7 +580,6 @@ instances:
         isZts: true
         <<: *instance_080020
     '080020-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080020
 
@@ -538,7 +594,6 @@ instances:
         isZts: true
         <<: *instance_080021
     '080021-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080021
 
@@ -553,11 +608,11 @@ instances:
         isZts: true
         <<: *instance_080022
     '080022-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080022
 
     '080023-nts': &instance_080023
+        hidden: true
         isZts: false
         coreVersion: '8.0.23'
         coreChecksum:
@@ -567,11 +622,11 @@ instances:
         isZts: true
         <<: *instance_080023
     '080023-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080023
 
     '080024-nts': &instance_080024
+        hidden: true
         isZts: false
         coreVersion: '8.0.24'
         coreChecksum:
@@ -581,11 +636,11 @@ instances:
         isZts: true
         <<: *instance_080024
     '080024-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080024
 
     '080025-nts': &instance_080025
+        hidden: true
         isZts: false
         coreVersion: '8.0.25'
         coreChecksum:
@@ -595,11 +650,11 @@ instances:
         isZts: true
         <<: *instance_080025
     '080025-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080025
 
     '080026-nts': &instance_080026
+        hidden: true
         isZts: false
         coreVersion: '8.0.26'
         coreChecksum:
@@ -609,14 +664,41 @@ instances:
         isZts: true
         <<: *instance_080026
     '080026-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080026
 
+    '080027-nts': &instance_080027
+        isZts: false
+        coreVersion: '8.0.27'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '5fd882b14377c158c1b55cc6ace91fb8c19b77c596d5831ad124fbbbc902dbc8'
+    '080027-zts':
+        isZts: true
+        <<: *instance_080027
+    '080027-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080027
+
+    '080028-nts': &instance_080028
+        isZts: false
+        coreVersion: '8.0.28'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '9d5e74935c900e3b9c7b6bc740596b71933630eb9f63717c0c4923d8c788c62e'
+    '080028-zts':
+        isZts: true
+        <<: *instance_080028
+    '080028-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080028
+
 
 aliases:
-    '0800-nts': '080026-nts'
-    '0800-zts': '080026-zts'
+    '0800-nts': '080028-nts'
+    '0800-zts': '080028-zts'
 
 
 variations:

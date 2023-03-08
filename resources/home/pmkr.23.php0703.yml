@@ -213,6 +213,33 @@ extensions:
                 --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
             ubuntu-21-10:
                 --with-icu-dir: false
+
+    swoole-0703:
+        weight: 30
+        version: '4'
+        dependencies:
+            extensions:
+                sockets: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+
     zip-0703:
         weight: 200
         dependencies:
@@ -392,7 +419,7 @@ extensionSets:
             status: 'optional'
         ssh2:
             status: 'optional'
-        swoole:
+        swoole-0703:
             status: 'optional'
         xdebug:
             status: 'optional'

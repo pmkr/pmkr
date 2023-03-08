@@ -119,7 +119,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
      *
      * @initLintReporters
      */
-    public function githookPreCommit(): CollectionBuilder
+    public function cmdGithookPreCommitExecute(): CollectionBuilder
     {
         $this->gitHook = 'pre-commit';
 
@@ -152,7 +152,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
      *
      * @command test
      */
-    public function test(array $suiteNames): CollectionBuilder
+    public function cmdTestExecute(array $suiteNames): CollectionBuilder
     {
         $this->validateArgCodeceptionSuiteNames($suiteNames);
 
@@ -166,7 +166,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
      *
      * @initLintReporters
      */
-    public function lint(): CollectionBuilder
+    public function cmdLintExecute(): CollectionBuilder
     {
         return $this
             ->collectionBuilder()

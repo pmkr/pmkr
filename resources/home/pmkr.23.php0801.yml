@@ -64,14 +64,34 @@ stash:
                                 extensions:
                                     pcov:
                                         isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                                     xdebug:
                                         isEnabled: true
                     ext: &cores_0801_etc_files_ext
@@ -374,8 +394,10 @@ extensionSets:
             status: 'optional'
         memcache:
             status: 'optional'
+            isEnabled: true
         memcached:
             status: 'optional'
+            isEnabled: true
         openswoole:
             status: 'optional'
         pcov:
@@ -386,8 +408,10 @@ extensionSets:
             status: 'optional'
         redis:
             status: 'optional'
+            isEnabled: true
         sass:
             status: 'optional'
+            isEnabled: true
         ssh2:
             status: 'optional'
         swoole:
@@ -396,8 +420,10 @@ extensionSets:
             status: 'optional'
         yaml:
             status: 'optional'
+            isEnabled: true
         uuid:
             status: 'optional'
+            isEnabled: true
         # endregion
 
         # region Skip - core.
@@ -471,7 +497,6 @@ instances:
         isZts: true
         <<: *instance_080101
     '080101-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080101
 
@@ -488,7 +513,6 @@ instances:
         isZts: true
         <<: *instance_080102
     '080102-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080102
 
@@ -503,7 +527,6 @@ instances:
         isZts: true
         <<: *instance_080103
     '080103-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080103
 
@@ -518,7 +541,6 @@ instances:
         isZts: true
         <<: *instance_080104
     '080104-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080104
 
@@ -533,7 +555,6 @@ instances:
         isZts: true
         <<: *instance_080106
     '080106-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080106
 
@@ -548,7 +569,6 @@ instances:
         isZts: true
         <<: *instance_080107
     '080107-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080107
 
@@ -563,7 +583,6 @@ instances:
         isZts: true
         <<: *instance_080108
     '080108-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080108
 
@@ -578,11 +597,11 @@ instances:
         isZts: true
         <<: *instance_080109
     '080109-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080109
 
     '080110-nts': &instance_080110
+        hidden: true
         isZts: false
         coreVersion: '8.1.10'
         coreChecksum:
@@ -592,11 +611,11 @@ instances:
         isZts: true
         <<: *instance_080110
     '080110-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080110
 
     '080111-nts': &instance_080111
+        hidden: true
         isZts: false
         coreVersion: '8.1.11'
         coreChecksum:
@@ -606,11 +625,11 @@ instances:
         isZts: true
         <<: *instance_080111
     '080111-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080111
 
     '080112-nts': &instance_080112
+        hidden: true
         isZts: false
         coreVersion: '8.1.12'
         coreChecksum:
@@ -620,11 +639,11 @@ instances:
         isZts: true
         <<: *instance_080112
     '080112-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080112
 
     '080113-nts': &instance_080113
+        hidden: true
         isZts: false
         coreVersion: '8.1.13'
         coreChecksum:
@@ -634,14 +653,55 @@ instances:
         isZts: true
         <<: *instance_080113
     '080113-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080113
 
+    '080114-nts': &instance_080114
+        hidden: true
+        isZts: false
+        coreVersion: '8.1.14'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '14ca99333dd604a504a2368946485ac35d379c4da96d28dc515d7eb502dffa32'
+    '080114-zts':
+        isZts: true
+        <<: *instance_080114
+    '080114-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080114
+
+    '080115-nts': &instance_080115
+        isZts: false
+        coreVersion: '8.1.15'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '18da0a94228f4207f8b9e3e23e881f2b74d0d6caefb908bdb5863d4a01035cc6'
+    '080115-zts':
+        isZts: true
+        <<: *instance_080115
+    '080115-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080115
+
+    '080116-nts': &instance_080116
+        isZts: false
+        coreVersion: '8.1.16'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'cd9f0ea14d82d9455587a49a0b6c802a7b8d8ff79703f9f48b17db010fb633ce'
+    '080116-zts':
+        isZts: true
+        <<: *instance_080116
+    '080116-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080116
+
 
 aliases:
-    '0801-nts': '080113-nts'
-    '0801-zts': '080113-zts'
+    '0801-nts': '080116-nts'
+    '0801-zts': '080116-zts'
 
 
 variations:
@@ -654,3 +714,9 @@ variations:
     '0801-nts-xdebug':
         instanceKey: '0801-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'
+    '0801-nts-openswoole':
+        instanceKey: '0801-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.openswoole.ini'
+    '0801-nts-swoole':
+        instanceKey: '0801-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.swoole.ini'

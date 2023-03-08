@@ -6,6 +6,8 @@ namespace Pmkr\Pmkr\Util;
 
 use Pmkr\Pmkr\Model\Extension;
 use Pmkr\Pmkr\Model\Instance;
+use Sweetchuck\Utils\Comparer\ArrayValueComparer;
+use Sweetchuck\Utils\Filter\ArrayFilterEnabled;
 
 /**
  * @todo Support environment variables.
@@ -52,6 +54,12 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
      */
     protected function process()
     {
+        $libraryIds = $this->collectLibraries();
+        $envVars = $this->collectParentConfigureEnvVars($libraryIds);
+        foreach ($envVars as $name => $value) {
+            $this->cmd['envVars'][$name][] = $name . '=' . escapeshellarg($value);
+        }
+
         $this
             ->processCore()
             ->processExtensions();
@@ -103,5 +111,76 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         $this->addCmdOptions($extension->configure);
 
         return $this;
+    }
+
+    /**
+     * @phpstan-return array<string>
+     */
+    protected function collectLibraries(): array
+    {
+        $libraryIds = [];
+
+        $osList = $this->instance->core->dependencies['libraries'] ?? [];
+        $osId = $this->opSys->pickOpSysIdentifier(array_keys($osList)) ?: 'default';
+        $libraryIds += array_filter(
+            $osList[$osId] ?? [],
+            new ArrayFilterEnabled(),
+        );
+
+        foreach ($this->instance->extensions as $extension) {
+            $osList = $extension->dependencies['libraries'] ?? [];
+            $osId = $this->opSys->pickOpSysIdentifier(array_keys($osList)) ?: 'default';
+            $libraryIds += array_filter(
+                $osList[$osId] ?? [],
+                new ArrayFilterEnabled(),
+            );
+        }
+
+        return array_keys($libraryIds);
+    }
+
+    /**
+     * @phpstan-param array<string> $libraryIds
+     *
+     * @return array<string, string>
+     */
+    protected function collectParentConfigureEnvVars(array $libraryIds): array
+    {
+        $envVarValues = [];
+        $libraries = array_intersect_key(
+            $this->config->get('libraries') ?: [],
+            array_flip($libraryIds),
+        );
+        foreach ($libraries as $library) {
+            if (empty($library['parentConfigureEnvVars'])) {
+                continue;
+            }
+
+            foreach ($library['parentConfigureEnvVars'] as $envVarName => $osList) {
+                /** @phpstan-var array<string> $osList */
+                $osId = $this->opSys->pickOpSysIdentifier(array_keys($osList)) ?: 'default';
+                $envVarValues[$envVarName] = array_merge(
+                    $envVarValues[$envVarName] ?? [],
+                    array_values($osList[$osId] ?? []),
+                );
+            }
+        }
+
+        $envVars = [];
+        /** @phpstan-var string $envVarName */
+        foreach (array_keys($envVarValues) as $envVarName) {
+            $envVarItems = array_filter($envVarValues[$envVarName], new ArrayFilterEnabled());
+            usort($envVarItems, new ArrayValueComparer(['weight' => 0]));
+            $values = [];
+            foreach ($envVarItems as $envVarItem) {
+                $values[] = $envVarItem['value'];
+            }
+
+            if ($values) {
+                $envVars[$envVarName] = implode(\PATH_SEPARATOR, $values);
+            }
+        }
+
+        return $envVars;
     }
 }
