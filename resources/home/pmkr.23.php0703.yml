@@ -53,6 +53,9 @@ stash:
                         make: true
                         pkg-config: true
                         re2c: true
+                libraries:
+                    opensuse-tumbleweed: &cores_0703_dependencies_libraries_opensuse-tumbleweed
+                        OpenSSL_1_1: true
             etc:
                 files:
                     ini: &cores_0703_etc_files_ini
@@ -61,18 +64,46 @@ stash:
                             dst: 'php.pcov.ini'
                             vars:
                                 extensions:
+                                    imagick:
+                                        isEnabled: false
+                                    pcntl:
+                                        isEnabled: true
                                     pcov:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
                                         isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    imagick:
+                                        isEnabled: false
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                                     xdebug:
                                         isEnabled: true
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: false
                     ext: &cores_0703_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
@@ -111,9 +142,25 @@ stash:
                         php-fpm-d-php-dev-ini:
                             src: 'etc/php-fpm.d/php.dev-0703.ini.twig'
                             dst: 'php-fpm.d/php.dev.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: false
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod-0703.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: false
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: false
 
                         php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
@@ -132,6 +179,8 @@ stash:
                             dst: 'supervisor/program.php-fpm.prod.ini'
                             vars:
                                 iniVariant: 'prod'
+
+    with-openssl-0703: &with-openssl-0703 '${dir.share}/${libraries.OpenSSL_1_1.name}'
 
 
 extensions:
@@ -213,6 +262,32 @@ extensions:
                 --with-icu-dir: '${dir.share}/${libraries.icu4c-59.name}'
             ubuntu-21-10:
                 --with-icu-dir: false
+
+    openssl-0703:
+        dependencies:
+            packages:
+                alpine-3:
+                    openssl-dev: true
+                fedora-35:
+                    openssl1-1: 'openssl1.1'
+                    openssl1-1-devel: 'openssl1.1-devel'
+                opensuse-tumbleweed:
+                    libopenssl1_1: true
+                    libopenssl-devel: true
+                ubuntu-21-10:
+                    openssl: true
+                    libssl-dev: true
+            libraries:
+                opensuse-tumbleweed:
+                    OpenSSL_1_1: true
+        configure:
+            default:
+                --with-openssl: *with-openssl-0703
+        etc:
+            files:
+                conf/default/oopenssl-ini:
+                    src: 'etc/ext/openssl.ini.twig'
+                    dst: 'conf/default/openssl.ini'
 
     swoole-0703:
         weight: 30
@@ -310,7 +385,7 @@ extensionSets:
             status: 'optional'
             # @todo Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: No such file or directory (2).
             isEnabled: false
-        openssl:
+        openssl-0703:
             status: 'enabled'
         pdo_mysql:
             status: 'enabled'
@@ -454,10 +529,14 @@ cores:
                     <<: *cores_0703_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
                     <<: *cores_0703_dependencies_packages_ubuntu-21-10
+            libraries:
+                opensuse-tumbleweed:
+                    <<: *cores_0703_dependencies_libraries_opensuse-tumbleweed
         configure:
             default:
                 --enable-fpm: ~
                 --enable-hash: ~
+                --with-openssl: *with-openssl-0703
         etc:
             files:
                 <<: *cores_0703_etc_files_ini
@@ -484,6 +563,7 @@ cores:
                 #--with-tsrm-st: ~
                 --with-tsrm-pthreads: ~
                 --enable-hash: ~
+                --with-openssl: *with-openssl-0703
         etc:
             files:
                 <<: *cores_0703_etc_files_ini

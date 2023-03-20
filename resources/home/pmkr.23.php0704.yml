@@ -54,6 +54,9 @@ stash:
                         make: true
                         pkg-config: true
                         re2c: true
+                libraries:
+                    opensuse-tumbleweed: &cores_0704_dependencies_libraries_opensuse-tumbleweed
+                        OpenSSL_1_1: true
             etc:
                 files:
                     ini: &cores_0704_etc_files_ini
@@ -63,8 +66,14 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
+                                        isEnabled: false
+                                    pcntl:
                                         isEnabled: true
                                     pcov:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
                                         isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
@@ -72,16 +81,28 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
+                                        isEnabled: false
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
                                         isEnabled: true
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                                     xdebug:
                                         isEnabled: true
                                     imagick:
-                                        isEnabled: true
+                                        isEnabled: false
                                     gmagick:
                                         isEnabled: false
                     ext: &cores_0704_etc_files_ext
@@ -133,6 +154,14 @@ stash:
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: false
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: false
 
                         php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
@@ -151,6 +180,8 @@ stash:
                             dst: 'supervisor/program.php-fpm.prod.ini'
                             vars:
                                 iniVariant: 'prod'
+
+    with-openssl-0704: &with-openssl-0704 '${dir.share}/${libraries.OpenSSL_1_1.name}'
 
 
 extensions:
@@ -229,6 +260,32 @@ extensions:
                 conf-default-gd-ini:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
+
+    openssl-0704:
+        dependencies:
+            packages:
+                alpine-3:
+                    openssl-dev: true
+                fedora-35:
+                    openssl1-1: 'openssl1.1'
+                    openssl1-1-devel: 'openssl1.1-devel'
+                opensuse-tumbleweed:
+                    libopenssl1_1: true
+                    libopenssl-devel: true
+                ubuntu-21-10:
+                    openssl: true
+                    libssl-dev: true
+            libraries:
+                opensuse-tumbleweed:
+                    OpenSSL_1_1: true
+        configure:
+            default:
+                --with-openssl: *with-openssl-0704
+        etc:
+            files:
+                conf/default/oopenssl-ini:
+                    src: 'etc/ext/openssl.ini.twig'
+                    dst: 'conf/default/openssl.ini'
 
     swoole-0704:
         weight: 30
@@ -320,7 +377,7 @@ extensionSets:
         opcache:
             status: 'enabled'
             isEnabled: true
-        openssl:
+        openssl-0704:
             status: 'enabled'
         pdo_mysql:
             status: 'enabled'
@@ -476,10 +533,13 @@ cores:
                     <<: *cores_0704_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
                     <<: *cores_0704_dependencies_packages_ubuntu-21-10
-
+            libraries:
+                opensuse-tumbleweed:
+                    <<: *cores_0704_dependencies_libraries_opensuse-tumbleweed
         configure:
             default:
                 --enable-fpm: ~
+                --with-openssl: *with-openssl-0704
         etc:
             files:
                 <<: *cores_0704_etc_files_ini
@@ -505,6 +565,7 @@ cores:
                 #--with-tsrm-pth: 'pth-config'
                 #--with-tsrm-st: ~
                 --with-tsrm-pthreads: ~
+                --with-openssl: *with-openssl-0704
         etc:
             files:
                 <<: *cores_0704_etc_files_ini

@@ -277,6 +277,15 @@ extensions:
             default:
                 --with-libxml: ~
 
+    snmp-0802:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    net-snmp-devel: true
+        configure:
+            default:
+                --with-snmp: ~
+
 #    xdebug-0802:
 #        configure:
 #            default:
@@ -418,7 +427,7 @@ extensionSets:
             status: 'optional'
         readline:
             status: 'optional'
-        snmp:
+        snmp-0802:
             status: 'optional'
         shmop:
             status: 'optional'

@@ -64,6 +64,8 @@ stash:
                             dst: 'php.pcov.ini'
                             vars:
                                 extensions:
+                                    imagick:
+                                        isEnabled: false
                                     pcntl:
                                         isEnabled: true
                                     pcov:
