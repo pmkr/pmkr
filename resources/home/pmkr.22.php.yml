@@ -931,8 +931,8 @@ extensions:
                 --enable-openswoole: ~
                 #--enable-swoole-coverage: ~
                 #--enable-swoole-dev: ~
-                --enable-swoole-json: ~
-                --enable-swoole-curl: ~
+#                --enable-swoole-json: ~
+#                --enable-swoole-curl: ~
 
                 --enable-sockets: ~
                 --enable-http2: ~

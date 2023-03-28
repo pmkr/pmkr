@@ -283,7 +283,7 @@ extensions:
                 --with-openssl: *with-openssl-0704
         etc:
             files:
-                conf/default/oopenssl-ini:
+                conf/default/openssl-ini:
                     src: 'etc/ext/openssl.ini.twig'
                     dst: 'conf/default/openssl.ini'
 

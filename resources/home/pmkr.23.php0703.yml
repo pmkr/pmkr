@@ -282,10 +282,11 @@ extensions:
                     OpenSSL_1_1: true
         configure:
             default:
-                --with-openssl: *with-openssl-0703
+                --with-openssl: ~
+                --with-openssl-dir: *with-openssl-0703
         etc:
             files:
-                conf/default/oopenssl-ini:
+                conf/default/openssl-ini:
                     src: 'etc/ext/openssl.ini.twig'
                     dst: 'conf/default/openssl.ini'
 
@@ -314,6 +315,17 @@ extensions:
                 --enable-swoole-curl: ~
                 #--enable-thread-context: ~
                 #--enable-debug: ~
+
+    xdebug-0703:
+        version: '2.9.8'
+        configure:
+            default:
+                --enable-xdebug: ~
+        etc:
+            files:
+                conf-default-xdebug-ini:
+                    src: 'etc/ext/xdebug-0703.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
 
     zip-0703:
         weight: 200
@@ -496,7 +508,7 @@ extensionSets:
             status: 'optional'
         swoole-0703:
             status: 'optional'
-        xdebug:
+        xdebug-0703:
             status: 'optional'
         yaml:
             status: 'optional'
@@ -536,7 +548,8 @@ cores:
             default:
                 --enable-fpm: ~
                 --enable-hash: ~
-                --with-openssl: *with-openssl-0703
+                --with-openssl: ~
+                --with-openssl-dir: *with-openssl-0703
         etc:
             files:
                 <<: *cores_0703_etc_files_ini
@@ -563,7 +576,8 @@ cores:
                 #--with-tsrm-st: ~
                 --with-tsrm-pthreads: ~
                 --enable-hash: ~
-                --with-openssl: *with-openssl-0703
+                --with-openssl: ~
+                --with-openssl-dir: *with-openssl-0703
         etc:
             files:
                 <<: *cores_0703_etc_files_ini
