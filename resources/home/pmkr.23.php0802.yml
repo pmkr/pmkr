@@ -447,7 +447,7 @@ extensionSets:
 
         # region Optional - 3th-party.
         apcu:
-            status: 'optional'
+            status: 'enabled'
         imagick:
             status: 'optional'
         inotify:
@@ -591,6 +591,7 @@ instances:
         <<: *instance_080202
 
     '080203-nts': &instance_080203
+        hidden: true
         isZts: false
         coreVersion: '8.2.3'
         coreChecksum:
@@ -600,7 +601,6 @@ instances:
         isZts: true
         <<: *instance_080203
     '080203-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080203
 
@@ -618,9 +618,23 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080204
 
+    '080205-nts': &instance_080205
+        isZts: false
+        coreVersion: '8.2.5'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'e5a80663cca4f6044ad86a489798147c7af037eca96f6cd357ab36d28cb63757'
+    '080205-zts':
+        isZts: true
+        <<: *instance_080205
+    '080205-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080205
+
 aliases:
-    '0802-nts': '080204-nts'
-    '0802-zts': '080204-zts'
+    '0802-nts': '080205-nts'
+    '0802-zts': '080205-zts'
 
 
 variations:
