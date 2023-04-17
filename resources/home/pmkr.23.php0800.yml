@@ -402,6 +402,7 @@ extensionSets:
         # region Optional - 3th-party.
         apcu:
             status: 'optional'
+            isEnabled: true
         imagick:
             status: 'optional'
         inotify:

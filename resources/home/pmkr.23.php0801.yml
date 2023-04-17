@@ -388,6 +388,7 @@ extensionSets:
         # region Optional - 3th-party.
         apcu:
             status: 'optional'
+            isEnabled: true
         imagick:
             status: 'optional'
         inotify:
@@ -424,6 +425,8 @@ extensionSets:
         uuid:
             status: 'optional'
             isEnabled: true
+        mongodb:
+            status: 'optional'
         # endregion
 
         # region Skip - core.
@@ -432,8 +435,6 @@ extensionSets:
         # endregion
 
         # region Skip - 3th-party.
-        mongodb:
-            status: 'skip'
         # endregion
 
 
@@ -685,6 +686,7 @@ instances:
         <<: *instance_080115
 
     '080116-nts': &instance_080116
+        hidden: true
         isZts: false
         coreVersion: '8.1.16'
         coreChecksum:
@@ -694,7 +696,6 @@ instances:
         isZts: true
         <<: *instance_080116
     '080116-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080116
 
@@ -712,10 +713,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080117
 
+    '080118-nts': &instance_080118
+        isZts: false
+        coreVersion: '8.1.18'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'd2ac30d6b574fca594fe0cc01c0693e23585b27443e342b0aab07274cde4416e'
+    '080118-zts':
+        isZts: true
+        <<: *instance_080118
+    '080118-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080118
+
 
 aliases:
-    '0801-nts': '080117-nts'
-    '0801-zts': '080117-zts'
+    '0801-nts': '080118-nts'
+    '0801-zts': '080118-zts'
 
 
 variations:
