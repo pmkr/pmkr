@@ -233,8 +233,8 @@ extensions:
                     libfreetype6: true
                     freetype2-devel: true
                     libavif-devel: true
-                    libjpeg62: true
-                    libjpeg62-devel: true
+                    libjpeg8: true
+                    libjpeg8-devel: true
                     libpng16-16: true
                     libpng16-compat-devel: true
                     libpng16-devel: true
@@ -605,6 +605,7 @@ instances:
         <<: *instance_080203
 
     '080204-nts': &instance_080204
+        hidden: true
         isZts: false
         coreVersion: '8.2.4'
         coreChecksum:
@@ -614,7 +615,6 @@ instances:
         isZts: true
         <<: *instance_080204
     '080204-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080204
 
@@ -632,9 +632,24 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080205
 
+    '080206-nts': &instance_080206
+        isZts: false
+        coreVersion: '8.2.6'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '44a70c52f537662c10d91eedbf51fd765c9961be6ba2508ed63bf7a26cdd3100'
+    '080206-zts':
+        isZts: true
+        <<: *instance_080206
+    '080206-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080206
+
+
 aliases:
-    '0802-nts': '080205-nts'
-    '0802-zts': '080205-zts'
+    '0802-nts': '080206-nts'
+    '0802-zts': '080206-zts'
 
 
 variations:
