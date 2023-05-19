@@ -891,7 +891,7 @@ parameters:
             path: ../src/Util/Filter/PhpExtensionFilter.php
 
         -
-            message: "#^Parameter \\#1 \\$input of function array_values expects array, array\\|string given\\.$#"
+            message: "#^Parameter \\#1 \\$array of function array_values expects array, array\\|string given\\.$#"
             count: 1
             path: ../src/Util/PhpCoreCompileConfigureCommandBuilder.php
 
@@ -909,4 +909,9 @@ parameters:
             message: "#^Cannot cast array\\|string\\|false to string\\.$#"
             count: 1
             path: ../src/VariationPickResult/VariationPickResultConverter.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:fetch\\(\\)\\.$#"
+            count: 1
+            path: ../tests/unit/UtilsTest.php
 

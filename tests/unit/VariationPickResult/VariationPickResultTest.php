@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\VariationPickResult;
 
+use Codeception\Attribute\DataProvider;
 use Pmkr\Pmkr\VariationPickResult\VariationPickResult;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Tests\UnitTester;
@@ -48,9 +49,8 @@ class VariationPickResultTest extends Unit
      *     phpIniScanDir?: ?array<string>,
      *     binary?: ?string,
      * } $values
-     *
-     * @dataProvider casesAllInOne
      */
+    #[DataProvider('casesAllInOne')]
     public function testAllInOne(
         ?string $expected,
         array $values

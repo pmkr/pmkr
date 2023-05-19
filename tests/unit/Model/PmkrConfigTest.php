@@ -12,7 +12,8 @@ use Pmkr\Pmkr\Model\Variation;
 use Pmkr\Pmkr\Tests\UnitTester;
 
 /**
- * @covers \Pmkr\Pmkr\Model\PmkrConfig<extended>
+ * @covers \Pmkr\Pmkr\Model\PmkrConfig
+ * @covers \Pmkr\Pmkr\Model\Base
  */
 class PmkrConfigTest extends Unit
 {

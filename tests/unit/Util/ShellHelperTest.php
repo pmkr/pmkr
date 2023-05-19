@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Pmkr\Pmkr\Util\ProcessFactory;
 use Pmkr\Pmkr\Util\ShellHelper;
 use Codeception\Test\Unit;
@@ -79,9 +80,8 @@ class ShellHelperTest extends Unit
     /**
      * @param array<string, mixed> $expected
      * @param null|DevProcessResult $processResult
-     *
-     * @dataProvider casesCollectPhpIniPaths
      */
+    #[DataProvider('casesCollectPhpIniPaths')]
     public function testCollectPhpIniPaths(
         array $expected,
         ?array $processResult,

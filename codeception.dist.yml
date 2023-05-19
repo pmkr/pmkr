@@ -5,6 +5,7 @@ paths:
     data: 'tests/_data'
     envs: 'tests/_envs'
     log: 'tests/_log'
+    output: 'tests/_log'
     support: 'tests/_support'
 
 settings:

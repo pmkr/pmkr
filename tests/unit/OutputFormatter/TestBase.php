@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\OutputFormatter;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Consolidation\OutputFormatters\Formatters\FormatterInterface;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
@@ -27,9 +28,8 @@ abstract class TestBase extends Unit
      *     verbosity?: int,
      *     decorated?: bool,
      * } $outputOptions
-     *
-     * @dataProvider casesWrite
      */
+    #[DataProvider('casesWrite')]
     public function testWrite(string $expected, $data, array $outputOptions): void
     {
         $formatter = $this->createFormatter($outputOptions);

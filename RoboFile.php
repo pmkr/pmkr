@@ -200,6 +200,20 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
 
     protected function getTaskPhpstanAnalyze(): TaskInterface
     {
+        if (getenv('CIRCLECI') === 'true') {
+            return $this
+                ->collectionBuilder()
+                ->addCode(function (): int {
+                    $this->yell(
+                        "CircleCI and PHPStan aren't friends. Looks like memory_limit problem.",
+                        40,
+                        'red',
+                    );
+
+                    return 0;
+                });
+        }
+
         /** @var \Sweetchuck\LintReport\Reporter\VerboseReporter $verboseReporter */
         $verboseReporter = $this->getContainer()->get('lintVerboseReporter');
         $verboseReporter->setFilePathStyle('relative');
@@ -208,7 +222,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
             ->taskPhpstanAnalyze()
             ->setNoProgress(true)
             ->setNoInteraction(true)
-            ->setMemoryLimit('512M')
             ->setErrorFormat('json')
             ->addLintReporter('lintVerboseReporter', $verboseReporter);
     }

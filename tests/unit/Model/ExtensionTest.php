@@ -10,12 +10,13 @@ use Pmkr\Pmkr\Model\Extension;
 use Pmkr\Pmkr\Tests\UnitTester;
 
 /**
- * @covers \Pmkr\Pmkr\Model\Extension<extended>
+ * @covers \Pmkr\Pmkr\Model\Extension
+ * @covers \Pmkr\Pmkr\Model\Base
  */
 class ExtensionTest extends Unit
 {
     protected UnitTester $tester;
-    
+
     public function testSomeFeature(): void
     {
         $path = [];

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\OpSys;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Tests\UnitTester;
 
@@ -82,9 +83,8 @@ class OpSysTest extends Unit
 
     /**
      * @param string[] $identifiers
-     *
-     * @dataProvider casesPickOpSysIdentifier
      */
+    #[DataProvider('casesPickOpSysIdentifier')]
     public function testPickOpSysIdentifier(?string$expected, string $opSysId, array $identifiers): void
     {
         $opSys = $this->tester->grabOpSys($opSysId);

@@ -10,13 +10,14 @@ use Pmkr\Pmkr\Model\Patch;
 use Pmkr\Pmkr\Tests\UnitTester;
 
 /**
- * @covers \Pmkr\Pmkr\Model\Patch<extended>
- * @covers \Pmkr\Pmkr\Model\Checksum<extended>
+ * @covers \Pmkr\Pmkr\Model\Patch
+ * @covers \Pmkr\Pmkr\Model\Checksum
+ * @covers \Pmkr\Pmkr\Model\Base
  */
 class PatchTest extends Unit
 {
     protected UnitTester $tester;
-    
+
     public function testSomeFeature(): void
     {
         $path = [];

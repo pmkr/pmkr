@@ -9,7 +9,8 @@ use Pmkr\Pmkr\ProcessResultParser\ParserInterface;
 use Pmkr\Pmkr\Utils;
 
 /**
- * @covers \Pmkr\Pmkr\ProcessResultParser\BatListLanguagesParser<extended>
+ * @covers \Pmkr\Pmkr\ProcessResultParser\BatListLanguagesParser
+ * @covers \Pmkr\Pmkr\ProcessResultParser\ParserBase
  */
 class BatListLanguagesParserTest extends TestBase
 {

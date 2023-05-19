@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\ProcessResultParser\TerminalColorParser;
 use Pmkr\Pmkr\Tests\UnitTester;
@@ -79,9 +80,8 @@ class TerminalColorSchemeDetectorTest extends Unit
      *     stdOutput: string,
      *     stdError: string,
      * } $processResult
-     *
-     * @dataProvider casesGetTheme
      */
+    #[DataProvider('casesGetTheme')]
     public function testGetTheme(
         ?string $expected,
         array $configLayer,

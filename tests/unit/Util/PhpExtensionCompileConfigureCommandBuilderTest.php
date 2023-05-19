@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Model\Extension;
 use Pmkr\Pmkr\Tests\UnitTester;
@@ -12,7 +13,8 @@ use Pmkr\Pmkr\Util\PhpExtensionCompileConfigureCommandBuilder;
 use Pmkr\Pmkr\Utils;
 
 /**
- * @covers \Pmkr\Pmkr\Util\PhpExtensionCompileConfigureCommandBuilder<extended>
+ * @covers \Pmkr\Pmkr\Util\PhpExtensionCompileConfigureCommandBuilder
+ * @covers \Pmkr\Pmkr\Util\CommandBuilderBase
  */
 class PhpExtensionCompileConfigureCommandBuilderTest extends Unit
 {
@@ -75,9 +77,8 @@ class PhpExtensionCompileConfigureCommandBuilderTest extends Unit
     /**
      * @param array<string, mixed> $configDefaultLayer
      * @param array<string, mixed> $configLayerApp
-     *
-     * @dataProvider casesBuild
      */
+    #[DataProvider('casesBuild')]
     public function testBuild(string $expected, ?array $configDefaultLayer, array $configLayerApp): void
     {
         $config = $this->tester->grabConfig($configDefaultLayer, $configLayerApp);

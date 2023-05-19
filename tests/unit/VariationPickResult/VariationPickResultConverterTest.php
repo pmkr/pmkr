@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\VariationPickResult;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Consolidation\Config\ConfigInterface;
 use Pmkr\Pmkr\VariationPickResult\VariationPickResult;
@@ -89,9 +90,8 @@ class VariationPickResultConverterTest extends Unit
      * @param array<string, mixed> $resultState
      * @param array<string, mixed> $configLayer
      * @param array<string, string> $envVars
-     *
-     * @dataProvider casesToShellVarSetter
      */
+    #[DataProvider('casesToShellVarSetter')]
     public function testToShellVarSetter(
         string $expected,
         array $resultState,
@@ -166,9 +166,8 @@ class VariationPickResultConverterTest extends Unit
      * @param array<string, mixed> $resultState
      * @param array<string, mixed> $configLayer
      * @param array<string, string> $envVars
-     *
-     * @dataProvider casesToProcessArgs
      */
+    #[DataProvider('casesToProcessArgs')]
     public function testToProcessArgs(
         ?array $expected,
         array $resultState,
@@ -230,9 +229,8 @@ class VariationPickResultConverterTest extends Unit
      * @param array<string, mixed> $resultState
      * @param array<string, mixed> $configLayer
      * @param array<string, string> $envVars
-     *
-     * @dataProvider casesToShellExecutable
      */
+    #[DataProvider('casesToShellExecutable')]
     public function testToShellExecutable(
         ?string $expected,
         array $resultState,

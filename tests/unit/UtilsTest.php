@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use org\bovigo\vfs\vfsStream;
 use Pmkr\Pmkr\Model\PmkrConfig;
@@ -98,9 +99,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string> $candidates
      * @param array<string> $array
-     *
-     * @dataProvider casesFindCandidate
      */
+    #[DataProvider('casesFindCandidate')]
     public function testFindCandidate(?string $expected, array $candidates, array $array): void
     {
         $utils = $this->createUtils();
@@ -197,9 +197,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<string> $expected
-     *
-     * @dataProvider casesNameCandidates
      */
+    #[DataProvider('casesNameCandidates')]
     public function testNameCandidates(
         array $expected,
         string $prefix,
@@ -228,9 +227,7 @@ class UtilsTest extends Unit
         ];
     }
 
-    /**
-     * @dataProvider casesGetPhpCoreDownloadUri
-     */
+    #[DataProvider('casesGetPhpCoreDownloadUri')]
     public function testGetPhpCoreDownloadUri(string $expected, VersionNumber $versionNumber): void
     {
         $utils = $this->createUtils();
@@ -362,9 +359,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<PearRelease> $list
-     *
-     * @dataProvider casesPickPearReleaseVersion
      */
+    #[DataProvider('casesPickPearReleaseVersion')]
     public function testPickPearReleaseVersion(
         ?PearRelease $expected,
         string $required,
@@ -436,9 +432,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesIsIgnoredExtension
      */
+    #[DataProvider('casesIsIgnoredExtension')]
     public function testIsIgnoredExtension(
         bool $expected,
         string $threadType,
@@ -484,9 +479,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string> $expected
      * @param array<int|string, null|false|string> $envVars
-     *
-     * @dataProvider casesEnvVarsToExpressions
      */
+    #[DataProvider('casesEnvVarsToExpressions')]
     public function testEnvVarsToExpressions(array $expected, array $envVars): void
     {
         $utils = $this->createUtils();
@@ -527,9 +521,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string> $expected
      * @param mixed $items
-     *
-     * @dataProvider casesNormalizeCommaSeparatedList
      */
+    #[DataProvider('casesNormalizeCommaSeparatedList')]
     public function testNormalizeCommaSeparatedList(array $expected, $items): void
     {
         $utils = $this->createUtils();
@@ -583,9 +576,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string, string> $expected
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesIoInstanceOptions
      */
+    #[DataProvider('casesIoInstanceOptions')]
     public function testIoInstanceOptions(array $expected, array $configLayer): void
     {
         $utils = $this->createUtils(null, $configLayer);
@@ -743,9 +735,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<string> $expected
-     *
-     * @dataProvider casesSplitLines
      */
+    #[DataProvider('casesSplitLines')]
     public function testSplitLines(array $expected, string $lines): void
     {
         $utils = $this->createUtils();
@@ -831,9 +822,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string, bool> $expected
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesFetchPackageDependenciesFromInstanceCore
      */
+    #[DataProvider('casesFetchPackageDependenciesFromInstanceCore')]
     public function testFetchPackageDependenciesFromInstanceCore(
         array $expected,
         array $configLayer,
@@ -939,9 +929,8 @@ class UtilsTest extends Unit
      * @param array<string, bool> $expected
      * @param array<string, mixed> $configLayer
      * @param ?array<string, mixed> $filterOptions
-     *
-     * @dataProvider casesFetchPackageDependenciesFromInstanceExtensions
      */
+    #[DataProvider('casesFetchPackageDependenciesFromInstanceExtensions')]
     public function testFetchPackageDependenciesFromInstanceExtensions(
         array $expected,
         array $configLayer,
@@ -1007,9 +996,8 @@ class UtilsTest extends Unit
     /**
      * @param array<string, bool> $expected
      * @param array<string, array<string, bool>> $libraryReferences
-     *
-     * @dataProvider casesFetchLibraryKeys
      */
+    #[DataProvider('casesFetchLibraryKeys')]
     public function testFetchLibraryKeys(
         array $expected,
         string $opSysIdentifier,
@@ -1066,9 +1054,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<string> $expected
-     *
-     * @dataProvider casesValidateInstanceBinary
      */
+    #[DataProvider('casesValidateInstanceBinary')]
     public function testValidateInstanceBinary(array $expected, string $binary): void
     {
         $utils = $this->createUtils();
@@ -1125,9 +1112,8 @@ class UtilsTest extends Unit
 
     /**
      * @param array<string, string|array<string>> $vfsStructure
-     *
-     * @dataProvider casesGetOnlyChildDir
      */
+    #[DataProvider('casesGetOnlyChildDir')]
     public function testGetOnlyChildDir(?string $expected, array $vfsStructure, string $dir): void
     {
         $vfs = vfsStream::setup(

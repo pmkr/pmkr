@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use org\bovigo\vfs\vfsStream;
 use Pmkr\Pmkr\Util\InstanceCollector;
 use Codeception\Test\Unit;
@@ -140,9 +141,8 @@ class InstanceCollectorTest extends Unit
     /**
      * @param array<string> $expected
      * @param array<string, mixed> $orphans
-     *
-     * @dataProvider casesFlattenOrphanDirs
      */
+    #[DataProvider('casesFlattenOrphanDirs')]
     public function testFlattenOrphanDirs(array $expected, array $orphans): void
     {
         $ic = new InstanceCollector();

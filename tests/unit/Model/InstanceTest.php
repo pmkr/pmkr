@@ -9,12 +9,13 @@ use Pmkr\Pmkr\Model\Instance;
 use Pmkr\Pmkr\Tests\UnitTester;
 
 /**
- * @covers \Pmkr\Pmkr\Model\Instance<extended>
+ * @covers \Pmkr\Pmkr\Model\Instance
+ * @covers \Pmkr\Pmkr\Model\Base
  */
 class InstanceTest extends Unit
 {
     protected UnitTester $tester;
-    
+
     public function testSomeFeature(): void
     {
         $data = [
