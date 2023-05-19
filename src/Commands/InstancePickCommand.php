@@ -260,7 +260,7 @@ class InstancePickCommand extends CommandBase
      * @pmkrValidateInstance
      *   arg.instanceName:
      *     hasShareDir: true
-     * @pmkrValidateInstanceBinary
+     * @pmkrValidateInstanceBinary option.binary
      * @pmkrProcessVariationPickResult
      */
     public function cmdInstancePickThisExecute(
