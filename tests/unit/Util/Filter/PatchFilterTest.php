@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util\Filter;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Composer\Semver\VersionParser;
 use Pmkr\Pmkr\Model\PmkrConfig;
@@ -161,9 +162,8 @@ class PatchFilterTest extends Unit
      *     opSys?: string,
      * } $options
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesCheck
      */
+    #[DataProvider('casesCheck')]
     public function testCheck(bool $expected, array $options, array $configLayer): void
     {
         if (isset($options['opSys'])) {

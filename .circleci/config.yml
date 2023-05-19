@@ -22,7 +22,7 @@ executors:
         docker:
             -
                 name: 'main'
-                image: 'cimg/php:7.4'
+                image: 'cimg/php:8.1'
 
     php_plus1:
         resource_class: 'small'
@@ -33,30 +33,7 @@ executors:
         docker:
             -
                 name: 'main'
-                image: 'cimg/php:8.0'
-
-    php_plus2:
-        resource_class: 'small'
-        environment:
-            <<: *env_common
-            <<: *env_composer
-
-        docker:
-            -
-                name: 'main'
-                image: 'cimg/php:8.1'
-
-    php_plus3:
-        resource_class: 'small'
-        environment:
-            <<: *env_common
-            <<: *env_composer
-
-        docker:
-            -
-                name: 'main'
                 image: 'cimg/php:8.2'
-
 
     os_alpine-3:
         resource_class: 'large'
@@ -333,6 +310,12 @@ commands:
         steps:
             -
                 run:
+                    name: 'Lint – Debug'
+                    command: |
+                        php -i
+                        echo "Docker container memory_limit = $(cat /sys/fs/cgroup/memory.max)"
+            -
+                run:
                     name: 'Lint – all'
                     command: |
                         "$(composer config bin-dir)/robo" -vv lint
@@ -511,7 +494,6 @@ commands:
 jobs:
     build:
         executor: 'php_min'
-        working_directory: '~/repo'
         steps:
             - 'php_extension_install'
             - 'checkout'
@@ -520,7 +502,6 @@ jobs:
     # @todo PHPStan gives different results based on the actual PHP version.
     lint:
         executor: 'php_min'
-        working_directory: '~/repo'
         steps:
             - 'php_extension_install'
             - 'checkout'
@@ -531,7 +512,6 @@ jobs:
             executor:
                 type: 'string'
         executor: '<<parameters.executor>>'
-        working_directory: '~/repo'
         steps:
             - 'php_extension_install'
             - 'checkout'
@@ -574,7 +554,7 @@ workflows:
                             executor:
                                 - 'php_min'
                                 - 'php_plus1'
-                                - 'php_plus2'
+                                #- 'php_plus2'
                                 #- 'php_plus3'
 
     pmkr_instance_install:
@@ -589,7 +569,7 @@ workflows:
                             opsys:
                                 - 'alpine-3'
                                 - 'arch'
-#                                - 'fedora-35'
+                                #- 'fedora-35'
                                 - 'opensuse-tumbleweed'
                                 - 'ubuntu-21-10'
                                 - 'ubuntu-22-04'

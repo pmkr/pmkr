@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Pmkr\Pmkr\Tests\UnitTester;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Util\TemplateHelper;
@@ -69,9 +70,8 @@ class TemplateHandlerTest extends Unit
 
     /**
      * @param array<string, mixed> $context
-     *
-     * @dataProvider casesRenderExamplePmkr
      */
+    #[DataProvider('casesRenderExamplePmkr')]
     public function testRenderExamplePmkr(string $expected, array $context): void
     {
         $config = $this->tester->grabConfig();

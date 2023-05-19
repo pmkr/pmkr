@@ -34,10 +34,14 @@ class ProcessFactoryTest extends Unit
         $pf = new ProcessFactory();
         $pf->setClassFqn(DummyProcess::class);
         $this->tester->assertSame(DummyProcess::class, $pf->getClassFqn());
+
+        DummyProcess::$prophecy[] = [];
         $this->tester->assertInstanceOf(
             DummyProcess::class,
             $pf->createInstance([]),
         );
+
+        DummyProcess::$prophecy[] = [];
         $this->tester->assertInstanceOf(
             DummyProcess::class,
             $pf->fromShellCommandline(''),

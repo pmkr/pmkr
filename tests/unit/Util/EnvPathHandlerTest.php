@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Pmkr\Pmkr\Model\Instance;
 use Pmkr\Pmkr\Tests\UnitTester;
 use Pmkr\Pmkr\Util\EnvPathHandler;
@@ -45,9 +46,7 @@ class EnvPathHandlerTest extends Unit
         ];
     }
 
-    /**
-     * @dataProvider casesRemove
-     */
+    #[DataProvider('casesRemove')]
     public function testRemove(string $expected, string $envPath): void
     {
         $config = $this->tester->grabConfig(null);
@@ -90,9 +89,7 @@ class EnvPathHandlerTest extends Unit
         ];
     }
 
-    /**
-     * @dataProvider casesOverride
-     */
+    #[DataProvider('casesOverride')]
     public function testOverride(string $expected, string $envPath): void
     {
         $config = $this->tester->grabConfig(
@@ -135,9 +132,7 @@ class EnvPathHandlerTest extends Unit
         ];
     }
 
-    /**
-     * @dataProvider casesGetCurrentInstanceName
-     */
+    #[DataProvider('casesGetCurrentInstanceName')]
     public function testGetCurrentInstanceName(?string $expected, string $envPath): void
     {
         $config = $this->tester->grabConfig(null, []);

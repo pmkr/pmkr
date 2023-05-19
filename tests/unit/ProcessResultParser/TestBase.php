@@ -27,9 +27,8 @@ abstract class TestBase extends Unit
      *     exitCode: int,
      *     assets: array<string, mixed>,
      * } $expected
-     *
-     * @dataProvider casesParser
      */
+    #[\Codeception\Attribute\DataProvider('casesParser')]
     public function testParse(
         array $expected,
         int $exitCode,

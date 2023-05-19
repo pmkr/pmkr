@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\OutputConverter;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Model\PmkrConfig;
 use Pmkr\Pmkr\OutputConverter\InstanceConverter;
@@ -124,9 +125,8 @@ class InstanceConverterTest extends Unit
     /**
      * @param array<string, mixed> $expected
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesToFlatRows
      */
+    #[DataProvider('casesToFlatRows')]
     public function testToFlatRows(array $expected, array $configLayer, bool $isHuman): void
     {
         $config = $this->tester->grabConfig(null, $configLayer);

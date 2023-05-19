@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\Util;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\Model\PmkrConfig;
 use Pmkr\Pmkr\Tests\UnitTester;
@@ -490,9 +491,8 @@ class PmkrConfigValidatorTest extends Unit
      *     path: string,
      * }> $expected
      * @param array<string, mixed> $configLayer
-     *
-     * @dataProvider casesValidate
      */
+    #[DataProvider('casesValidate')]
     public function testValidate(array $expected, array $configLayer): void
     {
         $config = $this->tester->grabConfig(null, $configLayer);

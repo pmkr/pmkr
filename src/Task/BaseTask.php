@@ -10,11 +10,6 @@ use Robo\TaskInfo;
 
 abstract class BaseTask extends RoboBaseTask
 {
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
     protected string $taskName = '';
 
     protected int $taskResultCode = 0;

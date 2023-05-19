@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Tests\Unit\PackageManager\Dnf;
 
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Pmkr\Pmkr\PackageManager\Dnf\ListParser;
 use Pmkr\Pmkr\Tests\UnitTester;
@@ -82,9 +83,8 @@ class ListParserTest extends Unit
     /**
      * @param array<string, mixed> $expected
      * @param array<string> $packageNames
-     *
-     * @dataProvider casesParseMissing
      */
+    #[DataProvider('casesParseMissing')]
     public function testParseMissing(
         array $expected,
         array $packageNames,

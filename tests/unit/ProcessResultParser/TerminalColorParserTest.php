@@ -8,7 +8,8 @@ use Pmkr\Pmkr\ProcessResultParser\ParserInterface;
 use Pmkr\Pmkr\ProcessResultParser\TerminalColorParser;
 
 /**
- * @covers \Pmkr\Pmkr\ProcessResultParser\TerminalColorParser<extended>
+ * @covers \Pmkr\Pmkr\ProcessResultParser\TerminalColorParser
+ * @covers \Pmkr\Pmkr\ProcessResultParser\ParserBase
  */
 class TerminalColorParserTest extends TestBase
 {

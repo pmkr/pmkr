@@ -13,10 +13,7 @@ class ConsoleOutput extends BufferedOutput implements ConsoleOutputInterface
 {
     protected BufferedOutput $stdError;
 
-    /**
-     * @return \Symfony\Component\Console\Output\BufferedOutput
-     */
-    public function getErrorOutput()
+    public function getErrorOutput(): OutputInterface
     {
         return $this->stdError;
     }
