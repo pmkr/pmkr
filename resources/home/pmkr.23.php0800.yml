@@ -220,8 +220,8 @@ extensions:
                 opensuse-tumbleweed:
                     libfreetype6: true
                     freetype2-devel: true
-                    libjpeg62: true
-                    libjpeg62-devel: true
+                    libjpeg8: true
+                    libjpeg8-devel: true
                     libpng16-16: true
                     libpng16-compat-devel: true
                     libpng16-devel: true

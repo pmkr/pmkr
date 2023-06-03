@@ -485,6 +485,8 @@ extensionSets:
         yaml:
             status: 'optional'
             isEnabled: true
+        uploadprogress:
+            status: 'optional'
         uuid:
             status: 'optional'
             isEnabled: true

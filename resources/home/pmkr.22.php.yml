@@ -1082,6 +1082,15 @@ extensions:
                 conf/default/yaml-ini:
                     src: 'etc/ext/yaml.ini.twig'
                     dst: 'conf/default/yaml.ini'
+    uploadprogress:
+        configure:
+            default:
+                --enable-uploadprogress: ~
+        etc:
+            files:
+                conf/default/uploadprogress-ini:
+                    src: 'etc/ext/uploadprogress.ini.twig'
+                    dst: 'conf/default/uploadprogress.ini'
     uuid:
         dependencies:
             packages:
