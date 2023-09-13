@@ -76,14 +76,15 @@ class ListParser
      */
     protected function parseMissingLine(string $line): array
     {
+        [$line, $rawStatus] = explode(' [', $line) + [1 => ''];
+        $rawStatus = rtrim($rawStatus, ']');
         $values = (array) array_combine(
             [
                 'package',
                 'version',
                 'architecture',
-                'status',
             ],
-            explode(' ', $line) + array_fill(0, 4, ''),
+            explode(' ', $line) + array_fill(0, 3, ''),
         );
 
         $parts = explode('/', $values['package'] ?: '/');
@@ -92,7 +93,7 @@ class ListParser
         $info['type'] = $parts[1];
         $info['version'] = $values['version'] ?: '';
         $info['architecture'] = $values['architecture'] ?: '';
-        $info['status'] = $this->utils->explodeCommaSeparatedList(trim($values['status'] ?: '', '[]'));
+        $info['status'] = $this->utils->explodeCommaSeparatedList($rawStatus);
 
         return $info;
     }
