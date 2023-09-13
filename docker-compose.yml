@@ -119,7 +119,7 @@ services:
             - *volume_robo_git
             - *volume_robo_hash
             - *volume_pmkr_cache
-            - './tmp/platform/ubuntu-24-04/slash/var/cache/:/var/cache/'
+            - './tmp/platform/ubuntu-22-04/slash/var/cache/:/var/cache/'
         working_dir: *working_dir
         privileged: true
         tty: true

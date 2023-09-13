@@ -59,6 +59,15 @@ class ListParserTest extends Unit
                             'architecture' => 'amd64',
                             'status' => [],
                         ],
+                        'my-01' => [
+                            'name' => 'my-01',
+                            'type' => 'jammy-updates,jammy-security',
+                            'version' => '7.81.0-1ubuntu1.13',
+                            'architecture' => 'amd64',
+                            'status' => [
+                                'upgradable from: 7.81.0-1ubuntu1.10',
+                            ],
+                        ],
                     ],
                     'missing' => [
                         2 => 'not-exists',
@@ -73,6 +82,7 @@ class ListParserTest extends Unit
                 implode("\n", [
                     'libcurl4/impish,now 7.74.0-1.3ubuntu2 amd64 [installed,automatic]',
                     'ruby-curb/impish 0.9.11-1 amd64',
+                    'my-01/jammy-updates,jammy-security 7.81.0-1ubuntu1.13 amd64 [upgradable from: 7.81.0-1ubuntu1.10]',
                     '',
                 ]),
                 '',

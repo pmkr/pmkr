@@ -282,6 +282,8 @@ extensions:
             packages:
                 opensuse-tumbleweed:
                     net-snmp-devel: true
+                ubuntu-22-04:
+                    libsnmp-dev: true
         configure:
             default:
                 --with-snmp: ~
@@ -649,6 +651,7 @@ instances:
         <<: *instance_080206
 
     '080207-nts': &instance_080207
+        hidden: true
         isZts: false
         coreVersion: '8.2.7'
         coreChecksum:
@@ -658,11 +661,11 @@ instances:
         isZts: true
         <<: *instance_080207
     '080207-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080207
 
     '080208-nts': &instance_080208
+        hidden: true
         isZts: false
         coreVersion: '8.2.8'
         coreChecksum:
@@ -672,13 +675,40 @@ instances:
         isZts: true
         <<: *instance_080208
     '080208-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080208
 
+    '080209-nts': &instance_080209
+        isZts: false
+        coreVersion: '8.2.9'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '48460b994ae7eb5096a310f44d13e865de1771104d4a550d53072be58a6f176c'
+    '080209-zts':
+        isZts: true
+        <<: *instance_080209
+    '080209-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080209
+
+    '080210-nts': &instance_080210
+        isZts: false
+        coreVersion: '8.2.10'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'cc9834e8f1b613d7677af8843c3651e9829abca8ebfe9079251d0d85d9a0aa3e'
+    '080210-zts':
+        isZts: true
+        <<: *instance_080210
+    '080210-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080210
+
 aliases:
-    '0802-nts': '080208-nts'
-    '0802-zts': '080208-zts'
+    '0802-nts': '080210-nts'
+    '0802-zts': '080210-zts'
 
 
 variations:
