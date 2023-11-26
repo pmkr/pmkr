@@ -13,7 +13,7 @@ use Pmkr\Pmkr\Utils;
 class LibrariesFromExtensionTask extends BaseTask
 {
 
-    protected string $taskName = 'pmkr - Collect library dependencies from extension {extensionName}';
+    protected string $taskName = 'pmkr - Collect library dependencies from an extension';
 
     /**
      * @param ?array<string, mixed> $context
@@ -120,6 +120,19 @@ class LibrariesFromExtensionTask extends BaseTask
         }
 
         $this->assets['libraries'] = array_intersect_key($librariesAll, $libraryKeys);
+
+        return $this;
+    }
+
+    protected function runHeader()
+    {
+        $this->printTaskInfo(
+            'PMKR - Extension key: {extension.key}; Extension name: {extension.name}',
+            [
+                'extension.key' => $this->getExtension()->key,
+                'extension.name' => $this->getExtension()->name,
+            ],
+        );
 
         return $this;
     }

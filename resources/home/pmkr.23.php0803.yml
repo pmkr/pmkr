@@ -1,0 +1,591 @@
+version: '1'
+
+stash:
+    cores:
+        '0803':
+            dependencies:
+                packages:
+                    alpine-3: &cores_0803_dependencies_packages_alpine-3
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
+                    arch: &cores_0803_dependencies_packages_arch
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkgconf: true
+                        re2c: true
+                    fedora-35: &cores_0803_dependencies_packages_fedora-35
+                        autoconf: true
+                        bison: true
+                        findutils: true
+                        gcc: true
+                        gcc-c++: true
+                        git: true
+                        make: true
+                        re2c: true
+                    opensuse-tumbleweed: &cores_0803_dependencies_packages_opensuse-tumbleweed
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        gcc: true
+                        git: true
+                        make: true
+                        re2c: true
+                    ubuntu-21-10: &cores_0803_dependencies_packages_ubuntu-21-10
+                        autoconf: true
+                        bison: true
+                        cmake: true
+                        findutils: true
+                        g++: true
+                        gcc: true
+                        git: true
+                        make: true
+                        pkg-config: true
+                        re2c: true
+            etc:
+                files:
+                    ini: &cores_0803_etc_files_ini
+                        php-pcov-ini:
+                            src: 'etc/php.pcov.ini.twig'
+                            dst: 'php.pcov.ini'
+                            vars:
+                                extensions:
+                                    pcov:
+                                        isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                        php-prod-ini:
+                            src: 'etc/php.prod.ini.twig'
+                            dst: 'php.prod.ini'
+                            vars:
+                                extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                        php-xdebug-ini:
+                            src: 'etc/php.xdebug.ini.twig'
+                            dst: 'php.xdebug.ini'
+                            vars:
+                                extensions:
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                                    xdebug:
+                                        isEnabled: true
+                        php-openswoole-ini:
+                            src: 'etc/php.openswoole.ini.twig'
+                            dst: 'php.openswoole.ini'
+                            vars:
+                                extensions:
+                                    openswoole:
+                                        isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                                    sockets:
+                                        isEnabled: true
+                                    xdebug:
+                                        isEnabled: false
+                    ext: &cores_0803_etc_files_ext
+                        conf-default-00-core-ini:
+                            src: 'etc/ext/00-core.ini.twig'
+                            dst: 'conf/default/00-core.ini'
+                        conf-default-assert-ini:
+                            src: 'etc/ext/assert.ini.twig'
+                            dst: 'conf/default/assert.ini'
+                        conf-default-cli_server-ini:
+                            src: 'etc/ext/cli_server.ini.twig'
+                            dst: 'conf/default/cli_server.ini'
+                        conf-default-date-ini:
+                            src: 'etc/ext/date.ini.twig'
+                            dst: 'conf/default/date.ini'
+                        conf-default-mail-ini:
+                            src: 'etc/ext/mail.ini.twig'
+                            dst: 'conf/default/mail.ini'
+                    fpm: &cores_0803_etc_files_fpm
+                        php-fpm-d-includes-00-pool-ini:
+                            src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
+                            dst: 'php-fpm.d/includes/00-pool.ini'
+                            vars:
+                                envVars:
+                                    LOCALHOST_NAME: '${stash.uname.n}'
+                                    LOCAL_DEVELOPMENT: 'true'
+                        php-fpm-d-includes-10-php-ini:
+                            src: 'etc/php-fpm.d/includes/10-php.ini.twig'
+                            dst: 'php-fpm.d/includes/10-php.ini'
+
+                        php-fpm-d-pool-d-dev-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d-pool-d-prod-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/prod.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/prod.default.ini'
+
+                        php-fpm-d-php-dev-ini:
+                            src: 'etc/php-fpm.d/php.dev.ini.twig'
+                            dst: 'php-fpm.d/php.dev.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                        php-fpm-d-php-prod-ini:
+                            src: 'etc/php-fpm.d/php.prod.ini.twig'
+                            dst: 'php-fpm.d/php.prod.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: false
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+
+                        php-fpm-d-php-fpm-dev-ini:
+                            src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d-php-fpm-prod-ini:
+                            src: 'etc/php-fpm.d/php-fpm.prod.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.prod.ini'
+
+                        supervisor-program-php-fpm-dev-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.dev.ini'
+                            vars:
+                                iniVariant: 'dev'
+                        supervisor-program-php-fpm-prod-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.prod.ini'
+                            vars:
+                                iniVariant: 'prod'
+
+
+extensions:
+    dom-0803:
+        dependencies:
+            packages:
+                alpine-3:
+                    libxml2-dev: true
+                fedora-35:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-2: true
+                    libxml2-devel: true
+                ubuntu-21-10:
+                    libxml2: true
+                    libxml2-dev: true
+        configure:
+            default:
+                --enable-dom: ~
+                --with-libxml: ~
+
+    gd-0803:
+        dependencies:
+            packages:
+                alpine-3:
+                    libpng-dev: true
+                    libavif-dev: true
+                    libwebp-dev: true
+                    libjpeg-turbo-dev: true
+                    libxpm-dev: true
+                    freetype-dev: true
+                arch:
+                    libavif: true
+                    libpng: true
+                    libwebp: true
+                    libxpm: true
+                    freetype2: true
+                fedora-35:
+                    libpng-devel: true
+                    libwebp-devel: true
+                    libjpeg-turbo-devel: true
+                    libXpm-devel: true
+                    freetype-devel: true
+                opensuse-tumbleweed:
+                    libfreetype6: true
+                    freetype2-devel: true
+                    libavif-devel: true
+                    libjpeg8: true
+                    libjpeg8-devel: true
+                    libpng16-16: true
+                    libpng16-compat-devel: true
+                    libpng16-devel: true
+                    libwebp7: true
+                    libwebp-devel: true
+                    libXpm4: true
+                    libXpm-devel: true
+                    zlib-devel: true
+                ubuntu-21-10:
+                    libavif-dev: true
+                    libpng-dev: true
+                    libwebp-dev: true
+                    libjpeg-dev: true
+                    libxpm-dev: true
+                    libfreetype6-dev: true
+        configure:
+            default:
+                --enable-gd: ~
+                --with-webp: '/usr'
+                --with-jpeg: '/usr'
+                --with-libdir: 'lib/x86_64-linux-gnu'
+                --with-freetype: '/usr'
+                --with-xpm: '/usr'
+                --with-avif: ~
+        etc:
+            files:
+                conf/default/gd-ini:
+                    src: 'etc/ext/gd.ini.twig'
+                    dst: 'conf/default/gd.ini'
+
+    libxml-0803:
+        dependencies:
+            packages:
+                fedora-35:
+                    libxml2: true
+                    libxml2-devel: true
+                opensuse-tumbleweed:
+                    libxml2-devel: true
+        configure:
+            default:
+                --with-libxml: ~
+
+    snmp-0803:
+        dependencies:
+            packages:
+                opensuse-tumbleweed:
+                    net-snmp-devel: true
+                ubuntu-22-04:
+                    libsnmp-dev: true
+        configure:
+            default:
+                --with-snmp: ~
+
+    xdebug-0803:
+        version: '3.3.0alpha3'
+        configure:
+            default:
+                --enable-xdebug: ~
+                #--enable-xdebug-dev: ~
+                #--without-xdebug-compression: ~
+        etc:
+            files:
+                conf/default/xdebug-ini:
+                    src: 'etc/ext/xdebug.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
+
+# Extensions always enabled, even with "--disable-all":
+# - date
+# - hash
+# - json
+# - pcre
+# - random
+# - Reflection
+# - SPL
+# - standard
+extensionSets:
+    '0803':
+        # region Enabled - core.
+        openssl:
+            status: 'enabled'
+        curl:
+            status: 'enabled'
+        session:
+            status: 'enabled'
+        phpdbg:
+            status: 'enabled'
+        opcache:
+            status: 'enabled'
+            isEnabled: true
+        gmp:
+            status: 'enabled'
+        bcmath:
+            status: 'enabled'
+        calendar:
+            status: 'enabled'
+        # @todo PHP 0803 - Extension - com_dotnet
+        ctype:
+            status: 'enabled'
+        # @todo PHP 0803 - Extension - dba
+        embed:
+            status: 'enabled'
+        fileinfo:
+            status: 'enabled'
+        filter:
+            status: 'enabled'
+        ftp:
+            status: 'enabled'
+        exif:
+            status: 'enabled'
+        gd-0803:
+            status: 'enabled'
+        iconv:
+            status: 'enabled'
+        intl:
+            status: 'enabled'
+        mbstring:
+            status: 'enabled'
+        enchant:
+            status: 'enabled'
+        gettext:
+            status: 'enabled'
+        pdo:
+            status: 'enabled'
+        sqlite3:
+            status: 'enabled'
+        pdo_sqlite:
+            status: 'enabled'
+        mysqlnd:
+            status: 'enabled'
+        mysqli:
+            status: 'enabled'
+        pdo_mysql:
+            status: 'enabled'
+        pgsql:
+            status: 'enabled'
+        pdo_pgsql:
+            status: 'enabled'
+        # @todo PHP 0803 - Extension - oci8.
+        # @todo PHP 0803 - Extension - pdo_oci.
+        # @todo PHP 0803 - Extension - pdo_dblib.
+        # @todo PHP 0803 - Extension - pdo_firebird.
+        # @todo PHP 0803 - Extension - pdo_odbc.
+        phar:
+            status: 'enabled'
+        sodium:
+            status: 'enabled'
+        tokenizer:
+            # NOTE: Can't be optional.
+            # make: *** No rule to make target '/.../ext/tokenizer/Zend/zend_language_parser.y',
+            # needed by '/.../ext/tokenizer/Zend/zend_language_parser.c'.
+            status: 'enabled'
+        libxml-0803:
+            status: 'enabled'
+        simplexml:
+            status: 'enabled'
+        xmlreader:
+            status: 'enabled'
+        xml:
+            status: 'enabled'
+        xmlwriter:
+            status: 'enabled'
+        xsl:
+            status: 'enabled'
+        dom-0803:
+            status: 'enabled'
+        zlib:
+            status: 'enabled'
+        bz2:
+            status: 'enabled'
+        zip:
+            status: 'enabled'
+        # endregion
+
+        # region Enabled - 3th-party.
+        igbinary:
+            status: 'enabled'
+        msgpack:
+            status: 'enabled'
+        zstd:
+            status: 'enabled'
+        # endregion
+
+        # region Optional - core.
+        ldap:
+            # @todo PHP 0803 - Extension - LDAP.
+            status: 'skip'
+        pcntl:
+            status: 'optional'
+        posix:
+            status: 'optional'
+        pspell:
+            status: 'optional'
+        readline:
+            status: 'optional'
+        snmp-0803:
+            status: 'optional'
+        shmop:
+            status: 'optional'
+        soap:
+            status: 'optional'
+        sockets:
+            status: 'optional'
+        sysvmsg:
+            status: 'optional'
+        sysvsem:
+            status: 'optional'
+        sysvshm:
+            status: 'optional'
+        tidy:
+            status: 'optional'
+        # endregion
+
+        # region Optional - 3th-party.
+        apcu:
+            status: 'enabled'
+        imagick:
+            status: 'optional'
+        inotify:
+            status: 'optional'
+        maxminddb:
+            status: 'optional'
+        memcache:
+            status: 'optional'
+            isEnabled: true
+        memcached:
+            status: 'optional'
+            isEnabled: true
+        mongodb:
+            status: 'optional'
+        openswoole:
+            status: 'optional'
+        pcov:
+            status: 'optional'
+        protobuf:
+            status: 'optional'
+        psr:
+            status: 'optional'
+        redis:
+            status: 'optional'
+            isEnabled: true
+        sass:
+            status: 'optional'
+            isEnabled: true
+        ssh2:
+            status: 'optional'
+        swoole:
+            status: 'optional'
+        xdebug:
+            status: 'optional'
+        yaml:
+            status: 'optional'
+            isEnabled: true
+        uploadprogress:
+            status: 'optional'
+        uuid:
+            status: 'optional'
+            isEnabled: true
+        # endregion
+
+        # region Skip - core.
+        imap:
+            # @todo
+            #   error: utf8_mime2text() has new signature, but U8T_CANONICAL is missing.
+            #   This should not happen. Check config.log for additional information.
+            status: 'skip'
+        # endregion
+
+        # region Skip - 3th-party.
+        # Empty.
+        # endregion
+
+
+cores:
+    '0803-nts':
+        dependencies:
+            packages:
+                alpine-3:
+                    <<: *cores_0803_dependencies_packages_alpine-3
+                arch:
+                    <<: *cores_0803_dependencies_packages_arch
+                fedora-35:
+                    <<: *cores_0803_dependencies_packages_fedora-35
+                opensuse-tumbleweed:
+                    <<: *cores_0803_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0803_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-fpm: ~
+        etc:
+            files:
+                <<: *cores_0803_etc_files_ini
+                <<: *cores_0803_etc_files_ext
+                <<: *cores_0803_etc_files_fpm
+    '0803-zts':
+        dependencies:
+            packages:
+                alpine-3:
+                    <<: *cores_0803_dependencies_packages_alpine-3
+                arch:
+                    <<: *cores_0803_dependencies_packages_arch
+                fedora-35:
+                    <<: *cores_0803_dependencies_packages_fedora-35
+                opensuse-tumbleweed:
+                    <<: *cores_0803_dependencies_packages_opensuse-tumbleweed
+                ubuntu-21-10:
+                    <<: *cores_0803_dependencies_packages_ubuntu-21-10
+        configure:
+            default:
+                --enable-zts: ~
+        etc:
+            files:
+                <<: *cores_0803_etc_files_ini
+                <<: *cores_0803_etc_files_ext
+
+
+instances:
+    '080300-nts': &instance_080300
+        isZts: false
+        coreVersion: '8.3.0'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'de67d0833d42b196e5a66fa1a332f45e296cbe8e9472e9256b2a071c34dc5ed6'
+    '080300-zts':
+        isZts: true
+        <<: *instance_080300
+    '080300-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080300
+
+
+aliases:
+    '0803-nts': '080300-nts'
+    '0803-zts': '080300-zts'
+
+
+variations:
+    '0803-nts-pcov':
+        instanceKey: '0803-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
+    '0803-nts-prod':
+        instanceKey: '0803-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'
+    '0803-nts-xdebug':
+        instanceKey: '0803-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'
+    '0803-nts-openswoole':
+        instanceKey: '0803-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.openswoole.ini'
+    '0803-nts-swoole':
+        instanceKey: '0803-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.swoole.ini'
