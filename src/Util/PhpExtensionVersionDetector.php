@@ -106,6 +106,7 @@ class PhpExtensionVersionDetector
         '0800' => [],
         '0801' => [],
         '0802' => [],
+        '0803' => [],
     ];
 
     public function __construct(?Filesystem $filesystem = null)
@@ -148,9 +149,11 @@ class PhpExtensionVersionDetector
         // Same.
         $this->coreExtensions['0801'] = $this->coreExtensions['0800'];
 
-        // Same.
         $this->coreExtensions['0802'] = $this->coreExtensions['0801'];
         $this->coreExtensions['0802']['random'] = true;
+
+        // Same.
+        $this->coreExtensions['0803'] = $this->coreExtensions['0802'];
 
         return $this;
     }

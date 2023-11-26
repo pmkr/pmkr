@@ -104,7 +104,7 @@ abstract class BaseTask extends RoboBaseTask
             'PMKR - @todo {placeholder}',
             [
                 'placeholder' => 'real value',
-            ]
+            ],
         );
 
         return $this;
