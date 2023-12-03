@@ -9,7 +9,7 @@ class TerminalColorParser extends ParserBase
     public function parse(
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): array {
         $return = [
             'exitCode' => $exitCode,

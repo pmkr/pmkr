@@ -35,10 +35,8 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
 
     /**
      * @param iterable<string, \Pmkr\Pmkr\Model\Extension> $extensions
-     *
-     * @return $this
      */
-    public function setExtensions(iterable $extensions)
+    public function setExtensions(iterable $extensions): static
     {
         $this->extensions = $extensions;
 
@@ -52,10 +50,7 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
         return $this->opSys;
     }
 
-    /**
-     * @return $this
-     */
-    public function setOpSys(?OpSys $os)
+    public function setOpSys(?OpSys $os): static
     {
         $this->opSys = $os;
 
@@ -69,10 +64,8 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -91,10 +84,7 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - collect package dependencies from extensions',
@@ -103,10 +93,7 @@ class PackagesFromExtensionsTask extends BaseTask implements StateAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $opSys = $this->getOpSys();
         $this->assets = [

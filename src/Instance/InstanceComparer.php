@@ -7,17 +7,15 @@ namespace Pmkr\Pmkr\Instance;
 use Sweetchuck\Utils\Comparer\ArrayValueComparer;
 
 /**
- * @todo Move this into sweetchuck/utils.
+ * @extends \Sweetchuck\Utils\Comparer\ArrayValueComparer<\Pmkr\Pmkr\Model\Instance>
  */
 class InstanceComparer extends ArrayValueComparer
 {
+
     /**
-     * @param \Pmkr\Pmkr\Model\Instance $a
-     * @param \Pmkr\Pmkr\Model\Instance $b
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function setResult($a, $b)
+    public function setResult($a, $b): static
     {
         return parent::setResult($a->jsonSerialize(), $b->jsonSerialize());
     }

@@ -85,7 +85,7 @@ class TerminalColorSchemeDetectorTest extends Unit
     public function testGetTheme(
         ?string $expected,
         array $configLayer,
-        ?array $processResult
+        ?array $processResult,
     ): void {
         if ($processResult !== null) {
             DummyProcess::$prophecy[] = $processResult;

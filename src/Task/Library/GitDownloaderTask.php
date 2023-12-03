@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Pmkr\Pmkr\Task\Library;
 
-use Pmkr\Pmkr\Model\Library;
 use Pmkr\Pmkr\Task\BaseTask;
 use Pmkr\Pmkr\TaskOverride\Filesystem\DeleteDirTaskLoader;
 use Pmkr\Pmkr\Utils;
@@ -37,10 +36,8 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         $this->setOptionsCommon($options);
@@ -48,10 +45,7 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $library = $this->getLibrary();
         $url = $library->downloader['options']['url'];
@@ -67,10 +61,7 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $config = $this->getConfig();
         $library = $this->getLibrary();
@@ -142,19 +133,11 @@ class GitDownloaderTask extends BaseTask implements BuilderAwareInterface
         $library = $this->getLibrary();
         $options = $library->downloader['options'];
 
-        switch ($options['refType']) {
-            case 'tag':
-                $ref = 'refs/tags/' . $options['refValue'];
-                break;
-
-            case 'branch':
-                $ref = 'refs/heads/' . $options['refValue'];
-                break;
-
-            default:
-                $ref = $options['refValue'];
-                break;
-        }
+        $ref = match ($options['refType']) {
+            'tag' => 'refs/tags/' . $options['refValue'],
+            'branch' => 'refs/heads/' . $options['refValue'],
+            default => $options['refValue'],
+        };
 
         return $this
             ->taskGitStack()

@@ -100,6 +100,27 @@ stash:
                                 extensions:
                                     openswoole:
                                         isEnabled: true
+                                    swoole:
+                                        isEnabled: false
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                                    sockets:
+                                        isEnabled: true
+                                    xdebug:
+                                        isEnabled: false
+                        php-swoole-ini:
+                            src: 'etc/php.swoole.ini.twig'
+                            dst: 'php.swoole.ini'
+                            vars:
+                                extensions:
+                                    openswoole:
+                                        isEnabled: false
+                                    swoole:
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     posix:

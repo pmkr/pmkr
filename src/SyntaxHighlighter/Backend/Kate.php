@@ -30,7 +30,7 @@ class Kate extends Base
 
     public function __construct(
         Utils $utils,
-        ProcessFactory $processFactory
+        ProcessFactory $processFactory,
     ) {
         parent::__construct($utils);
         $this->processFactory = $processFactory;
@@ -40,7 +40,7 @@ class Kate extends Base
         string $code,
         ?string $externalLanguage = null,
         ?string $externalTheme = null,
-        ?string $outputFormat = 'ansi'
+        ?string $outputFormat = 'ansi',
     ): string {
         $internalLanguage = $this->getInternalLanguage($externalLanguage);
         $internalTheme = $this->getInternalTheme($externalTheme);

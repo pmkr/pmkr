@@ -6,9 +6,12 @@ namespace Pmkr\Pmkr\Util\Filter;
 
 use Composer\Semver\VersionParser;
 use Pmkr\Pmkr\OpSys\OpSys;
-use Sweetchuck\Utils\Filter\ArrayFilterBase;
+use Sweetchuck\Utils\Filter\FilterBase;
 
-class PatchFilter extends ArrayFilterBase
+/**
+ * @extends \Sweetchuck\Utils\Filter\FilterBase<\Pmkr\Pmkr\Model\Patch>
+ */
+class PatchFilter extends FilterBase
 {
 
     protected VersionParser $versionParser;
@@ -29,10 +32,8 @@ class PatchFilter extends ArrayFilterBase
     /**
      * @param \Pmkr\Pmkr\OpSys\OpSys $opSys
      *   Actual OpSys definition.
-     *
-     * @return $this
      */
-    public function setOpSys(?OpSys $opSys)
+    public function setOpSys(?OpSys $opSys): static
     {
         $this->opSys = $opSys;
 
@@ -51,10 +52,8 @@ class PatchFilter extends ArrayFilterBase
     /**
      * @param null|string $version
      *   Version of the code base (core, extension or library).
-     *
-     * @return $this
      */
-    public function setVersion(?string $version)
+    public function setVersion(?string $version): static
     {
         $this->version = $version;
 
@@ -64,10 +63,8 @@ class PatchFilter extends ArrayFilterBase
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         if (array_key_exists('opSys', $options)) {
@@ -82,11 +79,9 @@ class PatchFilter extends ArrayFilterBase
     }
 
     /**
-     * @param \Pmkr\Pmkr\Model\Patch $item
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    protected function checkDoIt($item, ?string $outerKey = null)
+    protected function setResult(mixed $item, null|int|string $outerKey = null): static
     {
         $version = $this->getVersion();
         $versionConstraint = $item->when['versionConstraint'] ?? null;

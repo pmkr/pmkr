@@ -85,7 +85,7 @@ class ShellHelperTest extends Unit
     public function testCollectPhpIniPaths(
         array $expected,
         ?array $processResult,
-        string $phpBinary = '/path/to/php'
+        string $phpBinary = '/path/to/php',
     ): void {
         if ($processResult !== null) {
             DummyProcess::$prophecy[] = $processResult;

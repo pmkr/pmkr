@@ -65,10 +65,8 @@ abstract class Base implements BackendInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         if (array_key_exists('themeMapping', $options)) {
             $this->themeMapping = $options['themeMapping'];

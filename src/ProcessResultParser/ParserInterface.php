@@ -14,10 +14,8 @@ interface ParserInterface
 
     /**
      * @param array<string, string> $value
-     *
-     * @return $this
      */
-    public function setAssetNameMapping(array $value);
+    public function setAssetNameMapping(array $value): static;
 
     /**
      * @return array{

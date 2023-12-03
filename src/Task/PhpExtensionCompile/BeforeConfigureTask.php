@@ -31,10 +31,7 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo('{extensionKey}');
 
@@ -49,10 +46,7 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
         return $this->extensionSrcDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtensionSrcDir(string $extensionSrcDir)
+    public function setExtensionSrcDir(string $extensionSrcDir): static
     {
         $this->extensionSrcDir = $extensionSrcDir;
 
@@ -68,10 +62,7 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -87,10 +78,7 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
         return $this->phpBinDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPhpBinDir(string $phpBinDir)
+    public function setPhpBinDir(string $phpBinDir): static
     {
         $this->phpBinDir = $phpBinDir;
 
@@ -100,10 +88,8 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -122,10 +108,7 @@ class BeforeConfigureTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $extension = $this->getExtension();
         $script = $extension->compiler->options['before'] ?? null;

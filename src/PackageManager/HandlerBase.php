@@ -23,7 +23,7 @@ abstract class HandlerBase implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function setConfig(array $config)
+    public function setConfig(array $config): static
     {
         $this->config = $config;
 

@@ -20,7 +20,7 @@ use Sweetchuck\LintReport\Reporter\BaseReporter;
 use Sweetchuck\Robo\Git\GitTaskLoader;
 use Sweetchuck\Robo\Phpcs\PhpcsTaskLoader;
 use Sweetchuck\Robo\Phpstan\PhpstanTaskLoader;
-use Sweetchuck\Utils\Filter\ArrayFilterEnabled;
+use Sweetchuck\Utils\Filter\EnabledFilter;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
@@ -766,7 +766,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface, ConfigAwareInterfa
         /** @var array<string, DevPhpExecutable> $phpExecutables */
         $phpExecutables = array_filter(
             $this->getConfig()->get('php.executables'),
-            new ArrayFilterEnabled(),
+            new EnabledFilter(),
         );
 
         return $phpExecutables;

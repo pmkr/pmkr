@@ -25,10 +25,7 @@ class EnvPathHandler implements ConfigAwareInterface
         return $this->pathSeparator ?: \PATH_SEPARATOR;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPathSeparator(?string $value)
+    public function setPathSeparator(?string $value): static
     {
         $this->pathSeparator = $value;
 

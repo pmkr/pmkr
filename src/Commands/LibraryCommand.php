@@ -25,7 +25,7 @@ class LibraryCommand extends CommandBase
     public function cmdLibraryListExecute(
         array $options = [
             'format' => 'table',
-        ]
+        ],
     ): CommandResult {
         return CommandResult::data(
             iterator_to_array($this->getPmkr()->libraries->getIterator()),
@@ -43,7 +43,7 @@ class LibraryCommand extends CommandBase
      */
     public function cmdLibraryListProcess(
         $result,
-        CommandData $commandData
+        CommandData $commandData,
     ) {
         if (!($result instanceof CommandResult)) {
             return $result;
@@ -91,7 +91,7 @@ class LibraryCommand extends CommandBase
         string $libraryKey,
         array $options = [
             'skipIfExists' => true,
-        ]
+        ],
     ): TaskInterface {
         $pmkr = $this->getPmkr();
         $library = $pmkr->libraries[$libraryKey];

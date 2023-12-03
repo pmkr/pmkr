@@ -94,7 +94,7 @@ class Dnf extends HandlerBase
     /**
      * {@inheritdoc}
      */
-    public function install(array $packageNames)
+    public function install(array $packageNames): static
     {
         $command = $this->installCommand($packageNames);
         if ($command === '') {

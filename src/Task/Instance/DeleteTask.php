@@ -30,10 +30,7 @@ class DeleteTask extends BaseTask
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - delete instance: {instanceKey}',
@@ -51,10 +48,7 @@ class DeleteTask extends BaseTask
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(?Instance $instance)
+    public function setInstance(?Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -69,10 +63,8 @@ class DeleteTask extends BaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -83,7 +75,7 @@ class DeleteTask extends BaseTask
         return $this;
     }
 
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $instance = $this->getInstance();
         if (!$instance) {

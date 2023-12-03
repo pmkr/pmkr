@@ -30,7 +30,7 @@ class ExtensionOptionCommand extends CommandBase
      */
     public function cmdExtensionOptionListExecute(
         string $instanceName,
-        array $extensionNames
+        array $extensionNames,
     ): void {
         $instance = $this->getPmkr()->instances[$instanceName];
         $extDirRoot = $instance->srcDir . '/ext';

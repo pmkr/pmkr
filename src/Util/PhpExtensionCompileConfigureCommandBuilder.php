@@ -18,7 +18,7 @@ class PhpExtensionCompileConfigureCommandBuilder extends CommandBuilderBase
     public function build(
         Extension $extension,
         string $extensionSrcDir,
-        string $phpBinDir
+        string $phpBinDir,
     ): string {
         $this->extension = $extension;
         $this->extensionSrcDir = $extensionSrcDir;
@@ -32,10 +32,7 @@ class PhpExtensionCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this->extensionSrcDir;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function starter()
+    protected function starter(): static
     {
         $this->cmd['command'][] = './configure';
         $this->addCmdOptions([
@@ -47,10 +44,7 @@ class PhpExtensionCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function process()
+    protected function process(): static
     {
         $this->addCmdEnvVars($this->extension->configureEnvVar);
         $this->addCmdOptions($this->extension->configure);

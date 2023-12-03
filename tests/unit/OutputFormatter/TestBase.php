@@ -10,7 +10,6 @@ use Consolidation\OutputFormatters\Formatters\FormatterInterface;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Pmkr\Pmkr\Tests\UnitTester;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class TestBase extends Unit
 {
@@ -25,7 +24,7 @@ abstract class TestBase extends Unit
      * @param string $expected
      * @param mixed $data
      * @param array{
-     *     verbosity?: int,
+     *     verbosity?: 16|32|64|128|256,
      *     decorated?: bool,
      * } $outputOptions
      */
@@ -44,8 +43,8 @@ abstract class TestBase extends Unit
     }
 
     /**
-     * @param array{
-     *     verbosity?: int,
+     * @phpstan-param array{
+     *     verbosity?: 16|32|64|128|256,
      *     decorated?: bool,
      * } $options
      */

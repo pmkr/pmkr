@@ -23,7 +23,7 @@ class ShellArgumentsFormatter extends ListFormatter
     public function write(
         OutputInterface $output,
         $data,
-        FormatterOptions $options
+        FormatterOptions $options,
     ) {
         $output->write(implode(' ', $data));
     }

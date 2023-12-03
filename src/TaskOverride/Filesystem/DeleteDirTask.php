@@ -30,10 +30,8 @@ class DeleteDirTask extends DeleteDir
 
     /**
      * @param iterable<string> $dirs
-     *
-     * @return $this
      */
-    public function setDirs(iterable $dirs)
+    public function setDirs(iterable $dirs): static
     {
         $this->dirs = $dirs;
 

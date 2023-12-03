@@ -34,7 +34,7 @@
     },
     "repositories": {},
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-bz2": "*",
         "ext-dom": "*",
         "ext-json": "*",
@@ -52,7 +52,7 @@
         "sweetchuck/pear-client": "1.x-dev",
         "sweetchuck/robo-download-curl": "2.x-dev",
         "sweetchuck/robo-hash": "3.x-dev",
-        "sweetchuck/utils": "1.x-dev",
+        "sweetchuck/utils": "2.x-dev",
         "symfony/filesystem": "^6.0",
         "symfony/finder": "^6.0",
         "symfony/polyfill-iconv": "^1.26",

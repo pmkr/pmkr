@@ -23,10 +23,7 @@ trait OptionsTrait
         return $this->library;
     }
 
-    /**
-     * @return $this
-     */
-    public function setLibrary(?Library $library)
+    public function setLibrary(?Library $library): static
     {
         $this->library = $library;
 
@@ -42,10 +39,7 @@ trait OptionsTrait
         return $this->skipIfExists;
     }
 
-    /**
-     * @return $this
-     */
-    public function setSkipIfExists(bool $skipIfExists)
+    public function setSkipIfExists(bool $skipIfExists): static
     {
         $this->skipIfExists = $skipIfExists;
 
@@ -55,10 +49,8 @@ trait OptionsTrait
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    protected function setOptionsCommon(array $options)
+    protected function setOptionsCommon(array $options): static
     {
         if (array_key_exists('library', $options)) {
             $this->setLibrary($options['library']);
@@ -71,10 +63,7 @@ trait OptionsTrait
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runInit()
+    protected function runInit(): static
     {
         parent::runInit();
         $library = $this->getLibrary();

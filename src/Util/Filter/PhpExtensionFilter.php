@@ -5,9 +5,12 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Util\Filter;
 
 use Pmkr\Pmkr\Model\Collection;
-use Sweetchuck\Utils\Filter\ArrayFilterBase;
+use Sweetchuck\Utils\Filter\FilterBase;
 
-class PhpExtensionFilter extends ArrayFilterBase
+/**
+ * @extends \Sweetchuck\Utils\Filter\FilterBase<\Pmkr\Pmkr\Model\Extension>
+ */
+class PhpExtensionFilter extends FilterBase
 {
 
     // region extensionSet
@@ -27,10 +30,8 @@ class PhpExtensionFilter extends ArrayFilterBase
 
     /**
      * @param null|\Pmkr\Pmkr\Model\Collection<\Pmkr\Pmkr\Model\ExtensionSetItem> $extensionSet
-     *
-     * @return $this
      */
-    public function setExtensionSet(?Collection $extensionSet)
+    public function setExtensionSet(?Collection $extensionSet): static
     {
         $this->extensionSet = $extensionSet;
 
@@ -54,10 +55,8 @@ class PhpExtensionFilter extends ArrayFilterBase
 
     /**
      * @param string[] $ignore
-     *
-     * @return $this
      */
-    public function setIgnore(array $ignore)
+    public function setIgnore(array $ignore): static
     {
         $this->ignore = $ignore;
 
@@ -81,10 +80,8 @@ class PhpExtensionFilter extends ArrayFilterBase
 
     /**
      * @param array<string> $status
-     *
-     * @return $this
      */
-    public function setStatus(array $status)
+    public function setStatus(array $status): static
     {
         $this->status = $status;
 
@@ -95,7 +92,7 @@ class PhpExtensionFilter extends ArrayFilterBase
     /**
      * @param array<string, mixed> $options
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -115,11 +112,9 @@ class PhpExtensionFilter extends ArrayFilterBase
     }
 
     /**
-     * @param \Pmkr\Pmkr\Model\Extension $item
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    protected function checkDoIt($item, ?string $outerKey = null)
+    protected function setResult(mixed $item, null|int|string $outerKey = null): static
     {
         /** @var \Pmkr\Pmkr\Model\Extension $item */
         $this->result = true;

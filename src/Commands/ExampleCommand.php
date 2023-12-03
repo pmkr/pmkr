@@ -10,11 +10,12 @@ use Pmkr\Pmkr\CodeResult\CodeCommandResult;
 use Pmkr\Pmkr\CodeResult\CodeResult;
 use Pmkr\Pmkr\Util\ShellHelper;
 use Pmkr\Pmkr\Util\TemplateHelper;
-use Sweetchuck\Utils\Uri;
+use Sweetchuck\Utils\StringUtils;
 use Sweetchuck\Utils\VersionNumber;
 
 class ExampleCommand extends CommandBase
 {
+    protected StringUtils $stringUtils;
 
     protected TemplateHelper $templateHelper;
 
@@ -22,10 +23,7 @@ class ExampleCommand extends CommandBase
 
     protected HttpClientInterface $httpClient;
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if ($this->initialized) {
             return $this;
@@ -33,6 +31,7 @@ class ExampleCommand extends CommandBase
 
         parent::initDependencies();
         $container = $this->getContainer();
+        $this->stringUtils = $container->get('sweetchuck.string_utils');
         $this->templateHelper = $container->get('pmkr.template_helper');
         $this->shellHelper = $container->get('pmkr.shell_helper');
         $this->httpClient = $container->get('http_client');
@@ -48,7 +47,7 @@ class ExampleCommand extends CommandBase
     public function cmdExamplePmkrExecute(
         array $options = [
             'format' => 'code',
-        ]
+        ],
     ): CodeCommandResult {
         $context = [
             'envVars' => $this->shellHelper->collectPhpIniPaths(\PHP_BINARY),
@@ -69,7 +68,7 @@ class ExampleCommand extends CommandBase
     public function cmdExampleZplugPluginPmkrRcExecute(
         array $options = [
             'format' => 'code',
-        ]
+        ],
     ): CodeCommandResult {
         $result = new CodeResult();
         $result->language = 'zsh';
@@ -89,7 +88,7 @@ class ExampleCommand extends CommandBase
         string $reposDir = '',
         array $options = [
             'format' => 'code',
-        ]
+        ],
     ): CodeCommandResult {
         $context = [];
         if ($reposDir !== '') {
@@ -147,7 +146,7 @@ class ExampleCommand extends CommandBase
      */
     protected function getPhpNetReleaseInfo(string $coreVersion): ?array
     {
-        $uri = Uri::build([
+        $uri = $this->stringUtils->buildUri([
             'scheme' => 'https',
             'host' => 'www.php.net',
             'path' => '/releases',

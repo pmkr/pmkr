@@ -25,10 +25,7 @@ class OpSysInfoCollector
         return $this->state;
     }
 
-    /**
-     * @return $this
-     */
-    protected function init()
+    protected function init(): static
     {
         if ($this->state) {
             return $this;
@@ -46,20 +43,14 @@ class OpSysInfoCollector
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function linux()
+    protected function linux(): static
     {
         $this->parseEtcOsRelease();
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function parseEtcOsRelease()
+    protected function parseEtcOsRelease(): static
     {
         $fileName = '/etc/os-release';
         if (!file_exists($fileName)) {

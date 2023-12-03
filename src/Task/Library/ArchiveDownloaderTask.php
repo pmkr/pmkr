@@ -25,7 +25,7 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
 
     public function __construct(
         Utils $utils,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->utils = $utils;
         $this->filesystem = $filesystem;
@@ -45,10 +45,7 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - Library download - Archive - {library.key}',
@@ -60,10 +57,8 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         $this->setOptionsCommon($options);
@@ -71,10 +66,7 @@ class ArchiveDownloaderTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         // @todo Apply patches.
         $config = $this->getConfig();

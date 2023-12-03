@@ -21,7 +21,7 @@ class ShellVarSetterFormatter implements FormatterInterface, ValidationInterface
 
     public function __construct(
         VariationPickResultConverter $converter,
-        SyntaxHighlighter $syntaxHighlighter
+        SyntaxHighlighter $syntaxHighlighter,
     ) {
         $this->converter = $converter;
         $this->syntaxHighlighter = $syntaxHighlighter;
@@ -52,7 +52,7 @@ class ShellVarSetterFormatter implements FormatterInterface, ValidationInterface
     public function write(
         OutputInterface $output,
         $data,
-        FormatterOptions $options
+        FormatterOptions $options,
     ) {
         $code = $this->converter->toShellVarSetter($data);
         if ($output->isDecorated()) {

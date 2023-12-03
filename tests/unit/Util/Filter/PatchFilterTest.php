@@ -181,6 +181,6 @@ class PatchFilterTest extends Unit
         ]);
 
         $patch = $pmkr->patches['my-patch-01'];
-        $this->tester->assertSame($expected, $filter->check($patch));
+        $this->tester->assertSame($expected, $filter->isAllowed($patch));
     }
 }

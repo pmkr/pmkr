@@ -50,7 +50,7 @@ trait TaskLoader
      * @return \Pmkr\Pmkr\Task\PhpExtensionCompile\PeclTask|\Robo\Collection\CollectionBuilder
      */
     protected function taskPmkrPhpExtensionCompilePecl(
-        array $options = []
+        array $options = [],
     ): CollectionBuilder {
         $container = $this->getContainer();
         /** @var \Pmkr\Pmkr\Task\PhpExtensionCompile\PeclTask $task */

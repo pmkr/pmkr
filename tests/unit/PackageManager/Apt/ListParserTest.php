@@ -100,7 +100,7 @@ class ListParserTest extends Unit
         array $packageNames,
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): void {
         $config = $this->tester->grabConfig();
         $parser = new ListParser(new Utils($config));

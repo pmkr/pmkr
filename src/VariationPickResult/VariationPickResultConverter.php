@@ -16,7 +16,7 @@ class VariationPickResultConverter
 
     public function __construct(
         EnvPathHandler $envPathHandler,
-        EnvVarStorageInterface $envVarStorage
+        EnvVarStorageInterface $envVarStorage,
     ) {
         $this->envPathHandler = $envPathHandler;
         $this->envVarStorage = $envVarStorage;

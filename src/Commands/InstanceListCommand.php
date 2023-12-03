@@ -36,7 +36,7 @@ class InstanceListCommand extends CommandBase
             'format' => 'table',
             'filter' => '',
             'fields' => '',
-        ]
+        ],
     ): CommandResult {
         $instances = iterator_to_array(
             $this->getPmkr()->instances->getIterator(),

@@ -8,7 +8,7 @@ use Pmkr\Pmkr\Model\Instance;
 use Pmkr\Pmkr\OpSys\OpSys;
 use Pmkr\Pmkr\Task\BaseTask;
 use Pmkr\Pmkr\Utils;
-use Sweetchuck\Utils\ArrayFilterInterface;
+use Sweetchuck\Utils\Filter\FilterInterface;
 
 class PackagesFromInstanceTask extends BaseTask
 {
@@ -25,10 +25,7 @@ class PackagesFromInstanceTask extends BaseTask
         return $this->opSys;
     }
 
-    /**
-     * @return $this
-     */
-    public function setOpSys(?OpSys $os)
+    public function setOpSys(?OpSys $os): static
     {
         $this->opSys = $os;
 
@@ -44,10 +41,7 @@ class PackagesFromInstanceTask extends BaseTask
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -56,17 +50,23 @@ class PackagesFromInstanceTask extends BaseTask
     // endregion
 
     // region extensionFilter
-    protected ?ArrayFilterInterface $extensionFilter = null;
+    /**
+     * @var null|\Sweetchuck\Utils\Filter\FilterInterface<\Pmkr\Pmkr\Model\Extension>
+     */
+    protected ?FilterInterface $extensionFilter = null;
 
-    public function getExtensionFilter(): ?ArrayFilterInterface
+    /**
+     * @return null|\Sweetchuck\Utils\Filter\FilterInterface<\Pmkr\Pmkr\Model\Extension>
+     */
+    public function getExtensionFilter(): ?FilterInterface
     {
         return $this->extensionFilter;
     }
 
     /**
-     * @return $this
+     * @param \Sweetchuck\Utils\Filter\FilterInterface<\Pmkr\Pmkr\Model\Extension> $extensionFilter
      */
-    public function setExtensionFilter(?ArrayFilterInterface $extensionFilter)
+    public function setExtensionFilter(?FilterInterface $extensionFilter): static
     {
         $this->extensionFilter = $extensionFilter;
 
@@ -92,10 +92,8 @@ class PackagesFromInstanceTask extends BaseTask
      * If this not null then the extensionFilter won't be used.
      *
      * @param ?iterable<string, \Pmkr\Pmkr\Model\Extension> $extensions
-     *
-     * @return $this
      */
-    public function setExtensions(?iterable $extensions)
+    public function setExtensions(?iterable $extensions): static
     {
         $this->extensions = $extensions;
 
@@ -110,10 +108,8 @@ class PackagesFromInstanceTask extends BaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -136,7 +132,7 @@ class PackagesFromInstanceTask extends BaseTask
         return $this;
     }
 
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - collect package dependencies',
@@ -145,10 +141,7 @@ class PackagesFromInstanceTask extends BaseTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $opSys = $this->getOpSys();
         $instance = $this->getInstance();

@@ -21,7 +21,7 @@ class TemplateHelper implements ConfigAwareInterface
     public function __construct(
         ConfigInterface $config,
         Utils $utils,
-        TwigEnvironment $twig
+        TwigEnvironment $twig,
     ) {
         $this->setConfig($config);
         $this->twig = $twig;

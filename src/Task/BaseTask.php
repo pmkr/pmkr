@@ -29,10 +29,7 @@ abstract class BaseTask extends RoboBaseTask
         return $this->assetNamePrefix;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAssetNamePrefix(string $value)
+    public function setAssetNamePrefix(string $value): static
     {
         $this->assetNamePrefix = $value;
 
@@ -42,10 +39,8 @@ abstract class BaseTask extends RoboBaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         if (array_key_exists('assetNamePrefix', $options)) {
             $this->setAssetNamePrefix($options['assetNamePrefix']);
@@ -87,18 +82,12 @@ abstract class BaseTask extends RoboBaseTask
             ->runReturn();
     }
 
-    /**
-     * @return $this
-     */
-    protected function runInit()
+    protected function runInit(): static
     {
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - @todo {placeholder}',
@@ -110,10 +99,7 @@ abstract class BaseTask extends RoboBaseTask
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    abstract protected function runDoIt();
+    abstract protected function runDoIt(): static;
 
     /**
      * @return \Robo\Result<string, mixed>
@@ -124,7 +110,7 @@ abstract class BaseTask extends RoboBaseTask
             $this,
             $this->getTaskResultCode(),
             $this->getTaskResultMessage(),
-            $this->getAssetsWithPrefixedNames()
+            $this->getAssetsWithPrefixedNames(),
         );
     }
 

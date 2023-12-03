@@ -21,10 +21,7 @@ class InstallTask extends BaseTask implements
 
     protected string $taskName = 'PMKR - Install library';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             '{library.name}',
@@ -38,10 +35,8 @@ class InstallTask extends BaseTask implements
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         $this->setOptionsCommon($options);
@@ -49,10 +44,7 @@ class InstallTask extends BaseTask implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $result = $this
             ->collectionBuilder()

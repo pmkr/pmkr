@@ -33,7 +33,7 @@ class SearchParser
         array $packageNames,
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): array {
         $assets = [
             'messages' => [],

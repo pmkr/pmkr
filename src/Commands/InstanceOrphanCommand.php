@@ -17,10 +17,7 @@ class InstanceOrphanCommand extends CommandBase
 
     protected InstanceCollector $instanceCollector;
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if (!$this->initialized) {
             parent::initDependencies();

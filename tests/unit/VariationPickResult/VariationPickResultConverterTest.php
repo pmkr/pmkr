@@ -96,7 +96,7 @@ class VariationPickResultConverterTest extends Unit
         string $expected,
         array $resultState,
         array $configLayer = [],
-        array $envVars = []
+        array $envVars = [],
     ): void {
         $config = $this->tester->grabConfig(null, $configLayer);
         $result = $this->createPickResult($config, $resultState);
@@ -172,7 +172,7 @@ class VariationPickResultConverterTest extends Unit
         ?array $expected,
         array $resultState,
         array $configLayer = [],
-        array $envVars = []
+        array $envVars = [],
     ): void {
         $config = $this->tester->grabConfig(null, $configLayer);
         $result = $this->createPickResult($config, $resultState);
@@ -235,7 +235,7 @@ class VariationPickResultConverterTest extends Unit
         ?string $expected,
         array $resultState,
         array $configLayer = [],
-        array $envVars = []
+        array $envVars = [],
     ): void {
         $config = $this->tester->grabConfig(null, $configLayer);
         $result = $this->createPickResult($config, $resultState);
@@ -252,7 +252,7 @@ class VariationPickResultConverterTest extends Unit
      */
     protected function createPickResultConverter(
         ConfigInterface $config,
-        array $envVars = []
+        array $envVars = [],
     ): VariationPickResultConverter {
         $envPathHandler = new EnvPathHandler($config);
         $envVarStorage = new EnvVarStorage(new \ArrayObject($envVars));
@@ -265,7 +265,7 @@ class VariationPickResultConverterTest extends Unit
      */
     protected function createPickResult(
         ConfigInterface $config,
-        array $resultState
+        array $resultState,
     ): VariationPickResult {
         $instance = null;
         if ($config->has('instances.my01')) {

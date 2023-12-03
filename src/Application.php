@@ -135,10 +135,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function configureContainerFromYaml(string $fileName)
+    protected function configureContainerFromYaml(string $fileName): static
     {
         $content = Yaml::parseFile($fileName);
         $content += ['services' => []];
@@ -147,10 +144,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function configureContainerTwig()
+    protected function configureContainerTwig(): static
     {
         $config = $this->getConfig();
         /** @var \League\Container\Container $container */
@@ -192,10 +186,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function configureContainerPeclClient()
+    protected function configureContainerPeclClient(): static
     {
         /** @var \League\Container\Container $container */
         $container = $this->getContainer();
@@ -212,10 +203,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function configureContainerSyntaxHighlighters()
+    protected function configureContainerSyntaxHighlighters(): static
     {
         /** @var \League\Container\Container $container */
         $container = $this->getContainer();
@@ -256,10 +244,8 @@ class Application extends ApplicationBase implements ContainerAwareInterface
 
     /**
      * @param array<string, mixed> $services
-     *
-     * @return $this
      */
-    protected function configureContainerAddServices(array $services)
+    protected function configureContainerAddServices(array $services): static
     {
         foreach ($services as $id => $service) {
             $service['id'] = $id;
@@ -271,10 +257,8 @@ class Application extends ApplicationBase implements ContainerAwareInterface
 
     /**
      * @param array<string, mixed> $service
-     *
-     * @return $this
      */
-    protected function configureContainerAddService(array $service)
+    protected function configureContainerAddService(array $service): static
     {
         $service += [
             'shared' => true,

@@ -38,10 +38,7 @@ class LibrariesFromExtensionTask extends BaseTask
         return $this->opSys;
     }
 
-    /**
-     * @return $this
-     */
-    public function setOpSys(?OpSys $os)
+    public function setOpSys(?OpSys $os): static
     {
         $this->opSys = $os;
 
@@ -62,10 +59,8 @@ class LibrariesFromExtensionTask extends BaseTask
 
     /**
      * If this not null then the extensionFilter won't be used.
-     *
-     * @return $this
      */
-    public function setExtension(?Extension $extension)
+    public function setExtension(?Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -80,10 +75,8 @@ class LibrariesFromExtensionTask extends BaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -98,10 +91,20 @@ class LibrariesFromExtensionTask extends BaseTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runHeader(): static
+    {
+        $this->printTaskInfo(
+            'PMKR - Extension key: {extension.key}; Extension name: {extension.name}',
+            [
+                'extension.key' => $this->getExtension()->key,
+                'extension.name' => $this->getExtension()->name,
+            ],
+        );
+
+        return $this;
+    }
+
+    protected function runDoIt(): static
     {
         $pmkr = PmkrConfig::__set_state([
             'config' => $this->getConfig(),
@@ -120,19 +123,6 @@ class LibrariesFromExtensionTask extends BaseTask
         }
 
         $this->assets['libraries'] = array_intersect_key($librariesAll, $libraryKeys);
-
-        return $this;
-    }
-
-    protected function runHeader()
-    {
-        $this->printTaskInfo(
-            'PMKR - Extension key: {extension.key}; Extension name: {extension.name}',
-            [
-                'extension.key' => $this->getExtension()->key,
-                'extension.name' => $this->getExtension()->name,
-            ],
-        );
 
         return $this;
     }

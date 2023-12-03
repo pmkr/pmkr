@@ -12,10 +12,7 @@ use Robo\Task\Archive\Extract as ExtractTaskBase;
 class ExtractTask extends ExtractTaskBase
 {
 
-    /**
-     * @return $this
-     */
-    public function fileName(string $filename)
+    public function fileName(string $filename): static
     {
         $this->filename = $filename;
 
