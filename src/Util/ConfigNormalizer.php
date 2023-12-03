@@ -9,10 +9,7 @@ use Consolidation\Config\ConfigInterface;
 class ConfigNormalizer
 {
 
-    /**
-     * @return $this
-     */
-    public function normalizeConfig(ConfigInterface $config)
+    public function normalizeConfig(ConfigInterface $config): static
     {
         $this
             ->normalizeConfigDirs($config)
@@ -28,10 +25,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigDirs(ConfigInterface $config)
+    protected function normalizeConfigDirs(ConfigInterface $config): static
     {
         $tmpDir = $config->get('dir.tmp');
         if ($tmpDir === null) {
@@ -41,10 +35,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigPatches(ConfigInterface $config)
+    protected function normalizeConfigPatches(ConfigInterface $config): static
     {
         $patches = (array) $config->get('patches');
         foreach ($patches as $patchKey => $patch) {
@@ -54,10 +45,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigLibraries(ConfigInterface $config)
+    protected function normalizeConfigLibraries(ConfigInterface $config): static
     {
         $libraries = (array) $config->get('libraries');
         foreach ($libraries as $libKey => $lib) {
@@ -82,10 +70,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigExtensions(ConfigInterface $config)
+    protected function normalizeConfigExtensions(ConfigInterface $config): static
     {
         $extensions = (array) $config->get('extensions');
         foreach ($extensions as $key => $info) {
@@ -113,10 +98,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigExtensionSets(ConfigInterface $config)
+    protected function normalizeConfigExtensionSets(ConfigInterface $config): static
     {
         $extensionSets = (array) $config->get('extensionSets');
         foreach ($extensionSets as $extSetKey => $extensionSet) {
@@ -128,10 +110,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigCores(ConfigInterface $config)
+    protected function normalizeConfigCores(ConfigInterface $config): static
     {
         $cores = $config->get('cores');
         if ($cores === null) {
@@ -141,10 +120,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigInstances(ConfigInterface $config)
+    protected function normalizeConfigInstances(ConfigInterface $config): static
     {
         $instances = $config->get('instances');
         if ($instances === null) {
@@ -168,10 +144,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigVariations(ConfigInterface $config)
+    protected function normalizeConfigVariations(ConfigInterface $config): static
     {
         $variations = $config->get('variations');
         if ($variations === null) {
@@ -186,10 +159,7 @@ class ConfigNormalizer
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function normalizeConfigSyntaxHighlighter(ConfigInterface $config)
+    protected function normalizeConfigSyntaxHighlighter(ConfigInterface $config): static
     {
         $topKey = 'syntaxHighlighter.languageMapping';
         $languageMapping = $config->get($topKey) ?: [];

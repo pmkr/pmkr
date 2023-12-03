@@ -14,10 +14,8 @@ interface HandlerInterface
 
     /**
      * @param array<string, mixed> $config
-     *
-     * @return $this
      */
-    public function setConfig(array $config);
+    public function setConfig(array $config): static;
 
     /**
      * @param array<string> $packageNames
@@ -50,10 +48,8 @@ interface HandlerInterface
 
     /**
      * @param array<string> $packageNames
-     *
-     * @return $this
      */
-    public function install(array $packageNames);
+    public function install(array $packageNames): static;
 
     public function refreshCommand(): string;
 }

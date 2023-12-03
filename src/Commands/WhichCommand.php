@@ -11,10 +11,7 @@ class WhichCommand extends CommandBase
 {
     protected EnvPathHandler $envPathHandler;
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if ($this->initialized) {
             return $this;
@@ -39,7 +36,7 @@ class WhichCommand extends CommandBase
     public function cmdWhichExecute(
         array $options = [
             'format' => 'yaml',
-        ]
+        ],
     ): ?CommandResult {
         $envVars = $this->getConfig()->get('env');
 

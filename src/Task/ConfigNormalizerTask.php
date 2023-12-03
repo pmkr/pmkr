@@ -21,10 +21,7 @@ class ConfigNormalizerTask extends BaseTask implements ConfigAwareInterface
         $this->configNormalizer = $configNormalizer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $this->configNormalizer->normalizeConfig($this->getConfig());
 

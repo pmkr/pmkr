@@ -24,10 +24,7 @@ class LibrariesFromExtensionsTask extends BaseTask
         return $this->opSys;
     }
 
-    /**
-     * @return $this
-     */
-    public function setOpSys(?OpSys $os)
+    public function setOpSys(?OpSys $os): static
     {
         $this->opSys = $os;
 
@@ -53,10 +50,8 @@ class LibrariesFromExtensionsTask extends BaseTask
      * If this not null then the extensionFilter won't be used.
      *
      * @param ?array<string, \Pmkr\Pmkr\Model\Extension> $extensions
-     *
-     * @return $this
      */
-    public function setExtensions(?iterable $extensions)
+    public function setExtensions(?iterable $extensions): static
     {
         $this->extensions = $extensions;
 
@@ -71,10 +66,8 @@ class LibrariesFromExtensionsTask extends BaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -89,10 +82,7 @@ class LibrariesFromExtensionsTask extends BaseTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $pmkr = PmkrConfig::__set_state([
             'config' => $this->getConfig(),

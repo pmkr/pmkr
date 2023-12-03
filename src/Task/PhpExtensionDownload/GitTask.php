@@ -39,10 +39,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -58,10 +55,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -75,10 +69,8 @@ class GitTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -93,7 +85,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $url = $this->getExtension()->downloader->options['url'];
 
@@ -108,10 +100,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $config = $this->getConfig();
         $instance = $this->getInstance();

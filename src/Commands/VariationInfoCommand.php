@@ -23,7 +23,7 @@ class VariationInfoCommand extends CommandBase
         string $variationKey = '',
         array $options = [
             'format' => 'string',
-        ]
+        ],
     ): ?VariationPickResult {
         $pmkr = $this->getPmkr();
         /** @var \Pmkr\Pmkr\Model\Variation $variation */

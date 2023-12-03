@@ -29,6 +29,12 @@ services:
     http_client:
         class: 'GuzzleHttp\Client'
 
+    sweetchuck.string_utils:
+        class: 'Sweetchuck\Utils\StringUtils'
+
+    sweetchuck.file_system_utils:
+        class: 'Sweetchuck\Utils\FileSystemUtils'
+
     pmkr.utils:
         class: 'Pmkr\Pmkr\Utils'
         arguments:

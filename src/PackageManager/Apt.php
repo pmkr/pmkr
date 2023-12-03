@@ -94,10 +94,8 @@ class Apt extends HandlerBase
 
     /**
      * @param array<string> $packageNames
-     *
-     * @return $this
      */
-    public function install(array $packageNames)
+    public function install(array $packageNames): static
     {
         $command = $this->installCommand($packageNames);
         if ($command === '') {

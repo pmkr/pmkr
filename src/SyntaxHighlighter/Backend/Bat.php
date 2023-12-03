@@ -35,7 +35,7 @@ class Bat extends Base
     public function __construct(
         Utils $utils,
         ProcessFactory $processFactory,
-        BatListLanguagesParser $listLanguagesParser
+        BatListLanguagesParser $listLanguagesParser,
     ) {
         parent::__construct($utils);
         $this->processFactory = $processFactory;
@@ -46,7 +46,7 @@ class Bat extends Base
         string $code,
         ?string $externalLanguage = null,
         ?string $externalTheme = null,
-        ?string $outputFormat = 'ansi'
+        ?string $outputFormat = 'ansi',
     ): string {
         $internalLanguage = $this->getInternalLanguage($externalLanguage);
         $internalTheme = $this->getInternalTheme($externalTheme);
@@ -101,7 +101,7 @@ class Bat extends Base
             $result = $this->listLanguagesParser->parse(
                 $exitCode,
                 $process->getOutput(),
-                $process->getErrorOutput()
+                $process->getErrorOutput(),
             );
 
             $this->internalLanguages = $result['assets']['languages'] ?? [];

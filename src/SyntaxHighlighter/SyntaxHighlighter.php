@@ -8,7 +8,7 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Pmkr\Pmkr\Util\TerminalColorSchemeDetector;
 use Sweetchuck\Utils\Comparer\ArrayValueComparer;
-use Sweetchuck\Utils\Filter\ArrayFilterEnabled;
+use Sweetchuck\Utils\Filter\EnabledFilter;
 
 class SyntaxHighlighter implements ContainerAwareInterface
 {
@@ -61,10 +61,8 @@ class SyntaxHighlighter implements ContainerAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         if (array_key_exists('theme', $options)) {
             $this->theme = $options['theme'];
@@ -85,7 +83,7 @@ class SyntaxHighlighter implements ContainerAwareInterface
         string $code,
         string $outputFormat = 'ansi',
         ?string $externalLanguage = null,
-        ?string $externalTheme = null
+        ?string $externalTheme = null,
     ): string {
         $handler = $this->getHandler($outputFormat, $externalLanguage);
         if (!$handler) {
@@ -104,14 +102,20 @@ class SyntaxHighlighter implements ContainerAwareInterface
 
     protected function getHandler(
         string $outputFormat = 'ansi',
-        ?string $externalLanguage = null
+        ?string $externalLanguage = null,
     ): ?BackendInterface {
         $handlerCandidates = $this->languageMapping[$outputFormat][$externalLanguage]
             ?? $this->languageMapping[$outputFormat]['_default']
             ?? [];
 
-        $handlerCandidates = array_filter($handlerCandidates, (new ArrayFilterEnabled()));
-        uasort($handlerCandidates, (new ArrayValueComparer(['weight' => 50])));
+        $handlerCandidates = array_filter($handlerCandidates, (new EnabledFilter()));
+        $comparer = new ArrayValueComparer();
+        $comparer->setKeys([
+            'weight' => [
+                'default' => 50,
+            ],
+        ]);
+        uasort($handlerCandidates, $comparer);
 
         $container = $this->getContainer();
         foreach (array_keys($handlerCandidates) as $handlerName) {

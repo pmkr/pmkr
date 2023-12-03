@@ -71,15 +71,12 @@ class CommandBase implements
      */
     public function hookInitDependencies(
         InputInterface $input,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $this->initDependencies();
     }
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if (!$this->initialized) {
             $container = $this->getContainer();
@@ -188,7 +185,7 @@ class CommandBase implements
 
     protected function getTaskCollectPackageDependenciesFromInstance(
         string $instanceStateKey,
-        string $opSysStateKey
+        string $opSysStateKey,
     ): TaskInterface {
         return $this
             ->taskPmkrCollectPackageDependenciesFromInstance()
@@ -198,7 +195,7 @@ class CommandBase implements
 
     protected function getTaskExtensionsPackageDependencyCollector(
         string $extensionsStateKey,
-        string $opSysStateKey
+        string $opSysStateKey,
     ): TaskInterface {
         return $this
             ->taskPmkrCollectPackageDependenciesFromExtensions()
@@ -209,14 +206,14 @@ class CommandBase implements
     protected function getTaskCollectMissingPackageDependencies(
         string $pmStateKey,
         string $packageNamesStateKey,
-        string $dstStateKeyPrefix
+        string $dstStateKeyPrefix,
     ): \Closure {
         return function (
-            RoboState $state
+            RoboState $state,
         ) use (
             $pmStateKey,
             $packageNamesStateKey,
-            $dstStateKeyPrefix
+            $dstStateKeyPrefix,
         ): int {
             $this->logger->notice('PMKR - Collect missing package dependencies');
 
@@ -257,7 +254,7 @@ class CommandBase implements
      * @return \Closure
      */
     protected function getTaskCheckMissingPackageDependencies(
-        string $checkResultStateKeyPrefix = 'packageManager.checkResult'
+        string $checkResultStateKeyPrefix = 'packageManager.checkResult',
     ): \Closure {
         return function (RoboState $state) use ($checkResultStateKeyPrefix): int {
             $this->logger->notice('PMKR - Check that if there is any missing package');
@@ -313,7 +310,7 @@ class CommandBase implements
     protected function getTaskPhpExtensionsInstall(
         string $opSysStateKey,
         string $instanceStateKey,
-        string $extensionsStateKey
+        string $extensionsStateKey,
     ): TaskInterface {
         $taskForEach = $this->taskForEach();
         $taskForEach
@@ -322,11 +319,11 @@ class CommandBase implements
             ->withBuilder(function (
                 CollectionBuilder $builder,
                 string $extensionKey,
-                $extension
+                $extension,
             ) use (
                 $taskForEach,
                 $opSysStateKey,
-                $instanceStateKey
+                $instanceStateKey,
             ) {
                 $state = $taskForEach->getState();
                 /** @var \Pmkr\Pmkr\Model\Extension $extension */
@@ -376,7 +373,7 @@ class CommandBase implements
      */
     protected function getTaskPmkrPhpExtensionsDownload(
         string $instanceStateKey,
-        string $extensionsStateKey
+        string $extensionsStateKey,
     ): TaskInterface {
         $taskForEach = $this->taskForEach();
         $taskForEach
@@ -385,10 +382,10 @@ class CommandBase implements
             ->withBuilder(function (
                 CollectionBuilder $builder,
                 string $extensionKey,
-                $extension
+                $extension,
             ) use (
                 $taskForEach,
-                $instanceStateKey
+                $instanceStateKey,
             ) {
                 $state = $taskForEach->getState();
                 /** @var \Pmkr\Pmkr\Model\Extension $extension */
@@ -410,7 +407,7 @@ class CommandBase implements
     protected function getTaskPhpExtensionCompile(
         string $extSrcDirStateKey,
         string $extStateKey,
-        string $phpBinDirStateKey
+        string $phpBinDirStateKey,
     ): TaskInterface {
         return $this
             ->taskPmkrPhpExtensionCompileWrapper()
@@ -421,7 +418,7 @@ class CommandBase implements
 
     protected function getTaskExtensionCompilerPeclBefore(
         string $instanceStateKey,
-        string $extensionsStateKey
+        string $extensionsStateKey,
     ): TaskInterface {
         $taskForEach = $this->taskForEach();
         $taskForEach
@@ -431,10 +428,10 @@ class CommandBase implements
                 function (
                     CollectionBuilder $builder,
                     string $key,
-                    Extension $extension
+                    Extension $extension,
                 ) use (
                     $taskForEach,
-                    $instanceStateKey
+                    $instanceStateKey,
                 ) {
                     $state = $taskForEach->getState();
                     /** @var \Pmkr\Pmkr\Model\Instance $instance */
@@ -447,15 +444,14 @@ class CommandBase implements
                             ->setExtension($extension)
                             ->setPhpBinDir("$instance->shareDir/bin")
                     );
-                }
+                },
             );
 
         return $taskForEach;
     }
 
-    protected function getTaskInstallLibraries(
-        string $librariesStateKey
-    ): TaskInterface {
+    protected function getTaskInstallLibraries(string $librariesStateKey): TaskInterface
+    {
         $taskForEach = $this->taskForEach();
         $taskForEach
             ->iterationMessage('Install library: {key}')
@@ -463,7 +459,7 @@ class CommandBase implements
             ->withBuilder(function (
                 CollectionBuilder $builder,
                 string $key,
-                $library
+                $library,
             ): void {
                 $builder
                     ->addTask(

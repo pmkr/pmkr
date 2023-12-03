@@ -23,10 +23,8 @@ class DownloaderWrapperTask extends BaseTask implements
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         $this->setOptionsCommon($options);
@@ -34,10 +32,7 @@ class DownloaderWrapperTask extends BaseTask implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $library = $this->getLibrary();
         switch ($library->downloader['type']) {

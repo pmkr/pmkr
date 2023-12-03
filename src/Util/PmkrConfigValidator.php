@@ -43,10 +43,7 @@ class PmkrConfigValidator
             ->errors;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateCores()
+    protected function validateCores(): static
     {
         /**
          * @var string $coreKey
@@ -71,10 +68,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateExtensions()
+    protected function validateExtensions(): static
     {
         /**
          * @var string $extensionKey
@@ -92,13 +86,11 @@ class PmkrConfigValidator
 
     /**
      * @phpstan-param iterable<string, array<string, bool>> $libraries
-     *
-     * @return $this
      */
     protected function validateDependenciesLibraries(
         string $pathPrefix,
-        iterable $libraries
-    ) {
+        iterable $libraries,
+    ): static {
         $availableLibraries = $this->pmkr->libraries;
 
         foreach ($libraries as $opSys => $libs) {
@@ -117,10 +109,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateExtensionSets()
+    protected function validateExtensionSets(): static
     {
         foreach ($this->pmkr->extensionSets as $extensionSetKey => $extensionSet) {
             foreach ($extensionSet as $extensionKey => $state) {
@@ -136,10 +125,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateInstances()
+    protected function validateInstances(): static
     {
         foreach ($this->pmkr->instances as $instanceKey => $instance) {
             if ($instance->coreName === null) {
@@ -160,10 +146,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateAliases()
+    protected function validateAliases(): static
     {
         foreach ($this->pmkr->aliases as $alias => $instanceKey) {
             if (!$this->pmkr->instances->offsetExists($instanceKey)) {
@@ -184,10 +167,7 @@ class PmkrConfigValidator
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function validateVariations()
+    protected function validateVariations(): static
     {
         $validInstanceKeys = array_merge(
             array_keys(iterator_to_array($this->pmkr->instances->getIterator())),

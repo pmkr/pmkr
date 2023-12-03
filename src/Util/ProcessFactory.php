@@ -17,10 +17,7 @@ class ProcessFactory
         return $this->classFqn;
     }
 
-    /**
-     * @return $this
-     */
-    public function setClassFqn(string $classFqn)
+    public function setClassFqn(string $classFqn): static
     {
         $this->classFqn = $classFqn;
 
@@ -40,7 +37,7 @@ class ProcessFactory
         string $cwd = null,
         array $env = null,
         $input = null,
-        ?float $timeout = 60
+        ?float $timeout = 60,
     ): Process {
         /** @var \Symfony\Component\Process\Process $class */
         $class = $this->getClassFqn();
@@ -59,7 +56,7 @@ class ProcessFactory
         string $cwd = null,
         array $env = null,
         $input = null,
-        ?float $timeout = 60
+        ?float $timeout = 60,
     ): Process {
         /**
          * @var callable(

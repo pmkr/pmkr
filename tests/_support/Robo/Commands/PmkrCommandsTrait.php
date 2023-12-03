@@ -36,7 +36,7 @@ trait PmkrCommandsTrait
      */
     public function cmdPmkrInstanceInstallExecute(
         string $serviceKey,
-        string $instanceKey
+        string $instanceKey,
     ): TaskInterface {
         $cb = $this->collectionBuilder();
         /** @var \Robo\Contract\TaskInterface $collection */
@@ -231,7 +231,7 @@ trait PmkrCommandsTrait
     public function onHookInteractServiceKey(
         InputInterface $input,
         OutputInterface $output,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $tag = 'pmkrInteractServiceKey';
 
@@ -266,7 +266,7 @@ trait PmkrCommandsTrait
     public function onHookInteractInteractInstanceKey(
         InputInterface $input,
         OutputInterface $output,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $tag = 'pmkrInteractInstanceKey';
 

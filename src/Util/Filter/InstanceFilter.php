@@ -5,10 +5,13 @@ declare(strict_types = 1);
 namespace Pmkr\Pmkr\Util\Filter;
 
 use Composer\Semver\VersionParser;
-use Sweetchuck\Utils\Filter\ArrayFilterBase;
+use Sweetchuck\Utils\Filter\FilterBase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class InstanceFilter extends ArrayFilterBase
+/**
+ * @extends \Sweetchuck\Utils\Filter\FilterBase<\Pmkr\Pmkr\Model\Instance>
+ */
+class InstanceFilter extends FilterBase
 {
     protected Filesystem $fs;
 
@@ -27,10 +30,7 @@ class InstanceFilter extends ArrayFilterBase
         return $this->hasSrcDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setHasSrcDir(?bool $hasSrcDir)
+    public function setHasSrcDir(?bool $hasSrcDir): static
     {
         $this->hasSrcDir = $hasSrcDir;
 
@@ -44,10 +44,7 @@ class InstanceFilter extends ArrayFilterBase
         return $this->hasShareDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setHasShareDir(?bool $hasShareDir)
+    public function setHasShareDir(?bool $hasShareDir): static
     {
         $this->hasShareDir = $hasShareDir;
 
@@ -76,10 +73,8 @@ class InstanceFilter extends ArrayFilterBase
      * If all of them is available then the 7.1 would be picked.
      * But the root project uses a constraint like this: >=7.4 <8.1
      * That means the 7.1, 7.2, 7.3, 8.1 can not be picked.
-     *
-     * @return $this
      */
-    public function setPrimaryCoreVersionConstraints(?string $constraints)
+    public function setPrimaryCoreVersionConstraints(?string $constraints): static
     {
         $this->primaryCoreVersionConstraints = $constraints;
 
@@ -95,10 +90,7 @@ class InstanceFilter extends ArrayFilterBase
         return $this->coreVersionConstraints;
     }
 
-    /**
-     * @return $this
-     */
-    public function setCoreVersionConstraints(?string $constraints)
+    public function setCoreVersionConstraints(?string $constraints): static
     {
         $this->coreVersionConstraints = $constraints;
 
@@ -114,10 +106,7 @@ class InstanceFilter extends ArrayFilterBase
         return $this->isZts;
     }
 
-    /**
-     * @return $this
-     */
-    public function setIsZts(?bool $isZts)
+    public function setIsZts(?bool $isZts): static
     {
         $this->isZts = $isZts;
 
@@ -127,10 +116,8 @@ class InstanceFilter extends ArrayFilterBase
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -158,11 +145,9 @@ class InstanceFilter extends ArrayFilterBase
     }
 
     /**
-     * @param \Pmkr\Pmkr\Model\Instance $item
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    protected function checkDoIt($item, ?string $outerKey = null)
+    protected function setResult(mixed $item, null|int|string $outerKey = null): static
     {
         $this->result = true;
 

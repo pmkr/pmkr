@@ -43,8 +43,8 @@ class InstanceDependencyCommand extends CommandBase
         string $instanceName,
         array $options = [
             'format' => 'list',
-            'format-code' => 'install-command'
-        ]
+            'format-code' => 'install-command',
+        ],
     ): CommandResult {
         $cb = $this->collectionBuilder();
         /** @var \Robo\Contract\TaskInterface $reference */
@@ -70,7 +70,7 @@ class InstanceDependencyCommand extends CommandBase
      */
     public function cmdInstanceDependencyPackageListAlter(
         $result,
-        CommandData $commandData
+        CommandData $commandData,
     ) {
         if ($result instanceof CommandResult) {
             $data = $result->getOutputData();
@@ -114,7 +114,7 @@ class InstanceDependencyCommand extends CommandBase
      */
     protected function getTasksCollectPackageDependencies(
         TaskInterface $reference,
-        string $instanceName
+        string $instanceName,
     ): array {
         return [
             'init' => new CallableTask($this->getTaskPhpCoreInstallInit($instanceName), $reference),

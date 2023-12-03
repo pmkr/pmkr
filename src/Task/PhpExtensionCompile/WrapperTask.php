@@ -29,10 +29,7 @@ class WrapperTask extends BaseTask implements
         return $this->extensionSrcDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtensionSrcDir(string $extensionSrcDir)
+    public function setExtensionSrcDir(string $extensionSrcDir): static
     {
         $this->extensionSrcDir = $extensionSrcDir;
 
@@ -48,10 +45,7 @@ class WrapperTask extends BaseTask implements
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -67,10 +61,7 @@ class WrapperTask extends BaseTask implements
         return $this->phpBinDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPhpBinDir(string $phpBinDir)
+    public function setPhpBinDir(string $phpBinDir): static
     {
         $this->phpBinDir = $phpBinDir;
 
@@ -80,10 +71,8 @@ class WrapperTask extends BaseTask implements
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -102,10 +91,7 @@ class WrapperTask extends BaseTask implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $extension = $this->getExtension();
         switch ($extension->compiler->type) {

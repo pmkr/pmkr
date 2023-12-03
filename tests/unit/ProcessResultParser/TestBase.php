@@ -33,7 +33,7 @@ abstract class TestBase extends Unit
         array $expected,
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): void {
         $parser = $this->createParser();
 

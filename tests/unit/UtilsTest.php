@@ -13,7 +13,7 @@ use Pmkr\Pmkr\Tests\UnitTester;
 use Pmkr\Pmkr\Util\Filter\PhpExtensionFilter;
 use Pmkr\Pmkr\Utils;
 use Sweetchuck\PearClient\DataType\Release as PearRelease;
-use Sweetchuck\Utils\ComparerInterface;
+use Sweetchuck\Utils\Comparer\ComparerInterface;
 use Sweetchuck\Utils\VersionNumber;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -204,7 +204,7 @@ class UtilsTest extends Unit
         string $prefix,
         VersionNumber $versionNumber,
         bool $isZts,
-        string $suffix
+        string $suffix,
     ): void {
         $utils = $this->createUtils();
 
@@ -364,7 +364,7 @@ class UtilsTest extends Unit
     public function testPickPearReleaseVersion(
         ?PearRelease $expected,
         string $required,
-        array $list
+        array $list,
     ): void {
         $utils = $this->createUtils();
 
@@ -438,7 +438,7 @@ class UtilsTest extends Unit
         bool $expected,
         string $threadType,
         string $extName,
-        array $configLayer
+        array $configLayer,
     ): void {
         $utils = $this->createUtils(null, $configLayer);
         $config = $utils->getConfig();
@@ -529,7 +529,7 @@ class UtilsTest extends Unit
 
         $this->tester->assertEquals(
             $expected,
-            $utils->normalizeCommaSeparatedList($items)
+            $utils->normalizeCommaSeparatedList($items),
         );
     }
 
@@ -639,19 +639,6 @@ class UtilsTest extends Unit
     {
         $utils = $this->createUtils();
         $this->tester->assertSame('composer.lock', $utils->replaceFileExtension('composer.json', 'lock'));
-    }
-
-    public function testBoolToCompareDirection(): void
-    {
-        $utils = $this->createUtils();
-        $this->tester->assertSame(
-            ComparerInterface::DIR_ASCENDING,
-            $utils->boolToCompareDirection(false),
-        );
-        $this->tester->assertSame(
-            ComparerInterface::DIR_DESCENDING,
-            $utils->boolToCompareDirection(true),
-        );
     }
 
     /**
@@ -828,7 +815,7 @@ class UtilsTest extends Unit
         array $expected,
         array $configLayer,
         string $instanceName,
-        string $opSysIdentifier
+        string $opSysIdentifier,
     ): void {
         $utils = $this->createUtils(null, $configLayer);
         $pmkr = PmkrConfig::__set_state([
@@ -936,7 +923,7 @@ class UtilsTest extends Unit
         array $configLayer,
         string $instanceName,
         string $opSysIdentifier,
-        ?array $filterOptions
+        ?array $filterOptions,
     ): void {
         $utils = $this->createUtils(null, $configLayer);
         $pmkr = PmkrConfig::__set_state([
@@ -1001,7 +988,7 @@ class UtilsTest extends Unit
     public function testFetchLibraryKeys(
         array $expected,
         string $opSysIdentifier,
-        array $libraryReferences
+        array $libraryReferences,
     ): void {
         $utils = $this->createUtils();
         $opSys = $this->tester->grabOpSys($opSysIdentifier);

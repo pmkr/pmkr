@@ -7,7 +7,7 @@ namespace Pmkr\Pmkr\Util;
 use Pmkr\Pmkr\Model\Extension;
 use Pmkr\Pmkr\Model\Instance;
 use Sweetchuck\Utils\Comparer\ArrayValueComparer;
-use Sweetchuck\Utils\Filter\ArrayFilterEnabled;
+use Sweetchuck\Utils\Filter\EnabledFilter;
 
 /**
  * @todo Support environment variables.
@@ -29,10 +29,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this->instance->srcDir;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function starter()
+    protected function starter(): static
     {
         $instanceShareDir = $this->instance->shareDir;
 
@@ -49,10 +46,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function process()
+    protected function process(): static
     {
         $libraryIds = $this->collectLibraries();
         $envVars = $this->collectParentConfigureEnvVars($libraryIds);
@@ -67,10 +61,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function processCore()
+    protected function processCore(): static
     {
         $this->addCmdEnvVars($this->instance->core->configureEnvVar);
         $this->addCmdOptions($this->instance->core->configure);
@@ -78,10 +69,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function processExtensions()
+    protected function processExtensions(): static
     {
         $threadType = $this->instance->threadType;
         /**
@@ -102,10 +90,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function processExtension(Extension $extension)
+    protected function processExtension(Extension $extension): static
     {
         $this->addCmdEnvVars($extension->configureEnvVar);
         $this->addCmdOptions($extension->configure);
@@ -124,7 +109,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
         $osId = $this->opSys->pickOpSysIdentifier(array_keys($osList)) ?: 'default';
         $libraryIds += array_filter(
             $osList[$osId] ?? [],
-            new ArrayFilterEnabled(),
+            new EnabledFilter(),
         );
 
         foreach ($this->instance->extensions as $extension) {
@@ -132,7 +117,7 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
             $osId = $this->opSys->pickOpSysIdentifier(array_keys($osList)) ?: 'default';
             $libraryIds += array_filter(
                 $osList[$osId] ?? [],
-                new ArrayFilterEnabled(),
+                new EnabledFilter(),
             );
         }
 
@@ -166,11 +151,17 @@ class PhpCoreCompileConfigureCommandBuilder extends CommandBuilderBase
             }
         }
 
+        $envVarComparer = new ArrayValueComparer();
+        $envVarComparer->setKeys([
+            'weight' => [
+                'default' => 0,
+            ],
+        ]);
         $envVars = [];
         /** @phpstan-var string $envVarName */
         foreach (array_keys($envVarValues) as $envVarName) {
-            $envVarItems = array_filter($envVarValues[$envVarName], new ArrayFilterEnabled());
-            usort($envVarItems, new ArrayValueComparer(['weight' => 0]));
+            $envVarItems = array_filter($envVarValues[$envVarName], new EnabledFilter());
+            usort($envVarItems, $envVarComparer);
             $values = [];
             foreach ($envVarItems as $envVarItem) {
                 $values[] = $envVarItem['value'];

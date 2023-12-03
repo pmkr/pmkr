@@ -9,16 +9,19 @@ use Consolidation\AnnotatedCommand\CommandResult;
 use Pmkr\Pmkr\VariationPickResult\VariationPickCommandResult;
 use Pmkr\Pmkr\VariationPickResult\VariationPickResult;
 use Pmkr\Pmkr\Util\EnvPathHandler;
-use Sweetchuck\Utils\ArrayFilterInterface;
-use Sweetchuck\Utils\ComparerInterface;
-use Sweetchuck\Utils\Filesystem as UtilsFilesystem;
+use Sweetchuck\Utils\Filter\FilterInterface;
+use Sweetchuck\Utils\Comparer\OrderDirection;
+use Sweetchuck\Utils\Comparer\ComparerInterface;
+use Sweetchuck\Utils\FileSystemUtils;
 
 class InstancePickCommand extends CommandBase
 {
 
+    protected FileSystemUtils $fileSystemUtils;
+
     protected EnvPathHandler $envPathHandler;
 
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if ($this->initialized) {
             return $this;
@@ -26,6 +29,7 @@ class InstancePickCommand extends CommandBase
 
         parent::initDependencies();
         $container = $this->getContainer();
+        $this->fileSystemUtils = $container->get('sweetchuck.file_system_utils');
         $this->envPathHandler = $container->get('pmkr.env_path.handler');
 
         return $this;
@@ -72,7 +76,7 @@ class InstancePickCommand extends CommandBase
             'threadType' => 'nts',
             'highest' => false,
             'format' => 'shell-var-setter',
-        ]
+        ],
     ): VariationPickCommandResult {
         if (preg_match('/^\d+(\.\d+){0,2}$/', $coreVersionConstraints) === 1) {
             // @todo Not sure if this really needed.
@@ -132,7 +136,7 @@ class InstancePickCommand extends CommandBase
             'threadType' => 'nts',
             'highest' => false,
             'format' => 'shell-var-setter',
-        ]
+        ],
     ): VariationPickCommandResult {
         $packages = $this->fetchPackages(
             $projectRoot,
@@ -207,7 +211,7 @@ class InstancePickCommand extends CommandBase
             'soft' => false,
             'binary' => 'php',
             'format' => 'shell-var-setter',
-        ]
+        ],
     ): ?VariationPickCommandResult {
         $envPath = (string) $this->getConfig()->get('env.PATH');
         if ($options['soft'] && $this->envPathHandler->getCurrentInstanceName($envPath)) {
@@ -237,7 +241,7 @@ class InstancePickCommand extends CommandBase
     public function cmdInstancePickUnsetExecute(
         array $options = [
             'format' => 'shell-var-setter',
-        ]
+        ],
     ): VariationPickCommandResult {
         return VariationPickCommandResult::data(new VariationPickResult());
     }
@@ -268,7 +272,7 @@ class InstancePickCommand extends CommandBase
         array $options = [
             'binary' => 'php',
             'format' => 'shell-var-setter'
-        ]
+        ],
     ): VariationPickCommandResult {
         $result = new VariationPickResult();
         $result->instance = $this->getPmkr()->instances[$instanceName];
@@ -363,14 +367,14 @@ class InstancePickCommand extends CommandBase
     protected function fetchPackages(
         string $projectRoot,
         string $jsonFileName,
-        bool $noDev
+        bool $noDev,
     ): array {
         $vendorDir = 'vendor';
         if ($this->fs->exists("$projectRoot/$jsonFileName")) {
             try {
-                $json = json_decode(UtilsFilesystem::fileGetContents("$projectRoot/$jsonFileName"), true);
+                $json = json_decode($this->fileSystemUtils->fileGetContents("$projectRoot/$jsonFileName"), true);
                 $vendorDir = $json['config']['vendor-dir'] ?? 'vendor';
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Do nothing.
             }
         }
@@ -404,7 +408,7 @@ class InstancePickCommand extends CommandBase
 
         $packages = null;
         try {
-            $installed = json_decode(UtilsFilesystem::fileGetContents($installedFileName), true);
+            $installed = json_decode($this->fileSystemUtils->fileGetContents($installedFileName), true);
             $packages = $installed['packages'] ?? [];
             if ($noDev && !empty($installed['dev'])) {
                 $packages = array_diff_assoc(
@@ -412,7 +416,7 @@ class InstancePickCommand extends CommandBase
                     array_flip($installed['dev-package-names']),
                 );
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing.
         }
 
@@ -430,13 +434,13 @@ class InstancePickCommand extends CommandBase
 
         $packages = null;
         try {
-            $lock = json_decode(UtilsFilesystem::fileGetContents($lockFileName), true);
+            $lock = json_decode($this->fileSystemUtils->fileGetContents($lockFileName), true);
             if ($noDev) {
                 $packages = $lock['packages'] ?? [];
             } else {
                 $packages = ($lock['packages-dev'] ?? []) + ($lock['packages'] ?? []);
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing.
         }
 
@@ -486,8 +490,9 @@ class InstancePickCommand extends CommandBase
      *     php: array<string, string>,
      * } $requirements
      *
+     * @return \Sweetchuck\Utils\Filter\FilterInterface<\Pmkr\Pmkr\Model\Instance>
      */
-    protected function getInstanceFilter(array $options, array $requirements): ArrayFilterInterface
+    protected function getInstanceFilter(array $options, array $requirements): FilterInterface
     {
         $coreVersionConstraints = implode(' ', array_unique($requirements['php'])) ?: null;
         $isZts = $options['threadType'] ? ($options['threadType'] === 'zts') : null;
@@ -504,10 +509,12 @@ class InstancePickCommand extends CommandBase
      * @param array{
      *     highest: bool,
      * } $options
+     *
+     * @return \Sweetchuck\Utils\Comparer\ComparerInterface<\Pmkr\Pmkr\Model\Instance>
      */
     protected function getInstanceComparer(array $options): ComparerInterface
     {
-        $direction = $this->utils->boolToCompareDirection($options['highest']);
+        $direction = OrderDirection::fromBool($options['highest']);
 
         return $this->getContainer()
             ->get('array_value.comparer')

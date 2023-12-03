@@ -122,7 +122,7 @@ class PhpExtensionVersionDetectorTest extends Unit
         array $vfsStructure,
         string $coreVersion,
         string $dir,
-        ?string $name
+        ?string $name,
     ): void {
         $version = VersionNumber::createFromString($coreVersion);
 

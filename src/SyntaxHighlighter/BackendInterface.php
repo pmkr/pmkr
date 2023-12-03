@@ -11,15 +11,13 @@ interface BackendInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options);
+    public function setOptions(array $options): static;
 
     public function highlight(
         string $code,
         ?string $externalLanguage = null,
         ?string $externalTheme = null,
-        ?string $outputFormat = 'ansi'
+        ?string $outputFormat = 'ansi',
     ): string;
 }

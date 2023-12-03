@@ -26,10 +26,7 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - deploy core etc files: {instanceKey}',
@@ -38,10 +35,7 @@ class PhpCoreEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $instance = $this->getInstance();
         $etc = $instance->core->etc;

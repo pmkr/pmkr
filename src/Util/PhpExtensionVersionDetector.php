@@ -115,10 +115,7 @@ class PhpExtensionVersionDetector
         $this->initCoreExtensions();
     }
 
-    /**
-     * @return $this
-     */
-    protected function initCoreExtensions()
+    protected function initCoreExtensions(): static
     {
         $this->coreExtensions['0700'] = $this->coreExtensions['0506'];
         $this->coreExtensions['0700']['ereg'] = false;

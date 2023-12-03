@@ -53,7 +53,7 @@ class VariationPickResultTest extends Unit
     #[DataProvider('casesAllInOne')]
     public function testAllInOne(
         ?string $expected,
-        array $values
+        array $values,
     ): void {
         $result = VariationPickResult::__set_state($values);
         $this->tester->assertSame($expected, $result->implodePhpIniScanDir());

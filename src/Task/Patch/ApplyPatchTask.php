@@ -27,7 +27,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
 
     public function __construct(
         Utils $utils,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->utils = $utils;
         $this->filesystem = $filesystem;
@@ -41,10 +41,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
         return $this->patch;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPatch(?Patch $patch)
+    public function setPatch(?Patch $patch): static
     {
         $this->patch = $patch;
 
@@ -60,10 +57,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
         return $this->srcDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setSrcDir(string $srcDir)
+    public function setSrcDir(string $srcDir): static
     {
         $this->srcDir = $srcDir;
 
@@ -73,10 +67,8 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         if (array_key_exists('patch', $options)) {
@@ -112,10 +104,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'PMKR - Apply patch: {patch.key} {patch.uri} to {srcDir}',
@@ -125,10 +114,7 @@ class ApplyPatchTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $srcDir = $this->getSrcDir();
         $patch = $this->getPatch();

@@ -38,10 +38,7 @@ class WrapperTask extends BaseTask implements
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo('{extension.key}');
 
@@ -55,10 +52,7 @@ class WrapperTask extends BaseTask implements
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -72,10 +66,7 @@ class WrapperTask extends BaseTask implements
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -84,10 +75,8 @@ class WrapperTask extends BaseTask implements
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -102,10 +91,7 @@ class WrapperTask extends BaseTask implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $extension = $this->getExtension();
         switch ($extension->downloader->type) {

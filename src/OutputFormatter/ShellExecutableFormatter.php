@@ -21,7 +21,7 @@ class ShellExecutableFormatter implements FormatterInterface, ValidationInterfac
 
     public function __construct(
         VariationPickResultConverter $converter,
-        SyntaxHighlighter $syntaxHighlighter
+        SyntaxHighlighter $syntaxHighlighter,
     ) {
         $this->converter = $converter;
         $this->syntaxHighlighter = $syntaxHighlighter;
@@ -55,7 +55,7 @@ class ShellExecutableFormatter implements FormatterInterface, ValidationInterfac
     public function write(
         OutputInterface $output,
         $data,
-        FormatterOptions $options
+        FormatterOptions $options,
     ) {
         $code = $this->converter->toShellExecutable($data);
         if ($code === null) {

@@ -17,10 +17,7 @@ class InitCommand extends CommandBase
 
     protected TemplateHelper $templateHelper;
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if ($this->initialized) {
             return $this;
@@ -42,7 +39,7 @@ class InitCommand extends CommandBase
         array $options = [
             'phpBinary' => '',
             'force' => false,
-        ]
+        ],
     ): TaskInterface {
         $cb = $this->collectionBuilder();
         $this
@@ -60,7 +57,7 @@ class InitCommand extends CommandBase
     public function cmdInitHomeExecute(
         array $options = [
             'force' => false,
-        ]
+        ],
     ): TaskInterface {
         $cb = $this->collectionBuilder();
         $this->addTasksInitHome($cb, $options);
@@ -81,7 +78,7 @@ class InitCommand extends CommandBase
             'phpBinary' => '',
             'force' => false,
             'format' => 'code',
-        ]
+        ],
     ): CollectionBuilder {
         $cb = $this->collectionBuilder();
         $this->addTasksInitPmkr($cb, $options);
@@ -91,10 +88,8 @@ class InitCommand extends CommandBase
 
     /**
      * @param mixed[] $options
-     *
-     * @return $this
      */
-    protected function addTasksInitHome(CollectionBuilder $cb, array $options)
+    protected function addTasksInitHome(CollectionBuilder $cb, array $options): static
     {
         $cb->addCode(
             function () use ($options): int {
@@ -132,7 +127,7 @@ class InitCommand extends CommandBase
                 }
 
                 return 0;
-            }
+            },
         );
 
         return $this;
@@ -140,10 +135,8 @@ class InitCommand extends CommandBase
 
     /**
      * @param mixed[] $options
-     *
-     * @return $this
      */
-    protected function addTasksInitPmkr(CollectionBuilder $cb, array $options)
+    protected function addTasksInitPmkr(CollectionBuilder $cb, array $options): static
     {
         $cb->addCode(
             function () use ($options): int {
@@ -153,7 +146,7 @@ class InitCommand extends CommandBase
                         'File {fileName} already exists',
                         [
                             'fileName' => $fileName,
-                        ]
+                        ],
                     );
 
                     return 0;
@@ -180,7 +173,7 @@ class InitCommand extends CommandBase
                     ->run();
 
                 return $result->wasSuccessful() ? 0 : 1;
-            }
+            },
         );
 
         return $this;

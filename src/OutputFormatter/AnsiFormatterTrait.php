@@ -26,7 +26,7 @@ trait AnsiFormatterTrait
     public function write(
         OutputInterface $output,
         $data,
-        FormatterOptions $options
+        FormatterOptions $options,
     ) {
         if (!$output->isDecorated()) {
             parent::write($output, $data, $options);

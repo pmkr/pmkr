@@ -25,7 +25,7 @@ class VariationPickCommand extends CommandBase
         array $options = [
             'binary' => 'php',
             'format' => 'shell-var-setter',
-        ]
+        ],
     ): ?VariationPickResult {
         $pmkr = $this->getPmkr();
         $variation = $pmkr->variations[$variationKey];

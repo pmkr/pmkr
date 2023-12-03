@@ -6,7 +6,6 @@ namespace Pmkr\Pmkr\Task\Library;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Pmkr\Pmkr\Model\Library;
 use Pmkr\Pmkr\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\TaskAccessor;
@@ -45,10 +44,7 @@ class CompilerWrapperTask extends BaseTask implements
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $message = $this->isSkipped() ?
             'SKIP library compile: {library.name}'
@@ -66,10 +62,8 @@ class CompilerWrapperTask extends BaseTask implements
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         $this->setOptionsCommon($options);
@@ -77,10 +71,7 @@ class CompilerWrapperTask extends BaseTask implements
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         if ($this->isSkipped()) {
             return $this;

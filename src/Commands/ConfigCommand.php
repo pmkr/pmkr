@@ -22,10 +22,7 @@ class ConfigCommand extends CommandBase
 
     protected PmkrConfigValidator $pmkrConfigValidator;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if (!$this->initialized) {
             parent::initDependencies();
@@ -54,7 +51,7 @@ class ConfigCommand extends CommandBase
         array $options = [
             'normalize' => false,
             'format' => 'yaml',
-        ]
+        ],
     ): CommandResult {
         $config = $this->getConfig();
         if ($options['normalize']) {

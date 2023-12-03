@@ -32,10 +32,7 @@ class InstanceInstallCommand extends CommandBase
 
     protected PhpCoreCompileConfigureCommandBuilder $phpCoreCompileConfigureCommandBuilder;
 
-    /**
-     * @return $this
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if (!$this->initialized) {
             parent::initDependencies();
@@ -77,7 +74,7 @@ class InstanceInstallCommand extends CommandBase
                 'opSys',
                 'instance',
                 'optionalExtensions',
-            )
+            ),
         );
 
         return $cb;
@@ -201,7 +198,7 @@ class InstanceInstallCommand extends CommandBase
      */
     public function cmdInstanceInstallExtCustomExecute(
         string $instanceName,
-        array $extensionNames
+        array $extensionNames,
     ): TaskInterface {
         return $this
             ->collectionBuilder()
@@ -257,14 +254,12 @@ class InstanceInstallCommand extends CommandBase
      * - install.
      * - core etc deploy.
      * - enabled extensions etc deploy.
-     *
-     * @return $this
      */
     protected function addTasksPhpCoreInstall(
         CollectionBuilder $cb,
         string $instanceName,
-        string $extensionsToCollectDependenciesForStateKey
-    ) {
+        string $extensionsToCollectDependenciesForStateKey,
+    ): static {
         $cb
             ->addCode($this->getTaskPhpCoreInstallInit($instanceName))
             ->addCode($this->getTaskOsDetector())
@@ -328,7 +323,7 @@ class InstanceInstallCommand extends CommandBase
             ->addTasksPhpCoreCompileConfigure(
                 $cb,
                 'instance',
-                'instanceSrcDir'
+                'instanceSrcDir',
             )
             ->addTasksPhpCoreCompileMake(
                 $cb,
@@ -359,9 +354,8 @@ class InstanceInstallCommand extends CommandBase
         return $this;
     }
 
-    protected function getTaskPhpCoreApplyPatchesPrepare(
-        string $opSysStateKey
-    ): \Closure {
+    protected function getTaskPhpCoreApplyPatchesPrepare(string $opSysStateKey): \Closure
+    {
         return function (RoboState $state) use ($opSysStateKey): int {
             $this->logger->notice('PMKR - PHP core - apply patches - prepare');
 
@@ -395,10 +389,10 @@ class InstanceInstallCommand extends CommandBase
             ->withBuilder(function (
                 CollectionBuilder $builder,
                 string $key,
-                $patch
+                $patch,
             ) use (
                 $taskForEach,
-                $srcDirStateKey
+                $srcDirStateKey,
             ) {
                 /** @var \Pmkr\Pmkr\Model\Patch $patch */
                 $state = $taskForEach->getState();
@@ -468,14 +462,11 @@ class InstanceInstallCommand extends CommandBase
             ->deferTaskConfiguration('to', $dstStateKey);
     }
 
-    /**
-     * @return $this
-     */
     protected function addTasksPhpCoreCompileConfigure(
         CollectionBuilder $cb,
         string $instanceStateKey,
-        string $instanceSrcDirStateKey
-    ) {
+        string $instanceSrcDirStateKey,
+    ): static {
         $cb
             ->addTask(
                 $this
@@ -529,13 +520,10 @@ class InstanceInstallCommand extends CommandBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     protected function addTasksPhpCoreCompileMake(
         CollectionBuilder $cb,
-        string $instanceSrcDirStateKey
-    ) {
+        string $instanceSrcDirStateKey,
+    ): static {
         $cb
             ->addTask(
                 $this
@@ -559,7 +547,7 @@ class InstanceInstallCommand extends CommandBase
     protected function getTaskResolveExtensionNames(
         string $instanceStateKey,
         string $extNamesStateKey,
-        string $dstStateKey
+        string $dstStateKey,
     ): \Closure {
         return function (RoboState $state) use ($instanceStateKey, $extNamesStateKey, $dstStateKey): int {
             /** @var \Pmkr\Pmkr\Model\Instance $instance */
@@ -580,13 +568,13 @@ class InstanceInstallCommand extends CommandBase
 
     protected function getTaskValidateExtensionNameMapping(
         string $mappingStateKey,
-        string $dstStateKey
+        string $dstStateKey,
     ): \Closure {
         return function (
-            RoboState $state
+            RoboState $state,
         ) use (
             $mappingStateKey,
-            $dstStateKey
+            $dstStateKey,
         ): int {
             $mapping = $state[$mappingStateKey];
             $missing = array_keys($mapping, null, true);

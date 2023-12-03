@@ -12,8 +12,7 @@ use Pmkr\Pmkr\Model\Patch;
 use Pmkr\Pmkr\OpSys\OpSys;
 use Sweetchuck\PearClient\DataType\Release as PearRelease;
 use Pmkr\Pmkr\Model\Extension;
-use Sweetchuck\Utils\ArrayFilterInterface;
-use Sweetchuck\Utils\ComparerInterface;
+use Sweetchuck\Utils\Filter\FilterInterface;
 use Sweetchuck\Utils\VersionNumber;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -50,7 +49,7 @@ class Utils implements ConfigAwareInterface
      */
     public function findCandidate(
         array $candidates,
-        array $array
+        array $array,
     ): ?string {
         foreach ($candidates as $candidate) {
             if (array_key_exists($candidate, $array)) {
@@ -68,7 +67,7 @@ class Utils implements ConfigAwareInterface
         string $prefix,
         VersionNumber $versionNumber,
         bool $isZts,
-        string $suffix
+        string $suffix,
     ): array {
         $suffixes = array_unique([
             $suffix,
@@ -384,10 +383,8 @@ class Utils implements ConfigAwareInterface
 
     /**
      * @param mixed $value
-     *
-     * @return $this
      */
-    public function setInputValue(InputInterface $input, string $locator, $value)
+    public function setInputValue(InputInterface $input, string $locator, $value): static
     {
         [$type, $name] = explode('.', $locator, 2);
 
@@ -418,15 +415,10 @@ class Utils implements ConfigAwareInterface
         return preg_replace('/\..+?$/', ".$new", $fileName);
     }
 
-    public function boolToCompareDirection(bool $value): int
-    {
-        return $value ? ComparerInterface::DIR_DESCENDING : ComparerInterface::DIR_ASCENDING;
-    }
-
     public function boolToAnsi(
         bool $value,
         string $true = "\xE2\x9C\x93",
-        string $false = "\xE2\xA8\xAF"
+        string $false = "\xE2\xA8\xAF",
     ): string {
         return $value ? "<fg=green>$true</>" : "<fg=red>$false</>";
     }
@@ -486,7 +478,7 @@ class Utils implements ConfigAwareInterface
      */
     public function fetchPackageDependenciesFromInstanceCore(
         OpSys $opSys,
-        Instance $instance
+        Instance $instance,
     ): array {
         $opSysIdentifier = $opSys->pickOpSysIdentifier(array_keys(
             $instance->core->dependencies['packages'],
@@ -502,12 +494,14 @@ class Utils implements ConfigAwareInterface
     }
 
     /**
+     * @phpstan-param ?\Sweetchuck\Utils\Filter\FilterInterface<\Pmkr\Pmkr\Model\Extension> $extensionFilter
+     *
      * @return array<string, bool>
      */
     public function fetchPackageDependenciesFromInstanceExtensions(
         OpSys $opSys,
         Instance $instance,
-        ?ArrayFilterInterface $extensionFilter = null
+        ?FilterInterface $extensionFilter = null,
     ): array {
         $packagesAll = [];
         $extensions = $instance->extensions;
@@ -527,7 +521,7 @@ class Utils implements ConfigAwareInterface
      */
     public function fetchPackageDependenciesFromExtension(
         OpSys $opSys,
-        Extension $extension
+        Extension $extension,
     ): array {
         $opSysIdentifier = $opSys->pickOpSysIdentifier(
             array_keys($extension->dependencies['packages'] ?? []),
@@ -550,7 +544,7 @@ class Utils implements ConfigAwareInterface
      */
     public function fetchLibraryKeys(
         OpSys $opSys,
-        array $libraryReferences
+        array $libraryReferences,
     ): array {
         $opSysIdentifier = $opSys->pickOpSysIdentifier(array_keys($libraryReferences));
 

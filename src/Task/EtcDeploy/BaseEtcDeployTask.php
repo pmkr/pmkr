@@ -24,10 +24,7 @@ abstract class BaseEtcDeployTask extends BaseTask
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(?Instance $instance)
+    public function setInstance(?Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -37,7 +34,7 @@ abstract class BaseEtcDeployTask extends BaseTask
 
     public function __construct(
         TwigEnvironment $twig,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->twig = $twig;
         $this->filesystem = $filesystem;
@@ -45,10 +42,8 @@ abstract class BaseEtcDeployTask extends BaseTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         if (array_key_exists('instance', $options)) {
@@ -99,10 +94,8 @@ abstract class BaseEtcDeployTask extends BaseTask
      *     src: string,
      *     dst?: string,
      * } $fileDef
-     *
-     * @return $this
      */
-    protected function deploy(array $etc, string $fileDefKey, array $fileDef)
+    protected function deploy(array $etc, string $fileDefKey, array $fileDef): static
     {
         $fileDef += [
             'enabled' => true,

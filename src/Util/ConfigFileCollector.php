@@ -22,7 +22,7 @@ class ConfigFileCollector
 
     public function __construct(
         Utils $utils,
-        Finder $finder
+        Finder $finder,
     ) {
         $this->utils = $utils;
         $this->finder = $finder;

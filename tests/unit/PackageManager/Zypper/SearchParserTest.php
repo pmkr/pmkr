@@ -86,7 +86,7 @@ class SearchParserTest extends Unit
         array $packageNames,
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): void {
         $parser = new SearchParser();
         $this->tester->assertSame(

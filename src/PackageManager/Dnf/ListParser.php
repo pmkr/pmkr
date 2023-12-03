@@ -37,7 +37,7 @@ class ListParser
         array $packageNames,
         int $exitCode,
         string $stdOutput,
-        string $stdError
+        string $stdError,
     ): array {
         $assets = $this->parseStdOutput($stdOutput);
         $assets += [

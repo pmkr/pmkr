@@ -15,10 +15,7 @@ class CommonCompilerTask extends BaseTask implements BuilderAwareInterface
     use BaseTaskLoader;
     use OptionsTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $library = $this->getLibrary();
         $config = $this->getConfig();

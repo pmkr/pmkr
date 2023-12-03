@@ -42,10 +42,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         return $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo('{extension.key}');
 
@@ -64,7 +61,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         PhpExtensionVersionDetector $extensionVersionDetector,
         PearClientInterface $peclClient,
         Utils $utils,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->extVersionDetector = $extensionVersionDetector;
         $this->peclClient = $peclClient;
@@ -80,10 +77,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         return $this->instance;
     }
 
-    /**
-     * @return $this
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -99,10 +93,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -112,10 +103,8 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -130,7 +119,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         return $this;
     }
 
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         // @todo Apply patches.
         $config = $this->getConfig();

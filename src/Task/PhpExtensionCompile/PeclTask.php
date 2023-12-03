@@ -53,10 +53,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
         return $this->extensionSrcDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtensionSrcDir(string $extensionSrcDir)
+    public function setExtensionSrcDir(string $extensionSrcDir): static
     {
         $this->extensionSrcDir = $extensionSrcDir;
 
@@ -72,10 +69,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(Extension $extension)
+    public function setExtension(Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -91,10 +85,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
         return $this->phpBinDir;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPhpBinDir(string $phpBinDir)
+    public function setPhpBinDir(string $phpBinDir): static
     {
         $this->phpBinDir = $phpBinDir;
 
@@ -104,7 +95,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
 
     public function __construct(
         PhpExtensionCompileConfigureCommandBuilder $commandBuilder,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         $this->commandBuilder = $commandBuilder;
         $this->filesystem = $filesystem;
@@ -112,10 +103,8 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
 
@@ -134,10 +123,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface, ContainerAware
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $extensionSrcDir = $this->getExtensionSrcDir();
         $extension = $this->getExtension();

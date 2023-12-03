@@ -9,7 +9,7 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Pmkr\Pmkr\Util\ConfigFileCollector;
 use Pmkr\Pmkr\Util\ConfigNormalizer;
 use Pmkr\Pmkr\Util\EnvPathHandler;
-use Sweetchuck\Utils\Filesystem as UtilsFilesystem;
+use Sweetchuck\Utils\FileSystemUtils;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,20 +19,19 @@ use Symfony\Component\Yaml\Yaml;
 class BaseHookCommand extends CommandBase
 {
 
+    protected FileSystemUtils $fileSystemUtils;
     protected ConfigNormalizer $configNormalizer;
 
     protected EnvPathHandler $envPathHandler;
 
     protected ConfigFileCollector $configFileCollector;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function initDependencies()
+    protected function initDependencies(): static
     {
         if (!$this->initialized) {
             parent::initDependencies();
             $container = $this->getContainer();
+            $this->fileSystemUtils = $container->get('sweetchuck.file_system_utils');
             $this->configNormalizer = $container->get('pmkr.config.normalizer');
             $this->envPathHandler = $container->get('pmkr.env_path.handler');
             $this->configFileCollector = $container->get('pmkr.config_file.collector');
@@ -59,7 +58,7 @@ class BaseHookCommand extends CommandBase
      */
     public function onHookInitPmkrInitReadStdInput(
         InputInterface $input,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $tag = 'pmkrInitReadStdInput';
         $inputLocator = trim($annotationData->get($tag));
@@ -82,7 +81,7 @@ class BaseHookCommand extends CommandBase
      */
     public function onHookInitCurrentInstanceName(
         InputInterface $input,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $currentInstanceName = $this->envPathHandler->getCurrentInstanceName((string) getenv('PATH'));
         if ($currentInstanceName === null) {
@@ -109,7 +108,7 @@ class BaseHookCommand extends CommandBase
      */
     public function onHookInitPmkrDefaultInstanceName(
         InputInterface $input,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $defaultInstanceName = $this->getConfig()->get('defaultInstanceName');
         if ($defaultInstanceName === null) {
@@ -137,7 +136,7 @@ class BaseHookCommand extends CommandBase
     public function onHookInteractInstanceName(
         InputInterface $input,
         OutputInterface $output,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         if (!$input->isInteractive()) {
             return;
@@ -357,7 +356,7 @@ class BaseHookCommand extends CommandBase
     public function onHookInteractVariationKey(
         InputInterface $input,
         OutputInterface $output,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         if (!$input->isInteractive()) {
             return;
@@ -442,7 +441,7 @@ class BaseHookCommand extends CommandBase
             $this->utils->setInputValue(
                 $input,
                 $inputLocator,
-                UtilsFilesystem::normalizeShellFileDescriptor($value),
+                $this->fileSystemUtils->normalizeShellFileDescriptor($value),
             );
         }
     }
@@ -455,7 +454,7 @@ class BaseHookCommand extends CommandBase
     public function onHookInteractPmkrConfigFiles(
         InputInterface $input,
         OutputInterface $output,
-        AnnotationData $annotationData
+        AnnotationData $annotationData,
     ): void {
         $tag = 'pmkrInteractConfigFile';
         $inputLocators = $this->parseMultiValueAnnotation($tag, $annotationData);
@@ -498,7 +497,7 @@ class BaseHookCommand extends CommandBase
     protected function getInputLocatorsWithYaml(string $tag, AnnotationData $annotationData): array
     {
         $tagValue = $annotationData->get($tag);
-        if (strpos($tagValue, "\n") === false) {
+        if (!str_contains($tagValue, "\n")) {
             return array_fill_keys(
                 $this->parseMultiValueAnnotation($tag, $annotationData),
                 [],

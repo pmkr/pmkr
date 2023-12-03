@@ -43,10 +43,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this->extension;
     }
 
-    /**
-     * @return $this
-     */
-    public function setExtension(?Extension $extension)
+    public function setExtension(?Extension $extension): static
     {
         $this->extension = $extension;
 
@@ -57,7 +54,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
     public function __construct(
         PhpExtensionVersionDetector $extensionVersionDetector,
         TwigEnvironment $twig,
-        Filesystem $filesystem
+        Filesystem $filesystem,
     ) {
         parent::__construct($twig, $filesystem);
         $this->extensionVersionDetector = $extensionVersionDetector;
@@ -65,10 +62,8 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         parent::setOptions($options);
         if (array_key_exists('extension', $options)) {
@@ -78,10 +73,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runHeader()
+    protected function runHeader(): static
     {
         $this->printTaskInfo(
             'extensionKey is: {extensionKey}',
@@ -90,10 +82,7 @@ class PhpExtensionEtcDeployTask extends BaseEtcDeployTask
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function runDoIt()
+    protected function runDoIt(): static
     {
         $instance = $this->getInstance();
         $instanceSrcDir = $instance->srcDir;

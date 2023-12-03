@@ -22,7 +22,7 @@ class TerminalColorSchemeDetector
     public function __construct(
         ConfigInterface $config,
         ProcessFactory $processFactory,
-        ParserInterface $terminalColorParser
+        ParserInterface $terminalColorParser,
     ) {
         $this->config = $config;
         $this->processFactory = $processFactory;

@@ -17,9 +17,8 @@ class CodeFormatter implements FormatterInterface, ValidationInterface
 {
     protected SyntaxHighlighter $syntaxHighlighter;
 
-    public function __construct(
-        SyntaxHighlighter $syntaxHighlighter
-    ) {
+    public function __construct(SyntaxHighlighter $syntaxHighlighter)
+    {
         $this->syntaxHighlighter = $syntaxHighlighter;
     }
 
@@ -64,7 +63,7 @@ class CodeFormatter implements FormatterInterface, ValidationInterface
     public function write(
         OutputInterface $output,
         $data,
-        FormatterOptions $options
+        FormatterOptions $options,
     ) {
         /** @var \Pmkr\Pmkr\CodeResult\CodeResult $data */
         $code = $data->code;

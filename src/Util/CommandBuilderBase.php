@@ -57,10 +57,7 @@ abstract class CommandBuilderBase
 
     abstract protected function getSrcDir(): string;
 
-    /**
-     * @return $this
-     */
-    protected function init()
+    protected function init(): static
     {
         $this->cmdOptions = [];
         $this->cmd = [
@@ -73,22 +70,14 @@ abstract class CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    abstract protected function starter();
+    abstract protected function starter(): static;
 
-    /**
-     * @return $this
-     */
-    abstract protected function process();
+    abstract protected function process(): static;
 
     /**
      * @param array<string, array<string, false|string>> $configureEnvVar
-     *
-     * @return $this
      */
-    protected function addCmdEnvVars(array $configureEnvVar)
+    protected function addCmdEnvVars(array $configureEnvVar): static
     {
         $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($configureEnvVar));
         $envVars = array_replace(
@@ -108,10 +97,8 @@ abstract class CommandBuilderBase
 
     /**
      * @param array<string, array<string, null|false|string>> $configure
-     *
-     * @return $this
      */
-    protected function addCmdOptions(array $configure)
+    protected function addCmdOptions(array $configure): static
     {
         $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($configure));
         $options = array_replace(
@@ -129,10 +116,7 @@ abstract class CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function checkCmdOptions()
+    protected function checkCmdOptions(): static
     {
         foreach ($this->cmdOptions as $name => $values) {
             $occurrences = array_count_values($values);
@@ -146,10 +130,7 @@ abstract class CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function mergeCmdOptions()
+    protected function mergeCmdOptions(): static
     {
         foreach ($this->cmdOptions as $value) {
             $this->cmd['command'][] = (string) reset($value);
@@ -158,10 +139,7 @@ abstract class CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function checkCmdEnvVars()
+    protected function checkCmdEnvVars(): static
     {
         foreach ($this->cmd['envVars'] as $name => $values) {
             $occurrences = array_count_values($values);
@@ -175,10 +153,7 @@ abstract class CommandBuilderBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    protected function mergeCmdEnvVars()
+    protected function mergeCmdEnvVars(): static
     {
         foreach ($this->cmd['envVars'] as $name => $value) {
             $this->cmd['envVarsFlat'][$name] = (string) reset($value);
