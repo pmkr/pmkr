@@ -280,7 +280,7 @@ class BaseHookCommand extends CommandBase
             $instance = $pmkr->instances[$instanceName];
             $filter = $this->getContainer()->get('pmkr.instance.filter');
             $filter->setOptions($filterOptions);
-            if (!$filter->check($instance)) {
+            if (!$filter->isAllowed($instance)) {
                 $message[] = "Instance {$instance->key} is not available for this operation.";
             }
         }

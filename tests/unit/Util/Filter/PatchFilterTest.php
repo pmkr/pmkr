@@ -22,7 +22,7 @@ class PatchFilterTest extends Unit
     /**
      * @return array<string, mixed>
      */
-    public function casesCheck(): array
+    public function casesIsAllowed(): array
     {
         return [
             'when empty' => [
@@ -163,8 +163,8 @@ class PatchFilterTest extends Unit
      * } $options
      * @param array<string, mixed> $configLayer
      */
-    #[DataProvider('casesCheck')]
-    public function testCheck(bool $expected, array $options, array $configLayer): void
+    #[DataProvider('casesIsAllowed')]
+    public function testIsAllowed(bool $expected, array $options, array $configLayer): void
     {
         if (isset($options['opSys'])) {
             $options['opSys'] = $this->tester->grabOpSys($options['opSys']);
