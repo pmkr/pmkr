@@ -20,7 +20,15 @@ libraries:
                         --disable-shared \
                         --with-ssl="${dir.share}/${libraries.OpenSSL_1_0.name}" \
                         --with-libssh2 \
+                        --disable-ldap \
                     && \
                     make -j \
                     && \
                     make install
+        parentConfigureEnvVars:
+            PKG_CONFIG_PATH:
+                default:
+                    pkgconfig:
+                        enabled: true
+                        weight: 2
+                        value: '${dir.share}/${libraries.curl-7-61.name}/lib/pkgconfig/'

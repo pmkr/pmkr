@@ -55,12 +55,22 @@ stash:
                         pkg-config: true
                         re2c: true
 
+                libraries:
+                    alpine-3: &cores_0702_dependencies_libraries_alpine-3
+                        OpenSSL_1_1: true
+                    arch: &cores_0702_dependencies_libraries_arch
+                        OpenSSL_1_1: true
+                    opensuse-tumbleweed: &cores_0702_dependencies_libraries_opensuse-tumbleweed
+                        OpenSSL_1_1: true
+                        curl-7-61: true
+
             configure:
                 common: &cores_0702_configure_common
                     --enable-hash: ~
                     --enable-libxml: ~
                     --enable-mysqlnd: ~
                     --with-openssl: ~
+                    --with-openssl-dir: '${dir.share}/${libraries.OpenSSL_1_1.name}'
                     --with-sqlite3: ~
                     --with-zlib: ~
 
@@ -146,6 +156,50 @@ stash:
 
 
 extensions:
+    curl-0702:
+        dependencies:
+            packages:
+                alpine-3:
+                    curl-dev: true
+                    libcurl: true
+                    libpsl-dev: true
+                fedora-35:
+                    libcurl-devel: true
+                opensuse-tumbleweed:
+                    libcurl4: true
+                    libcurl-devel: true
+                ubuntu-21-10:
+                    libcurl4: true
+                    libcurl4-openssl-dev: true
+            libraries:
+                alpine-3:
+                    OpenSSL_1_1: true
+                    curl-7-61: true
+            configure:
+                default:
+                    --with-curl: '${dir.share}/${libraries.curl-7-61.name}'
+                    #--with-curlwrappers: ~
+            etc:
+                files:
+                    conf/default/curl-ini:
+                        src: 'etc/ext/curl.ini.twig'
+                        dst: 'conf/default/curl.ini'
+
+    openssl-0702:
+        dependencies:
+            libraries:
+                opensuse-tumbleweed:
+                    OpenSSL_1_1: true
+        configure:
+            default:
+                --with-openssl: ~
+                --with-openssl-dir: '${dir.share}/${libraries.OpenSSL_1_1.name}'
+        etc:
+            files:
+                conf/default/oopenssl-ini:
+                    src: 'etc/ext/openssl.ini.twig'
+                    dst: 'conf/default/openssl.ini'
+
     dom-0702:
         configure:
             default:
@@ -287,6 +341,17 @@ extensions:
             default:
                 --enable-psr: ~
 
+    xdebug-0702:
+        version: '2.9.8'
+        configure:
+            default:
+                --enable-xdebug: ~
+        etc:
+            files:
+                conf-default-xdebug-ini:
+                    src: 'etc/ext/xdebug-0702.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
     zip-0702:
         weight: 200
         dependencies:
@@ -323,7 +388,7 @@ extensionSets:
             status: 'enabled'
         ctype:
             status: 'enabled'
-        curl:
+        curl-0702:
             status: 'enabled'
         dom-0702:
             status: 'enabled'
@@ -364,6 +429,8 @@ extensionSets:
             status: 'enabled'
             # @todo Fatal Error Unable to allocate shared memory segment of 268435456 bytes: unknown: Success
             isEnabled: false
+        openssl-0702:
+            status: 'enabled'
         pdo:
             status: 'enabled'
         pdo_mysql:
@@ -470,7 +537,7 @@ extensionSets:
             status: 'optional'
         swoole-0702:
             status: 'optional'
-        xdebug:
+        xdebug-0702:
             status: 'optional'
         yaml:
             status: 'optional'
@@ -503,6 +570,13 @@ cores:
                     <<: *cores_0702_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
                     <<: *cores_0702_dependencies_packages_ubuntu-21-10
+            libraries:
+                alpine-3:
+                    <<: *cores_0702_dependencies_libraries_alpine-3
+                arch:
+                    <<: *cores_0702_dependencies_libraries_arch
+                opensuse-tumbleweed:
+                    <<: *cores_0702_dependencies_libraries_opensuse-tumbleweed
         configure:
             default:
                 <<: *cores_0702_configure_common
@@ -526,6 +600,13 @@ cores:
                     <<: *cores_0702_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
                     <<: *cores_0702_dependencies_packages_ubuntu-21-10
+            libraries:
+                alpine-3:
+                    <<: *cores_0702_dependencies_libraries_alpine-3
+                arch:
+                    <<: *cores_0702_dependencies_libraries_arch
+                opensuse-tumbleweed:
+                    <<: *cores_0702_dependencies_libraries_opensuse-tumbleweed
         configure:
             default:
                 <<: *cores_0702_configure_common
