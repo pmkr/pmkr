@@ -65,7 +65,7 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     pcov:
@@ -80,7 +80,7 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     posix:
@@ -101,7 +101,7 @@ stash:
                                     xdebug:
                                         isEnabled: true
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: false
                     ext: &cores_0703_etc_files_ext
@@ -147,7 +147,7 @@ stash:
                                     xdebug:
                                         isEnabled: true
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: false
                         php-fpm-d-php-prod-ini:
@@ -158,7 +158,7 @@ stash:
                                     xdebug:
                                         isEnabled: false
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: false
 

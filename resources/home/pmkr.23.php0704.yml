@@ -66,7 +66,7 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     pcov:
@@ -81,7 +81,7 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     posix:
@@ -102,7 +102,7 @@ stash:
                                     xdebug:
                                         isEnabled: true
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: false
                     ext: &cores_0704_etc_files_ext
@@ -159,7 +159,7 @@ stash:
                                     xdebug:
                                         isEnabled: false
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: false
 

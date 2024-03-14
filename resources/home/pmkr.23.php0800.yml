@@ -65,7 +65,7 @@ stash:
                             vars:
                                 extensions:
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     pcntl:
                                         isEnabled: true
                                     pcov:
