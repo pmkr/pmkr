@@ -818,8 +818,12 @@ extensions:
         compiler:
             type: 'pecl'
             options:
+                # Git submodule refers to an old commit,
+                # which does not work with PHP 8.3.x.
+                # That is why the "git switch master" is there.
                 before: |
                     cd './lib/libsass'
+                    git switch master
                     make clean
                     make -j
         configure:

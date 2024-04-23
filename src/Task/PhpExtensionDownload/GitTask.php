@@ -168,22 +168,15 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         $extension = $this->getExtension();
         $options = $extension->downloader->options;
 
-        switch ($options['refType']) {
-            case 'tag':
-                $ref = 'refs/tags/' . $options['refValue'];
-                break;
-
-            case 'branch':
-                $ref = 'refs/heads/' . $options['refValue'];
-                break;
-
-            default:
-                $ref = $options['refValue'];
-                break;
-        }
+        $ref = match ($options['refType']) {
+            'tag' => "refs/tags/{$options['refValue']}",
+            'branch' => "refs/heads/{$options['refValue']}",
+            default => $options['refValue'],
+        };
 
         return $this
             ->taskGitStack()
+            ->dir($this->cacheDst)
             ->exec(sprintf(
                 'clone --recurse-submodules %s %s',
                 escapeshellarg($this->cacheDst),

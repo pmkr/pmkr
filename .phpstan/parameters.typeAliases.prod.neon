@@ -1,29 +1,29 @@
 parameters:
-    typeAliases:
-        ApkListItem: '''
-            array{
-                id: string,
-                architecture: string,
-                name: string,
-                version: string,
-                license: array<string>,
-                status: array<string>,
-            }
-        '''
-        php-net-release-info: '''
-            array{
-                announcement: bool,
-                tags: string[],
-                date: string,
-                source: array<string, php-net-downloadable>,
-                version: string,
-            }
-        '''
-        php-net-downloadable: '''
-            array{
-                filename: string,
-                name: string,
-                sha256: string,
-                date: string,
-            }
-        '''
+	typeAliases:
+		ApkListItem: '''
+			array{
+				id: string,
+				architecture: string,
+				name: string,
+				version: string,
+				license: array<string>,
+				status: array<string>,
+			}
+		'''
+		php-net-release-info: '''
+			array{
+				announcement: bool,
+				tags: string[],
+				date: string,
+				source: array<string, php-net-downloadable>,
+				version: string,
+			}
+		'''
+		php-net-downloadable: '''
+			array{
+				filename: string,
+				name: string,
+				sha256: string,
+				date: string,
+			}
+		'''
