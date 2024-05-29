@@ -826,13 +826,13 @@ instances:
         <<: *instance_080125
 
     '080126-nts': &instance_080126
+        hidden: true
         isZts: false
         coreVersion: '8.1.26'
         coreChecksum:
             hashAlgorithm: 'sha256'
             hashChecksum: '83bde249c84aa1a043a8c8d0eea09345c2cae69b9784cdf02229fc916fbb9ea0'
     '080126-zts':
-        hidden: true
         isZts: true
         <<: *instance_080126
     '080126-nts-none':
