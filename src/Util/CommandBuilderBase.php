@@ -7,6 +7,8 @@ namespace Pmkr\Pmkr\Util;
 use Consolidation\Config\ConfigInterface;
 use Pmkr\Pmkr\OpSys\OpSys;
 use Pmkr\Pmkr\Utils;
+use Sweetchuck\Utils\Comparer\ArrayValueComparer;
+use Sweetchuck\Utils\Filter\EnabledFilter;
 
 abstract class CommandBuilderBase
 {
@@ -75,21 +77,37 @@ abstract class CommandBuilderBase
     abstract protected function process(): static;
 
     /**
-     * @param array<string, array<string, false|string>> $configureEnvVar
+     * @param array<string, mixed> $configureEnvVar
      */
     protected function addCmdEnvVars(array $configureEnvVar): static
     {
-        $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($configureEnvVar));
-        $envVars = array_replace(
-            $configureEnvVar['default'] ?? [],
-            $configureEnvVar[$opSysIdentifier] ?? [],
-        );
-        foreach ($envVars as $name => $value) {
-            if ($value === false) {
-                continue;
-            }
+        $comparer = new ArrayValueComparer();
+        $comparer->setKeys([
+            'weight' => [
+                'default' => 0,
+            ],
+        ]);
+        /**
+         * @var string $name
+         * @var array<string, mixed> $opSysVariants
+         */
+        foreach ($configureEnvVar as $name => $opSysVariants) {
+            $opSysIdentifier = $this->opSys->pickOpSysIdentifier(array_keys($opSysVariants));
 
-            $this->cmd['envVars'][$name][] = $name . '=' . escapeshellarg($value);
+            $valueCandidates = array_replace(
+                $opSysVariants['default'] ?? [],
+                $opSysVariants[$opSysIdentifier] ?? [],
+            );
+
+            $valueCandidates = array_filter($valueCandidates, new EnabledFilter());
+            uasort($valueCandidates, $comparer);
+
+            foreach ($valueCandidates as $valueCandidateName => $valueCandidate) {
+                if ($valueCandidate['value'] === false) {
+                    continue;
+                }
+                $this->cmd['envVars'][$name][$valueCandidateName] = $name . '=' . escapeshellarg($valueCandidate['value']);
+            }
         }
 
         return $this;

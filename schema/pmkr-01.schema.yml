@@ -625,7 +625,7 @@ definitions:
             patchList:
                 '$ref': '#/definitions/patchList'
             configureEnvVar:
-                '$ref': '#/definitions/configureEnvVar'
+                '$ref': '#/definitions/configureEnvVarList'
             configure:
                 '$ref': '#/definitions/configure'
             etc:

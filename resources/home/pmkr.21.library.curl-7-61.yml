@@ -31,4 +31,4 @@ libraries:
                     pkgconfig:
                         enabled: true
                         weight: 2
-                        value: '${dir.share}/${libraries.curl-7-61.name}/lib/pkgconfig/'
+                        value: '${dir.share}/${libraries.curl-7-61.name}/lib64/pkgconfig/'

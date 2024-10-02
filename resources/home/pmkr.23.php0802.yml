@@ -69,6 +69,23 @@ stash:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
+                        php-gmagick-ini:
+                            src: 'etc/php.gmagick.ini.twig'
+                            dst: 'php.gmagick.ini'
+                            vars:
+                                extensions:
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: true
+                                    pcov:
+                                        isEnabled: true
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
@@ -162,6 +179,9 @@ stash:
                         php-fpm-d-pool-d-dev-default-ini:
                             src: 'etc/php-fpm.d/pool.d/dev.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/dev.default.ini'
+                        php-fpm-d-pool-d-gmagick-default-ini:
+                            src: 'etc/php-fpm.d/pool.d/gmagick.default.ini.twig'
+                            dst: 'php-fpm.d/pool.d/gmagick.default.ini'
                         php-fpm-d-pool-d-prod-default-ini:
                             src: 'etc/php-fpm.d/pool.d/prod.default.ini.twig'
                             dst: 'php-fpm.d/pool.d/prod.default.ini'
@@ -177,6 +197,17 @@ stash:
                                         isEnabled: true
                                     gmagick:
                                         isEnabled: false
+                        php-fpm-d-php-gmagick-ini:
+                            src: 'etc/php-fpm.d/php.gmagick.ini.twig'
+                            dst: 'php-fpm.d/php.gmagick.ini'
+                            vars:
+                                extensions:
+                                    xdebug:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: false
+                                    gmagick:
+                                        isEnabled: true
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
@@ -192,6 +223,9 @@ stash:
                         php-fpm-d-php-fpm-dev-ini:
                             src: 'etc/php-fpm.d/php-fpm.dev.ini.twig'
                             dst: 'php-fpm.d/php-fpm.dev.ini'
+                        php-fpm-d-php-fpm-gmagick-ini:
+                            src: 'etc/php-fpm.d/php-fpm.gmagick.ini.twig'
+                            dst: 'php-fpm.d/php-fpm.gmagick.ini'
                         php-fpm-d-php-fpm-prod-ini:
                             src: 'etc/php-fpm.d/php-fpm.prod.ini.twig'
                             dst: 'php-fpm.d/php-fpm.prod.ini'
@@ -201,6 +235,11 @@ stash:
                             dst: 'supervisor/program.php-fpm.dev.ini'
                             vars:
                                 iniVariant: 'dev'
+                        supervisor-program-php-fpm-gmagick-ini:
+                            src: 'etc/supervisor/program.php-fpm.ini.twig'
+                            dst: 'supervisor/program.php-fpm.gmagick.ini'
+                            vars:
+                                iniVariant: 'gmagick'
                         supervisor-program-php-fpm-prod-ini:
                             src: 'etc/supervisor/program.php-fpm.ini.twig'
                             dst: 'supervisor/program.php-fpm.prod.ini'
@@ -826,6 +865,7 @@ instances:
         <<: *instance_080217
 
     '080218-nts': &instance_080218
+        hidden: true
         isZts: false
         coreVersion: '8.2.18'
         coreChecksum:
@@ -835,7 +875,6 @@ instances:
         isZts: true
         <<: *instance_080218
     '080218-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080218
 
@@ -853,15 +892,88 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080219
 
+    '080220-nts': &instance_080220
+        hidden: true
+        isZts: false
+        coreVersion: '8.2.20'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '5dec6fa61c7b9c47aa1d76666be651f2642ed2bcf6cd8638c57e3571ce2aac61'
+    '080220-zts':
+        isZts: true
+        <<: *instance_080220
+    '080220-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080220
+
+    '080221-nts': &instance_080221
+        hidden: true
+        isZts: false
+        coreVersion: '8.2.21'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'f9876fe7d4d96d41aced199b58a1f7ae7b6655ddc92673135feded7f6939d77f'
+    '080221-zts':
+        isZts: true
+        <<: *instance_080221
+    '080221-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080221
+
+    '080222-nts': &instance_080222
+        hidden: true
+        isZts: false
+        coreVersion: '8.2.22'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '5aae5964c60533185f9be928cf7d79a13393cc5560cedf1f4b977944cc76a585'
+    '080222-zts':
+        isZts: true
+        <<: *instance_080222
+    '080222-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080222
+
+    '080223-nts': &instance_080223
+        hidden: true
+        isZts: false
+        coreVersion: '8.2.23'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'f7c90cda7a3c1de01f3bfb7b469d52dec9eba2f3b83320836004f9c2eecae26b'
+    '080223-zts':
+        isZts: true
+        <<: *instance_080223
+    '080223-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080223
+
+    '080224-nts': &instance_080224
+        isZts: false
+        coreVersion: '8.2.24'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '4cc76ec644eee97d17c92bfe8d0e84714fedf299a538b7dfadc0639dd0dc432f'
+    '080224-zts':
+        isZts: true
+        <<: *instance_080224
+    '080224-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080224
+
 aliases:
-    '0802-nts': '080219-nts'
-    '0802-zts': '080219-zts'
+    '0802-nts': '080224-nts'
+    '0802-zts': '080224-zts'
 
 
 variations:
     '0802-nts-pcov':
         instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
+    '0802-nts-gmagick':
+        instanceKey: '0802-nts'
+        phpRc: '{{ instance.shareDir }}/etc/php.gmagick.ini'
     '0802-nts-prod':
         instanceKey: '0802-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'

@@ -365,7 +365,7 @@ extensionSets:
         iconv:
             status: 'enabled'
         intl:
-            status: 'enabled'
+            status: 'skip'
         json:
             status: 'enabled'
         mbstring:

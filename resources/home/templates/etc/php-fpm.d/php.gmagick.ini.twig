@@ -1,0 +1,13 @@
+
+;zend_extension=ioncube_loader_lin_5.5.so
+zend_extension=opcache
+{% if not extensions.xdebug.isEnabled %};{% endif %}zend_extension=xdebug
+
+xdebug.mode=develop,debug
+
+{% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
+{% if not extensions.gmagick.isEnabled %};{% endif %}extension=gmagick
+
+opcache.validate_timestamps=1
+zend.assertions=1
+assert.active=On

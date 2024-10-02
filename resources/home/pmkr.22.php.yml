@@ -268,6 +268,37 @@ extensions:
                 conf/default/imagick-ini:
                     src: 'etc/ext/imagick.ini.twig'
                     dst: 'conf/default/imagick.ini'
+    gmagick:
+        version: '2.0.6RC1'
+        dependencies:
+            packages:
+#                alpine-3:
+#                    imagemagick: true
+#                    imagemagick-dev: true
+#                arch:
+#                    imagemagick: true
+#                fedora-35:
+#                    ImageMagick: true
+#                    ImageMagick-devel: true
+                opensuse-tumbleweed:
+                    GraphicsMagick: true
+                    GraphicsMagick-devel: true
+#                ubuntu-21-10:
+#                    imagemagick: true
+#                    libmagickcore-dev: true
+#                    libmagickwand-dev: true
+#                ubuntu-22-04:
+#                    imagemagick: true
+#                    libmagickcore-dev: true
+#                    libmagickwand-dev: true
+        configure:
+            default:
+                --with-gmagick: ~
+        etc:
+            files:
+                conf/default/imagick-ini:
+                    src: 'etc/ext/gmagick.ini.twig'
+                    dst: 'conf/default/gmagick.ini'
     imap:
         configure:
             default:

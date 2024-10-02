@@ -313,7 +313,7 @@ extensionSets:
         iconv:
             status: 'enabled'
         intl:
-            status: 'enabled'
+            status: 'skip'
         mbstring:
             status: 'enabled'
         mysqli:
