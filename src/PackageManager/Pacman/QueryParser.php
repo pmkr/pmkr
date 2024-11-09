@@ -61,7 +61,7 @@ class QueryParser
         $pattern = "/package '(?P<name>[^']+)' was not found/";
         $matches = [];
         preg_match_all($pattern, $stdError, $matches);
-        $assets['not-installed'] = array_fill_keys($matches['name'] ?? [], []);
+        $assets['not-installed'] = array_fill_keys($matches['name'], []);
 
         return $assets;
     }

@@ -60,7 +60,10 @@ class WhichCommand extends CommandBase
         }
 
         return CommandResult::data(
-            array_filter($data, '\strlen'),
+            array_filter(
+                $data,
+                fn(string $value) => strlen($value) > 0,
+            ),
         );
     }
 }
