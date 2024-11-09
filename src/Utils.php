@@ -102,7 +102,10 @@ class Utils implements ConfigAwareInterface
             }
         }
 
-        return array_filter($candidates, 'mb_strlen');
+        return array_filter(
+            $candidates,
+            fn(string $value) => mb_strlen($value) > 0,
+        );
     }
 
     public function getPhpCoreDownloadUri(VersionNumber $coreVersionNumber): string

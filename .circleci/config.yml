@@ -22,17 +22,6 @@ executors:
         docker:
             -
                 name: 'main'
-                image: 'cimg/php:8.2'
-
-    php_plus1:
-        resource_class: 'small'
-        environment:
-            <<: *env_common
-            <<: *env_composer
-
-        docker:
-            -
-                name: 'main'
                 image: 'cimg/php:8.3'
 
     os_alpine-3:
@@ -553,7 +542,6 @@ workflows:
                         parameters:
                             executor:
                                 - 'php_min'
-                                - 'php_plus1'
 
     pmkr_instance_install:
         jobs:

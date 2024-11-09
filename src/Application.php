@@ -68,7 +68,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
                 \PATH_SEPARATOR,
                 $envVars["{$envVarNamePrefix}_CONFIG"] ?? '',
             ),
-            '\strlen',
+            fn(string $value): bool => strlen($value) > 0,
         );
 
         $dirsRawConfigExtra = array_filter(
@@ -76,7 +76,7 @@ class Application extends ApplicationBase implements ContainerAwareInterface
                 \PATH_SEPARATOR,
                 $envVars["{$envVarNamePrefix}_CONFIG_EXTRA"] ?? '',
             ),
-            '\strlen',
+            fn(string $value): bool => strlen($value) > 0,
         );
 
         if (!$dirsRawConfigExtra) {

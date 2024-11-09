@@ -44,7 +44,7 @@ class EnvPathHandler implements ConfigAwareInterface
     {
         return array_filter(
             explode($this->getPathSeparator(), $envPath),
-            'strlen',
+            fn(string $value) => strlen($value) > 0,
         );
     }
 

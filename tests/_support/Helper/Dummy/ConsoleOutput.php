@@ -20,10 +20,8 @@ class ConsoleOutput extends BufferedOutput implements ConsoleOutputInterface
 
     /**
      * @param \Symfony\Component\Console\Output\BufferedOutput $error
-     *
-     * @return void
      */
-    public function setErrorOutput(OutputInterface $error)
+    public function setErrorOutput(OutputInterface $error): void
     {
         $this->stdError = $error;
     }
