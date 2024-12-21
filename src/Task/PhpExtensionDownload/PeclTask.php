@@ -149,7 +149,7 @@ class PeclTask extends BaseTask implements BuilderAwareInterface
         $extVersionAsRequired = $extension['version'];
         try {
             $releases = $this->getReleases();
-        } catch (NoResponseCode $e) {
+        } catch (\Throwable $e) {
             $message = $e->getMessage();
             $messageArgs = [];
             $logger->error($message, $messageArgs);

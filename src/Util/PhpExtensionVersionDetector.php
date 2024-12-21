@@ -107,6 +107,7 @@ class PhpExtensionVersionDetector
         '0801' => [],
         '0802' => [],
         '0803' => [],
+        '0804' => [],
     ];
 
     public function __construct(?Filesystem $filesystem = null)
@@ -151,6 +152,12 @@ class PhpExtensionVersionDetector
 
         // Same.
         $this->coreExtensions['0803'] = $this->coreExtensions['0802'];
+
+        $this->coreExtensions['0804'] = $this->coreExtensions['0803'];
+        // Removed from core.
+        $this->coreExtensions['0804']['imap'] = false;
+        // Extension pspell "https://php.watch/versions/8.4/pspell-unbundled".
+        $this->coreExtensions['0804']['pspell'] = false;
 
         return $this;
     }

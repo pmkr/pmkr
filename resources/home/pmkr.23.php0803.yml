@@ -350,7 +350,7 @@ extensions:
                 --with-snmp: ~
 
     xdebug-0803:
-        version: '3.3.0alpha3'
+        version: '3.3.1'
         configure:
             default:
                 --enable-xdebug: ~
@@ -361,6 +361,12 @@ extensions:
                 conf/default/xdebug-ini:
                     src: 'etc/ext/xdebug.ini.twig'
                     dst: 'conf/default/xdebug.ini'
+    ds-0803:
+        version: '1.5.0'
+        weight: 50
+        configure:
+            default:
+                --enable-ds: ~
 
 
 # Extensions always enabled, even with "--disable-all":
@@ -554,6 +560,9 @@ extensionSets:
         uuid:
             status: 'optional'
             isEnabled: true
+        ds-0803:
+            status: 'optional'
+            isEnabled: false
         # endregion
 
         # region Skip - core.
@@ -781,11 +790,11 @@ instances:
         isZts: true
         <<: *instance_080312
     '080312-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080312
 
     '080313-nts': &instance_080313
+        hidden: true
         isZts: false
         coreVersion: '8.3.13'
         coreChecksum:
@@ -799,9 +808,23 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080313
 
+    '080314-nts': &instance_080314
+        isZts: false
+        coreVersion: '8.3.14'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'f56fa669ce4c01452a2921f40034d779d8c2b97d0749493ad4781813b9221cf8'
+    '080314-zts':
+        isZts: true
+        <<: *instance_080314
+    '080314-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080314
+
 aliases:
-    '0803-nts': '080313-nts'
-    '0803-zts': '080313-zts'
+    '0803-nts': '080314-nts'
+    '0803-zts': '080314-zts'
 
 
 variations:

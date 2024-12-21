@@ -34,9 +34,9 @@ class ProcessFactory
      */
     public function createInstance(
         array $command,
-        string $cwd = null,
-        array $env = null,
-        $input = null,
+        ?string $cwd = null,
+        ?array $env = null,
+        mixed $input = null,
         ?float $timeout = 60,
     ): Process {
         /** @var \Symfony\Component\Process\Process $class */
@@ -53,9 +53,9 @@ class ProcessFactory
      */
     public function fromShellCommandline(
         string $command,
-        string $cwd = null,
-        array $env = null,
-        $input = null,
+        ?string $cwd = null,
+        ?array $env = null,
+        mixed $input = null,
         ?float $timeout = 60,
     ): Process {
         /**
