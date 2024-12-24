@@ -621,7 +621,6 @@ cores:
                 <<: *cores_0803_etc_files_ini
                 <<: *cores_0803_etc_files_ext
 
-
 instances:
     '080300-nts': &instance_080300
         hidden: true
@@ -809,6 +808,7 @@ instances:
         <<: *instance_080313
 
     '080314-nts': &instance_080314
+        hidden: true
         isZts: false
         coreVersion: '8.3.14'
         coreChecksum:
@@ -818,13 +818,27 @@ instances:
         isZts: true
         <<: *instance_080314
     '080314-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080314
 
+    '080315-nts': &instance_080315
+        isZts: false
+        coreVersion: '8.3.15'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'b1675a4ff730b5811b8e6a7687488c42e835e156a99776aa3e6f017abda3be98'
+    '080315-zts':
+        isZts: true
+        <<: *instance_080315
+    '080315-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080315
+
+
 aliases:
-    '0803-nts': '080314-nts'
-    '0803-zts': '080314-zts'
+    '0803-nts': '080315-nts'
+    '0803-zts': '080315-zts'
 
 
 variations:

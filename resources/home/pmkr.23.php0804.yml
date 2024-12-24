@@ -683,6 +683,7 @@ cores:
 
 instances:
     '080401-nts': &instance_080401
+        hidden: true
         isZts: false
         coreVersion: '8.4.1'
         coreChecksum:
@@ -692,13 +693,26 @@ instances:
         isZts: true
         <<: *instance_080401
     '080401-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080401
 
+    '080402-nts': &instance_080402
+        isZts: false
+        coreVersion: '8.4.2'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'ef4fe9921b885ce3b047792ab60260eaf657e22812be511d19d0e45edf984783'
+    '080402-zts':
+        isZts: true
+        <<: *instance_080402
+    '080402-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080402
+
 aliases:
-    '0804-nts': '080401-nts'
-    '0804-zts': '080401-zts'
+    '0804-nts': '080402-nts'
+    '0804-zts': '080402-zts'
 
 
 variations:
