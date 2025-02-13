@@ -367,6 +367,26 @@ extensions:
         configure:
             default:
                 --enable-ds: ~
+    swoole-0803-05:
+        weight: 30
+        version: '5.1.6'
+        dependencies:
+            extensions:
+                sockets: true
+            packages:
+                ubuntu-22-04:
+                    libc-ares2: true
+                    libc-ares-dev: true
+    swoole-0803-06:
+        weight: 31
+        version: '6.0.0'
+        dependencies:
+            extensions:
+                sockets: true
+            packages:
+                ubuntu-22-04:
+                    libc-ares2: true
+                    libc-ares-dev: true
 
 
 # Extensions always enabled, even with "--disable-all":
@@ -822,6 +842,7 @@ instances:
         <<: *instance_080314
 
     '080315-nts': &instance_080315
+        hidden: true
         isZts: false
         coreVersion: '8.3.15'
         coreChecksum:
@@ -831,14 +852,27 @@ instances:
         isZts: true
         <<: *instance_080315
     '080315-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080315
 
+    '080316-nts': &instance_080316
+        isZts: false
+        coreVersion: '8.3.16'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'e9208218cbdcb816834b6c5ed8ddc5748fb12ff777cf9e0e03bb4896276608b6'
+    '080316-zts':
+        isZts: true
+        <<: *instance_080316
+    '080316-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080316
+
 
 aliases:
-    '0803-nts': '080315-nts'
-    '0803-zts': '080315-zts'
+    '0803-nts': '080316-nts'
+    '0803-zts': '080316-zts'
 
 
 variations:
