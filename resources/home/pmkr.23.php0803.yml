@@ -856,6 +856,7 @@ instances:
         <<: *instance_080315
 
     '080316-nts': &instance_080316
+        hidden: true
         isZts: false
         coreVersion: '8.3.16'
         coreChecksum:
@@ -865,14 +866,43 @@ instances:
         isZts: true
         <<: *instance_080316
     '080316-nts-none':
-        hidden: true
         extensionSetNameSuffix: 'none'
         <<: *instance_080316
 
+    '080317-nts': &instance_080317
+        hidden: true
+        isZts: false
+        coreVersion: '8.3.17'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '4e034dca7ab16fc6062c8c53067528f4ecaa246bf22310e6841f7008094264ac'
+    '080317-zts':
+        isZts: true
+        <<: *instance_080317
+    '080317-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080317
+
+    # PHP 8.3.18 unreleased.
+
+    '080319-nts': &instance_080319
+        isZts: false
+        coreVersion: '8.3.19'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'ad6902a2a02f94ec3e9982069e2668bba3ce47e2f6bbbab95eb6b7db7bf3d350'
+    '080319-zts':
+        isZts: true
+        <<: *instance_080319
+    '080319-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080319
+
 
 aliases:
-    '0803-nts': '080316-nts'
-    '0803-zts': '080316-zts'
+    '0803-nts': '080319-nts'
+    '0803-zts': '080319-zts'
 
 
 variations:
