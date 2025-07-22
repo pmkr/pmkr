@@ -1,0 +1,65 @@
+diff --git a/src/SpecBaseObject.php b/src/SpecBaseObject.php
+index ef93401..0e5b2f4 100644
+--- a/src/SpecBaseObject.php
++++ b/src/SpecBaseObject.php
+@@ -393,7 +393,7 @@ abstract class SpecBaseObject implements SpecObjectInterface, DocumentContextInt
+      * Resolves all Reference Objects in this object and replaces them with their resolution.
+      * @throws exceptions\UnresolvableReferenceException in case resolving a reference fails.
+      */
+-    public function resolveReferences(ReferenceContext $context = null)
++    public function resolveReferences(?ReferenceContext $context = null)
+     {
+         // avoid recursion to get stuck in a loop
+         if ($this->_recursingReferences) {
+diff --git a/src/SpecObjectInterface.php b/src/SpecObjectInterface.php
+index a96aa74..31f9f8c 100644
+--- a/src/SpecObjectInterface.php
++++ b/src/SpecObjectInterface.php
+@@ -40,7 +40,7 @@ interface SpecObjectInterface
+     /**
+      * Resolves all Reference Objects in this object and replaces them with their resolution.
+      */
+-    public function resolveReferences(ReferenceContext $context = null);
++    public function resolveReferences(?ReferenceContext $context = null);
+ 
+     /**
+      * Set context for all Reference Objects in this object.
+diff --git a/src/spec/PathItem.php b/src/spec/PathItem.php
+index 6930e0a..083e702 100644
+--- a/src/spec/PathItem.php
++++ b/src/spec/PathItem.php
+@@ -150,7 +150,7 @@ class PathItem extends SpecBaseObject
+      * Resolves all Reference Objects in this object and replaces them with their resolution.
+      * @throws \cebe\openapi\exceptions\UnresolvableReferenceException in case resolving a reference fails.
+      */
+-    public function resolveReferences(ReferenceContext $context = null)
++    public function resolveReferences(?ReferenceContext $context = null)
+     {
+         if ($this->_ref instanceof Reference) {
+             $pathItem = $this->_ref->resolve($context);
+diff --git a/src/spec/Paths.php b/src/spec/Paths.php
+index e504a90..f55bafe 100644
+--- a/src/spec/Paths.php
++++ b/src/spec/Paths.php
+@@ -246,7 +246,7 @@ class Paths implements SpecObjectInterface, DocumentContextInterface, ArrayAcces
+      * Resolves all Reference Objects in this object and replaces them with their resolution.
+      * @throws UnresolvableReferenceException
+      */
+-    public function resolveReferences(ReferenceContext $context = null)
++    public function resolveReferences(?ReferenceContext $context = null)
+     {
+         foreach ($this->_paths as $key => $path) {
+             if ($path === null) {
+diff --git a/src/spec/Responses.php b/src/spec/Responses.php
+index a6db447..9e1233d 100644
+--- a/src/spec/Responses.php
++++ b/src/spec/Responses.php
+@@ -236,7 +236,7 @@ class Responses implements SpecObjectInterface, DocumentContextInterface, ArrayA
+      * Resolves all Reference Objects in this object and replaces them with their resolution.
+      * @throws UnresolvableReferenceException
+      */
+-    public function resolveReferences(ReferenceContext $context = null)
++    public function resolveReferences(?ReferenceContext $context = null)
+     {
+         foreach ($this->_responses as $key => $response) {
+             if ($response instanceof Reference) {

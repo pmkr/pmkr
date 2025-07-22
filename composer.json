@@ -40,12 +40,12 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-phar": "*",
-        "cebe/php-openapi": "dev-master#020d72b8e3a9a60bc229953e93eda25c49f46f45",
+        "cebe/php-openapi": "^1.8",
         "composer/semver": "^3.2",
         "consolidation/annotated-command": "4.x-dev",
         "consolidation/config": "^3.0",
         "consolidation/robo": "^5.0",
-        "cweagans/composer-patches": "dev-main#3da501d7dd9732b3bc32d1e88b6e330222277190",
+        "cweagans/composer-patches": "^2.0",
         "opis/json-schema": "^2.2",
         "pear/archive_tar": "^1.4",
         "sweetchuck/env-var-storage": "1.x-dev",
@@ -165,6 +165,15 @@
                     }
                 ]
             }
+        },
+        "patches": {
+            "cebe/php-openapi": [
+                {
+                    "description": "PHP 8.4 compatibility",
+                    "url": "./patches/cebe/php-openapi/php-0804.patch",
+                    "sha256": "eb5c19dbcab6c14af0772a82fb1de816cdc66a781fad300dc59cfce5d92e58c3"
+                }
+            ]
         }
     }
 }

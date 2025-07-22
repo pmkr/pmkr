@@ -1,4 +1,15 @@
 {
-    "_hash": "6142bfcb78f54dfbf5247ae5e463f25bdb8fff1890806e2e45aa81a59c211653",
-    "patches": []
+    "_hash": "4f72705f90ef35bd4d564c33454340e6882d4b20ade1cf1badb90eac9183ce48",
+    "patches": {
+        "cebe/php-openapi": [
+            {
+                "package": "cebe/php-openapi",
+                "description": "PHP 8.4 compatibility",
+                "url": "./patches/cebe/php-openapi/php-0804.patch",
+                "sha256": "eb5c19dbcab6c14af0772a82fb1de816cdc66a781fad300dc59cfce5d92e58c3",
+                "depth": 1,
+                "extra": []
+            }
+        ]
+    }
 }
