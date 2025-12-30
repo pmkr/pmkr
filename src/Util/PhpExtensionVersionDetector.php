@@ -108,6 +108,7 @@ class PhpExtensionVersionDetector
         '0802' => [],
         '0803' => [],
         '0804' => [],
+        '0805' => [],
     ];
 
     public function __construct(?Filesystem $filesystem = null)
@@ -118,6 +119,7 @@ class PhpExtensionVersionDetector
 
     protected function initCoreExtensions(): static
     {
+        // Changes.
         $this->coreExtensions['0700'] = $this->coreExtensions['0506'];
         $this->coreExtensions['0700']['ereg'] = false;
         $this->coreExtensions['0700']['mssql'] = false;
@@ -127,6 +129,7 @@ class PhpExtensionVersionDetector
         // Same.
         $this->coreExtensions['0701'] = $this->coreExtensions['0700'];
 
+        // Changes.
         $this->coreExtensions['0702'] = $this->coreExtensions['0701'];
         $this->coreExtensions['0702']['mcrypt'] = false;
         $this->coreExtensions['0702']['sodium'] = true;
@@ -135,29 +138,39 @@ class PhpExtensionVersionDetector
         // Same.
         $this->coreExtensions['0703'] = $this->coreExtensions['0702'];
 
+        // Changes.
         $this->coreExtensions['0704'] = $this->coreExtensions['0703'];
         $this->coreExtensions['0704']['ffi'] = true;
         $this->coreExtensions['0704']['interbase'] = false;
         $this->coreExtensions['0704']['recode'] = false;
         $this->coreExtensions['0704']['wddx'] = false;
 
+        // Changes.
         $this->coreExtensions['0800'] = $this->coreExtensions['0704'];
         $this->coreExtensions['0800']['xmlrpc'] = false;
 
         // Same.
         $this->coreExtensions['0801'] = $this->coreExtensions['0800'];
 
+        // Changes.
         $this->coreExtensions['0802'] = $this->coreExtensions['0801'];
         $this->coreExtensions['0802']['random'] = true;
 
         // Same.
         $this->coreExtensions['0803'] = $this->coreExtensions['0802'];
 
+        // Changes.
         $this->coreExtensions['0804'] = $this->coreExtensions['0803'];
         // Removed from core.
         $this->coreExtensions['0804']['imap'] = false;
         // Extension pspell "https://php.watch/versions/8.4/pspell-unbundled".
         $this->coreExtensions['0804']['pspell'] = false;
+
+        // Changes.
+        $this->coreExtensions['0805'] = $this->coreExtensions['0804'];
+        // These two new extensions are always enabled, even with "--disable-all".
+        $this->coreExtensions['0805']['lexbor'] = true;
+        $this->coreExtensions['0805']['uri'] = true;
 
         return $this;
     }

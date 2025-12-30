@@ -134,7 +134,8 @@ class GitTask extends BaseTask implements BuilderAwareInterface
         return $this
             ->taskGitStack()
             ->exec(sprintf(
-                'clone --bare --mirror %s %s',
+                'clone --bare --mirror --origin=%s %s %s',
+                escapeshellarg('origin'),
                 escapeshellarg($this->getExtension()->downloader->options['url']),
                 escapeshellarg($this->cacheDst),
             ));
@@ -153,7 +154,7 @@ class GitTask extends BaseTask implements BuilderAwareInterface
                 escapeshellarg("$branch:$branch-tmp"),
             ))
             ->exec(sprintf(
-                'branch --delete %s',
+                'branch -D %s',
                 escapeshellarg($branch),
             ))
             ->exec(sprintf(
@@ -176,14 +177,19 @@ class GitTask extends BaseTask implements BuilderAwareInterface
 
         return $this
             ->taskGitStack()
-            ->dir($this->cacheDst)
             ->exec(sprintf(
-                'clone --recurse-submodules %s %s',
+                'clone --origin=%s --recurse-submodules --single-branch -b %s %s %s',
+                escapeshellarg('origin'),
+                escapeshellarg($options['branch']),
                 escapeshellarg($this->cacheDst),
                 escapeshellarg($this->extDst),
             ))
             ->exec(sprintf(
-                '--git-dir %s checkout %s',
+                '--git-dir=%s remote update origin',
+                escapeshellarg("$this->extDst/.git"),
+            ))
+            ->exec(sprintf(
+                '--git-dir=%s checkout %s',
                 escapeshellarg("$this->extDst/.git"),
                 escapeshellarg($ref),
             ));

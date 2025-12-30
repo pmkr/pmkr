@@ -147,7 +147,7 @@ definitions:
                         - 'branch'
                         - 'refType'
                         - 'refValue'
-                    # @todo refType and refValue could be in one property using the logng format
+                    # @todo refType and refValue could be in one property using the long format
                     # refs/heads/my-branch-01
                     # refs/tags/my-tag-01
                     properties:
@@ -163,6 +163,10 @@ definitions:
                             type: 'string'
                         branch:
                             type: 'string'
+                            description: |-
+                                When refType is "branch" then the value has to be the same as the "refValue".
+                                When refType is "tag" or "commit" then the value is the name of the branch
+                                which contains that specific tag or commit.
 
     # @todo Rename this to extensionDownloader.
     downloader:

@@ -2,10 +2,10 @@ version: '1'
 
 stash:
     cores:
-        '0802':
+        '0805':
             dependencies:
                 packages:
-                    alpine-3: &cores_0802_dependencies_packages_alpine-3
+                    alpine-3: &cores_0805_dependencies_packages_alpine-3
                         autoconf: true
                         bison: true
                         findutils: true
@@ -15,7 +15,7 @@ stash:
                         make: true
                         pkgconf: true
                         re2c: true
-                    arch: &cores_0802_dependencies_packages_arch
+                    arch: &cores_0805_dependencies_packages_arch
                         autoconf: true
                         bison: true
                         findutils: true
@@ -24,7 +24,7 @@ stash:
                         make: true
                         pkgconf: true
                         re2c: true
-                    fedora-35: &cores_0802_dependencies_packages_fedora-35
+                    fedora-35: &cores_0805_dependencies_packages_fedora-35
                         autoconf: true
                         bison: true
                         findutils: true
@@ -33,16 +33,17 @@ stash:
                         git: true
                         make: true
                         re2c: true
-                    opensuse-tumbleweed: &cores_0802_dependencies_packages_opensuse-tumbleweed
+                    opensuse-tumbleweed: &cores_0805_dependencies_packages_opensuse-tumbleweed
                         autoconf: true
                         bison: true
                         cmake: true
                         findutils: true
+                        gawk: true
                         gcc: true
                         git: true
                         make: true
                         re2c: true
-                    ubuntu-21-10: &cores_0802_dependencies_packages_ubuntu-21-10
+                    ubuntu-21-10: &cores_0805_dependencies_packages_ubuntu-21-10
                         autoconf: true
                         bison: true
                         cmake: true
@@ -55,27 +56,16 @@ stash:
                         re2c: true
             etc:
                 files:
-                    ini: &cores_0802_etc_files_ini
-                        php-pcov-ini:
-                            src: 'etc/php.pcov.ini.twig'
-                            dst: 'php.pcov.ini'
-                            vars:
-                                extensions:
-                                    pcov:
-                                        isEnabled: true
-                                    pcntl:
-                                        isEnabled: true
-                                    posix:
-                                        isEnabled: true
-                                    readline:
-                                        isEnabled: true
+                    ini: &cores_0805_etc_files_ini
                         php-gmagick-ini:
                             src: 'etc/php.gmagick.ini.twig'
                             dst: 'php.gmagick.ini'
                             vars:
                                 extensions:
+                                    igbinary:
+                                        isEnabled: true
                                     imagick:
-                                        isEnabled: false
+                                        isEnabled: true
                                     gmagick:
                                         isEnabled: true
                                     pcov:
@@ -86,28 +76,85 @@ stash:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
+                        php-pcov-ini:
+                            src: 'etc/php.pcov.ini.twig'
+                            dst: 'php.pcov.ini'
+                            vars:
+                                extensions:
+                                    igbinary:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                                    sockets:
+                                        isEnabled: false
+                                    openswoole:
+                                        isEnabled: false
+                                    swoole:
+                                        isEnabled: false
+                                    pcntl:
+                                        isEnabled: true
+                                    posix:
+                                        isEnabled: true
+                                    readline:
+                                        isEnabled: true
+                                    pcov:
+                                        isEnabled: true
+                                    xdebug:
+                                        isEnabled: false
                         php-prod-ini:
                             src: 'etc/php.prod.ini.twig'
                             dst: 'php.prod.ini'
                             vars:
                                 extensions:
+                                    igbinary:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                                    sockets:
+                                        isEnabled: false
+                                    openswoole:
+                                        isEnabled: false
+                                    swoole:
+                                        isEnabled: false
                                     pcntl:
                                         isEnabled: true
                                     posix:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
+                                    pcov:
+                                        isEnabled: false
+                                    xdebug:
+                                        isEnabled: false
                         php-xdebug-ini:
                             src: 'etc/php.xdebug.ini.twig'
                             dst: 'php.xdebug.ini'
                             vars:
                                 extensions:
+                                    igbinary:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                                    sockets:
+                                        isEnabled: false
+                                    openswoole:
+                                        isEnabled: false
+                                    swoole:
+                                        isEnabled: false
                                     pcntl:
                                         isEnabled: true
                                     posix:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
+                                    pcov:
+                                        isEnabled: false
                                     xdebug:
                                         isEnabled: true
                         php-openswoole-ini:
@@ -115,6 +162,14 @@ stash:
                             dst: 'php.openswoole.ini'
                             vars:
                                 extensions:
+                                    igbinary:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                                    sockets:
+                                        isEnabled: true
                                     openswoole:
                                         isEnabled: true
                                     swoole:
@@ -125,15 +180,23 @@ stash:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
-                                    sockets:
-                                        isEnabled: true
-                                    xdebug:
+                                    pcov:
                                         isEnabled: false
+                                    xdebug:
+                                        isEnabled: true
                         php-swoole-ini:
                             src: 'etc/php.swoole.ini.twig'
                             dst: 'php.swoole.ini'
                             vars:
                                 extensions:
+                                    igbinary:
+                                        isEnabled: true
+                                    imagick:
+                                        isEnabled: true
+                                    gmagick:
+                                        isEnabled: false
+                                    sockets:
+                                        isEnabled: true
                                     openswoole:
                                         isEnabled: false
                                     swoole:
@@ -144,11 +207,11 @@ stash:
                                         isEnabled: true
                                     readline:
                                         isEnabled: true
-                                    sockets:
-                                        isEnabled: true
-                                    xdebug:
+                                    pcov:
                                         isEnabled: false
-                    ext: &cores_0802_etc_files_ext
+                                    xdebug:
+                                        isEnabled: true
+                    ext: &cores_0805_etc_files_ext
                         conf-default-00-core-ini:
                             src: 'etc/ext/00-core.ini.twig'
                             dst: 'conf/default/00-core.ini'
@@ -164,7 +227,7 @@ stash:
                         conf-default-mail-ini:
                             src: 'etc/ext/mail.ini.twig'
                             dst: 'conf/default/mail.ini'
-                    fpm: &cores_0802_etc_files_fpm
+                    fpm: &cores_0805_etc_files_fpm
                         php-fpm-d-includes-00-pool-ini:
                             src: 'etc/php-fpm.d/includes/00-pool.ini.twig'
                             dst: 'php-fpm.d/includes/00-pool.ini'
@@ -191,33 +254,45 @@ stash:
                             dst: 'php-fpm.d/php.dev.ini'
                             vars:
                                 extensions:
-                                    xdebug:
+                                    igbinary:
                                         isEnabled: true
                                     imagick:
                                         isEnabled: true
                                     gmagick:
                                         isEnabled: false
+                                    pcov:
+                                        isEnabled: false
+                                    xdebug:
+                                        isEnabled: true
                         php-fpm-d-php-gmagick-ini:
                             src: 'etc/php-fpm.d/php.gmagick.ini.twig'
                             dst: 'php-fpm.d/php.gmagick.ini'
                             vars:
                                 extensions:
-                                    xdebug:
+                                    igbinary:
                                         isEnabled: true
                                     imagick:
                                         isEnabled: false
                                     gmagick:
+                                        isEnabled: true
+                                    pcov:
+                                        isEnabled: false
+                                    xdebug:
                                         isEnabled: true
                         php-fpm-d-php-prod-ini:
                             src: 'etc/php-fpm.d/php.prod.ini.twig'
                             dst: 'php-fpm.d/php.prod.ini'
                             vars:
                                 extensions:
-                                    xdebug:
-                                        isEnabled: false
+                                    igbinary:
+                                        isEnabled: true
                                     imagick:
                                         isEnabled: true
                                     gmagick:
+                                        isEnabled: false
+                                    pcov:
+                                        isEnabled: false
+                                    xdebug:
                                         isEnabled: false
 
                         php-fpm-d-php-fpm-dev-ini:
@@ -248,7 +323,37 @@ stash:
 
 
 extensions:
-    dom-0802:
+    igbinary-0805:
+        downloader:
+            type: 'git'
+            options:
+                url: 'https://github.com/thecaliskan/igbinary.git'
+                refType: 'branch'
+                refValue: 'php-8-5-tricky'
+                branch: 'php-8-5-tricky'
+
+    session-0805:
+        configure:
+            default:
+                --enable-session: ~
+        etc:
+            files:
+                conf/default/session-ini:
+                    src: 'etc/ext/session-0805.ini.twig'
+                    dst: 'conf/default/session.ini'
+
+    pspell-0805:
+        version: '1.0.1'
+        configure:
+            default:
+                --enable-pspell: ~
+        etc:
+            files:
+                conf/default/pspell-ini:
+                    src: 'etc/ext/pspell.ini.twig'
+                    dst: 'conf/default/pspell.ini'
+
+    dom-0805:
         dependencies:
             packages:
                 alpine-3:
@@ -267,7 +372,7 @@ extensions:
                 --enable-dom: ~
                 --with-libxml: ~
 
-    gd-0802:
+    gd-0805:
         dependencies:
             packages:
                 alpine-3:
@@ -325,7 +430,7 @@ extensions:
                     src: 'etc/ext/gd.ini.twig'
                     dst: 'conf/default/gd.ini'
 
-    libxml-0802:
+    libxml-0805:
         dependencies:
             packages:
                 fedora-35:
@@ -337,7 +442,7 @@ extensions:
             default:
                 --with-libxml: ~
 
-    snmp-0802:
+    snmp-0805:
         dependencies:
             packages:
                 opensuse-tumbleweed:
@@ -348,52 +453,103 @@ extensions:
             default:
                 --with-snmp: ~
 
-#    xdebug-0802:
-#        configure:
-#            default:
-#                --enable-xdebug: ~
-#                #--enable-xdebug-dev: ~
-#                #--without-xdebug-compression: ~
-#        etc:
-#            files:
-#                conf/default/xdebug-ini:
-#                    src: 'etc/ext/xdebug.ini.twig'
-#                    dst: 'conf/default/xdebug.ini'
+    xdebug-0805:
+        version: '3.5.0'
+        configure:
+            default:
+                --enable-xdebug: ~
+                #--enable-xdebug-dev: ~
+                #--without-xdebug-compression: ~
+        etc:
+            files:
+                conf/default/xdebug-ini:
+                    src: 'etc/ext/xdebug.ini.twig'
+                    dst: 'conf/default/xdebug.ini'
+
+    swoole-0805:
+        version: '6.0.0'
+        weight: 30
+        dependencies:
+            extensions:
+                sockets: true
+            packages:
+                ubuntu-22-04:
+                    libc-ares2: true
+                    libc-ares-dev: true
+        configure:
+            default:
+                --enable-swoole: ~
+                #--enable-debug-log: ~
+                #--enable-trace-log: ~
+                --enable-sockets: ~
+                --enable-openssl: ~
+                --enable-http2: ~
+                #--enable-mysqlnd: ~
+                #--enable-cares: ~
+                #--with-openssl-dir: 'DIR'
+                #--with-jemalloc-dir: 'DIR'
+                #--enable-asan: ~
+                #--enable-swoole-coverage: ~
+                #--enable-swoole-dev: ~
+                --enable-swoole-json: ~
+                --enable-swoole-curl: ~
+                #--enable-thread-context: ~
+                #--enable-debug: ~
+        etc:
+            files:
+                conf/default/swoole-ini:
+                    src: 'etc/ext/swoole.ini.twig'
+                    dst: 'conf/default/swoole.ini'
+
+    ds-0805:
+        version: '1.6.0'
+        weight: 50
+        configure:
+            default:
+                --enable-ds: ~
 
 
-# Extensions always enabled, even with "--disable-all":
-# - date
-# - hash
-# - json
-# - pcre
-# - random
-# - Reflection
-# - SPL
-# - standard
+# Always enabled extensions, even with "--disable-all":
+# [PHP Modules]
+#   Core
+#   date
+#   hash
+#   json
+#   lexbor
+#   pcre
+#   random
+#   Reflection
+#   SPL
+#   standard
+#   uri
+#   Zend OPcache
+#
+# [Zend Modules]
+#   Zend OPcache
 extensionSets:
-    '0802':
+    '0805':
         # region Enabled - core.
         openssl:
             status: 'enabled'
         curl:
             status: 'enabled'
-        session:
+        session-0805:
             status: 'enabled'
         phpdbg:
             status: 'enabled'
         opcache:
-            status: 'enabled'
-            isEnabled: true
+            status: 'skip'
+            isEnabled: false
         gmp:
             status: 'enabled'
         bcmath:
             status: 'enabled'
         calendar:
             status: 'enabled'
-        # @todo PHP 0802 - Extension - com_dotnet
+        # @todo PHP 0805 - Extension - com_dotnet
         ctype:
             status: 'enabled'
-        # @todo PHP 0802 - Extension - dba
+        # @todo PHP 0805 - Extension - dba
         embed:
             status: 'enabled'
         fileinfo:
@@ -404,7 +560,7 @@ extensionSets:
             status: 'enabled'
         exif:
             status: 'enabled'
-        gd-0802:
+        gd-0805:
             status: 'enabled'
         iconv:
             status: 'enabled'
@@ -432,11 +588,11 @@ extensionSets:
             status: 'enabled'
         pdo_pgsql:
             status: 'enabled'
-        # @todo PHP 0802 - Extension - oci8.
-        # @todo PHP 0802 - Extension - pdo_oci.
-        # @todo PHP 0802 - Extension - pdo_dblib.
-        # @todo PHP 0802 - Extension - pdo_firebird.
-        # @todo PHP 0802 - Extension - pdo_odbc.
+        # @todo PHP 0805 - Extension - oci8.
+        # @todo PHP 0805 - Extension - pdo_oci.
+        # @todo PHP 0805 - Extension - pdo_dblib.
+        # @todo PHP 0805 - Extension - pdo_firebird.
+        # @todo PHP 0805 - Extension - pdo_odbc.
         phar:
             status: 'enabled'
         sodium:
@@ -446,7 +602,7 @@ extensionSets:
             # make: *** No rule to make target '/.../ext/tokenizer/Zend/zend_language_parser.y',
             # needed by '/.../ext/tokenizer/Zend/zend_language_parser.c'.
             status: 'enabled'
-        libxml-0802:
+        libxml-0805:
             status: 'enabled'
         simplexml:
             status: 'enabled'
@@ -458,7 +614,7 @@ extensionSets:
             status: 'enabled'
         xsl:
             status: 'enabled'
-        dom-0802:
+        dom-0805:
             status: 'enabled'
         zlib:
             status: 'enabled'
@@ -469,8 +625,10 @@ extensionSets:
         # endregion
 
         # region Enabled - 3th-party.
-        igbinary:
-            status: 'enabled'
+        # @todo PHP 0805 - Extension - igbinary.
+        igbinary-0805:
+            status: 'optional'
+            isEnabled: true
         msgpack:
             status: 'enabled'
         zstd:
@@ -479,17 +637,15 @@ extensionSets:
 
         # region Optional - core.
         ldap:
-            # @todo PHP 0802 - Extension - LDAP.
+            # @todo PHP 0805 - Extension - LDAP.
             status: 'skip'
         pcntl:
             status: 'optional'
         posix:
             status: 'optional'
-        pspell:
-            status: 'optional'
         readline:
             status: 'optional'
-        snmp-0802:
+        snmp-0805:
             status: 'optional'
         shmop:
             status: 'optional'
@@ -512,21 +668,19 @@ extensionSets:
             status: 'enabled'
         imagick:
             status: 'optional'
+            isEnabled: false
         inotify:
             status: 'optional'
         maxminddb:
             status: 'optional'
         memcache:
-            status: 'optional'
-            isEnabled: true
+            # @todo PHP 0805 - Extension - memcache.
+            status: 'skip'
+            isEnabled: false
         memcached:
             status: 'optional'
             isEnabled: true
         mongodb:
-            status: 'optional'
-        openswoole:
-            status: 'optional'
-        pcov:
             status: 'optional'
         protobuf:
             status: 'optional'
@@ -535,15 +689,24 @@ extensionSets:
         redis:
             status: 'optional'
             isEnabled: true
-        sass:
+        pspell-0805:
             status: 'optional'
-            isEnabled: true
+        sass:
+            # @todo PHP 0805 - Extension - sass.
+            status: 'skip'
+            isEnabled: false
         ssh2:
             status: 'optional'
-        swoole:
-            status: 'optional'
+        swoole-0805:
+            # @todo PHP 0805 - Extension - swoole.
+            # In function ‘void swoole_php_treat_data(int, char*, zval*)’:
+            #./thirdparty/php/main/SAPI.h:41:39: error: cannot convert ‘zend_string*’ {aka ‘_zend_string*’} to ‘char*’ in assignment
+            #   41 |         separator = PG(arg_separator).input;
+            #make: *** [Makefile:262: ext-src/swoole_http_request.lo] Error 1
+            status: 'skip'
         xdebug:
             status: 'optional'
+            isEnabled: false
         yaml:
             status: 'optional'
             isEnabled: true
@@ -552,6 +715,9 @@ extensionSets:
         uuid:
             status: 'optional'
             isEnabled: true
+        ds-0805:
+            status: 'optional'
+            isEnabled: false
         # endregion
 
         # region Skip - core.
@@ -563,512 +729,110 @@ extensionSets:
         # endregion
 
         # region Skip - 3th-party.
-        # Empty.
+        pcov:
+            # Compile fail with version "1.0.11".
+            status: 'optional'
+        openswoole:
+            # @todo Wait for new release; Version 22.1.2 fails.
+            # https://pecl.php.net/package/openswoole
+            status: 'skip'
         # endregion
 
 
 cores:
-    '0802-nts':
+    '0805-nts':
         dependencies:
             packages:
                 alpine-3:
-                    <<: *cores_0802_dependencies_packages_alpine-3
+                    <<: *cores_0805_dependencies_packages_alpine-3
                 arch:
-                    <<: *cores_0802_dependencies_packages_arch
+                    <<: *cores_0805_dependencies_packages_arch
                 fedora-35:
-                    <<: *cores_0802_dependencies_packages_fedora-35
+                    <<: *cores_0805_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
-                    <<: *cores_0802_dependencies_packages_opensuse-tumbleweed
+                    <<: *cores_0805_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
-                    <<: *cores_0802_dependencies_packages_ubuntu-21-10
+                    <<: *cores_0805_dependencies_packages_ubuntu-21-10
         configure:
             default:
                 --enable-fpm: ~
         etc:
             files:
-                <<: *cores_0802_etc_files_ini
-                <<: *cores_0802_etc_files_ext
-                <<: *cores_0802_etc_files_fpm
-    '0802-zts':
+                <<: *cores_0805_etc_files_ini
+                <<: *cores_0805_etc_files_ext
+                <<: *cores_0805_etc_files_fpm
+    '0805-zts':
         dependencies:
             packages:
                 alpine-3:
-                    <<: *cores_0802_dependencies_packages_alpine-3
+                    <<: *cores_0805_dependencies_packages_alpine-3
                 arch:
-                    <<: *cores_0802_dependencies_packages_arch
+                    <<: *cores_0805_dependencies_packages_arch
                 fedora-35:
-                    <<: *cores_0802_dependencies_packages_fedora-35
+                    <<: *cores_0805_dependencies_packages_fedora-35
                 opensuse-tumbleweed:
-                    <<: *cores_0802_dependencies_packages_opensuse-tumbleweed
+                    <<: *cores_0805_dependencies_packages_opensuse-tumbleweed
                 ubuntu-21-10:
-                    <<: *cores_0802_dependencies_packages_ubuntu-21-10
+                    <<: *cores_0805_dependencies_packages_ubuntu-21-10
         configure:
             default:
                 --enable-zts: ~
         etc:
             files:
-                <<: *cores_0802_etc_files_ini
-                <<: *cores_0802_etc_files_ext
+                <<: *cores_0805_etc_files_ini
+                <<: *cores_0805_etc_files_ext
 
 
 instances:
-    '080200-nts': &instance_080200
+    '080500-nts': &instance_080500
         hidden: true
         isZts: false
-        coreVersion: '8.2.0'
+        coreVersion: '8.5.0'
         coreChecksum:
             hashAlgorithm: 'sha256'
-            hashChecksum: '1bf4fca663f93d9e0b4909bd6eae0583a1ce383e7f05df126f28f272fa1fd51a'
-    '080200-zts':
+            hashChecksum: 'cd16cb045b34a6cec6a83008e1b335f365c7a832fcc483df82308664c6d021f9'
+    '080500-zts':
         isZts: true
-        <<: *instance_080200
-    '080200-nts-none':
+        <<: *instance_080500
+    '080500-nts-none':
         extensionSetNameSuffix: 'none'
-        <<: *instance_080200
+        <<: *instance_080500
 
-    '080201-nts': &instance_080201
-        hidden: true
+    '080501-nts': &instance_080501
         isZts: false
-        coreVersion: '8.2.1'
+        coreVersion: '8.5.1'
         coreChecksum:
             hashAlgorithm: 'sha256'
-            hashChecksum: '75d6f8f365993ec0d1d9c6281d4557e6feec5a26194a468b8b01459d177efb29'
-    '080201-zts':
+            hashChecksum: '55f428c426e7241752ea9afff160bb64c32a9321cbd6d17d1c145b8df8823737'
+    '080501-zts':
         isZts: true
-        <<: *instance_080201
-    '080201-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080201
-
-    '080202-nts': &instance_080202
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.2'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'f5223a5274eda8b40c19e47de0de4678c65d64401ccf710e2464962eb8136804'
-    '080202-zts':
-        isZts: true
-        <<: *instance_080202
-    '080202-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080202
-
-    '080203-nts': &instance_080203
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.3'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '87bb58865f38f5e2941813029152cea2102fe2961bb4d68b88f831ddd0548d0f'
-    '080203-zts':
-        isZts: true
-        <<: *instance_080203
-    '080203-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080203
-
-    '080204-nts': &instance_080204
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.4'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '79186f94bd510db86e31e535dd448277a1eb92a87878303a1ead44602d8b1197'
-    '080204-zts':
-        isZts: true
-        <<: *instance_080204
-    '080204-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080204
-
-    '080205-nts': &instance_080205
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.5'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'e5a80663cca4f6044ad86a489798147c7af037eca96f6cd357ab36d28cb63757'
-    '080205-zts':
-        isZts: true
-        <<: *instance_080205
-    '080205-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080205
-
-    '080206-nts': &instance_080206
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.6'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '44a70c52f537662c10d91eedbf51fd765c9961be6ba2508ed63bf7a26cdd3100'
-    '080206-zts':
-        isZts: true
-        <<: *instance_080206
-    '080206-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080206
-
-    '080207-nts': &instance_080207
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.7'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '5bfb2a35c67921bdcadd5c90cb290ad7537d24da113a5e8bc2d646b02de7488f'
-    '080207-zts':
-        isZts: true
-        <<: *instance_080207
-    '080207-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080207
-
-    '080208-nts': &instance_080208
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.8'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '995ed4009c7917c962d31837a1a3658f36d4af4f357b673c97ffdbe6403f8517'
-    '080208-zts':
-        isZts: true
-        <<: *instance_080208
-    '080208-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080208
-
-    '080209-nts': &instance_080209
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.9'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '48460b994ae7eb5096a310f44d13e865de1771104d4a550d53072be58a6f176c'
-    '080209-zts':
-        isZts: true
-        <<: *instance_080209
-    '080209-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080209
-
-    '080210-nts': &instance_080210
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.10'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'cc9834e8f1b613d7677af8843c3651e9829abca8ebfe9079251d0d85d9a0aa3e'
-    '080210-zts':
-        isZts: true
-        <<: *instance_080210
-    '080210-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080210
-
-    '080211-nts': &instance_080211
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.11'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '38192daeffabf4af6c427bf17ac1f82565d9c7522e0dbd32215162944434b28b'
-    '080211-zts':
-        isZts: true
-        <<: *instance_080211
-    '080211-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080211
-
-    '080212-nts': &instance_080212
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.12'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '704325f56b1b4c17f9f951e1ffef5c64e148896053f34e2626152cbaa2f05893'
-    '080212-zts':
-        isZts: true
-        <<: *instance_080212
-    '080212-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080212
-
-    '080213-nts': &instance_080213
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.13'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '66529f43b213131e6b253c5602bef05f049458d21292730fccd63b48a06d67ba'
-    '080213-zts':
-        isZts: true
-        <<: *instance_080213
-    '080213-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080213
-
-    '080214-nts': &instance_080214
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.14'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'f871e131333d60ae6c537b1adddbc2aea54c436c562af986fb8309c060040b9e'
-    '080214-zts':
-        isZts: true
-        <<: *instance_080214
-    '080214-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080214
-
-    '080215-nts': &instance_080215
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.15'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '50c3e220b7aa63a85716233c902eb44cc0a4667ed0b8335722ae2391b1355e7a'
-    '080215-zts':
-        isZts: true
-        <<: *instance_080215
-    '080215-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080215
-
-    '080216-nts': &instance_080216
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.16'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '2658c1b8935ab6b53a7f209354602761ab07066e66920bc472b8815fd1b43f71'
-    '080216-zts':
-        isZts: true
-        <<: *instance_080216
-    '080216-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080216
-
-    '080217-nts': &instance_080217
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.17'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '191316c203267d96160b47d22f955d4dc11793de8a5f327e0c2a76275a6894ea'
-    '080217-zts':
-        isZts: true
-        <<: *instance_080217
-    '080217-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080217
-
-    '080218-nts': &instance_080218
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.18'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'ca0b07c254200320f518ac5b3df540a9cf14d866f3c93edc3013b52e06fac796'
-    '080218-zts':
-        isZts: true
-        <<: *instance_080218
-    '080218-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080218
-
-    '080219-nts': &instance_080219
-        isZts: false
-        coreVersion: '8.2.19'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '3c18f7ce51b7c7b26b797e1f97079d386b30347eb04e817f5e6c8e9b275e2a6a'
-    '080219-zts':
-        isZts: true
-        <<: *instance_080219
-    '080219-nts-none':
+        <<: *instance_080501
+    '080501-nts-none':
         hidden: true
         extensionSetNameSuffix: 'none'
-        <<: *instance_080219
-
-    '080220-nts': &instance_080220
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.20'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '5dec6fa61c7b9c47aa1d76666be651f2642ed2bcf6cd8638c57e3571ce2aac61'
-    '080220-zts':
-        isZts: true
-        <<: *instance_080220
-    '080220-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080220
-
-    '080221-nts': &instance_080221
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.21'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'f9876fe7d4d96d41aced199b58a1f7ae7b6655ddc92673135feded7f6939d77f'
-    '080221-zts':
-        isZts: true
-        <<: *instance_080221
-    '080221-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080221
-
-    '080222-nts': &instance_080222
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.22'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '5aae5964c60533185f9be928cf7d79a13393cc5560cedf1f4b977944cc76a585'
-    '080222-zts':
-        isZts: true
-        <<: *instance_080222
-    '080222-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080222
-
-    '080223-nts': &instance_080223
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.23'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'f7c90cda7a3c1de01f3bfb7b469d52dec9eba2f3b83320836004f9c2eecae26b'
-    '080223-zts':
-        isZts: true
-        <<: *instance_080223
-    '080223-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080223
-
-    '080224-nts': &instance_080224
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.24'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '4cc76ec644eee97d17c92bfe8d0e84714fedf299a538b7dfadc0639dd0dc432f'
-    '080224-zts':
-        isZts: true
-        <<: *instance_080224
-    '080224-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080224
-
-    '080225-nts': &instance_080225
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.25'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '07b41c5e96c60c096510e45f02f818414d11bdd0d5da1b6840ddba2ba7289401'
-    '080225-zts':
-        isZts: true
-        <<: *instance_080225
-    '080225-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080225
-
-    '080226-nts': &instance_080226
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.26'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: 'be57c347d451c905bcb4336832a864d9928dd0e20989b872705fea0ba6476c6b'
-    '080226-zts':
-        isZts: true
-        <<: *instance_080226
-    '080226-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080226
-
-    '080227-nts': &instance_080227
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.27'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '6e57dbaf769a7f3deb4f0f48b8c535e671cc0a18022ed7f6ff23b50e941d4b60'
-    '080227-zts':
-        isZts: true
-        <<: *instance_080227
-    '080227-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080227
-
-    '080228-nts': &instance_080228
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.28'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '2919cc1b92190a58dc17904b92e626600b96ce49a4c72e77513786a4406acce5'
-    '080228-zts':
-        isZts: true
-        <<: *instance_080228
-    '080228-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080228
-
-    '080229-nts': &instance_080229
-        hidden: true
-        isZts: false
-        coreVersion: '8.2.29'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '51979e8d198cbade2aad4ffe9f53dd3f04f9602d3089e5979985e058ade4267c'
-    '080229-zts':
-        isZts: true
-        <<: *instance_080229
-    '080229-nts-none':
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080229
-
-    '080230-nts': &instance_080230
-        isZts: false
-        coreVersion: '8.2.30'
-        coreChecksum:
-            hashAlgorithm: 'sha256'
-            hashChecksum: '104820b6c8fc959dde4b3342135f42bdabf246e86918a16381a17d8447c866fa'
-    '080230-zts':
-        isZts: true
-        <<: *instance_080230
-    '080230-nts-none':
-        hidden: true
-        extensionSetNameSuffix: 'none'
-        <<: *instance_080230
+        <<: *instance_080501
 
 aliases:
-    '0802-nts': '080230-nts'
-    '0802-zts': '080230-zts'
+    '0805-nts': '080501-nts'
+    '0805-zts': '080501-zts'
 
 
 variations:
-    '0802-nts-pcov':
-        instanceKey: '0802-nts'
+    '0805-nts-pcov':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.pcov.ini'
-    '0802-nts-gmagick':
-        instanceKey: '0802-nts'
+    '0805-nts-gmagick':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.gmagick.ini'
-    '0802-nts-prod':
-        instanceKey: '0802-nts'
+    '0805-nts-prod':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.prod.ini'
-    '0802-nts-xdebug':
-        instanceKey: '0802-nts'
+    '0805-nts-xdebug':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.xdebug.ini'
-    '0802-nts-openswoole':
-        instanceKey: '0802-nts'
+    '0805-nts-openswoole':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.openswoole.ini'
-    '0802-nts-swoole':
-        instanceKey: '0802-nts'
+    '0805-nts-swoole':
+        instanceKey: '0805-nts'
         phpRc: '{{ instance.shareDir }}/etc/php.swoole.ini'

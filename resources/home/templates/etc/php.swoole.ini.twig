@@ -1,10 +1,13 @@
-
 {% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=opcache
+opcache.validate_timestamps=1
 
 {% if not extensions.xdebug.isEnabled %};{% endif %}zend_extension=xdebug
 xdebug.mode=develop,debug,coverage
 
+{% if not extensions.pcov.isEnabled %};{% endif %}extension=pcov
+pcov.enabled=On
 
+{% if not extensions.igbinary.isEnabled %};{% endif %}extension=igbinary
 {% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify
 {% if not extensions.maxminddb.isEnabled %};{% endif %}extension=maxminddb
 {% if not extensions.pcntl.isEnabled %};{% endif %}extension=pcntl
@@ -13,15 +16,14 @@ xdebug.mode=develop,debug,coverage
 {% if not extensions.sockets.isEnabled %};{% endif %}extension=sockets
 
 {% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
-;extension=gmagick
+{% if not extensions.gmagick.isEnabled %};{% endif %}extension=gmagick
 
 {% if not extensions.openswoole.isEnabled %};{% endif %}extension=openswoole
 {% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
-swoole.use_shortname=Off
+swoole.use_shortname=On
 
-opcache.validate_timestamps=1
 zend.assertions=1
 assert.active=On
 
 html_errors=Off
-error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.openswoole.cli.error.log
+error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.swoole.cli.error.log

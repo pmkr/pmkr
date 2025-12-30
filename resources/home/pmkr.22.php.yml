@@ -238,7 +238,7 @@ extensions:
                     src: 'etc/ext/igbinary.ini.twig'
                     dst: 'conf/default/igbinary.ini'
     imagick:
-        version: '3.8.0RC2'
+        version: '3.8.1'
         dependencies:
             packages:
                 alpine-3:
@@ -749,6 +749,12 @@ extensions:
                 --enable-recode: ~
     redis:
         dependencies:
+            extensions:
+                igbinary: true
+                msgpack: true
+                lzf: true
+                zstd: true
+                lz4: true
             packages:
                 alpine-3:
                     lz4-dev: true
@@ -806,6 +812,9 @@ extensions:
                     dst: 'conf/default/memcache.ini'
     memcached:
         dependencies:
+            extensions:
+                igbinary: true
+                msgpack: true
             packages:
                 alpine-3:
                     libmemcached-dev: true

@@ -1,11 +1,11 @@
 {% if not extensions.opcache.isEnabled %};{% endif %}zend_extension=opcache
-opcache.validate_timestamps=1
+opcache.validate_timestamps=0
 
-{% if not extensions.xdebug.isEnabled %};{% endif %}zend_extension=xdebug
-xdebug.mode=develop,debug,coverage
 
-{% if not extensions.pcov.isEnabled %};{% endif %}extension=pcov
-pcov.enabled=On
+
+
+
+
 
 {% if not extensions.igbinary.isEnabled %};{% endif %}extension=igbinary
 {% if not extensions.inotify.isEnabled %};{% endif %}extension=inotify
@@ -18,12 +18,12 @@ pcov.enabled=On
 {% if not extensions.imagick.isEnabled %};{% endif %}extension=imagick
 {% if not extensions.gmagick.isEnabled %};{% endif %}extension=gmagick
 
-{% if not extensions.openswoole.isEnabled %};{% endif %}extension=openswoole
-{% if not extensions.swoole.isEnabled %};{% endif %}extension=swoole
-openswoole.use_shortname=On
 
-zend.assertions=1
-assert.active=On
+
+
+
+zend.assertions=-1
+;assert.active=Off
 
 html_errors=Off
-error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.openswoole.cli.error.log
+error_log={{ dir.log }}/pmkr-php.{{ instance.key }}.prod.cli.error.log
