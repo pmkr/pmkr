@@ -173,6 +173,17 @@
                     "url": "./patches/cebe/php-openapi/php-0804.patch",
                     "sha256": "eb5c19dbcab6c14af0772a82fb1de816cdc66a781fad300dc59cfce5d92e58c3"
                 }
+            ],
+            "consolidation/robo": [
+                {
+                    "description": "Deprecation warning from Symfony Console breaks Robo",
+                    "url": "https://patch-diff.githubusercontent.com/raw/consolidation/robo/pull/1185.patch",
+                    "sha256": "9255958137137c466db44f7c9ad9c7cef97f43334a98ee3c7e000a3afd51f5c0",
+                    "extra": {
+                        "issue-tracker-url": "https://github.com/consolidation/robo/issues/1183",
+                        "pull-request-url": "https://github.com/consolidation/robo/pull/1185"
+                    }
+                }
             ]
         }
     }
