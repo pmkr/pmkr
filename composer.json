@@ -34,7 +34,7 @@
     },
     "repositories": {},
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-bz2": "*",
         "ext-dom": "*",
         "ext-json": "*",
