@@ -514,7 +514,11 @@ class InstancePickCommand extends CommandBase
      */
     protected function getInstanceComparer(array $options): ComparerInterface
     {
-        $direction = OrderDirection::fromBool($options['highest']);
+        $direction = OrderDirection::fromName(
+            $options['highest']
+            ? 'DESC'
+            : 'ASC'
+        );
 
         return $this->getContainer()
             ->get('array_value.comparer')
