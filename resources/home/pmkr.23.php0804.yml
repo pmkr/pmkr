@@ -289,7 +289,7 @@ extensions:
                     libxml2: true
                     libxml2-devel: true
                 opensuse-tumbleweed:
-                    libxml2-2: true
+                    libxml2-16: true
                     libxml2-devel: true
                 ubuntu-21-10:
                     libxml2: true
@@ -918,9 +918,51 @@ instances:
         extensionSetNameSuffix: 'none'
         <<: *instance_080417
 
+    '080418-nts': &instance_080418
+        hidden: true
+        isZts: false
+        coreVersion: '8.4.18'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: '586b32d92cebcfbca495c5f6ad1a33640553d0a9c0bfd2e6715334d959cf9858'
+    '080418-zts':
+        isZts: true
+        <<: *instance_080418
+    '080418-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080418
+
+    '080419-nts': &instance_080419
+        hidden: true
+        isZts: false
+        coreVersion: '8.4.19'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'bceb7798ed37b442fe523ae7ef345ccc2231db0b022d30735c2e378d3254a0d4'
+    '080419-zts':
+        isZts: true
+        <<: *instance_080419
+    '080419-nts-none':
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080419
+
+    '080420-nts': &instance_080420
+        isZts: false
+        coreVersion: '8.4.20'
+        coreChecksum:
+            hashAlgorithm: 'sha256'
+            hashChecksum: 'ce25d2610a5f9522ac8f53fbb7b8280b5c021991e9bd9137068c9c629d9ffb56'
+    '080420-zts':
+        isZts: true
+        <<: *instance_080420
+    '080420-nts-none':
+        hidden: true
+        extensionSetNameSuffix: 'none'
+        <<: *instance_080420
+
 aliases:
-    '0804-nts': '080417-nts'
-    '0804-zts': '080417-zts'
+    '0804-nts': '080420-nts'
+    '0804-zts': '080420-zts'
 
 
 variations:

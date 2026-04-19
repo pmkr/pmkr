@@ -194,7 +194,7 @@ extensions:
                     libxml2: true
                     libxml2-devel: true
                 opensuse-tumbleweed:
-                    libxml2-2: true
+                    libxml2-16: true
                     libxml2-devel: true
                 ubuntu-21-10:
                     libxml2: true
